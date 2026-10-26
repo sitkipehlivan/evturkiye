@@ -5,55 +5,150 @@ import DealCard from '../components/DealCard.astro';
 import ops from '../data/operators.json';
 import modelsData from '../data/models.json';
 import routes from '../data/routes.json';
-import { getNews, getDeals, fmtDate, tl } from '../lib/util';
+import { getNews, getDeals, fmtDate, tl, CATS, type Cat } from '../lib/util';
 
 const news = await getNews();
 const deals = (await getDeals()).slice(0, 3);
-const [lead, ...rest] = news;
+const lead = news.find((p) => p.data.featured && p.data.category !== 'rehber') ?? news[0];
+const rest = news.filter((p) => p.id !== lead?.id);
+// Son haberler: önce Türkiye/Dünya haberleri, eksik kalırsa rehberle tamamla
+const side = [...rest.filter((p) => p.data.category !== 'rehber'), ...rest.filter((p) => p.data.category === 'rehber')]
+  .slice(0, 4).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const sideIds = new Set(side.map((p) => p.id));
+const guides = news.filter((p) => p.data.category === 'rehber' && p.id !== lead?.id && !sideIds.has(p.id)).slice(0, 3);
 const majors = ['trugo', 'zes', 'esarj', 'tesla', 'voltrun', 'astor'];
 const priceRows = majors.map((id) => ops.operators.find((o) => o.id === id)!).filter(Boolean);
 const cheapest = Math.min(...priceRows.map((o) => o.dc));
 const models = modelsData.models;
 const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug;
+const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'WebSite', name: 'EV Türkiye', url: 'https://evturkiye.com.tr',
-  description: 'Elektrikli araç rota ve şarj planlayıcı, güncel şarj fiyatları ve EV haberleri.',
+  description: 'Elektrikli araç haberleri, rota ve şarj planlayıcı, güncel şarj fiyatları.',
 };
+const leadCat = lead?.data.category as Cat;
 ---
-<Base title="EV Türkiye: Elektrikli Araç Rota Planlayıcı, Şarj Fiyatları ve Haberler" jsonLd={jsonLd}>
-  <section class="hero">
-    <div class="container hero-in">
-      <div class="copy">
-        <span class="eyebrow">Türkiye'nin elektrikli araç rehberi</span>
-        <h1>Yola çıkmadan <span class="grad-text">şarj duraklarını ve maliyeti</span> bil.</h1>
-        <p class="lead">Aracını seç, rotanı gir. Güzergahtaki hızlı şarj istasyonlarını, nerede ne kadar şarj etmen gerektiğini ve operatörler arası fiyat farkını saniyeler içinde gör.</p>
-        <ul class="ticks">
-          <li>{ops.operators.length} operatörün güncel kWh fiyatı</li>
-          <li>{models.length} elektrikli model</li>
-          <li>Ücretsiz, üyelik gerekmez</li>
-        </ul>
+<Base title="EV Türkiye: Elektrikli Araç Haberleri, Şarj Fiyatları ve Rota Planlayıcı" jsonLd={jsonLd}>
+  <!-- 1. Manşet -->
+  <section class="top">
+    <div class="container">
+      <div class="dateline">
+        <span>{today}</span>
+        <nav class="cats">
+          {Object.entries(CATS).map(([k, v]) => <a href={`/haberler/${k}`}>{v.label}</a>)}
+          <a href="/firsatlar">Fırsatlar</a>
+        </nav>
       </div>
-      <form class="quick card" action="/rota-planlayici" method="get">
-        <div class="q-title"><b>Hızlı rota hesapla</b><span class="tag green"><span class="dot"></span> Ücretsiz</span></div>
-        <div class="q-line">
-          <span class="q-dot a"></span>
-          <div><label for="q-from">Nereden</label><input id="q-from" name="from" placeholder="Kadıköy, İstanbul" required /></div>
-        </div>
-        <div class="q-line">
-          <span class="q-dot b"></span>
-          <div><label for="q-to">Nereye</label><input id="q-to" name="to" placeholder="Çeşme, İzmir" required /></div>
-        </div>
-        <div>
-          <label for="q-car">Aracın</label>
-          <select id="q-car" name="car">
-            {models.map((m) => <option value={m.slug} selected={m.slug === defaultCar}>{m.brand} {m.model} {m.version}</option>)}
-          </select>
-        </div>
-        <button class="btn btn-volt" type="submit">Durakları ve maliyeti göster</button>
-      </form>
+
+      <div class="headline-grid">
+        {lead && (
+          <a class="lead card" href={`/haberler/${leadCat}/${lead.id}`}>
+            <div class:list={['lead-visual', leadCat]}>
+              {lead.data.image ? <img src={lead.data.image} alt="" /> : (
+                <svg viewBox="0 0 400 200" aria-hidden="true">
+                  <path d="M0 150 C 80 120, 140 170, 220 130 S 340 90, 400 110" stroke="currentColor" stroke-width="2.5" fill="none" opacity=".35" />
+                  <path d="M0 170 C 90 150, 150 190, 230 155 S 340 120, 400 140" stroke="currentColor" stroke-width="1.5" fill="none" opacity=".2" />
+                  <path d="M214 30 184 74h21l-7 33 33-46h-21l4-31Z" fill="currentColor" />
+                </svg>
+              )}
+              <span class="kicker">Manşet</span>
+            </div>
+            <div class="lead-body">
+              <div class="meta"><span class:list={['tag', leadCat === 'rehber' ? 'green' : 'volt']}>{CATS[leadCat].label}</span><span>{fmtDate(lead.data.date)}</span></div>
+              <h1>{lead.data.title}</h1>
+              <p>{lead.data.description}</p>
+              <span class="read">Haberi oku →</span>
+            </div>
+          </a>
+        )}
+        <aside class="latest">
+          <h2 class="latest-h">Son haberler</h2>
+          <ol>
+            {side.map((p) => {
+              const c = p.data.category as Cat;
+              return (
+                <li>
+                  <a href={`/haberler/${c}/${p.id}`}>
+                    <span class="meta"><b class:list={[c]}>{CATS[c].label}</b> · {fmtDate(p.data.date)}</span>
+                    <span class="t">{p.data.title}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+          <a href="/haberler" class="link-arrow">Tüm haberler</a>
+        </aside>
+      </div>
     </div>
   </section>
 
+  <!-- 2. Rota planlayıcı önizlemesi -->
+  <section class="planner-teaser">
+    <div class="container teaser-grid">
+      <div class="teaser-copy">
+        <span class="eyebrow">Rota & Şarj Planlayıcı</span>
+        <h2>Yola çıkmadan <span class="grad-text">durakları ve maliyeti</span> gör.</h2>
+        <p class="muted">Aracını seç, rotanı gir. Güzergahtaki hızlı şarj istasyonlarını, nerede ne kadar şarj etmen gerektiğini ve operatörler arası fiyat farkını saniyeler içinde hesaplayalım.</p>
+        <form class="quick" action="/rota-planlayici" method="get">
+          <div class="q-row">
+            <div><label for="q-from">Nereden</label><input id="q-from" name="from" placeholder="Kadıköy, İstanbul" required /></div>
+            <div><label for="q-to">Nereye</label><input id="q-to" name="to" placeholder="Çeşme, İzmir" required /></div>
+          </div>
+          <div class="q-row">
+            <div class="grow">
+              <label for="q-car">Aracın</label>
+              <select id="q-car" name="car">
+                {models.map((m) => <option value={m.slug} selected={m.slug === defaultCar}>{m.brand} {m.model} {m.version}</option>)}
+              </select>
+            </div>
+            <button class="btn btn-volt" type="submit">Rotayı hesapla</button>
+          </div>
+        </form>
+        <div class="chips">
+          <span class="muted small">Popüler:</span>
+          {routes.slice(0, 5).map((r) => <a class="tag" href={`/rota/${r.slug}`}>{r.from} → {r.to}</a>)}
+        </div>
+      </div>
+
+      <a class="preview card" href="/rota/istanbul-izmir" aria-label="Örnek rota: İstanbul – İzmir">
+        <div class="pv-map">
+          <svg viewBox="0 0 420 240" aria-hidden="true">
+            <defs>
+              <pattern id="pv-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#e9eef4" stroke-width="1" /></pattern>
+            </defs>
+            <rect width="420" height="240" fill="#f7f9fb" />
+            <rect width="420" height="240" fill="url(#pv-grid)" />
+            <path d="M0 52 C 60 40, 120 58, 170 46 S 260 30, 300 44" fill="none" stroke="#cfe3f5" stroke-width="10" stroke-linecap="round" />
+            <path id="pv-route" d="M330 46 C 300 80, 250 92, 228 120 S 160 160, 140 182 S 96 200, 76 206" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" />
+            <path d="M330 46 C 300 80, 250 92, 228 120 S 160 160, 140 182 S 96 200, 76 206" fill="none" stroke="#0a7cff" stroke-width="5" stroke-linecap="round" class="pv-line" />
+            <g fill="#fff" stroke="#0a7cff" stroke-width="2"><circle cx="286" cy="83" r="4" /><circle cx="180" cy="148" r="4" /><circle cx="112" cy="194" r="4" /></g>
+            <g><circle cx="330" cy="46" r="13" fill="#0e1726" stroke="#fff" stroke-width="3" /><text x="330" y="50.5" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">A</text></g>
+            <g class="pv-stop"><circle cx="216" cy="128" r="13" fill="#12a150" stroke="#fff" stroke-width="3" /><text x="216" y="132.5" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">1</text></g>
+            <g><circle cx="76" cy="206" r="13" fill="#0e1726" stroke="#fff" stroke-width="3" /><text x="76" y="210.5" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">B</text></g>
+            <text x="312" y="50" text-anchor="end" font-size="12" font-weight="700" fill="#334155">İstanbul</text>
+            <text x="96" y="226" font-size="12" font-weight="700" fill="#334155">İzmir</text>
+          </svg>
+          <span class="pv-badge">Örnek hesaplama</span>
+        </div>
+        <div class="pv-body">
+          <div class="pv-car">Togg T10X V2 Uzun Menzil · %85 ile çıkış</div>
+          <div class="pv-stats">
+            <div><span>Mesafe</span><b>468 km</b></div>
+            <div><span>Şarj durağı</span><b>1</b></div>
+            <div><span>Şarj süresi</span><b>~31 dk</b></div>
+            <div class="hl"><span>Şarj maliyeti</span><b>~₺669</b></div>
+          </div>
+          <div class="pv-stop-row">
+            <span class="num">1</span>
+            <div><b>Balıkesir · DC hızlı şarj</b><span>%21 → %75 · 51,5 kWh · ₺13,00/kWh</span></div>
+          </div>
+          <span class="pv-cta">Bu rotayı aç ve kendi aracınla dene →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 3. Şarj fiyatları -->
   <section class="section-sm">
     <div class="container">
       <div class="section-head">
@@ -74,7 +169,34 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section soft">
+  <!-- 4. Rehber -->
+  {guides.length > 0 && (
+    <section class="section soft">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">Rehber</span><h2>EV sahipleri için bilmen gerekenler</h2></div>
+          <a href="/haberler/rehber" class="link-arrow">Tüm rehberler</a>
+        </div>
+        <div class="grid grid-3">{guides.map((p) => <NewsCard post={p} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <!-- 5. Fırsatlar -->
+  {deals.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">Fırsatlar</span><h2>Bu ayın kampanyaları</h2></div>
+          <a href="/firsatlar" class="link-arrow">Tüm fırsatlar</a>
+        </div>
+        <div class="grid grid-3">{deals.map((d) => <DealCard deal={d} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <!-- 6. Popüler rotalar + topluluk -->
+  <section class="section-sm">
     <div class="container">
       <div class="section-head">
         <div><span class="eyebrow">Popüler rotalar</span><h2>Elektrikli araçla uzun yol</h2></div>
@@ -94,31 +216,6 @@ const jsonLd = {
 
   <section class="section">
     <div class="container">
-      <div class="section-head">
-        <div><span class="eyebrow">Haberler & rehber</span><h2>Son gelişmeler</h2></div>
-        <a href="/haberler" class="link-arrow">Tüm haberler</a>
-      </div>
-      <div class="news-grid">
-        {lead && <div class="lead-card"><NewsCard post={lead} large /></div>}
-        {rest.slice(0, 4).map((p) => <NewsCard post={p} />)}
-      </div>
-    </div>
-  </section>
-
-  {deals.length > 0 && (
-    <section class="section-sm">
-      <div class="container">
-        <div class="section-head">
-          <div><span class="eyebrow">Fırsatlar</span><h2>Bu ayın kampanyaları</h2></div>
-          <a href="/firsatlar" class="link-arrow">Tüm fırsatlar</a>
-        </div>
-        <div class="grid grid-3">{deals.map((d) => <DealCard deal={d} />)}</div>
-      </div>
-    </section>
-  )}
-
-  <section class="section">
-    <div class="container">
       <div class="community card">
         <div>
           <span class="eyebrow">Çok yakında</span>
@@ -132,23 +229,79 @@ const jsonLd = {
 </Base>
 
 <style>
-  .hero { position: relative; padding: 64px 0 56px; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background:
-    radial-gradient(600px 300px at 85% 10%, rgba(10, 124, 255, .08), transparent 70%),
-    radial-gradient(500px 280px at 5% 90%, rgba(18, 161, 80, .07), transparent 70%); pointer-events: none; }
-  .hero-in { position: relative; display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
-  .copy h1 { margin-top: 14px; }
-  .lead { font-size: 1.12rem; color: var(--ink-2); max-width: 560px; }
-  .ticks { list-style: none; padding: 0; margin: 22px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: .92rem; font-weight: 550; color: var(--ink-2); }
-  .ticks li::before { content: '✓'; color: var(--green); font-weight: 800; margin-right: 7px; }
-  .quick { padding: 24px; display: grid; gap: 14px; box-shadow: var(--shadow); }
-  .q-title { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-head); font-size: 1.1rem; }
-  .q-line { display: grid; grid-template-columns: 14px 1fr; gap: 12px; align-items: end; }
-  .q-dot { width: 12px; height: 12px; border-radius: 50%; margin-bottom: 17px; }
-  .q-dot.a { border: 3px solid var(--ink); }
-  .q-dot.b { background: var(--green); }
-  .quick .btn { height: 50px; border-radius: 14px; margin-top: 4px; }
+  /* Manşet */
+  .top { padding: 18px 0 40px; }
+  .dateline { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 4px 0 16px; margin-bottom: 22px; border-bottom: 1px solid var(--line); font-size: .85rem; color: var(--muted); text-transform: capitalize; }
+  .cats { display: flex; gap: 18px; text-transform: none; }
+  .cats a { font-weight: 600; color: var(--ink-2); }
+  .headline-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 28px; }
+  .lead { overflow: hidden; display: flex; flex-direction: column; }
+  .lead:hover h1 { color: var(--volt); }
+  .lead-visual { position: relative; aspect-ratio: 16 / 7; display: grid; place-items: center; overflow: hidden; }
+  .lead-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .lead-visual svg { width: 100%; height: 100%; }
+  .lead-visual.turkiye { background: linear-gradient(135deg, #eaf5ff 0%, #f6fbff 55%, #ecf9f1 100%); color: var(--volt); }
+  .lead-visual.dunya { background: linear-gradient(135deg, #eef1ff 0%, #f7f8ff 60%, #eaf5ff 100%); color: #3b5bfd; }
+  .lead-visual.rehber { background: linear-gradient(135deg, #e8f7ee 0%, #f5fbf7 60%, #eaf5ff 100%); color: var(--green); }
+  .kicker { position: absolute; top: 16px; left: 16px; background: var(--ink); color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 5px 10px; border-radius: 6px; }
+  .lead-body { padding: 22px 26px 26px; }
+  .lead-body .meta { display: flex; gap: 10px; align-items: center; font-size: .82rem; color: var(--muted); margin-bottom: 12px; }
+  .lead-body h1 { font-size: clamp(1.6rem, 3vw, 2.25rem); margin-bottom: 12px; transition: color .15s; }
+  .lead-body p { color: var(--ink-2); font-size: 1.05rem; margin-bottom: 14px; }
+  .read { font-weight: 600; color: var(--volt); font-size: .93rem; }
+  .latest { display: flex; flex-direction: column; }
+  .latest-h { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
+  .latest-h::before { content: ''; width: 18px; height: 3px; border-radius: 3px; background: var(--grad); }
+  .latest ol { list-style: none; margin: 0 0 14px; padding: 0; counter-reset: n; flex: 1; }
+  .latest li { counter-increment: n; border-bottom: 1px solid var(--line); }
+  .latest li a { display: grid; grid-template-columns: 34px 1fr; gap: 2px 8px; padding: 16px 0; }
+  .latest li a::before { content: counter(n); grid-row: span 2; font: 800 1.6rem var(--font-head); color: #d5dde7; line-height: 1; }
+  .latest .meta { font-size: .76rem; color: var(--muted); }
+  .latest .meta b { font-weight: 700; }
+  .latest .meta b.turkiye { color: var(--volt); } .latest .meta b.dunya { color: #3b5bfd; } .latest .meta b.rehber { color: var(--green); }
+  .latest .t { font-weight: 650; line-height: 1.35; font-family: var(--font-head); }
+  .latest li a:hover .t { color: var(--volt); }
 
+  /* Planlayıcı önizlemesi */
+  .planner-teaser { padding: 56px 0; background:
+    radial-gradient(700px 320px at 90% 0%, rgba(10, 124, 255, .07), transparent 70%),
+    radial-gradient(600px 300px at 0% 100%, rgba(18, 161, 80, .07), transparent 70%), var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .teaser-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .teaser-copy h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); margin-top: 12px; }
+  .teaser-copy > p { font-size: 1.05rem; max-width: 520px; }
+  .quick { display: grid; gap: 12px; margin-top: 22px; }
+  .q-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; }
+  .q-row > * { min-width: 0; }
+  .q-row .grow { grid-column: auto; }
+  .quick .btn { height: 46px; border-radius: 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
+  .chips .tag { background: #fff; border: 1px solid var(--line); height: 28px; }
+  .chips .tag:hover { border-color: var(--volt); color: var(--volt); }
+
+  .preview { overflow: hidden; box-shadow: var(--shadow); color: inherit; }
+  .preview:hover { color: inherit; }
+  .pv-map { position: relative; border-bottom: 1px solid var(--line); }
+  .pv-map svg { width: 100%; display: block; }
+  .pv-line { stroke-dasharray: 520; stroke-dashoffset: 520; animation: draw 2.2s ease forwards .3s; }
+  .pv-stop { opacity: 0; animation: pop .4s ease forwards 1.6s; transform-origin: 216px 128px; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes pop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .pv-line, .pv-stop { animation: none; stroke-dashoffset: 0; opacity: 1; } }
+  .pv-badge { position: absolute; top: 12px; left: 12px; font-size: .72rem; font-weight: 700; background: #fff; border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; color: var(--muted); }
+  .pv-body { padding: 18px 20px 20px; display: grid; gap: 14px; }
+  .pv-car { font-size: .85rem; color: var(--muted); font-weight: 600; }
+  .pv-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .pv-stats div { background: var(--soft); border-radius: 10px; padding: 10px 12px; }
+  .pv-stats span { display: block; font-size: .7rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .pv-stats b { font: 800 1.15rem var(--font-head); }
+  .pv-stats .hl { background: var(--green-soft); } .pv-stats .hl b { color: var(--green); }
+  .pv-stop-row { display: flex; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .pv-stop-row .num { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: .85rem; }
+  .pv-stop-row b { display: block; font-size: .92rem; }
+  .pv-stop-row span { font-size: .8rem; color: var(--muted); }
+  .pv-cta { font-weight: 600; color: var(--volt); font-size: .92rem; }
+
+  /* Fiyatlar */
   .prices { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
   .price { padding: 16px; display: flex; flex-direction: column; gap: 2px; position: relative; }
   .price .op { font-weight: 700; font-size: .92rem; }
@@ -161,24 +314,23 @@ const jsonLd = {
   .route { padding: 16px 18px; display: flex; align-items: center; gap: 10px; font-weight: 650; }
   .route svg { color: var(--green); flex: none; }
 
-  .news-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .lead-card { grid-column: span 2; grid-row: span 2; }
-
   .community { padding: 36px; display: flex; justify-content: space-between; align-items: center; gap: 24px; background:
     linear-gradient(#fff, #fff) padding-box, var(--grad) border-box; border: 1.5px solid transparent; }
   .community p { margin: 0; max-width: 560px; }
 
   @media (max-width: 1040px) {
-    .hero-in { grid-template-columns: 1fr; gap: 32px; }
+    .headline-grid, .teaser-grid { grid-template-columns: 1fr; }
     .prices { grid-template-columns: repeat(3, 1fr); }
     .routes { grid-template-columns: repeat(2, 1fr); }
-    .news-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 640px) {
-    .hero { padding: 36px 0; }
+    .cats { display: none; }
+    .lead-visual { aspect-ratio: 16 / 9; }
+    .lead-body { padding: 18px; }
+    .q-row { grid-template-columns: 1fr; }
+    .pv-stats { grid-template-columns: repeat(2, 1fr); }
     .prices { grid-template-columns: repeat(2, 1fr); }
-    .routes, .news-grid { grid-template-columns: 1fr; }
-    .lead-card { grid-column: auto; grid-row: auto; }
+    .routes { grid-template-columns: 1fr; }
     .community { flex-direction: column; align-items: start; padding: 24px; }
   }
 </style>
