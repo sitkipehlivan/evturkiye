@@ -15,7 +15,7 @@ const related = news.filter((p: any) => p.id !== post.id).slice(0, 3);
 const jsonLd = {
   '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
   headline: d.title, description: d.description, datePublished: d.date.toISOString(), inLanguage: 'tr',
-  publisher: { '@type': 'Organization', name: 'EV Türkiye', url: 'https://evturkiye.com.tr' },
+  publisher: { '@type': 'Organization', name: 'EV Türkiye', url: Astro.site!.origin },
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
 };
 ---

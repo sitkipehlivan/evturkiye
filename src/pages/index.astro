@@ -23,7 +23,7 @@ const models = modelsData.models;
 const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug;
 const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'WebSite', name: 'EV Türkiye', url: 'https://evturkiye.com.tr',
+  '@context': 'https://schema.org', '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site!.origin,
   description: 'Elektrikli araç haberleri, rota ve şarj planlayıcı, güncel şarj fiyatları.',
 };
 const leadCat = lead?.data.category as Cat;

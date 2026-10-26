@@ -5,7 +5,7 @@ import routes from '../data/routes.json';
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'WebApplication', name: 'EV Türkiye Rota & Şarj Planlayıcı',
   applicationCategory: 'TravelApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
-  url: 'https://evturkiye.com.tr/rota-planlayici',
+  url: new URL('/rota-planlayici', Astro.site).toString(),
 };
 ---
 <Base title="Elektrikli Araç Rota ve Şarj Maliyeti Planlayıcı" description="Elektrikli aracınızla uzun yolda hangi istasyonda ne kadar şarj etmeniz gerektiğini ve toplam şarj maliyetini hesaplayın. Trugo, ZES, Eşarj ve diğer operatörlerin fiyatlarını karşılaştırın." jsonLd={jsonLd}>
