@@ -1,6 +1,6 @@
 # EV Türkiye haber botu: çalışma kuralları
 
-Bu dosya, saatlik haber görevinin her çalıştırmada uyduğu kurallardır. Değiştirmek için bu dosyayı düzenlemek yeterlidir.
+Bu dosya, günlük haber görevinin her çalıştırmada uyduğu kurallardır. Değiştirmek için bu dosyayı düzenlemek yeterlidir.
 
 ## 1. Amaç
 Türkiye'deki elektrikli araç (EV) kullanıcıları ve alıcıları için **haber değeri olan** gelişmeleri bulmak, kısa ve özgün Türkçe haberler olarak siteye eklemek.
@@ -14,7 +14,7 @@ Web araması ile (son 24 saat, öncelik son 2 saat):
 ## 3. Haber değeri filtresi
 Seç: fiyat/vergi değişikliği, yeni model Türkiye lansmanı veya fiyatı, şarj tarifesi değişikliği, resmi veri açıklaması (satış, soket sayısı), düzenleme, büyük yatırım, kampanya.
 Seçme: söylenti, tekrar eden analiz yazıları, reklam/advertorial, Türkiye ile ilgisi zayıf dünya haberleri, 48 saatten eski olaylar.
-Bir çalıştırmada en fazla **3** haber eklenir. Yeni bir şey yoksa hiçbir şey eklenmez ve commit yapılmaz.
+Görev **günde bir kez** çalışır ve son 24 saati tarar. Bir çalıştırmada en fazla **5** haber eklenir. Yeni bir şey yoksa hiçbir şey eklenmez ve commit yapılmaz.
 
 ## 4. Tekrarı önleme
 Eklemeden önce `src/content/haberler/` altındaki dosyaları kontrol et:
@@ -48,11 +48,13 @@ Metin…
 ```
 `image` alanı her zaman yazılır. Dosya yoksa site derlenirken başlık ve kategoriyle otomatik markalı bir kapak üretir (scripts/covers.mjs); gerçek görsel sonradan aynı adla `public/images/haberler/` içine eklenince otomatik kapak devreden çıkar. Bot görsel indirmez ve yapay zekâ görseli üretmez.
 
-## 7. Doğrudan yayın mı, taslak mı? (karışık mod)
-**Doğrudan yayın (`main` dalına commit):** yalnızca resmi ve kesin veriye dayanan haberler: üreticinin resmi fiyat listesi, EPDK/Resmî Gazete düzenlemesi, ODMD/TÜİK/EPDK verisi, operatörün kendi sitesinde ilan ettiği tarife değişikliği, markanın resmi kampanya duyurusu.
-**Taslak (onaya gider):** diğer her şey: yorum veya analiz gerektiren haberler, dünya haberleri, ikinci el kaynaktan gelen bilgiler, emin olunmayan rakamlar.
+## 7. Yayın
+Seçilen tüm haberler doğrudan `main` dalına eklenir ve yayınlanır (taslak/onay adımı yok). Bu yüzden doğrulama şarttır: rakamı ve tarihi kaynak sayfada kendin görmediysen yazma; emin olmadığın haberi hiç ekleme.
 
-Taslaklar `taslak-haberler` dalında toplanır ve bu daldan `main`e açık tek bir Pull Request tutulur (yoksa açılır, varsa üzerine eklenir). PR açıklamasında her taslak için: başlık, kaynak linki, neden taslak olduğu. Sıtkı PR'ı GitHub'da "Merge" ederek yayınlar; istemediği dosyayı PR'dan siler.
+## 7a. Görsel brifi
+Her yeni haber için `docs/gorsel-bekleyenler.md` dosyasına (yoksa oluştur, en yeni üstte) bir satır ekle:
+`| <tarih> | <slug>.jpg | <yüklenecek gerçek fotoğrafın kaynağı: üreticinin basın/medya sayfası linki veya Unsplash/Pexels arama kelimesi> | <SCENE satırı: arka plan tarifi, İngilizce> |`
+Gerçek araç fotoğrafı yalnızca lisansı uygun kaynaklardan önerilir (üretici basın kiti, Unsplash, Pexels, Wikimedia Commons). Haber sitelerinden veya ajanslardan fotoğraf önerme. Görsel düzenleme kuralları (araç aynen kalır, sadece çevre yapay zekâ ile değişir) `docs/gorsel-duzenleme.md` dosyasındadır.
 
 ## 8. Veri tablolarının güncellenmesi
 - Bir operatörün resmi tarife değişikliği doğrulanırsa `src/data/operators.json` içindeki fiyatı ve `updated` tarihini de güncelle (doğrudan yayın).
@@ -60,8 +62,8 @@ Taslaklar `taslak-haberler` dalında toplanır ve bu daldan `main`e açık tek b
 
 ## 9. Teknik
 - Commit'ten önce `npm ci && npm run build:fast` ile derlemenin geçtiğini doğrula; hata varsa düzelt, düzelmiyorsa o haberi ekleme.
-- Bir çalıştırmada `main`e en fazla bir commit (Netlify derleme limitini korumak için).
+- Bir çalıştırmada `main`e en fazla bir commit (Netlify derleme limitini korumak için). Haberler ve görsel brifi aynı commit'te.
 - Commit mesajı: `Haber: <kısa başlık>` (birden fazla ise `Haberler: 2 yeni`).
 
 ## 10. Rapor
-Çalıştırmanın sonunda: kaç kaynak tarandı, ne eklendi (doğrudan / taslak), ne neden elendi. Yeni bir şey yoksa tek satır: "Yeni haber yok."
+Çalıştırmanın sonunda: kaç kaynak tarandı, ne eklendi (başlık + link), her haber için hangi gerçek fotoğrafın hazırlanması gerektiği, ne neden elendi. Yeni bir şey yoksa tek satır: "Yeni haber yok."
