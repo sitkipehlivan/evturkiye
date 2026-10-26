@@ -1,12 +1,13 @@
 ---
-import { CATS, fmtDate, type Cat } from '../lib/util';
+import { CATS, fmtDate, imgIfExists, type Cat } from '../lib/util';
 const { post, large = false } = Astro.props;
 const d = post.data;
 const cat = d.category as Cat;
+const img = imgIfExists(d.image);
 ---
 <a href={`/haberler/${cat}/${post.id}`} class:list={['card', 'news', { large }]}>
   <div class:list={['thumb', cat]}>
-    {d.image ? <img src={d.image} alt="" loading="lazy" /> : (
+    {img ? <img src={img} alt="" loading="lazy" /> : (
       <svg viewBox="0 0 120 60" aria-hidden="true"><path d="M66 6 46 33h14l-6 21 22-30H62l4-18Z" fill="currentColor" opacity=".9" /></svg>
     )}
   </div>

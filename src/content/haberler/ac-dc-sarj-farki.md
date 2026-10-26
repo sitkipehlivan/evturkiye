@@ -1,9 +1,10 @@
 ---
 title: "AC ve DC şarj arasındaki fark nedir? Hangisini ne zaman kullanmalı?"
 description: "Elektrikli araçlarda AC ve DC şarjın çalışma mantığı, hızları, maliyetleri ve batarya sağlığına etkileri üzerine sade bir rehber."
+image: "/images/haberler/ac-dc-sarj-farki.jpg"
 category: rehber
 date: 2026-10-20
-featured: true
+featured: false
 ---
 
 Elektrikli araç sahiplerinin en sık karşılaştığı iki kavram AC (alternatif akım) ve DC (doğru akım) şarjdır. Aradaki fark, akımın aracın içinde mi yoksa istasyonda mı dönüştürüldüğüdür.

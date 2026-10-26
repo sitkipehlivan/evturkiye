@@ -1,6 +1,7 @@
 ---
 title: "Şarjda 'tek tarife' dönemi: Güce göre farklı fiyat uygulaması kalkıyor"
 description: "EPDK'nın Şarj Hizmeti Yönetmeliği'nde yaptığı değişiklikle operatörlerin AC ve DC için şarj gücünden bağımsız tek fiyat belirlemesi gerekiyor."
+image: "/images/haberler/epdk-sarj-tek-tarife.jpg"
 category: turkiye
 date: 2026-04-17
 source: "İstiklal"

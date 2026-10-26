@@ -21,3 +21,11 @@ export async function getDeals() {
     .filter((d) => !d.data.endDate || d.data.endDate.getTime() >= now)
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
+
+import { existsSync } from 'node:fs';
+/** Görsel public/ altında gerçekten varsa yolunu döndürür; yoksa undefined (yer tutucu çizim gösterilir). */
+export function imgIfExists(path?: string) {
+  if (!path) return undefined;
+  if (/^https?:\/\//.test(path)) return path;
+  return existsSync(`public${path}`) ? path : undefined;
+}

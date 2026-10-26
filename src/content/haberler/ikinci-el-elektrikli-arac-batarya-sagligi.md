@@ -1,6 +1,7 @@
 ---
 title: "İkinci el elektrikli araç alırken batarya sağlığı (SoH) nasıl kontrol edilir?"
 description: "İkinci el EV alırken bataryanın durumunu (State of Health) anlamak için izlenecek adımlar ve dikkat edilmesi gereken işaretler."
+image: "/images/haberler/ikinci-el-elektrikli-arac-batarya-sagligi.jpg"
 category: rehber
 date: 2026-10-12
 ---

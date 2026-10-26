@@ -5,7 +5,7 @@ import DealCard from '../components/DealCard.astro';
 import ops from '../data/operators.json';
 import modelsData from '../data/models.json';
 import routes from '../data/routes.json';
-import { getNews, getDeals, fmtDate, tl, CATS, type Cat } from '../lib/util';
+import { getNews, getDeals, fmtDate, tl, CATS, imgIfExists, type Cat } from '../lib/util';
 
 const news = await getNews();
 const deals = (await getDeals()).slice(0, 3);
@@ -27,6 +27,7 @@ const jsonLd = {
   description: 'Elektrikli araç haberleri, rota ve şarj planlayıcı, güncel şarj fiyatları.',
 };
 const leadCat = lead?.data.category as Cat;
+const leadImg = imgIfExists(lead?.data.image);
 ---
 <Base title="EV Türkiye: Elektrikli Araç Haberleri, Şarj Fiyatları ve Rota Planlayıcı" jsonLd={jsonLd}>
   <!-- 1. Manşet -->
@@ -44,7 +45,7 @@ const leadCat = lead?.data.category as Cat;
         {lead && (
           <a class="lead card" href={`/haberler/${leadCat}/${lead.id}`}>
             <div class:list={['lead-visual', leadCat]}>
-              {lead.data.image ? <img src={lead.data.image} alt="" /> : (
+              {leadImg ? <img src={leadImg} alt={lead.data.title} /> : (
                 <svg viewBox="0 0 400 200" aria-hidden="true">
                   <path d="M0 150 C 80 120, 140 170, 220 130 S 340 90, 400 110" stroke="currentColor" stroke-width="2.5" fill="none" opacity=".35" />
                   <path d="M0 170 C 90 150, 150 190, 230 155 S 340 120, 400 140" stroke="currentColor" stroke-width="1.5" fill="none" opacity=".2" />

@@ -1,6 +1,7 @@
 ---
 title: "Ev tipi şarj ünitesi (wallbox) kurulumu: Başlamadan önce bilmeniz gerekenler"
 description: "Evde elektrikli araç şarjı için wallbox seçimi, monofaze/trifaze farkı, site yönetimi süreci ve kurulumda dikkat edilmesi gerekenler."
+image: "/images/haberler/ev-tipi-sarj-unitesi-kurulumu.jpg"
 category: rehber
 date: 2026-10-18
 ---

@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import NewsCard from '../../../components/NewsCard.astro';
-import { getNews, CATS, fmtDate, type Cat } from '../../../lib/util';
+import { getNews, CATS, fmtDate, imgIfExists, type Cat } from '../../../lib/util';
 export async function getStaticPaths() {
   const news = await getNews();
   return news.map((post) => ({ params: { cat: post.data.category, slug: post.id }, props: { post, news } }));
@@ -11,6 +11,7 @@ const { post, news } = Astro.props;
 const { Content } = await render(post);
 const d = post.data;
 const cat = d.category as Cat;
+const img = imgIfExists(d.image);
 const related = news.filter((p: any) => p.id !== post.id).slice(0, 3);
 const jsonLd = {
   '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
@@ -19,7 +20,7 @@ const jsonLd = {
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
 };
 ---
-<Base title={d.title} description={d.description} type="article" image={d.image} jsonLd={jsonLd}>
+<Base title={d.title} description={d.description} type="article" image={img} jsonLd={jsonLd}>
   <article class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/haberler">Haberler</a> / <a href={`/haberler/${cat}`}>{CATS[cat].label}</a></nav>
@@ -28,7 +29,7 @@ const jsonLd = {
         <p class="lede">{d.description}</p>
         <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time></div>
       </header>
-      {d.image && <img class="cover" src={d.image} alt="" />}
+      {img && <img class="cover" src={img} alt={d.title} />}
       <div class="prose"><Content /></div>
       {d.sourceUrl && <p class="source small">Kaynak: <a href={d.sourceUrl} target="_blank" rel="noopener nofollow">{d.source ?? new URL(d.sourceUrl).hostname} ↗</a></p>}
     </div>

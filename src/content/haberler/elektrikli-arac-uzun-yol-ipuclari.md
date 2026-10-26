@@ -1,6 +1,7 @@
 ---
 title: "Elektrikli araçla uzun yola çıkmadan önce 7 ipucu"
 description: "Rota planlamasından şarj uygulamalarına, kış koşullarından mola stratejisine kadar elektrikli araçla uzun yolculuk için pratik öneriler."
+image: "/images/haberler/elektrikli-arac-uzun-yol-ipuclari.jpg"
 category: rehber
 date: 2026-10-15
 ---

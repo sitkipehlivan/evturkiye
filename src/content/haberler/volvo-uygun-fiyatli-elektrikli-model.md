@@ -1,6 +1,7 @@
 ---
 title: "Volvo, Avrupa için daha uygun fiyatlı yeni bir elektrikli model hazırlıyor"
 description: "Zararla kapattığı çeyreğin ardından stratejisini gözden geçiren Volvo, yeni SPA3 platformu üzerinde daha geniş kitleye hitap edecek bir elektrikli model getirecek."
+image: "/images/haberler/volvo-uygun-fiyatli-elektrikli-model.jpg"
 category: dunya
 date: 2026-10-26
 source: "The Driven"
