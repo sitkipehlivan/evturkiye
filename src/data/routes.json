@@ -1,0 +1,14 @@
+[
+ {"slug":"istanbul-ankara","from":"İstanbul","to":"Ankara","fromQ":"Kadıköy, İstanbul","toQ":"Kızılay, Ankara","a":[40.9909,29.0303],"b":[39.9208,32.8541]},
+ {"slug":"istanbul-izmir","from":"İstanbul","to":"İzmir","fromQ":"Kadıköy, İstanbul","toQ":"Konak, İzmir","a":[40.9909,29.0303],"b":[38.4189,27.1287]},
+ {"slug":"istanbul-antalya","from":"İstanbul","to":"Antalya","fromQ":"Kadıköy, İstanbul","toQ":"Muratpaşa, Antalya","a":[40.9909,29.0303],"b":[36.8841,30.7056]},
+ {"slug":"istanbul-bursa","from":"İstanbul","to":"Bursa","fromQ":"Kadıköy, İstanbul","toQ":"Osmangazi, Bursa","a":[40.9909,29.0303],"b":[40.1828,29.0665]},
+ {"slug":"istanbul-cesme","from":"İstanbul","to":"Çeşme","fromQ":"Kadıköy, İstanbul","toQ":"Çeşme, İzmir","a":[40.9909,29.0303],"b":[38.3236,26.3029]},
+ {"slug":"istanbul-bodrum","from":"İstanbul","to":"Bodrum","fromQ":"Kadıköy, İstanbul","toQ":"Bodrum, Muğla","a":[40.9909,29.0303],"b":[37.0344,27.4305]},
+ {"slug":"ankara-izmir","from":"Ankara","to":"İzmir","fromQ":"Kızılay, Ankara","toQ":"Konak, İzmir","a":[39.9208,32.8541],"b":[38.4189,27.1287]},
+ {"slug":"ankara-antalya","from":"Ankara","to":"Antalya","fromQ":"Kızılay, Ankara","toQ":"Muratpaşa, Antalya","a":[39.9208,32.8541],"b":[36.8841,30.7056]},
+ {"slug":"istanbul-trabzon","from":"İstanbul","to":"Trabzon","fromQ":"Kadıköy, İstanbul","toQ":"Ortahisar, Trabzon","a":[40.9909,29.0303],"b":[41.0027,39.7168]},
+ {"slug":"izmir-antalya","from":"İzmir","to":"Antalya","fromQ":"Konak, İzmir","toQ":"Muratpaşa, Antalya","a":[38.4189,27.1287],"b":[36.8841,30.7056]},
+ {"slug":"ankara-kapadokya","from":"Ankara","to":"Kapadokya","fromQ":"Kızılay, Ankara","toQ":"Göreme, Nevşehir","a":[39.9208,32.8541],"b":[38.6431,34.8289]},
+ {"slug":"istanbul-edirne","from":"İstanbul","to":"Edirne","fromQ":"Kadıköy, İstanbul","toQ":"Edirne Merkez","a":[40.9909,29.0303],"b":[41.6771,26.5557]}
+]

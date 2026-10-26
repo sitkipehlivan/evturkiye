@@ -1,0 +1,67 @@
+---
+import Logo from './Logo.astro';
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/rota-planlayici', label: 'Rota Planlayıcı' },
+  { href: '/sarj-fiyatlari', label: 'Şarj Fiyatları' },
+  { href: '/istasyonlar', label: 'İstasyonlar' },
+  { href: '/haberler', label: 'Haberler' },
+  { href: '/firsatlar', label: 'Fırsatlar' },
+  { href: '/modeller', label: 'Modeller' },
+];
+const active = (h: string) => path === h || path.startsWith(h + '/');
+---
+<header class="site-header">
+  <div class="container bar">
+    <a href="/" aria-label="EV Türkiye ana sayfa"><Logo /></a>
+    <nav class="nav" aria-label="Ana menü">
+      {nav.map((n) => <a href={n.href} class={active(n.href) ? 'active' : ''}>{n.label}</a>)}
+    </nav>
+    <a href="/rota-planlayici" class="btn btn-volt cta">Rotanı Planla</a>
+    <button class="menu-btn" aria-label="Menüyü aç" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" hidden>
+    {nav.map((n) => <a href={n.href} class={active(n.href) ? 'active' : ''}>{n.label}</a>)}
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector('.menu-btn');
+  const mob = document.querySelector('.mobile-nav') as HTMLElement | null;
+  btn?.addEventListener('click', () => {
+    if (!mob) return;
+    const open = mob.hidden;
+    mob.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.classList.toggle('open', open);
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, .88);
+    backdrop-filter: saturate(180%) blur(12px); border-bottom: 1px solid var(--line);
+  }
+  .site-header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--grad); opacity: .9; }
+  .bar { display: flex; align-items: center; gap: 28px; height: 68px; }
+  .nav { display: flex; gap: 4px; margin-left: auto; }
+  .nav a { padding: 8px 12px; border-radius: 999px; font-weight: 550; font-size: .93rem; color: var(--ink-2); }
+  .nav a:hover { background: var(--soft); color: var(--ink); }
+  .nav a.active { color: var(--ink); background: var(--soft-2); }
+  .cta { height: 40px; font-size: .9rem; }
+  .menu-btn { display: none; margin-left: auto; width: 42px; height: 42px; border: 1px solid var(--line); background: #fff; border-radius: 12px; cursor: pointer; position: relative; }
+  .menu-btn span { position: absolute; left: 11px; right: 11px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .2s; }
+  .menu-btn span:first-child { top: 15px; }
+  .menu-btn span:last-child { top: 24px; }
+  .menu-btn.open span:first-child { transform: translateY(4.5px) rotate(45deg); }
+  .menu-btn.open span:last-child { transform: translateY(-4.5px) rotate(-45deg); }
+  .mobile-nav { border-top: 1px solid var(--line); padding: 8px 20px 16px; background: #fff; }
+  .mobile-nav a { display: block; padding: 12px 4px; font-weight: 600; border-bottom: 1px solid var(--line); }
+  .mobile-nav a.active { color: var(--volt); }
+  @media (max-width: 1040px) {
+    .nav, .cta { display: none; }
+    .menu-btn { display: block; }
+  }
+</style>

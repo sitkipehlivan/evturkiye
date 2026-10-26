@@ -1,0 +1,198 @@
+{
+  "updated": "2026-10-14",
+  "sourceNote": "Operatörlerin web sitelerinde ilan edilen standart (kampanyasız) tarifelerden derlenmiştir. Şarj öncesi operatör uygulamasından teyit edin.",
+  "operators": [
+    {
+      "id": "trugo",
+      "name": "Trugo",
+      "ac": 9.95,
+      "dc": 14.98,
+      "note": "Togg kullanıcılarına dönemsel indirimli DC tarife uygulanabiliyor",
+      "match": [
+        "trugo",
+        "togg"
+      ]
+    },
+    {
+      "id": "zes",
+      "name": "ZES",
+      "ac": 10.99,
+      "dc": 16.49,
+      "dcMin": 12.99,
+      "note": "DC tarife istasyon tipine göre 12,99–16,49 ₺",
+      "match": [
+        "zes",
+        "zorlu"
+      ]
+    },
+    {
+      "id": "esarj",
+      "name": "Eşarj",
+      "ac": 9.9,
+      "dc": 14.9,
+      "dcMin": 9.9,
+      "note": "DC tarife istasyona göre 9,90–14,90 ₺",
+      "match": [
+        "eşarj",
+        "esarj",
+        "e-şarj",
+        "enerjisa"
+      ]
+    },
+    {
+      "id": "tesla",
+      "name": "Tesla Supercharger",
+      "ac": null,
+      "dc": 13.0,
+      "note": "Tesla dışı araçlar için fiyat; Tesla sahiplerine daha düşük",
+      "match": [
+        "tesla"
+      ]
+    },
+    {
+      "id": "voltrun",
+      "name": "Voltrun",
+      "ac": 9.9,
+      "dc": 12.9,
+      "match": [
+        "voltrun"
+      ]
+    },
+    {
+      "id": "astor",
+      "name": "Astor Şarj",
+      "ac": 9.89,
+      "dc": 13.99,
+      "match": [
+        "astor"
+      ]
+    },
+    {
+      "id": "beefull",
+      "name": "Beefull",
+      "ac": 9.9,
+      "dc": 13.99,
+      "match": [
+        "beefull"
+      ]
+    },
+    {
+      "id": "wat",
+      "name": "WAT Mobilite",
+      "ac": 10.99,
+      "dc": 14.49,
+      "dcMin": 11.99,
+      "match": [
+        "wat mobilite",
+        "wat"
+      ]
+    },
+    {
+      "id": "aksa",
+      "name": "Aksa Şarj",
+      "ac": 10.9,
+      "dc": 13.99,
+      "dcMin": 11.99,
+      "match": [
+        "aksa"
+      ]
+    },
+    {
+      "id": "evbee",
+      "name": "EV-Bee",
+      "ac": 9.95,
+      "dc": 14.98,
+      "match": [
+        "evbee",
+        "ev-bee"
+      ]
+    },
+    {
+      "id": "otopriz",
+      "name": "Otopriz",
+      "ac": 7.93,
+      "dc": 9.73,
+      "match": [
+        "otopriz"
+      ]
+    },
+    {
+      "id": "sharz",
+      "name": "Sharz",
+      "ac": 9.49,
+      "dc": 11.99,
+      "match": [
+        "sharz"
+      ]
+    },
+    {
+      "id": "sarjon",
+      "name": "Şarjon",
+      "ac": 10.99,
+      "dc": 13.99,
+      "dcMin": 11.99,
+      "match": [
+        "şarjon",
+        "sarjon"
+      ]
+    },
+    {
+      "id": "oncharge",
+      "name": "Oncharge",
+      "ac": 9.99,
+      "dc": 13.5,
+      "match": [
+        "oncharge"
+      ]
+    },
+    {
+      "id": "lumicle",
+      "name": "Lumicle",
+      "ac": 9.99,
+      "dc": 13.49,
+      "match": [
+        "lumicle"
+      ]
+    },
+    {
+      "id": "volti",
+      "name": "Volti",
+      "ac": 9.99,
+      "dc": 12.99,
+      "match": [
+        "volti"
+      ]
+    },
+    {
+      "id": "5sarj",
+      "name": "5Şarj",
+      "ac": 8.99,
+      "dc": 15.9,
+      "match": [
+        "5şarj",
+        "5sarj",
+        "5 şarj"
+      ]
+    },
+    {
+      "id": "enyakit",
+      "name": "Enyakıt",
+      "ac": null,
+      "dc": 14.9,
+      "match": [
+        "enyakıt",
+        "enyakit",
+        "en yakıt"
+      ]
+    },
+    {
+      "id": "elaris",
+      "name": "Elaris",
+      "ac": 9.49,
+      "dc": 10.0,
+      "match": [
+        "elaris"
+      ]
+    }
+  ]
+}

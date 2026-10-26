@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+import data from '../../data/models.json';
+const models = data.models;
+const groups = new Map<string, typeof models>();
+for (const m of models) { const k = `${m.brandSlug}/${m.modelSlug}`; groups.set(k, [...(groups.get(k) ?? []), m]); }
+const brands = [...new Set(models.map((m) => m.brand))];
+---
+<Base title="Elektrikli Araç Modelleri: Batarya, Menzil ve Şarj Gücü Karşılaştırma" description="Türkiye'de satılan elektrikli otomobillerin batarya kapasitesi, WLTP menzili, DC/AC şarj gücü ve tahmini otoyol tüketimi.">
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">EV veritabanı</span>
+      <h1>Elektrikli araç modelleri</h1>
+      <p class="muted intro">Batarya, menzil ve şarj gücüne göre karşılaştır. Sütun başlıklarına tıklayarak sırala.</p>
+      <div class="brands">
+        <button class="tag active" data-b="">Tümü</button>
+        {brands.map((b) => <button class="tag" data-b={b}>{b}</button>)}
+      </div>
+      <div class="table-wrap">
+        <table id="mtable">
+          <thead><tr>
+            <th><button data-k="name">Model</button></th>
+            <th class="num"><button data-k="battery">Batarya</button></th>
+            <th class="num"><button data-k="wltp">WLTP menzil</button></th>
+            <th class="num"><button data-k="dc">DC maks.</button></th>
+            <th class="num"><button data-k="ac">AC maks.</button></th>
+            <th class="num"><button data-k="hw">Otoyol tük.*</button></th>
+            <th></th>
+          </tr></thead>
+          <tbody>
+            {models.map((m) => (
+              <tr data-brand={m.brand} data-name={`${m.brand} ${m.model} ${m.version}`} data-battery={m.battery} data-wltp={m.wltp} data-dc={m.dcMax} data-ac={m.acMax} data-hw={m.highway}>
+                <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td>
+                <td class="num">{m.battery} kWh</td>
+                <td class="num">{m.wltp} km</td>
+                <td class="num">{m.dcMax} kW</td>
+                <td class="num">{m.acMax} kW</td>
+                <td class="num">{m.highway.toLocaleString('tr-TR')} kWh</td>
+                <td><a class="plan" href={`/rota-planlayici?car=${m.slug}`}>Rota planla</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small foot">* {data.note}</p>
+    </div>
+  </section>
+</Base>
+<script>
+  const tbody = document.querySelector('#mtable tbody')!;
+  document.querySelectorAll<HTMLButtonElement>('.brands button').forEach((b) => b.addEventListener('click', () => {
+    document.querySelectorAll('.brands button').forEach((x) => x.classList.remove('active'));
+    b.classList.add('active');
+    tbody.querySelectorAll<HTMLElement>('tr').forEach((r) => (r.hidden = !!b.dataset.b && r.dataset.brand !== b.dataset.b));
+  }));
+  let key = '', dir = 1;
+  document.querySelectorAll<HTMLButtonElement>('#mtable th button').forEach((b) => b.addEventListener('click', () => {
+    const k = b.dataset.k!; dir = key === k ? -dir : (k === 'name' ? 1 : -1); key = k;
+    const rows = [...tbody.querySelectorAll('tr')] as HTMLElement[];
+    rows.sort((x, y) => (k === 'name' ? x.dataset.name!.localeCompare(y.dataset.name!, 'tr') : Number(x.dataset[k]) - Number(y.dataset[k])) * dir);
+    rows.forEach((r) => tbody.appendChild(r));
+  }));
+</script>
+<style>
+  .intro { max-width: 680px; }
+  .brands { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+  .brands button { border: 1px solid var(--line); background: #fff; cursor: pointer; height: 32px; padding: 0 14px; font-size: .84rem; }
+  .brands button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .plan { font-size: .85rem; font-weight: 600; color: var(--volt); }
+  .foot { margin-top: 12px; }
+</style>

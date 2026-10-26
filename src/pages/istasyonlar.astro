@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import ops from '../data/operators.json';
+const payload = JSON.stringify(ops.operators.map((o) => ({ id: o.id, name: o.name, dc: o.dc, ac: o.ac, match: o.match })));
+---
+<Base title="Elektrikli Araç Şarj İstasyonları Haritası" description="Türkiye genelindeki elektrikli araç şarj istasyonlarını harita üzerinde görün; DC hızlı şarj ve operatöre göre filtreleyin.">
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Harita</span>
+      <h1>Şarj istasyonları</h1>
+      <p class="muted intro">Haritada bir bölgeye yakınlaştır, o bölgedeki şarj istasyonları yüklensin. Operatör ve DC filtresiyle daralt; uzun yol için <a href="/rota-planlayici" class="link-arrow">Rota Planlayıcı</a></p>
+      <div class="filters card">
+        <label class="chk"><input type="checkbox" id="f-dc" checked /> Sadece DC hızlı şarj</label>
+        <select id="f-op"><option value="">Tüm operatörler</option>{ops.operators.map((o) => <option value={o.id}>{o.name}</option>)}</select>
+        <button class="btn btn-ghost" id="f-me">📍 Konumum</button>
+        <span id="f-status" class="muted small"></span>
+      </div>
+      <div class="card map-wrap"><div id="st-map"></div></div>
+      <p class="muted small">İstasyon verisi © OpenStreetMap katkıcıları. Eksik veya hatalı bilgi görürsen OpenStreetMap üzerinden düzeltebilir ya da bize bildirebilirsin.</p>
+      <script type="application/json" id="st-ops" set:html={payload} />
+    </div>
+  </section>
+</Base>
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import { parseOsm, findOperator, type Operator } from '../scripts/planner-core';
+  const operators: Operator[] = JSON.parse(document.getElementById('st-ops')!.textContent!);
+  const status = document.getElementById('f-status')!;
+  const fDc = document.getElementById('f-dc') as HTMLInputElement;
+  const fOp = document.getElementById('f-op') as HTMLSelectElement;
+  const map = L.map('st-map', { scrollWheelZoom: true }).setView([39.3, 33.2], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
+  }).addTo(map);
+  const layer = L.layerGroup().addTo(map);
+  const cache = new Map<string, any>();
+  let timer: number | undefined;
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+
+  function redraw() {
+    layer.clearLayers();
+    let n = 0;
+    for (const s of cache.values()) {
+      if (fDc.checked && s.dc !== true) continue;
+      if (fOp.value && s.op?.id !== fOp.value) continue;
+      if (!map.getBounds().contains([s.lat, s.lon])) continue;
+      n++;
+      const color = s.dc ? '#0a7cff' : '#12a150';
+      L.circleMarker([s.lat, s.lon], { radius: s.dc ? 7 : 5, color: '#fff', weight: 2, fillColor: color, fillOpacity: 1 })
+        .bindPopup(`<b>${esc(s.name)}</b><br>${esc(s.operator || 'Operatör bilinmiyor')}${s.powerKw ? ` · ${s.powerKw} kW` : ''}<br>${s.dc ? 'DC hızlı şarj' : s.dc === false ? 'AC' : 'Soket bilgisi yok'}${s.op ? `<br>DC ${s.op.dc.toLocaleString('tr-TR')} ₺/kWh` : ''}<br><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lon}">Yol tarifi →</a>`)
+        .addTo(layer);
+    }
+    return n;
+  }
+
+  async function load() {
+    if (map.getZoom() < 9) { layer.clearLayers(); status.textContent = 'İstasyonları görmek için haritada bir bölgeye yakınlaştır.'; return; }
+    const b = map.getBounds();
+    const bbox = [b.getSouth(), b.getWest(), b.getNorth(), b.getEast()].map((v) => v.toFixed(3)).join(',');
+    status.textContent = 'Yükleniyor…';
+    try {
+      const q = `[out:json][timeout:40];(node["amenity"="charging_station"](${bbox});way["amenity"="charging_station"](${bbox}););out center tags;`;
+      const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+      const j = await res.json();
+      for (const el of j.elements || []) {
+        const s = parseOsm(el);
+        if (s) cache.set(s.id, { ...s, op: findOperator(`${s.operator} ${s.name}`, operators) });
+      }
+      const n = redraw();
+      status.textContent = `${n} istasyon gösteriliyor`;
+    } catch { status.textContent = 'İstasyon verisine şu an ulaşılamıyor.'; }
+  }
+  map.on('moveend', () => { clearTimeout(timer); timer = window.setTimeout(load, 400); });
+  fDc.addEventListener('change', () => (status.textContent = `${redraw()} istasyon gösteriliyor`));
+  fOp.addEventListener('change', () => (status.textContent = `${redraw()} istasyon gösteriliyor`));
+  document.getElementById('f-me')!.addEventListener('click', () => {
+    navigator.geolocation?.getCurrentPosition((p) => map.setView([p.coords.latitude, p.coords.longitude], 12), () => (status.textContent = 'Konum alınamadı.'));
+  });
+  load();
+</script>
+<style>
+  .intro { max-width: 760px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 12px; margin: 16px 0 12px; }
+  .filters select { width: auto; min-width: 200px; }
+  .filters .btn { height: 46px; }
+  .chk { display: flex; align-items: center; gap: 8px; margin: 0 8px; font-size: .92rem; }
+  .chk input { width: 18px; height: 18px; accent-color: var(--volt); }
+  .map-wrap { overflow: hidden; margin-bottom: 10px; }
+  #st-map { height: 620px; }
+  @media (max-width: 640px) { #st-map { height: 460px; } }
+</style>

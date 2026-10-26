@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Planner from '../../components/Planner.astro';
+import routes from '../../data/routes.json';
+import ops from '../../data/operators.json';
+import { tl } from '../../lib/util';
+
+export function getStaticPaths() {
+  return routes.map((r) => ({ params: { slug: r.slug }, props: { r } }));
+}
+const { r } = Astro.props;
+const title = `${r.from} – ${r.to} Elektrikli Araç Şarj Noktaları ve Yol Maliyeti`;
+const desc = `${r.from} ${r.to} arası elektrikli araçla kaç şarj durağı gerekir, yol kaça mal olur? Güzergahtaki hızlı şarj istasyonlarını ve operatör fiyatlarını karşılaştırın.`;
+const dcs = ops.operators.map((o) => o.dc);
+const minDc = Math.min(...dcs), maxDc = Math.max(...dcs);
+const others = routes.filter((x) => x.slug !== r.slug);
+const faq = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: `${r.from} ${r.to} arası elektrikli araçla kaç kez şarj gerekir?`,
+      acceptedAnswer: { '@type': 'Answer', text: `Durak sayısı aracınızın batarya kapasitesine, tüketimine ve yola çıkış şarjınıza bağlıdır. Bu sayfadaki planlayıcı, seçtiğiniz araca göre gereken durakları otomatik hesaplar.` } },
+    { '@type': 'Question', name: `${r.from} ${r.to} yolunda DC şarj kWh fiyatı ne kadar?`,
+      acceptedAnswer: { '@type': 'Answer', text: `Operatöre göre DC şarj fiyatları yaklaşık ${tl(minDc)} ile ${tl(maxDc)} arasında değişiyor. Güncel tablo için Şarj Fiyatları sayfamıza bakın.` } },
+  ],
+};
+---
+<Base title={title} description={desc} jsonLd={faq}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/rota-planlayici">Rota Planlayıcı</a> / {r.from} – {r.to}</nav>
+      <h1>{r.from} – {r.to} elektrikli araç şarj durakları</h1>
+      <p class="muted intro">{r.from}'dan {r.to}'ya elektrikli araçla gidiyorsan, aşağıdaki planlayıcı güzergah üzerindeki hızlı şarj istasyonlarını gösterir, aracına göre durakları önerir ve toplam şarj maliyetini hesaplar. Aracını ve çıkış şarjını değiştirerek tekrar hesaplayabilirsin.</p>
+      <Planner preset={{ fromQ: r.fromQ, toQ: r.toQ, a: r.a, b: r.b }} autorun />
+    </div>
+  </section>
+  <section class="section-sm">
+    <div class="container prose">
+      <h2>{r.from} – {r.to} yolculuğu için ipuçları</h2>
+      <ul>
+        <li>Yola %80–90 şarjla çıkmak, ilk durağı otoyol üzerinde daha uygun bir noktaya ertelemeni sağlar.</li>
+        <li>DC şarj fiyatları operatöre göre yaklaşık <b>{tl(minDc)}</b> ile <b>{tl(maxDc)}</b> arasında değişiyor. "En ekonomik" modu, durakları ucuz operatörlere göre seçer.</li>
+        <li>Bayram ve tatil dönüşlerinde dinlenme tesislerindeki şarj noktalarında sıra oluşabilir; planlayıcının önerdiği alternatif istasyonları not al.</li>
+        <li>Kış aylarında "Mevsim: Kış" seçeneğiyle hesaplama yap; soğuk hava tüketimi artırır.</li>
+      </ul>
+      <p>Güncel operatör tarifeleri için <a href="/sarj-fiyatlari">Şarj Fiyatları</a>, uzun yol hazırlığı için <a href="/haberler/rehber/elektrikli-arac-uzun-yol-ipuclari">uzun yol rehberimize</a> göz at.</p>
+      <h3>Diğer rotalar</h3>
+      <p>{others.map((o, i) => <>{i > 0 && ' · '}<a href={`/rota/${o.slug}`}>{o.from} – {o.to}</a></>)}</p>
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 10px; } .crumbs a:hover { color: var(--volt); }
+  .intro { max-width: 760px; margin-bottom: 24px; }
+</style>

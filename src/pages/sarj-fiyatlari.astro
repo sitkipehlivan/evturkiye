@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import ops from '../data/operators.json';
+import { fmtDate, tl } from '../lib/util';
+const list = [...ops.operators].sort((a, b) => a.dc - b.dc);
+const minDc = list[0].dc;
+const acVals = list.map((o) => o.ac).filter((v): v is number => v != null);
+const minAc = Math.min(...acVals);
+const avgDc = list.reduce((a, o) => a + o.dc, 0) / list.length;
+const updated = fmtDate(new Date(ops.updated));
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Dataset', name: 'Türkiye elektrikli araç şarj fiyatları',
+  description: 'Türkiye\'deki şarj operatörlerinin AC ve DC kWh fiyatları', dateModified: ops.updated, inLanguage: 'tr',
+};
+---
+<Base title="Elektrikli Araç Şarj Fiyatları: Güncel AC & DC kWh Tarifeleri" description={`Trugo, ZES, Eşarj, Voltrun, Tesla ve ${list.length} operatörün güncel AC ve DC şarj kWh fiyatları. Son güncelleme: ${updated}.`} jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Güncel tarifeler</span>
+      <h1>Şarj fiyatları karşılaştırma</h1>
+      <p class="muted intro">Türkiye'deki şarj operatörlerinin standart (kampanyasız) AC ve DC kWh fiyatları. <b>Son güncelleme: {updated}.</b></p>
+
+      <div class="stats">
+        <div class="card"><span>En uygun DC</span><b class="g">{tl(minDc)}</b><em>{list[0].name}</em></div>
+        <div class="card"><span>Ortalama DC</span><b>{tl(avgDc)}</b><em>{list.length} operatör</em></div>
+        <div class="card"><span>En uygun AC</span><b class="v">{tl(minAc)}</b><em>{list.find((o) => o.ac === minAc)?.name}</em></div>
+      </div>
+
+      <div class="calc card">
+        <div><label for="c-kwh">Şarj edilecek enerji</label><input id="c-kwh" type="number" min="1" max="200" value="40" /><small class="muted">kWh</small></div>
+        <p>40 kWh ≈ 60 kWh'lik bir bataryada %15'ten %80'e şarj. Tablodaki <b>"Tutar"</b> sütunu bu değere göre güncellenir.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table id="ptable">
+          <thead><tr>
+            <th><button data-k="name">Operatör</button></th>
+            <th class="num"><button data-k="dc">DC ₺/kWh ↑</button></th>
+            <th class="num"><button data-k="ac">AC ₺/kWh</button></th>
+            <th class="num">DC Tutar</th>
+            <th>Not</th>
+          </tr></thead>
+          <tbody>
+            {list.map((o) => (
+              <tr data-name={o.name} data-dc={o.dc} data-ac={o.ac ?? 999}>
+                <td><b>{o.name}</b></td>
+                <td class:list={['num', { best: o.dc === minDc }]}>{o.dcMin ? <span class="muted small">{tl(o.dcMin)} – </span> : null}{tl(o.dc)}</td>
+                <td class:list={['num', { best: o.ac === minAc }]}>{tl(o.ac)}</td>
+                <td class="num cost" data-p={o.dc}>{tl(o.dc * 40)}</td>
+                <td class="note muted small">{o.note ?? ''}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small foot">{ops.sourceNote} Aralık verilen operatörlerde tutar, üst (yüksek güçlü istasyon) fiyatla hesaplanır. Hata veya güncelleme bildirmek için bize yazın.</p>
+    </div>
+  </section>
+  <section class="section-sm">
+    <div class="container prose">
+      <h2>Şarj fiyatları nasıl belirleniyor?</h2>
+      <p>EPDK'nın 2026'da yaptığı düzenlemeyle operatörler, cihaz gücünden bağımsız olarak AC ve DC için tek fiyat ilan etmeye başladı. Yine de gece tarifeleri, lokasyona özel ve kampanyalı fiyatlar uygulanabiliyor. Detaylar için <a href="/haberler/turkiye/epdk-sarj-tek-tarife">tek tarife haberimize</a> bakabilirsin.</p>
+      <p>Yolculuğun toplam maliyetini görmek için <a href="/rota-planlayici">Rota Planlayıcı</a>'yı kullan: güzergahındaki istasyonları operatör fiyatlarıyla eşleştirip en ekonomik durakları önerir.</p>
+    </div>
+  </section>
+</Base>
+<script>
+  const table = document.getElementById('ptable')!;
+  const tbody = table.querySelector('tbody')!;
+  const kwh = document.getElementById('c-kwh') as HTMLInputElement;
+  const fmt = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺';
+  kwh.addEventListener('input', () => {
+    const k = Math.max(0, Number(kwh.value) || 0);
+    tbody.querySelectorAll<HTMLElement>('.cost').forEach((td) => (td.textContent = fmt(Number(td.dataset.p) * k)));
+  });
+  let dir = 1, key = 'dc';
+  table.querySelectorAll<HTMLButtonElement>('th button').forEach((b) => b.addEventListener('click', () => {
+    const k = b.dataset.k!;
+    dir = key === k ? -dir : 1; key = k;
+    const rows = [...tbody.querySelectorAll('tr')] as HTMLElement[];
+    rows.sort((x, y) => {
+      const a = x.dataset[k]!, c = y.dataset[k]!;
+      return (k === 'name' ? a.localeCompare(c, 'tr') : Number(a) - Number(c)) * dir;
+    });
+    rows.forEach((r) => tbody.appendChild(r));
+    table.querySelectorAll<HTMLButtonElement>('th button').forEach((x) => (x.textContent = x.textContent!.replace(/ [↑↓]$/, '')));
+    b.textContent += dir === 1 ? ' ↑' : ' ↓';
+  }));
+</script>
+<style>
+  .intro { max-width: 720px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 16px; }
+  .stats .card { padding: 16px 18px; }
+  .stats span { display: block; font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .stats b { display: block; font: 800 1.6rem var(--font-head); margin-top: 4px; }
+  .stats b.g { color: var(--green); } .stats b.v { color: var(--volt); }
+  .stats em { font-style: normal; font-size: .85rem; color: var(--muted); }
+  .calc { display: flex; align-items: center; gap: 20px; padding: 16px 18px; margin-bottom: 16px; }
+  .calc > div { display: grid; grid-template-columns: 120px auto; gap: 0 8px; align-items: center; }
+  .calc label { grid-column: 1 / -1; }
+  .calc p { margin: 0; font-size: .9rem; color: var(--ink-2); }
+  .note { white-space: normal; min-width: 220px; }
+  .foot { margin-top: 12px; }
+  @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } .calc { flex-direction: column; align-items: start; } }
+</style>

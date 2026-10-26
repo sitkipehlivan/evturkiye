@@ -1,0 +1,143 @@
+---
+import modelsData from '../data/models.json';
+import opsData from '../data/operators.json';
+interface Props { preset?: { fromQ: string; toQ: string; a: number[]; b: number[] }; autorun?: boolean; }
+const { preset, autorun = false } = Astro.props;
+const models = modelsData.models;
+const brands = [...new Set(models.map((m) => m.brand))];
+const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug ?? models[0].slug;
+const payload = JSON.stringify({ models, operators: opsData.operators, preset, autorun });
+---
+<section class="planner" data-planner>
+  <script type="application/json" set:html={payload} />
+  <form class="pl-form card" autocomplete="off">
+    <div class="pl-places">
+      <div class="field">
+        <label for="pl-from">Nereden</label>
+        <div class="ac"><input id="pl-from" placeholder="Örn. Kadıköy, İstanbul" required /></div>
+      </div>
+      <div class="field">
+        <label for="pl-to">Nereye</label>
+        <div class="ac"><input id="pl-to" placeholder="Örn. Çeşme, İzmir" required /></div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="pl-car">Aracınız</label>
+      <select id="pl-car">
+        {brands.map((b) => (
+          <optgroup label={b}>
+            {models.filter((m) => m.brand === b).map((m) => (
+              <option value={m.slug} selected={m.slug === defaultCar}>{m.model} {m.version} · {m.battery} kWh</option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
+    </div>
+    <div class="field">
+      <label for="pl-soc">Çıkıştaki şarj <output id="pl-soc-out">%85</output></label>
+      <input id="pl-soc" type="range" min="20" max="100" step="5" value="85" />
+    </div>
+    <div class="pl-row">
+      <div class="field">
+        <label for="pl-season">Mevsim</label>
+        <select id="pl-season">
+          <option value="1">İlkbahar / Yaz</option>
+          <option value="1.18">Kış (soğuk hava)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="pl-speed">Sürüş</label>
+        <select id="pl-speed">
+          <option value="1">Otoyol ~120 km/s</option>
+          <option value="0.88">Ekonomik ~100 km/s</option>
+        </select>
+      </div>
+    </div>
+    <fieldset class="pl-mode">
+      <legend class="visually-hidden">Tercih</legend>
+      <label><input type="radio" name="mode" value="fast" checked /><span><b>En hızlı</b><em>Daha az, daha güçlü durak</em></span></label>
+      <label><input type="radio" name="mode" value="eco" /><span><b>En ekonomik</b><em>En ucuz kWh fiyatı</em></span></label>
+    </fieldset>
+    <button id="pl-submit" class="btn btn-volt pl-submit" type="submit">Rotayı ve maliyeti hesapla</button>
+    <p class="pl-status" hidden role="status"></p>
+  </form>
+  <div class="pl-map-wrap card"><div class="pl-map"></div></div>
+  <div class="pl-results" aria-live="polite"></div>
+</section>
+
+<script>
+  import '../scripts/planner';
+</script>
+
+<style is:global>
+  .planner { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 20px; align-items: start; }
+  .planner > *, .pl-row > *, .pl-places > * { min-width: 0; }
+  .pl-form { padding: 22px; display: grid; gap: 16px; }
+  .pl-places { display: grid; gap: 12px; position: relative; }
+  .pl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ac { position: relative; }
+  .pl-suggest { position: absolute; z-index: 1200; top: calc(100% + 4px); left: 0; right: 0; list-style: none; margin: 0; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); max-height: 260px; overflow: auto; }
+  .pl-suggest li { padding: 9px 10px; border-radius: 8px; font-size: .9rem; cursor: pointer; }
+  .pl-suggest li:hover { background: var(--volt-soft); }
+  #pl-soc-out { float: right; color: var(--green); font-weight: 700; }
+  .pl-mode { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pl-mode label { margin: 0; cursor: pointer; position: relative; }
+  .pl-mode input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; }
+  .pl-mode span { display: block; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; transition: border-color .15s, background .15s; }
+  .pl-mode b { display: block; font-size: .92rem; color: var(--ink); }
+  .pl-mode em { font-style: normal; font-size: .76rem; color: var(--muted); font-weight: 500; }
+  .pl-mode input:checked + span { border-color: var(--green); background: var(--green-soft); }
+  .pl-mode input:focus-visible + span { box-shadow: 0 0 0 4px var(--volt-soft); }
+  .pl-submit { width: 100%; height: 50px; font-size: 1rem; border-radius: 14px; }
+  .pl-status { margin: 0; font-size: .9rem; color: var(--volt); display: flex; gap: 8px; align-items: center; }
+  .pl-status:not(.error)::before { content: ''; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--volt-soft); border-top-color: var(--volt); animation: spin .8s linear infinite; }
+  .pl-status.error { color: var(--red); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .pl-map-wrap { overflow: hidden; padding: 0; }
+  .pl-map { height: 560px; }
+  .pl-results { grid-column: 1 / -1; scroll-margin-top: 90px; }
+  .pl-results:empty { display: none; }
+  .pl-pin { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 800 13px var(--font); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+  .pl-pin.start { background: var(--ink); }
+  .pl-pin.end { background: var(--ink); }
+  .pl-pin.stop { background: var(--green); }
+
+  .pl-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
+  .pl-summary > div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .pl-summary span { display: block; font-size: .78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .pl-summary b { display: block; font: 800 1.55rem var(--font-head); letter-spacing: -.02em; margin-top: 4px; }
+  .pl-summary em { font-style: normal; font-size: .8rem; color: var(--muted); }
+  .pl-summary .hl { border-color: #bfe8cf; background: linear-gradient(180deg, #f3fbf6, #fff); }
+  .pl-summary .hl b { color: var(--green); }
+  .pl-info { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: .9rem; color: var(--ink-2); padding: 4px 2px 18px; }
+  .pl-info .ok { color: var(--green); } .pl-info .warn { color: var(--amber); }
+  .pl-alert { padding: 14px 16px; border-radius: 12px; background: #fff5f5; border: 1px solid #fecaca; color: #991b1b; margin-bottom: 14px; font-size: .95rem; }
+  .pl-alert.ok { background: var(--green-soft); border-color: #bfe8cf; color: #0b6b35; }
+  .pl-stops { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .pl-stop { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .pl-stop-head { display: flex; gap: 14px; align-items: center; }
+  .pl-stop-head h4 { margin: 0; font-size: 1.05rem; }
+  .pl-stop-head p { margin: 2px 0 0; font-size: .86rem; color: var(--muted); }
+  .pl-num { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 800; display: grid; place-items: center; }
+  .pl-nav { margin-left: auto; font-size: .85rem; font-weight: 600; color: var(--volt); border: 1px solid var(--line); padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
+  .pl-stop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  .pl-stop-grid > div { background: var(--soft); border-radius: 10px; padding: 10px 12px; }
+  .pl-stop-grid span { display: block; font-size: .74rem; color: var(--muted); font-weight: 600; }
+  .pl-stop-grid b { font-size: 1.02rem; }
+  .pl-stop-grid em { display: block; font-style: normal; font-size: .75rem; color: var(--muted); }
+  .pl-tip { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--volt-soft); color: #0b3f86; font-size: .9rem; }
+  .pl-note { margin: 10px 0 0; font-size: .82rem; color: var(--amber); }
+  .pl-stop details { margin-top: 10px; font-size: .88rem; }
+  .pl-stop summary { cursor: pointer; color: var(--ink-2); font-weight: 600; }
+  .pl-alts { list-style: none; padding: 0; margin: 8px 0 0; }
+  .pl-alts li { display: grid; grid-template-columns: 1.6fr .8fr 1fr .8fr; gap: 8px; padding: 7px 0; border-bottom: 1px dashed var(--line); }
+  .pl-alts li b { text-align: right; }
+  .pl-disclaimer { font-size: .8rem; color: var(--muted); margin-top: 16px; }
+
+  @media (max-width: 960px) {
+    .planner { grid-template-columns: minmax(0, 1fr); }
+    .pl-form { position: static; }
+    .pl-map { height: 380px; }
+    .pl-summary, .pl-stop-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

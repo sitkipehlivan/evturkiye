@@ -1,0 +1,82 @@
+---
+import Base from '../../../layouts/Base.astro';
+import data from '../../../data/models.json';
+import ops from '../../../data/operators.json';
+import { tl } from '../../../lib/util';
+export function getStaticPaths() {
+  const seen = new Set<string>();
+  return data.models.filter((m) => { const k = m.brandSlug + m.modelSlug; if (seen.has(k)) return false; seen.add(k); return true; })
+    .map((m) => ({ params: { brand: m.brandSlug, model: m.modelSlug } }));
+}
+const { brand, model } = Astro.params;
+const versions = data.models.filter((m) => m.brandSlug === brand && m.modelSlug === model);
+const v0 = versions[0];
+const name = `${v0.brand} ${v0.model}`;
+const avgDc = ops.operators.reduce((a, o) => a + o.dc, 0) / ops.operators.length;
+const others = data.models.filter((m) => m.brandSlug !== brand || m.modelSlug !== model)
+  .filter((m, i, arr) => arr.findIndex((x) => x.modelSlug === m.modelSlug && x.brandSlug === m.brandSlug) === i).slice(0, 8);
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Car', name, brand: { '@type': 'Brand', name: v0.brand },
+  fuelType: 'Electric', vehicleEngine: { '@type': 'EngineSpecification', fuelType: 'Electric' },
+};
+---
+<Base title={`${name}: Batarya, Menzil, Şarj Süresi ve Şarj Maliyeti`} description={`${name} teknik verileri: ${v0.battery} kWh batarya, ${v0.wltp} km WLTP menzil, ${v0.dcMax} kW DC şarj. Hızlı şarj süresi ve maliyet hesaplaması.`} jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="small muted crumbs"><a href="/modeller">Modeller</a> / {v0.brand}</nav>
+      <span class="eyebrow">{v0.body}</span>
+      <h1>{name}</h1>
+      <div class="versions">
+        {versions.map((v) => {
+          const e = v.battery * 0.7; // %10 → %80
+          const min = Math.round((e / (v.dcMax * 0.68)) * 60);
+          const cost = (e / 0.93) * avgDc;
+          const per100 = (v.highway / 0.93) * avgDc;
+          return (
+            <article class="card ver">
+              <h2>{v.version}</h2>
+              <dl>
+                <div><dt>Batarya (kullanılabilir)</dt><dd>{v.battery} kWh</dd></div>
+                <div><dt>WLTP menzil</dt><dd>{v.wltp} km</dd></div>
+                <div><dt>DC maks. şarj</dt><dd>{v.dcMax} kW</dd></div>
+                <div><dt>AC maks. şarj</dt><dd>{v.acMax} kW</dd></div>
+                <div><dt>Otoyol tüketimi (tahmini)</dt><dd>{v.highway.toLocaleString('tr-TR')} kWh/100 km</dd></div>
+                <div><dt>Otoyol menzili (tahmini)</dt><dd>~{Math.round(v.battery / v.highway * 100)} km</dd></div>
+              </dl>
+              <div class="calc">
+                <div><span>%10 → %80 DC</span><b>~{min} dk</b></div>
+                <div><span>Bu şarjın maliyeti</span><b>~{tl(cost)}</b></div>
+                <div><span>100 km (DC ort.)</span><b>~{tl(per100)}</b></div>
+              </div>
+              <a class="btn btn-volt" href={`/rota-planlayici?car=${v.slug}`}>Bu araçla rota planla</a>
+            </article>
+          );
+        })}
+      </div>
+      <p class="muted small">Teknik veriler üretici açıklamalarına dayanır ve yaklaşıktır. Şarj süresi, ideal koşullarda ortalama şarj gücüyle; maliyet, operatörlerin ortalama DC fiyatı ({tl(avgDc)}/kWh) ile hesaplanmıştır.</p>
+    </div>
+  </section>
+  <section class="section-sm soft">
+    <div class="container">
+      <h2>Diğer modeller</h2>
+      <div class="others">{others.map((m) => <a class="card" href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b><span class="muted small">{m.battery} kWh · {m.wltp} km</span></a>)}</div>
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
+  h1 { margin-top: 8px; }
+  .versions { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 20px 0 14px; }
+  .ver { padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+  .ver h2 { font-size: 1.15rem; margin: 0; }
+  dl { margin: 0; display: grid; gap: 0; }
+  dl div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .93rem; }
+  dt { color: var(--muted); } dd { margin: 0; font-weight: 700; }
+  .calc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .calc div { background: var(--soft); border-radius: 10px; padding: 10px; }
+  .calc span { display: block; font-size: .72rem; color: var(--muted); font-weight: 600; }
+  .calc b { font-size: .98rem; color: var(--green); }
+  .others { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .others a { padding: 14px 16px; display: flex; flex-direction: column; }
+  @media (max-width: 800px) { .others { grid-template-columns: repeat(2, 1fr); } }
+</style>

@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { getNews, CATS } from '../../lib/util';
+const news = await getNews();
+---
+<Base title="Elektrikli Araç Haberleri" description="Türkiye ve dünyadan elektrikli araç haberleri, şarj altyapısı gelişmeleri ve EV rehberleri.">
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Haberler & rehber</span>
+      <h1>Elektrikli araç gündemi</h1>
+      <nav class="tabs">
+        <a class="active" href="/haberler">Tümü</a>
+        {Object.entries(CATS).map(([k, v]) => <a href={`/haberler/${k}`}>{v.label}</a>)}
+      </nav>
+      <div class="grid grid-3">{news.map((p) => <NewsCard post={p} />)}</div>
+    </div>
+  </section>
+</Base>
+<style>
+  .tabs { display: flex; gap: 8px; margin: 18px 0 24px; flex-wrap: wrap; }
+  .tabs a { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); font-weight: 600; font-size: .9rem; }
+  .tabs a.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+</style>

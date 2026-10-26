@@ -1,0 +1,104 @@
+backend:
+  name: github
+  repo: sitkipehlivan/evturkiye
+  branch: main
+
+site_url: https://evturkiye.com.tr
+display_url: https://evturkiye.com.tr
+locale: tr
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: haberler
+    label: Haberler & Rehber
+    label_singular: Haber
+    folder: src/content/haberler
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} · {{category}} · {{date | date('DD.MM.YYYY')}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Başlık, widget: string }
+      - { name: description, label: Kısa açıklama (SEO), widget: text, hint: "Google'da görünen özet. 140–160 karakter ideal." }
+      - name: category
+        label: Kategori
+        widget: select
+        options:
+          - { label: Türkiye, value: turkiye }
+          - { label: Dünya, value: dunya }
+          - { label: Rehber, value: rehber }
+      - { name: date, label: Tarih, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+      - { name: image, label: Kapak görseli, widget: image, required: false }
+      - { name: source, label: Kaynak adı, widget: string, required: false }
+      - { name: sourceUrl, label: Kaynak bağlantısı, widget: string, required: false }
+      - { name: featured, label: Öne çıkar, widget: boolean, default: false }
+      - { name: draft, label: Taslak (yayınlama), widget: boolean, default: false }
+      - { name: body, label: İçerik, widget: markdown }
+
+  - name: firsatlar
+    label: Fırsatlar
+    label_singular: Kampanya
+    folder: src/content/firsatlar
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} · {{brand}}"
+    fields:
+      - { name: title, label: Başlık, widget: string }
+      - name: type
+        label: Tür
+        widget: select
+        options:
+          - { label: Araç kampanyası, value: arac }
+          - { label: Şarj kampanyası, value: sarj }
+      - { name: brand, label: Marka / Operatör, widget: string }
+      - { name: summary, label: Özet, widget: text }
+      - { name: date, label: Eklenme tarihi, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+      - { name: endDate, label: Bitiş tarihi, widget: datetime, time_format: false, format: "YYYY-MM-DD", required: false, hint: "Bu tarihten sonra kampanya listeden otomatik kalkar (site yeniden yayınlandığında)." }
+      - { name: sourceUrl, label: Kaynak bağlantısı, widget: string, required: false }
+      - { name: draft, label: Taslak, widget: boolean, default: false }
+      - { name: body, label: Detay, widget: markdown, required: false }
+
+  - name: veriler
+    label: Veriler
+    files:
+      - name: operators
+        label: Şarj fiyatları
+        file: src/data/operators.json
+        fields:
+          - { name: updated, label: Son güncelleme, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+          - { name: sourceNote, label: Kaynak notu, widget: text }
+          - name: operators
+            label: Operatörler
+            widget: list
+            summary: "{{name}} · DC {{dc}} ₺ · AC {{ac}} ₺"
+            fields:
+              - { name: id, label: Kimlik (küçük harf, boşluksuz), widget: string }
+              - { name: name, label: Operatör adı, widget: string }
+              - { name: dc, label: DC ₺/kWh (üst fiyat), widget: number, value_type: float }
+              - { name: dcMin, label: DC ₺/kWh (alt fiyat, varsa), widget: number, value_type: float, required: false }
+              - { name: ac, label: AC ₺/kWh, widget: number, value_type: float, required: false }
+              - { name: note, label: Not, widget: string, required: false }
+              - { name: match, label: Eşleşme kelimeleri, widget: list, hint: "Haritadaki istasyon adlarında aranan kelimeler (örn. trugo, togg)." }
+      - name: models
+        label: EV modelleri
+        file: src/data/models.json
+        fields:
+          - { name: note, label: Not, widget: text }
+          - name: models
+            label: Modeller
+            widget: list
+            summary: "{{brand}} {{model}} {{version}}"
+            fields:
+              - { name: slug, label: Kimlik (url), widget: string }
+              - { name: brand, label: Marka, widget: string }
+              - { name: brandSlug, label: Marka url, widget: string }
+              - { name: model, label: Model, widget: string }
+              - { name: modelSlug, label: Model url, widget: string }
+              - { name: version, label: Versiyon, widget: string }
+              - { name: body, label: Kasa tipi, widget: string }
+              - { name: battery, label: Kullanılabilir batarya (kWh), widget: number, value_type: float }
+              - { name: wltp, label: WLTP menzil (km), widget: number, value_type: int }
+              - { name: dcMax, label: DC maks. (kW), widget: number, value_type: int }
+              - { name: acMax, label: AC maks. (kW), widget: number, value_type: int }
+              - { name: highway, label: Otoyol tüketimi (kWh/100 km), widget: number, value_type: float }

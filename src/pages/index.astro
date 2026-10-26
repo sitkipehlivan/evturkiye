@@ -1,0 +1,184 @@
+---
+import Base from '../layouts/Base.astro';
+import NewsCard from '../components/NewsCard.astro';
+import DealCard from '../components/DealCard.astro';
+import ops from '../data/operators.json';
+import modelsData from '../data/models.json';
+import routes from '../data/routes.json';
+import { getNews, getDeals, fmtDate, tl } from '../lib/util';
+
+const news = await getNews();
+const deals = (await getDeals()).slice(0, 3);
+const [lead, ...rest] = news;
+const majors = ['trugo', 'zes', 'esarj', 'tesla', 'voltrun', 'astor'];
+const priceRows = majors.map((id) => ops.operators.find((o) => o.id === id)!).filter(Boolean);
+const cheapest = Math.min(...priceRows.map((o) => o.dc));
+const models = modelsData.models;
+const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug;
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'WebSite', name: 'EV Türkiye', url: 'https://evturkiye.com.tr',
+  description: 'Elektrikli araç rota ve şarj planlayıcı, güncel şarj fiyatları ve EV haberleri.',
+};
+---
+<Base title="EV Türkiye: Elektrikli Araç Rota Planlayıcı, Şarj Fiyatları ve Haberler" jsonLd={jsonLd}>
+  <section class="hero">
+    <div class="container hero-in">
+      <div class="copy">
+        <span class="eyebrow">Türkiye'nin elektrikli araç rehberi</span>
+        <h1>Yola çıkmadan <span class="grad-text">şarj duraklarını ve maliyeti</span> bil.</h1>
+        <p class="lead">Aracını seç, rotanı gir. Güzergahtaki hızlı şarj istasyonlarını, nerede ne kadar şarj etmen gerektiğini ve operatörler arası fiyat farkını saniyeler içinde gör.</p>
+        <ul class="ticks">
+          <li>{ops.operators.length} operatörün güncel kWh fiyatı</li>
+          <li>{models.length} elektrikli model</li>
+          <li>Ücretsiz, üyelik gerekmez</li>
+        </ul>
+      </div>
+      <form class="quick card" action="/rota-planlayici" method="get">
+        <div class="q-title"><b>Hızlı rota hesapla</b><span class="tag green"><span class="dot"></span> Ücretsiz</span></div>
+        <div class="q-line">
+          <span class="q-dot a"></span>
+          <div><label for="q-from">Nereden</label><input id="q-from" name="from" placeholder="Kadıköy, İstanbul" required /></div>
+        </div>
+        <div class="q-line">
+          <span class="q-dot b"></span>
+          <div><label for="q-to">Nereye</label><input id="q-to" name="to" placeholder="Çeşme, İzmir" required /></div>
+        </div>
+        <div>
+          <label for="q-car">Aracın</label>
+          <select id="q-car" name="car">
+            {models.map((m) => <option value={m.slug} selected={m.slug === defaultCar}>{m.brand} {m.model} {m.version}</option>)}
+          </select>
+        </div>
+        <button class="btn btn-volt" type="submit">Durakları ve maliyeti göster</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="eyebrow">Şarj fiyatları</span><h2>Büyük operatörlerde DC hızlı şarj</h2></div>
+        <a href="/sarj-fiyatlari" class="link-arrow">Tüm operatörler</a>
+      </div>
+      <div class="prices">
+        {priceRows.map((o) => (
+          <div class:list={['price card', { cheap: o.dc === cheapest }]}>
+            <span class="op">{o.name}</span>
+            <b>{tl(o.dc)}</b>
+            <span class="muted small">/kWh DC · AC {tl(o.ac)}</span>
+            {o.dc === cheapest && <span class="tag green">En uygun</span>}
+          </div>
+        ))}
+      </div>
+      <p class="muted small upd">Son güncelleme: {fmtDate(new Date(ops.updated))}. {ops.sourceNote}</p>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="eyebrow">Popüler rotalar</span><h2>Elektrikli araçla uzun yol</h2></div>
+        <a href="/rota-planlayici" class="link-arrow">Kendi rotanı planla</a>
+      </div>
+      <div class="routes">
+        {routes.map((r) => (
+          <a href={`/rota/${r.slug}`} class="card route">
+            <span>{r.from}</span>
+            <svg width="22" height="10" viewBox="0 0 22 10" aria-hidden="true"><path d="M0 5h20M16 1l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none" /></svg>
+            <span>{r.to}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="eyebrow">Haberler & rehber</span><h2>Son gelişmeler</h2></div>
+        <a href="/haberler" class="link-arrow">Tüm haberler</a>
+      </div>
+      <div class="news-grid">
+        {lead && <div class="lead-card"><NewsCard post={lead} large /></div>}
+        {rest.slice(0, 4).map((p) => <NewsCard post={p} />)}
+      </div>
+    </div>
+  </section>
+
+  {deals.length > 0 && (
+    <section class="section-sm">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">Fırsatlar</span><h2>Bu ayın kampanyaları</h2></div>
+          <a href="/firsatlar" class="link-arrow">Tüm fırsatlar</a>
+        </div>
+        <div class="grid grid-3">{deals.map((d) => <DealCard deal={d} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="community card">
+        <div>
+          <span class="eyebrow">Çok yakında</span>
+          <h2>EV Türkiye Topluluğu</h2>
+          <p class="muted">Araç kulüpleri, istasyon deneyimleri, uzun yol paylaşımları ve ikinci el tartışmaları için forum alanımız hazırlanıyor.</p>
+        </div>
+        <a class="btn btn-ghost" href="/modeller">Modelleri keşfet</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; padding: 64px 0 56px; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background:
+    radial-gradient(600px 300px at 85% 10%, rgba(10, 124, 255, .08), transparent 70%),
+    radial-gradient(500px 280px at 5% 90%, rgba(18, 161, 80, .07), transparent 70%); pointer-events: none; }
+  .hero-in { position: relative; display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .copy h1 { margin-top: 14px; }
+  .lead { font-size: 1.12rem; color: var(--ink-2); max-width: 560px; }
+  .ticks { list-style: none; padding: 0; margin: 22px 0 0; display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: .92rem; font-weight: 550; color: var(--ink-2); }
+  .ticks li::before { content: '✓'; color: var(--green); font-weight: 800; margin-right: 7px; }
+  .quick { padding: 24px; display: grid; gap: 14px; box-shadow: var(--shadow); }
+  .q-title { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-head); font-size: 1.1rem; }
+  .q-line { display: grid; grid-template-columns: 14px 1fr; gap: 12px; align-items: end; }
+  .q-dot { width: 12px; height: 12px; border-radius: 50%; margin-bottom: 17px; }
+  .q-dot.a { border: 3px solid var(--ink); }
+  .q-dot.b { background: var(--green); }
+  .quick .btn { height: 50px; border-radius: 14px; margin-top: 4px; }
+
+  .prices { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .price { padding: 16px; display: flex; flex-direction: column; gap: 2px; position: relative; }
+  .price .op { font-weight: 700; font-size: .92rem; }
+  .price b { font: 800 1.4rem var(--font-head); letter-spacing: -.02em; margin-top: 6px; }
+  .price.cheap { border-color: #bfe8cf; background: linear-gradient(180deg, #f3fbf6, #fff); }
+  .price .tag { position: absolute; top: 12px; right: 12px; }
+  .upd { margin-top: 14px; }
+
+  .routes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .route { padding: 16px 18px; display: flex; align-items: center; gap: 10px; font-weight: 650; }
+  .route svg { color: var(--green); flex: none; }
+
+  .news-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .lead-card { grid-column: span 2; grid-row: span 2; }
+
+  .community { padding: 36px; display: flex; justify-content: space-between; align-items: center; gap: 24px; background:
+    linear-gradient(#fff, #fff) padding-box, var(--grad) border-box; border: 1.5px solid transparent; }
+  .community p { margin: 0; max-width: 560px; }
+
+  @media (max-width: 1040px) {
+    .hero-in { grid-template-columns: 1fr; gap: 32px; }
+    .prices { grid-template-columns: repeat(3, 1fr); }
+    .routes { grid-template-columns: repeat(2, 1fr); }
+    .news-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 36px 0; }
+    .prices { grid-template-columns: repeat(2, 1fr); }
+    .routes, .news-grid { grid-template-columns: 1fr; }
+    .lead-card { grid-column: auto; grid-row: auto; }
+    .community { flex-direction: column; align-items: start; padding: 24px; }
+  }
+</style>

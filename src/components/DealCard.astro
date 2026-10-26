@@ -1,0 +1,22 @@
+---
+import { fmtDate } from '../lib/util';
+const { deal } = Astro.props;
+const d = deal.data;
+---
+<article class="card deal">
+  <div class="top">
+    <span class:list={['tag', d.type === 'sarj' ? 'volt' : 'green']}>{d.type === 'sarj' ? 'Şarj' : 'Araç'} · {d.brand}</span>
+    {d.endDate && <span class="end">Son gün: {fmtDate(d.endDate)}</span>}
+  </div>
+  <h3>{d.title}</h3>
+  <p class="muted">{d.summary}</p>
+  {d.sourceUrl && <a class="src" href={d.sourceUrl} target="_blank" rel="noopener nofollow">Kaynak ↗</a>}
+</article>
+<style>
+  .deal { padding: 20px; display: flex; flex-direction: column; gap: 6px; height: 100%; }
+  .top { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .end { font-size: .78rem; color: var(--amber); font-weight: 600; }
+  h3 { margin: 0; font-size: 1.05rem; }
+  p { font-size: .92rem; margin: 0; flex: 1; }
+  .src { font-size: .82rem; font-weight: 600; color: var(--volt); margin-top: 8px; }
+</style>

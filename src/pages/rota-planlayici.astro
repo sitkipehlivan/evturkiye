@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Planner from '../components/Planner.astro';
+import routes from '../data/routes.json';
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'WebApplication', name: 'EV Türkiye Rota & Şarj Planlayıcı',
+  applicationCategory: 'TravelApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
+  url: 'https://evturkiye.com.tr/rota-planlayici',
+};
+---
+<Base title="Elektrikli Araç Rota ve Şarj Maliyeti Planlayıcı" description="Elektrikli aracınızla uzun yolda hangi istasyonda ne kadar şarj etmeniz gerektiğini ve toplam şarj maliyetini hesaplayın. Trugo, ZES, Eşarj ve diğer operatörlerin fiyatlarını karşılaştırın." jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Amiral gemisi araç</span>
+      <h1>Rota & Şarj Planlayıcı</h1>
+      <p class="muted intro">Başlangıç ve varış noktanı, aracını ve çıkıştaki şarj yüzdeni gir. Güzergahtaki hızlı şarj istasyonlarını tarar, durakları önerir ve operatör fiyatlarına göre maliyeti hesaplarız.</p>
+      <Planner />
+    </div>
+  </section>
+  <section class="section-sm">
+    <div class="container">
+      <h2>Popüler rotalar</h2>
+      <div class="chips">{routes.map((r) => <a class="tag" href={`/rota/${r.slug}`}>{r.from} → {r.to}</a>)}</div>
+      <div class="how grid grid-3">
+        <div><h3>1. Rota ve istasyonlar</h3><p class="muted">Güzergah hesaplanır, yol üzerindeki ve 3 km yakınındaki şarj istasyonları OpenStreetMap verisinden taranır.</p></div>
+        <div><h3>2. Akıllı durak seçimi</h3><p class="muted">Aracın otoyol tüketimine göre, şarj %15'in altına düşmeden durak önerilir. "En hızlı" güçlü istasyonları, "En ekonomik" ucuz operatörleri öne alır.</p></div>
+        <div><h3>3. Maliyet karşılaştırma</h3><p class="muted">Her durakta operatörün güncel kWh fiyatıyla tutar hesaplanır, yakındaki daha ucuz alternatifler gösterilir.</p></div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .intro { max-width: 720px; margin-bottom: 24px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .chips .tag { height: 32px; padding: 0 14px; font-size: .85rem; }
+  .chips .tag:hover { background: var(--volt-soft); color: var(--volt); }
+  .how h3 { font-size: 1.02rem; }
+  .how p { font-size: .93rem; }
+</style>

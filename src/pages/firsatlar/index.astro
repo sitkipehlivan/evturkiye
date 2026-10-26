@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import DealCard from '../../components/DealCard.astro';
+import { getDeals } from '../../lib/util';
+const deals = await getDeals();
+const car = deals.filter((d) => d.data.type === 'arac');
+const ch = deals.filter((d) => d.data.type === 'sarj');
+---
+<Base title="Elektrikli Araç Kampanyaları ve Şarj Fırsatları" description="Sıfır elektrikli araçlarda faizsiz kredi ve nakit indirim kampanyaları, şarj operatörlerinin indirimli tarifeleri.">
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Fırsatlar</span>
+      <h1>Kampanyalar & fırsatlar</h1>
+      <p class="muted">Elektrikli araç ve şarj kampanyalarını tek yerde topluyoruz. Süresi dolan kampanyalar otomatik olarak listeden kalkar.</p>
+      <h2 id="arac" class="sub"><a href="/firsatlar/arac-kampanyalari">Araç kampanyaları</a></h2>
+      {car.length ? <div class="grid grid-3">{car.map((d) => <DealCard deal={d} />)}</div> : <p class="muted">Şu an aktif araç kampanyası yok.</p>}
+      <h2 id="sarj" class="sub"><a href="/firsatlar/sarj-kampanyalari">Şarj kampanyaları</a></h2>
+      {ch.length ? <div class="grid grid-3">{ch.map((d) => <DealCard deal={d} />)}</div> : <p class="muted">Şu an aktif şarj kampanyası yok.</p>}
+    </div>
+  </section>
+</Base>
+<style>.sub { margin-top: 36px; font-size: 1.35rem; } .sub a:hover { color: var(--volt); }</style>

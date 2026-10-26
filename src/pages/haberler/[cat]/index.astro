@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+import NewsCard from '../../../components/NewsCard.astro';
+import { getNews, CATS, type Cat } from '../../../lib/util';
+export function getStaticPaths() {
+  return Object.keys(CATS).map((cat) => ({ params: { cat } }));
+}
+const cat = Astro.params.cat as Cat;
+const news = (await getNews()).filter((p) => p.data.category === cat);
+const meta = CATS[cat];
+---
+<Base title={`${meta.label} – Elektrikli Araç ${cat === 'rehber' ? 'Rehberi' : 'Haberleri'}`} description={meta.desc}>
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Haberler</span>
+      <h1>{meta.label}</h1>
+      <p class="muted">{meta.desc}</p>
+      <nav class="tabs">
+        <a href="/haberler">Tümü</a>
+        {Object.entries(CATS).map(([k, v]) => <a class={k === cat ? 'active' : ''} href={`/haberler/${k}`}>{v.label}</a>)}
+      </nav>
+      {news.length ? <div class="grid grid-3">{news.map((p) => <NewsCard post={p} />)}</div> : <p class="muted">Bu kategoride henüz içerik yok.</p>}
+    </div>
+  </section>
+</Base>
+<style>
+  .tabs { display: flex; gap: 8px; margin: 18px 0 24px; flex-wrap: wrap; }
+  .tabs a { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); font-weight: 600; font-size: .9rem; }
+  .tabs a.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+</style>

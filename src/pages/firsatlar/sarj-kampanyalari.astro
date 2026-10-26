@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import DealCard from '../../components/DealCard.astro';
+import { getDeals } from '../../lib/util';
+const deals = (await getDeals()).filter((d) => d.data.type === 'sarj');
+---
+<Base title="Şarj Kampanyaları" description="Şarj operatörlerinin indirimli saatleri, kampanyalı tarifeleri ve sadakat fırsatları.">
+  <section class="section-sm">
+    <div class="container">
+      <nav class="small muted" style="margin-bottom:10px"><a href="/firsatlar">Fırsatlar</a> / Şarj Kampanyaları</nav>
+      <h1>Şarj Kampanyaları</h1>
+      <p class="muted">Şarj operatörlerinin indirimli saatleri, kampanyalı tarifeleri ve sadakat fırsatları.</p>
+      {deals.length ? <div class="grid grid-3" style="margin-top:24px">{deals.map((d) => <DealCard deal={d} />)}</div> : <p class="muted">Şu an aktif kampanya yok.</p>}
+    </div>
+  </section>
+</Base>
