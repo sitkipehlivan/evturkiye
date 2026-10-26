@@ -4,8 +4,10 @@
   "description": "",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "build": "npm run stations && astro build",
+    "preview": "astro preview",
+    "stations": "node --experimental-strip-types --no-warnings scripts/fetch-stations.ts",
+    "build:fast": "astro build"
   },
   "author": "",
   "license": "ISC",
