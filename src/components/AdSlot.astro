@@ -1,0 +1,30 @@
+---
+// Reklam alanı. Google Ad Manager etiketleri geldiğinde burada render edilir.
+// Şimdilik boş kalır; yerleşimi görmek için adrese ?reklam=1 ekleyin.
+interface Props { size: '970x250' | '728x90' | '300x250' | '300x600' | '320x100' | '320x50'; id: string; mobile?: string; class?: string; }
+const { size, id, mobile, class: cls } = Astro.props;
+const [w, h] = size.split('x').map(Number);
+---
+<div class:list={['ad-slot', cls]} data-ad-slot={id} data-size={size} data-mobile={mobile} style={`--w:${w}px;--h:${h}px`} hidden>
+  <span>Reklam · {size}{mobile ? ` / mobil ${mobile}` : ''}</span>
+</div>
+<script>
+  try {
+    if (new URLSearchParams(location.search).has('reklam')) {
+      document.documentElement.classList.add('ads-on');
+      document.querySelectorAll<HTMLElement>('.ad-slot').forEach((el) => (el.hidden = false));
+    }
+  } catch {}
+</script>
+<style>
+  .ad-slot {
+    width: 100%; max-width: var(--w); height: var(--h); margin: 0 auto;
+    display: grid; place-items: center; background: repeating-linear-gradient(45deg, #f6f8fa 0 12px, #eef2f6 12px 24px);
+    border: 1px dashed #cbd5e1; color: #64748b; font: 600 .75rem var(--font); letter-spacing: .06em; text-transform: uppercase;
+  }
+  @media (max-width: 760px) {
+    .ad-slot[data-mobile='320x100'] { max-width: 320px; height: 100px; }
+    .ad-slot[data-mobile='320x50'] { max-width: 320px; height: 50px; }
+    .ad-slot[data-mobile='300x250'] { max-width: 300px; height: 250px; }
+  }
+</style>

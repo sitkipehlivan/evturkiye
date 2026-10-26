@@ -1,0 +1,45 @@
+---
+// 300x250 rota planlayıcı kutusu. Gönderince /rota-planlayici sayfasında hesap başlar.
+import modelsData from '../data/models.json';
+const models = modelsData.models;
+const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug;
+---
+<form class="rw" action="/rota-planlayici" method="get" aria-labelledby="rw-title">
+  <div class="rw-head">
+    <svg width="22" height="22" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rwg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12a150"></stop><stop offset="1" stop-color="#0a7cff"></stop></linearGradient></defs><rect x="1" y="1" width="38" height="38" rx="11" fill="url(#rwg)"></rect><path d="M22.5 7 12 22.2h7.2L16.8 33 28 17.6h-7.3L22.5 7Z" fill="#fff"></path></svg>
+    <span id="rw-title">Rotanı planla</span>
+    <em>Şarj durakları + maliyet</em>
+  </div>
+  <div class="rw-line">
+    <span class="dot a" aria-hidden="true"></span>
+    <label class="visually-hidden" for="rw-from">Nereden</label>
+    <input id="rw-from" name="from" placeholder="Nereden? (Kadıköy, İstanbul)" required />
+  </div>
+  <div class="rw-line">
+    <span class="dot b" aria-hidden="true"></span>
+    <label class="visually-hidden" for="rw-to">Nereye</label>
+    <input id="rw-to" name="to" placeholder="Nereye? (Çeşme, İzmir)" required />
+  </div>
+  <label class="visually-hidden" for="rw-car">Aracın</label>
+  <select id="rw-car" name="car">
+    {models.map((m) => <option value={m.slug} selected={m.slug === defaultCar}>{m.brand} {m.model} {m.version}</option>)}
+  </select>
+  <button class="rw-btn" type="submit">Durakları ve maliyeti göster</button>
+</form>
+<style>
+  .rw { width: 300px; height: 250px; box-sizing: border-box; padding: 14px 16px 16px; border: 1px solid var(--line); background: #fff; display: flex; flex-direction: column; gap: 8px; position: relative; }
+  .rw::before { content: ''; position: absolute; left: -1px; right: -1px; top: -1px; height: 3px; background: var(--grad); }
+  .rw-head { display: grid; grid-template-columns: 22px 1fr; column-gap: 8px; align-items: center; margin-bottom: 2px; }
+  .rw-head svg { grid-row: span 2; }
+  .rw-head span { font: 800 1rem/1.1 var(--font-head); color: var(--ink); }
+  .rw-head em { font-style: normal; font-size: .72rem; color: var(--muted); font-weight: 500; }
+  .rw-line { position: relative; }
+  .dot { position: absolute; left: 11px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; pointer-events: none; }
+  .dot.a { border: 2px solid var(--ink); }
+  .dot.b { background: var(--green); }
+  .rw input, .rw select { height: 34px; font-size: .82rem; border-radius: 8px; }
+  .rw input { padding-left: 28px; }
+  .rw select { padding: 0 10px; }
+  .rw-btn { margin-top: auto; height: 38px; border: 0; border-radius: 8px; background: var(--volt); color: #fff; font: 700 .85rem var(--font); cursor: pointer; }
+  .rw-btn:hover { background: #0868d6; }
+</style>

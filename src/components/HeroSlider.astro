@@ -1,0 +1,92 @@
+---
+import { CATS, fmtDate, imgIfExists, type Cat } from '../lib/util';
+const { posts } = Astro.props;
+const slides = posts.map((p: any) => ({ p, cat: p.data.category as Cat, img: imgIfExists(p.data.image) }));
+---
+<section class="hs" aria-roledescription="carousel" aria-label="Manşet haberler">
+  <div class="hs-track">
+    {slides.map((s: any, i: number) => (
+      <a class:list={['hs-slide', s.cat, { on: i === 0 }]} href={`/haberler/${s.cat}/${s.p.id}`} aria-roledescription="slide" aria-label={`${i + 1} / ${slides.length}`} aria-hidden={i === 0 ? 'false' : 'true'} tabindex={i === 0 ? 0 : -1}>
+        {s.img ? <img src={s.img} alt="" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} /> : (
+          <div class="hs-ph"><svg viewBox="0 0 400 200" aria-hidden="true"><path d="M214 30 184 74h21l-7 33 33-46h-21l4-31Z" fill="currentColor" /></svg></div>
+        )}
+        <div class="hs-cap">
+          <span class="hs-cat">{CATS[s.cat].label}</span>
+          <h2>{s.p.data.title}</h2>
+          <span class="hs-date">{fmtDate(s.p.data.date)}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+  <button class="hs-nav prev" type="button" aria-label="Önceki haber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button>
+  <button class="hs-nav next" type="button" aria-label="Sonraki haber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button>
+  <div class="hs-dots">
+    {slides.map((_: any, i: number) => <button type="button" class:list={{ on: i === 0 }} aria-label={`${i + 1}. habere git`}></button>)}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.hs').forEach((root) => {
+    const slides = [...root.querySelectorAll<HTMLElement>('.hs-slide')];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>('.hs-dots button')];
+    if (slides.length < 2) return;
+    let i = 0, timer: number | undefined;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const go = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => { s.classList.toggle('on', k === i); s.setAttribute('aria-hidden', String(k !== i)); s.tabIndex = k === i ? 0 : -1; });
+      dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    };
+    const play = () => { if (reduce) return; stop(); timer = window.setInterval(() => go(i + 1), 6000); };
+    const stop = () => clearInterval(timer);
+    root.querySelector('.prev')!.addEventListener('click', () => { go(i - 1); play(); });
+    root.querySelector('.next')!.addEventListener('click', () => { go(i + 1); play(); });
+    dots.forEach((d, k) => d.addEventListener('click', () => { go(k); play(); }));
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', play);
+    root.addEventListener('focusin', stop);
+    let x0: number | null = null;
+    root.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; stop(); }, { passive: true });
+    root.addEventListener('touchend', (e) => {
+      if (x0 == null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
+      x0 = null; play();
+    });
+    play();
+  });
+</script>
+
+<style>
+  .hs { position: relative; height: 520px; overflow: hidden; background: var(--ink); }
+  .hs-track { position: absolute; inset: 0; }
+  .hs-slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity .7s ease, visibility .7s; color: #fff; }
+  .hs-slide.on { opacity: 1; visibility: visible; }
+  .hs-slide img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform 7s ease; }
+  .hs-slide.on img { transform: scale(1.08); }
+  .hs-ph { width: 100%; height: 100%; display: grid; place-items: center; }
+  .hs-ph svg { width: 40%; opacity: .9; }
+  .hs-slide.turkiye .hs-ph { background: linear-gradient(135deg, #0b3f86, #0a7cff); color: #fff; }
+  .hs-slide.dunya .hs-ph { background: linear-gradient(135deg, #1e2a6b, #3b5bfd); color: #fff; }
+  .hs-slide.rehber .hs-ph { background: linear-gradient(135deg, #0b6b35, #12a150); color: #fff; }
+  .hs-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,23,38,0) 35%, rgba(14,23,38,.55) 62%, rgba(14,23,38,.88) 100%); }
+  .hs-cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 0 72px 58px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .hs-cat { font: 700 .74rem var(--font-head); letter-spacing: .16em; text-transform: uppercase; color: #fff; padding: 5px 12px; background: var(--green); }
+  .hs-slide.turkiye .hs-cat { background: var(--volt); }
+  .hs-slide.dunya .hs-cat { background: #3b5bfd; }
+  .hs-cap h2 { margin: 0; font-size: clamp(1.5rem, 2.8vw, 2.35rem); line-height: 1.2; color: #fff; max-width: 780px; text-wrap: balance; }
+  .hs-slide:hover h2 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+  .hs-date { font-size: .82rem; color: #e2e8f0; }
+  .hs-nav { position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; margin-top: -22px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; cursor: pointer; display: grid; place-items: center; backdrop-filter: blur(4px); transition: background .15s; }
+  .hs-nav:hover { background: rgba(255,255,255,.3); }
+  .hs-nav.prev { left: 16px; } .hs-nav.next { right: 16px; }
+  .hs-dots { position: absolute; left: 0; right: 0; bottom: 22px; z-index: 2; display: flex; justify-content: center; gap: 4px; }
+  .hs-dots button { width: 24px; height: 24px; border: 0; background: none; cursor: pointer; padding: 0; display: grid; place-items: center; }
+  .hs-dots button::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.5); transition: width .2s, background .2s; }
+  .hs-dots button.on::before { width: 22px; border-radius: 4px; background: #fff; }
+  @media (max-width: 760px) {
+    .hs { height: 420px; }
+    .hs-cap { padding: 0 20px 52px; }
+    .hs-nav { display: none; }
+  }
+</style>

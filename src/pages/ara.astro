@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { getNews, CATS, fmtDate, type Cat } from '../lib/util';
+import models from '../data/models.json';
+const news = await getNews();
+const index = [
+  ...news.map((p) => ({ t: p.data.title, d: p.data.description, u: `/haberler/${p.data.category}/${p.id}`, k: CATS[p.data.category as Cat].label, date: fmtDate(p.data.date) })),
+  ...models.models.filter((m, i, a) => a.findIndex((x) => x.modelSlug === m.modelSlug && x.brandSlug === m.brandSlug) === i)
+    .map((m) => ({ t: `${m.brand} ${m.model}`, d: `${m.battery} kWh batarya · ${m.wltp} km WLTP · ${m.dcMax} kW DC`, u: `/modeller/${m.brandSlug}/${m.modelSlug}`, k: 'Model', date: '' })),
+];
+---
+<Base title="Arama" description="EV Türkiye'de haber, rehber ve elektrikli araç modeli arayın.">
+  <section class="section-sm">
+    <div class="container narrow">
+      <h1>Arama</h1>
+      <form class="sf" role="search" onsubmit="return false">
+        <label class="visually-hidden" for="q">Aranacak kelime</label>
+        <input id="q" name="q" type="search" placeholder="Örn. Togg, şarj fiyatı, kış menzili" autofocus />
+      </form>
+      <p id="count" class="muted small" aria-live="polite"></p>
+      <ol id="res" class="res"></ol>
+      <script type="application/json" id="idx" set:html={JSON.stringify(index)} />
+    </div>
+  </section>
+</Base>
+<script>
+  type Item = { t: string; d: string; u: string; k: string; date: string };
+  const idx: Item[] = JSON.parse(document.getElementById('idx')!.textContent!);
+  const q = document.getElementById('q') as HTMLInputElement;
+  const res = document.getElementById('res')!;
+  const count = document.getElementById('count')!;
+  const norm = (s: string) => s.toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i');
+  const run = () => {
+    const terms = norm(q.value.trim()).split(/\s+/).filter(Boolean);
+    res.replaceChildren();
+    if (!terms.length) { count.textContent = ''; return; }
+    const hits = idx.filter((it) => { const h = norm(it.t + ' ' + it.d); return terms.every((t) => h.includes(t)); });
+    count.textContent = hits.length ? `${hits.length} sonuç` : 'Sonuç bulunamadı.';
+    for (const h of hits) {
+      const li = document.createElement('li');
+      const a = document.createElement('a'); a.href = h.u;
+      const k = document.createElement('span'); k.className = 'k'; k.textContent = h.k + (h.date ? ' · ' + h.date : '');
+      const t = document.createElement('strong'); t.textContent = h.t;
+      const d = document.createElement('span'); d.className = 'd'; d.textContent = h.d;
+      a.append(k, t, d); li.append(a); res.append(li);
+    }
+  };
+  q.value = new URLSearchParams(location.search).get('q') ?? '';
+  q.addEventListener('input', () => { run(); history.replaceState(null, '', q.value ? `?q=${encodeURIComponent(q.value)}` : location.pathname); });
+  run();
+</script>
+<style>
+  .narrow { max-width: 760px; }
+  .sf input { height: 54px; font-size: 1.05rem; border-radius: 12px; }
+  #count { margin: 14px 0 6px; }
+  .res { list-style: none; padding: 0; margin: 0; }
+  .res :global(li a) { display: flex; flex-direction: column; gap: 3px; padding: 16px 0; border-bottom: 1px solid var(--line); color: var(--ink); }
+  .res :global(li a:hover strong) { color: var(--volt); }
+  .res :global(.k) { font: 700 .7rem var(--font-head); letter-spacing: .12em; text-transform: uppercase; color: var(--green); }
+  .res :global(strong) { font: 700 1.05rem var(--font-head); }
+  .res :global(.d) { font-size: .9rem; color: var(--ink-2); }
+</style>

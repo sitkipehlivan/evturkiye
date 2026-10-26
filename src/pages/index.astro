@@ -1,337 +1,246 @@
 ---
 import Base from '../layouts/Base.astro';
-import NewsCard from '../components/NewsCard.astro';
+import HeroSlider from '../components/HeroSlider.astro';
+import RouteWidget from '../components/RouteWidget.astro';
+import AdSlot from '../components/AdSlot.astro';
 import DealCard from '../components/DealCard.astro';
 import ops from '../data/operators.json';
-import modelsData from '../data/models.json';
 import routes from '../data/routes.json';
 import { getNews, getDeals, fmtDate, tl, CATS, imgIfExists, type Cat } from '../lib/util';
 
 const news = await getNews();
 const deals = (await getDeals()).slice(0, 3);
-const lead = news.find((p) => p.data.featured && p.data.category !== 'rehber') ?? news[0];
-const rest = news.filter((p) => p.id !== lead?.id);
-// Son haberler: önce Türkiye/Dünya haberleri, eksik kalırsa rehberle tamamla
-const side = [...rest.filter((p) => p.data.category !== 'rehber'), ...rest.filter((p) => p.data.category === 'rehber')]
-  .slice(0, 4).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const sideIds = new Set(side.map((p) => p.id));
-const guides = news.filter((p) => p.data.category === 'rehber' && p.id !== lead?.id && !sideIds.has(p.id)).slice(0, 3);
-const majors = ['trugo', 'zes', 'esarj', 'tesla', 'voltrun', 'astor'];
-const priceRows = majors.map((id) => ops.operators.find((o) => o.id === id)!).filter(Boolean);
-const cheapest = Math.min(...priceRows.map((o) => o.dc));
-const models = modelsData.models;
-const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug;
-const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+// Manşet: görseli olan en yeni haberler önce, sonra diğerleri (en fazla 6)
+const withImg = news.filter((p) => imgIfExists(p.data.image));
+const heroPosts = [...withImg, ...news.filter((p) => !imgIfExists(p.data.image))].slice(0, 6);
+const heroIds = new Set(heroPosts.map((p) => p.id));
+const latest = news.filter((p) => !heroIds.has(p.id)).slice(0, 4);
+const used = new Set([...heroIds, ...latest.map((p) => p.id)]);
+const byCat = (c: Cat, n: number) => news.filter((p) => p.data.category === c && !used.has(p.id)).slice(0, n);
+const turkiye = news.filter((p) => p.data.category !== 'rehber' && !used.has(p.id)).slice(0, 4);
+const rehber = byCat('rehber', 4);
+const card = (p: any) => ({ p, cat: p.data.category as Cat, img: imgIfExists(p.data.image), url: `/haberler/${p.data.category}/${p.id}` });
+const cheapest = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 5);
+const majors = ['trugo', 'zes', 'esarj', 'tesla', 'voltrun', 'astor'].map((id) => ops.operators.find((o) => o.id === id)!).filter(Boolean);
 const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site!.origin,
-  description: 'Elektrikli araç haberleri, rota ve şarj planlayıcı, güncel şarj fiyatları.',
+  '@context': 'https://schema.org', '@type': 'WebSite', name: 'EV Türkiye', alternateName: 'Electric Vehicle Türkiye', url: Astro.site!.origin,
+  potentialAction: { '@type': 'SearchAction', target: `${Astro.site!.origin}/ara?q={search_term_string}`, 'query-input': 'required name=search_term_string' },
 };
-const leadCat = lead?.data.category as Cat;
-const leadImg = imgIfExists(lead?.data.image);
 ---
 <Base title="EV Türkiye: Elektrikli Araç Haberleri, Şarj Fiyatları ve Rota Planlayıcı" jsonLd={jsonLd}>
-  <!-- 1. Manşet -->
+  <!-- 1. Manşet + rota widget -->
   <section class="top">
-    <div class="container">
-      <div class="dateline">
-        <span>{today}</span>
-        <nav class="cats">
-          {Object.entries(CATS).map(([k, v]) => <a href={`/haberler/${k}`}>{v.label}</a>)}
-          <a href="/firsatlar">Fırsatlar</a>
-        </nav>
-      </div>
+    <div class="container top-grid">
+      <HeroSlider posts={heroPosts} />
+      <aside class="side" aria-label="Rota planlayıcı ve şarj fiyatları">
+        <RouteWidget />
+        <div class="mpu">
+          <AdSlot id="home-mpu-1" size="300x250" />
+          <div class="fallback prices-mini">
+            <div class="pm-head"><span>En uygun DC şarj</span><a href="/sarj-fiyatlari">Tümü</a></div>
+            <ol>
+              {cheapest.map((o) => <li><span>{o.name}</span><b>{tl(o.dc)}</b></li>)}
+            </ol>
+            <p>₺/kWh · {fmtDate(new Date(ops.updated))}</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
 
-      <div class="headline-grid">
-        {lead && (
-          <a class="lead card" href={`/haberler/${leadCat}/${lead.id}`}>
-            <div class:list={['lead-visual', leadCat]}>
-              {leadImg ? <img src={leadImg} alt={lead.data.title} /> : (
-                <svg viewBox="0 0 400 200" aria-hidden="true">
-                  <path d="M0 150 C 80 120, 140 170, 220 130 S 340 90, 400 110" stroke="currentColor" stroke-width="2.5" fill="none" opacity=".35" />
-                  <path d="M0 170 C 90 150, 150 190, 230 155 S 340 120, 400 140" stroke="currentColor" stroke-width="1.5" fill="none" opacity=".2" />
-                  <path d="M214 30 184 74h21l-7 33 33-46h-21l4-31Z" fill="currentColor" />
-                </svg>
-              )}
-              <span class="kicker">Manşet</span>
-            </div>
-            <div class="lead-body">
-              <div class="meta"><span class:list={['tag', leadCat === 'rehber' ? 'green' : 'volt']}>{CATS[leadCat].label}</span><span>{fmtDate(lead.data.date)}</span></div>
-              <h1>{lead.data.title}</h1>
-              <p>{lead.data.description}</p>
-              <span class="read">Haberi oku →</span>
-            </div>
+  <!-- 2. En yeniler -->
+  <section class="block">
+    <div class="container">
+      <div class="block-head"><h2>En yeniler</h2><a href="/haberler">Tüm haberler</a></div>
+      <div class="cards-4">
+        {latest.map(card).map((c) => (
+          <a class="nc" href={c.url}>
+            <div class:list={['nc-img', c.cat]}>{c.img ? <img src={c.img} alt="" loading="lazy" /> : <svg viewBox="0 0 120 60" aria-hidden="true"><path d="M66 6 46 33h14l-6 21 22-30H62l4-18Z" fill="currentColor" /></svg>}</div>
+            <span class:list={['nc-cat', c.cat]}>{CATS[c.cat].label}</span>
+            <h3>{c.p.data.title}</h3>
+            <time datetime={c.p.data.date.toISOString()}>{fmtDate(c.p.data.date)}</time>
           </a>
-        )}
-        <aside class="latest">
-          <h2 class="latest-h">Son haberler</h2>
-          <ol>
-            {side.map((p) => {
-              const c = p.data.category as Cat;
-              return (
-                <li>
-                  <a href={`/haberler/${c}/${p.id}`}>
-                    <span class="meta"><b class:list={[c]}>{CATS[c].label}</b> · {fmtDate(p.data.date)}</span>
-                    <span class="t">{p.data.title}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ol>
-          <a href="/haberler" class="link-arrow">Tüm haberler</a>
-        </aside>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- 2. Rota planlayıcı önizlemesi -->
-  <section class="planner-teaser">
-    <div class="container teaser-grid">
-      <div class="teaser-copy">
-        <span class="eyebrow">Rota & Şarj Planlayıcı</span>
-        <h2>Yola çıkmadan <span class="grad-text">durakları ve maliyeti</span> gör.</h2>
-        <p class="muted">Aracını seç, rotanı gir. Güzergahtaki hızlı şarj istasyonlarını, nerede ne kadar şarj etmen gerektiğini ve operatörler arası fiyat farkını saniyeler içinde hesaplayalım.</p>
-        <form class="quick" action="/rota-planlayici" method="get">
-          <div class="q-row">
-            <div><label for="q-from">Nereden</label><input id="q-from" name="from" placeholder="Kadıköy, İstanbul" required /></div>
-            <div><label for="q-to">Nereye</label><input id="q-to" name="to" placeholder="Çeşme, İzmir" required /></div>
-          </div>
-          <div class="q-row">
-            <div class="grow">
-              <label for="q-car">Aracın</label>
-              <select id="q-car" name="car">
-                {models.map((m) => <option value={m.slug} selected={m.slug === defaultCar}>{m.brand} {m.model} {m.version}</option>)}
-              </select>
+  <div class="container ad-row"><AdSlot id="home-leaderboard-1" size="970x250" mobile="300x250" /></div>
+
+  <!-- 3. Türkiye + kenar çubuğu -->
+  <section class="block">
+    <div class="container with-side">
+      <div class="main-col">
+        {turkiye.length > 0 && (
+          <>
+            <div class="block-head"><h2>Gündem</h2><a href="/haberler">Tümü</a></div>
+            <div class="feature">
+              {turkiye.slice(0, 1).map(card).map((c) => (
+                <a class="fe-lead" href={c.url}>
+                  <div class:list={['nc-img', c.cat]}>{c.img ? <img src={c.img} alt="" loading="lazy" /> : <svg viewBox="0 0 120 60" aria-hidden="true"><path d="M66 6 46 33h14l-6 21 22-30H62l4-18Z" fill="currentColor" /></svg>}</div>
+                  <h3>{c.p.data.title}</h3>
+                  <p>{c.p.data.description}</p>
+                </a>
+              ))}
+              <ul class="fe-list">
+                {turkiye.slice(1).map(card).map((c) => (
+                  <li><a href={c.url}><span class:list={['nc-cat', c.cat]}>{CATS[c.cat].label} · {fmtDate(c.p.data.date)}</span><h4>{c.p.data.title}</h4></a></li>
+                ))}
+              </ul>
             </div>
-            <button class="btn btn-volt" type="submit">Rotayı hesapla</button>
-          </div>
-        </form>
-        <div class="chips">
-          <span class="muted small">Popüler:</span>
-          {routes.slice(0, 5).map((r) => <a class="tag" href={`/rota/${r.slug}`}>{r.from} → {r.to}</a>)}
+          </>
+        )}
+
+        <div class="block-head"><h2>Rehber</h2><a href="/haberler/rehber">Tüm rehberler</a></div>
+        <div class="cards-2">
+          {rehber.map(card).map((c) => (
+            <a class="nc row" href={c.url}>
+              <div class:list={['nc-img', c.cat]}>{c.img ? <img src={c.img} alt="" loading="lazy" /> : <svg viewBox="0 0 120 60" aria-hidden="true"><path d="M66 6 46 33h14l-6 21 22-30H62l4-18Z" fill="currentColor" /></svg>}</div>
+              <div><span class="nc-cat rehber">Rehber</span><h3>{c.p.data.title}</h3></div>
+            </a>
+          ))}
         </div>
       </div>
-
-      <a class="preview card" href="/rota/istanbul-izmir" aria-label="Örnek rota: İstanbul – İzmir">
-        <div class="pv-map">
-          <svg viewBox="0 0 420 240" aria-hidden="true">
-            <defs>
-              <pattern id="pv-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#e9eef4" stroke-width="1" /></pattern>
-            </defs>
-            <rect width="420" height="240" fill="#f7f9fb" />
-            <rect width="420" height="240" fill="url(#pv-grid)" />
-            <path d="M0 52 C 60 40, 120 58, 170 46 S 260 30, 300 44" fill="none" stroke="#cfe3f5" stroke-width="10" stroke-linecap="round" />
-            <path id="pv-route" d="M330 46 C 300 80, 250 92, 228 120 S 160 160, 140 182 S 96 200, 76 206" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" />
-            <path d="M330 46 C 300 80, 250 92, 228 120 S 160 160, 140 182 S 96 200, 76 206" fill="none" stroke="#0a7cff" stroke-width="5" stroke-linecap="round" class="pv-line" />
-            <g fill="#fff" stroke="#0a7cff" stroke-width="2"><circle cx="286" cy="83" r="4" /><circle cx="180" cy="148" r="4" /><circle cx="112" cy="194" r="4" /></g>
-            <g><circle cx="330" cy="46" r="13" fill="#0e1726" stroke="#fff" stroke-width="3" /><text x="330" y="50.5" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">A</text></g>
-            <g class="pv-stop"><circle cx="216" cy="128" r="13" fill="#12a150" stroke="#fff" stroke-width="3" /><text x="216" y="132.5" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">1</text></g>
-            <g><circle cx="76" cy="206" r="13" fill="#0e1726" stroke="#fff" stroke-width="3" /><text x="76" y="210.5" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">B</text></g>
-            <text x="312" y="50" text-anchor="end" font-size="12" font-weight="700" fill="#334155">İstanbul</text>
-            <text x="96" y="226" font-size="12" font-weight="700" fill="#334155">İzmir</text>
-          </svg>
-          <span class="pv-badge">Örnek hesaplama</span>
-        </div>
-        <div class="pv-body">
-          <div class="pv-car">Togg T10X V2 Uzun Menzil · %85 ile çıkış</div>
-          <div class="pv-stats">
-            <div><span>Mesafe</span><b>468 km</b></div>
-            <div><span>Şarj durağı</span><b>1</b></div>
-            <div><span>Şarj süresi</span><b>~31 dk</b></div>
-            <div class="hl"><span>Şarj maliyeti</span><b>~₺669</b></div>
+      <aside class="side-col">
+        <div class="sticky">
+          <AdSlot id="home-halfpage" size="300x600" />
+          <div class="fallback side-box">
+            <h3>Popüler rotalar</h3>
+            <ul>
+              {routes.slice(0, 8).map((r) => <li><a href={`/rota/${r.slug}`}>{r.from} <span aria-hidden="true">→</span> {r.to}</a></li>)}
+            </ul>
+            <a class="side-cta" href="/rota-planlayici">Kendi rotanı planla</a>
           </div>
-          <div class="pv-stop-row">
-            <span class="num">1</span>
-            <div><b>Balıkesir · DC hızlı şarj</b><span>%21 → %75 · 51,5 kWh · ₺13,00/kWh</span></div>
-          </div>
-          <span class="pv-cta">Bu rotayı aç ve kendi aracınla dene →</span>
         </div>
-      </a>
+      </aside>
     </div>
   </section>
 
-  <!-- 3. Şarj fiyatları -->
-  <section class="section-sm">
+  <!-- 4. Şarj fiyatları şeridi -->
+  <section class="block soft">
     <div class="container">
-      <div class="section-head">
-        <div><span class="eyebrow">Şarj fiyatları</span><h2>Büyük operatörlerde DC hızlı şarj</h2></div>
-        <a href="/sarj-fiyatlari" class="link-arrow">Tüm operatörler</a>
-      </div>
+      <div class="block-head"><h2>Şarj fiyatları</h2><a href="/sarj-fiyatlari">Tüm operatörler</a></div>
       <div class="prices">
-        {priceRows.map((o) => (
-          <div class:list={['price card', { cheap: o.dc === cheapest }]}>
-            <span class="op">{o.name}</span>
+        {majors.map((o) => (
+          <div class="price">
+            <span>{o.name}</span>
             <b>{tl(o.dc)}</b>
-            <span class="muted small">/kWh DC · AC {tl(o.ac)}</span>
-            {o.dc === cheapest && <span class="tag green">En uygun</span>}
+            <em>DC /kWh · AC {tl(o.ac)}</em>
           </div>
         ))}
       </div>
-      <p class="muted small upd">Son güncelleme: {fmtDate(new Date(ops.updated))}. {ops.sourceNote}</p>
+      <p class="upd">Son güncelleme: {fmtDate(new Date(ops.updated))}. Şarj öncesi operatör uygulamasından teyit edin.</p>
     </div>
   </section>
 
-  <!-- 4. Rehber -->
-  {guides.length > 0 && (
-    <section class="section soft">
-      <div class="container">
-        <div class="section-head">
-          <div><span class="eyebrow">Rehber</span><h2>EV sahipleri için bilmen gerekenler</h2></div>
-          <a href="/haberler/rehber" class="link-arrow">Tüm rehberler</a>
-        </div>
-        <div class="grid grid-3">{guides.map((p) => <NewsCard post={p} />)}</div>
-      </div>
-    </section>
-  )}
-
   <!-- 5. Fırsatlar -->
   {deals.length > 0 && (
-    <section class="section">
+    <section class="block">
       <div class="container">
-        <div class="section-head">
-          <div><span class="eyebrow">Fırsatlar</span><h2>Bu ayın kampanyaları</h2></div>
-          <a href="/firsatlar" class="link-arrow">Tüm fırsatlar</a>
-        </div>
+        <div class="block-head"><h2>Fırsatlar</h2><a href="/firsatlar">Tüm kampanyalar</a></div>
         <div class="grid grid-3">{deals.map((d) => <DealCard deal={d} />)}</div>
       </div>
     </section>
   )}
 
-  <!-- 6. Popüler rotalar + topluluk -->
-  <section class="section-sm">
-    <div class="container">
-      <div class="section-head">
-        <div><span class="eyebrow">Popüler rotalar</span><h2>Elektrikli araçla uzun yol</h2></div>
-        <a href="/rota-planlayici" class="link-arrow">Kendi rotanı planla</a>
-      </div>
-      <div class="routes">
-        {routes.map((r) => (
-          <a href={`/rota/${r.slug}`} class="card route">
-            <span>{r.from}</span>
-            <svg width="22" height="10" viewBox="0 0 22 10" aria-hidden="true"><path d="M0 5h20M16 1l4 4-4 4" stroke="currentColor" stroke-width="1.6" fill="none" /></svg>
-            <span>{r.to}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="community card">
-        <div>
-          <span class="eyebrow">Çok yakında</span>
-          <h2>EV Türkiye Topluluğu</h2>
-          <p class="muted">Araç kulüpleri, istasyon deneyimleri, uzun yol paylaşımları ve ikinci el tartışmaları için forum alanımız hazırlanıyor.</p>
-        </div>
-        <a class="btn btn-ghost" href="/modeller">Modelleri keşfet</a>
-      </div>
-    </div>
-  </section>
+  <div class="container ad-row last"><AdSlot id="home-leaderboard-2" size="728x90" mobile="320x100" /></div>
 </Base>
 
 <style>
-  /* Manşet */
-  .top { padding: 18px 0 40px; }
-  .dateline { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 4px 0 16px; margin-bottom: 22px; border-bottom: 1px solid var(--line); font-size: .85rem; color: var(--muted); text-transform: capitalize; }
-  .cats { display: flex; gap: 18px; text-transform: none; }
-  .cats a { font-weight: 600; color: var(--ink-2); }
-  .headline-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 28px; }
-  .lead { overflow: hidden; display: flex; flex-direction: column; }
-  .lead:hover h1 { color: var(--volt); }
-  .lead-visual { position: relative; aspect-ratio: 16 / 7; display: grid; place-items: center; overflow: hidden; }
-  .lead-visual img { width: 100%; height: 100%; object-fit: cover; }
-  .lead-visual svg { width: 100%; height: 100%; }
-  .lead-visual.turkiye { background: linear-gradient(135deg, #eaf5ff 0%, #f6fbff 55%, #ecf9f1 100%); color: var(--volt); }
-  .lead-visual.dunya { background: linear-gradient(135deg, #eef1ff 0%, #f7f8ff 60%, #eaf5ff 100%); color: #3b5bfd; }
-  .lead-visual.rehber { background: linear-gradient(135deg, #e8f7ee 0%, #f5fbf7 60%, #eaf5ff 100%); color: var(--green); }
-  .kicker { position: absolute; top: 16px; left: 16px; background: var(--ink); color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 5px 10px; border-radius: 6px; }
-  .lead-body { padding: 22px 26px 26px; }
-  .lead-body .meta { display: flex; gap: 10px; align-items: center; font-size: .82rem; color: var(--muted); margin-bottom: 12px; }
-  .lead-body h1 { font-size: clamp(1.6rem, 3vw, 2.25rem); margin-bottom: 12px; transition: color .15s; }
-  .lead-body p { color: var(--ink-2); font-size: 1.05rem; margin-bottom: 14px; }
-  .read { font-weight: 600; color: var(--volt); font-size: .93rem; }
-  .latest { display: flex; flex-direction: column; }
-  .latest-h { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
-  .latest-h::before { content: ''; width: 18px; height: 3px; border-radius: 3px; background: var(--grad); }
-  .latest ol { list-style: none; margin: 0 0 14px; padding: 0; counter-reset: n; flex: 1; }
-  .latest li { counter-increment: n; border-bottom: 1px solid var(--line); }
-  .latest li a { display: grid; grid-template-columns: 34px 1fr; gap: 2px 8px; padding: 16px 0; }
-  .latest li a::before { content: counter(n); grid-row: span 2; font: 800 1.6rem var(--font-head); color: #d5dde7; line-height: 1; }
-  .latest .meta { font-size: .76rem; color: var(--muted); }
-  .latest .meta b { font-weight: 700; }
-  .latest .meta b.turkiye { color: var(--volt); } .latest .meta b.dunya { color: #3b5bfd; } .latest .meta b.rehber { color: var(--green); }
-  .latest .t { font-weight: 650; line-height: 1.35; font-family: var(--font-head); }
-  .latest li a:hover .t { color: var(--volt); }
+  .top { padding: 28px 0 8px; }
+  .top-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+  .side { display: flex; flex-direction: column; gap: 20px; }
+  .mpu { width: 300px; height: 250px; }
+  :global(html.ads-on) .fallback { display: none; }
 
-  /* Planlayıcı önizlemesi */
-  .planner-teaser { padding: 56px 0; background:
-    radial-gradient(700px 320px at 90% 0%, rgba(10, 124, 255, .07), transparent 70%),
-    radial-gradient(600px 300px at 0% 100%, rgba(18, 161, 80, .07), transparent 70%), var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .teaser-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
-  .teaser-copy h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); margin-top: 12px; }
-  .teaser-copy > p { font-size: 1.05rem; max-width: 520px; }
-  .quick { display: grid; gap: 12px; margin-top: 22px; }
-  .q-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; }
-  .q-row > * { min-width: 0; }
-  .q-row .grow { grid-column: auto; }
-  .quick .btn { height: 46px; border-radius: 12px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
-  .chips .tag { background: #fff; border: 1px solid var(--line); height: 28px; }
-  .chips .tag:hover { border-color: var(--volt); color: var(--volt); }
+  .prices-mini { height: 250px; box-sizing: border-box; border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; }
+  .pm-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .pm-head span { font: 800 .95rem var(--font-head); }
+  .pm-head a { font-size: .78rem; font-weight: 600; color: var(--volt); }
+  .prices-mini ol { list-style: none; margin: 0; padding: 0; flex: 1; }
+  .prices-mini li { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
+  .prices-mini li:first-child b { color: var(--green); }
+  .prices-mini b { font-variant-numeric: tabular-nums; }
+  .prices-mini p { margin: 8px 0 0; font-size: .72rem; color: var(--muted); }
 
-  .preview { overflow: hidden; box-shadow: var(--shadow); color: inherit; }
-  .preview:hover { color: inherit; }
-  .pv-map { position: relative; border-bottom: 1px solid var(--line); }
-  .pv-map svg { width: 100%; display: block; }
-  .pv-line { stroke-dasharray: 520; stroke-dashoffset: 520; animation: draw 2.2s ease forwards .3s; }
-  .pv-stop { opacity: 0; animation: pop .4s ease forwards 1.6s; transform-origin: 216px 128px; }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  @keyframes pop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: scale(1); } }
-  @media (prefers-reduced-motion: reduce) { .pv-line, .pv-stop { animation: none; stroke-dashoffset: 0; opacity: 1; } }
-  .pv-badge { position: absolute; top: 12px; left: 12px; font-size: .72rem; font-weight: 700; background: #fff; border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; color: var(--muted); }
-  .pv-body { padding: 18px 20px 20px; display: grid; gap: 14px; }
-  .pv-car { font-size: .85rem; color: var(--muted); font-weight: 600; }
-  .pv-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .pv-stats div { background: var(--soft); border-radius: 10px; padding: 10px 12px; }
-  .pv-stats span { display: block; font-size: .7rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-  .pv-stats b { font: 800 1.15rem var(--font-head); }
-  .pv-stats .hl { background: var(--green-soft); } .pv-stats .hl b { color: var(--green); }
-  .pv-stop-row { display: flex; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
-  .pv-stop-row .num { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: .85rem; }
-  .pv-stop-row b { display: block; font-size: .92rem; }
-  .pv-stop-row span { font-size: .8rem; color: var(--muted); }
-  .pv-cta { font-weight: 600; color: var(--volt); font-size: .92rem; }
+  .block { padding: 44px 0; }
+  .block.soft { background: var(--soft); }
+  .block-head { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
+  .block-head h2 { margin: 0; font-size: .95rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .block-head::after { content: ''; order: 2; flex: 1; height: 1px; background: var(--line); }
+  .block-head a { order: 3; font-size: .82rem; font-weight: 600; color: var(--ink-2); }
+  .block-head a:hover { color: var(--volt); }
 
-  /* Fiyatlar */
-  .prices { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-  .price { padding: 16px; display: flex; flex-direction: column; gap: 2px; position: relative; }
-  .price .op { font-weight: 700; font-size: .92rem; }
-  .price b { font: 800 1.4rem var(--font-head); letter-spacing: -.02em; margin-top: 6px; }
-  .price.cheap { border-color: #bfe8cf; background: linear-gradient(180deg, #f3fbf6, #fff); }
-  .price .tag { position: absolute; top: 12px; right: 12px; }
-  .upd { margin-top: 14px; }
+  .nc { display: flex; flex-direction: column; gap: 8px; color: var(--ink); }
+  .nc:hover h3, .fe-lead:hover h3, .fe-list a:hover h4 { color: var(--volt); }
+  .nc-img { aspect-ratio: 16 / 10; overflow: hidden; display: grid; place-items: center; background: var(--soft-2); }
+  .nc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+  .nc:hover .nc-img img, .fe-lead:hover .nc-img img { transform: scale(1.04); }
+  .nc-img svg { width: 30%; }
+  .nc-img.turkiye { background: #eaf3ff; color: var(--volt); }
+  .nc-img.dunya { background: #eef1ff; color: #3b5bfd; }
+  .nc-img.rehber { background: var(--green-soft); color: var(--green); }
+  .nc-cat { font: 700 .7rem var(--font-head); letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-top: 4px; }
+  .nc-cat.turkiye { color: var(--volt); } .nc-cat.dunya { color: #3b5bfd; }
+  .nc h3 { margin: 0; font-size: 1.05rem; line-height: 1.35; transition: color .15s; }
+  .nc time { font-size: .78rem; color: var(--muted); }
+  .cards-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
 
-  .routes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .route { padding: 16px 18px; display: flex; align-items: center; gap: 10px; font-weight: 650; }
-  .route svg { color: var(--green); flex: none; }
+  .ad-row { padding: 8px 20px; }
+  .ad-row.last { padding-bottom: 40px; }
 
-  .community { padding: 36px; display: flex; justify-content: space-between; align-items: center; gap: 24px; background:
-    linear-gradient(#fff, #fff) padding-box, var(--grad) border-box; border: 1.5px solid transparent; }
-  .community p { margin: 0; max-width: 560px; }
+  .with-side { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; }
+  .main-col > .block-head:not(:first-child) { margin-top: 44px; }
+  .feature { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; }
+  .fe-lead { display: flex; flex-direction: column; gap: 10px; color: var(--ink); }
+  .fe-lead h3 { margin: 6px 0 0; font-size: 1.45rem; line-height: 1.25; transition: color .15s; }
+  .fe-lead p { margin: 0; color: var(--ink-2); font-size: .95rem; }
+  .fe-list { list-style: none; margin: 0; padding: 0; }
+  .fe-list li { border-bottom: 1px solid var(--line); }
+  .fe-list li:first-child { border-top: 1px solid var(--line); }
+  .fe-list a { display: flex; flex-direction: column; gap: 4px; padding: 16px 0; color: var(--ink); }
+  .fe-list h4 { margin: 0; font-size: 1rem; line-height: 1.35; transition: color .15s; }
+  .cards-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 28px; }
+  .nc.row { flex-direction: row; gap: 14px; align-items: flex-start; }
+  .nc.row .nc-img { width: 132px; flex: none; aspect-ratio: 4 / 3; }
+  .nc.row h3 { font-size: .98rem; margin-top: 4px; }
 
-  @media (max-width: 1040px) {
-    .headline-grid, .teaser-grid { grid-template-columns: 1fr; }
-    .prices { grid-template-columns: repeat(3, 1fr); }
-    .routes { grid-template-columns: repeat(2, 1fr); }
+  .sticky { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 20px; }
+  .side-box { border: 1px solid var(--line); padding: 18px 20px; }
+  .side-box h3 { margin: 0 0 8px; font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; }
+  .side-box ul { list-style: none; margin: 0; padding: 0; }
+  .side-box li a { display: block; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .92rem; font-weight: 600; }
+  .side-box li a span { color: var(--green); }
+  .side-cta { display: block; margin-top: 14px; text-align: center; padding: 10px; background: var(--ink); color: #fff; font-weight: 700; font-size: .88rem; }
+  .side-cta:hover { color: #fff; background: #1e293b; }
+
+  .prices { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .price { background: #fff; padding: 16px; display: flex; flex-direction: column; gap: 2px; }
+  .price span { font-weight: 700; font-size: .88rem; }
+  .price b { font: 800 1.35rem var(--font-head); margin-top: 4px; }
+  .price em { font-style: normal; font-size: .74rem; color: var(--muted); }
+  .upd { margin: 12px 0 0; font-size: .8rem; color: var(--muted); }
+
+  @media (max-width: 1080px) {
+    .top-grid { grid-template-columns: 1fr; }
+    .side { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .cards-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .with-side { grid-template-columns: 1fr; }
+    .side-col .sticky { position: static; align-items: center; }
+    .side-box { width: 100%; max-width: 600px; box-sizing: border-box; }
+    .prices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
-  @media (max-width: 640px) {
-    .cats { display: none; }
-    .lead-visual { aspect-ratio: 16 / 9; }
-    .lead-body { padding: 18px; }
-    .q-row { grid-template-columns: 1fr; }
-    .pv-stats { grid-template-columns: repeat(2, 1fr); }
-    .prices { grid-template-columns: repeat(2, 1fr); }
-    .routes { grid-template-columns: 1fr; }
-    .community { flex-direction: column; align-items: start; padding: 24px; }
+  @media (max-width: 700px) {
+    .top { padding-top: 0; }
+    .top-grid { padding: 0; gap: 20px; }
+    .feature, .cards-2 { grid-template-columns: 1fr; }
+    .prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .cards-4 { grid-template-columns: 1fr; gap: 18px; }
+    .cards-4 .nc { display: grid; grid-template-columns: 120px 1fr; column-gap: 14px; row-gap: 4px; align-content: start; }
+    .cards-4 .nc-img { grid-row: span 3; aspect-ratio: 4 / 3; }
+    .cards-4 .nc-cat { margin-top: 0; }
+    .cards-4 .nc h3 { font-size: .95rem; }
   }
 </style>
