@@ -13,7 +13,7 @@ const active = (h: string) => path === h || path.startsWith(h + '/');
 ---
 <header class="site-header">
   <div class="container bar">
-    <a href="/" aria-label="EV Türkiye ana sayfa"><Logo /></a>
+    <a href="/" aria-label="EV Türkiye ana sayfa"><Logo height={32} /></a>
     <nav class="nav" aria-label="Ana menü">
       {nav.map((n) => <a href={n.href} class={active(n.href) ? 'active' : ''}>{n.label}</a>)}
     </nav>

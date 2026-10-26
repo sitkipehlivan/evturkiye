@@ -1,21 +1,7 @@
 ---
-const { size = 34 } = Astro.props;
+// EV Türkiye ana logo (yatay). Yazı vektöre çevrilmiş SVG: her ekranda aynı görünür.
+const { variant = 'renkli', height = 34 } = Astro.props;
+const src = variant === 'beyaz' ? '/brand/ev-turkiye-logo-beyaz.svg' : '/brand/ev-turkiye-logo.svg';
 ---
-<span class="logo">
-  <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true">
-    <defs>
-      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#12a150" />
-        <stop offset="1" stop-color="#0a7cff" />
-      </linearGradient>
-    </defs>
-    <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#lg)" />
-    <path d="M22.5 7 12 22.2h7.2L16.8 33 28 17.6h-7.3L22.5 7Z" fill="#fff" />
-  </svg>
-  <span class="word">ev<b>türkiye</b></span>
-</span>
-<style>
-  .logo { display: inline-flex; align-items: center; gap: 10px; }
-  .word { font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; letter-spacing: -.03em; color: var(--ink); }
-  .word b { font-weight: 800; color: var(--ink); }
-</style>
+<img class="logo" src={src} alt="EV Türkiye" height={height} style={`height:${height}px;width:auto`} />
+<style>.logo { display: block; }</style>
