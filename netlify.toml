@@ -15,3 +15,7 @@
   to = "https://evturkiye.com.tr/:splat"
   status = 301
   force = true
+
+# Taslak PR'ları için önizleme derlemesi yapma (aylık derleme dakikasını korur)
+[context.deploy-preview]
+  ignore = "exit 0"
