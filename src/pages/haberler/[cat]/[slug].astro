@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import NewsCard from '../../../components/NewsCard.astro';
-import { getNews, CATS, fmtDate, imgIfExists, type Cat } from '../../../lib/util';
+import { getNews, CATS, fmtDate, newsImg, type Cat } from '../../../lib/util';
 export async function getStaticPaths() {
   const news = await getNews();
   return news.map((post) => ({ params: { cat: post.data.category, slug: post.id }, props: { post, news } }));
@@ -11,7 +11,7 @@ const { post, news } = Astro.props;
 const { Content } = await render(post);
 const d = post.data;
 const cat = d.category as Cat;
-const img = imgIfExists(d.image);
+const img = newsImg(post);
 const related = news.filter((p: any) => p.id !== post.id).slice(0, 3);
 const jsonLd = {
   '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',

@@ -1,7 +1,7 @@
 ---
-import { CATS, fmtDate, imgIfExists, type Cat } from '../lib/util';
+import { CATS, fmtDate, newsImg, type Cat } from '../lib/util';
 const { posts } = Astro.props;
-const slides = posts.map((p: any) => ({ p, cat: p.data.category as Cat, img: imgIfExists(p.data.image) }));
+const slides = posts.map((p: any) => ({ p, cat: p.data.category as Cat, img: newsImg(p) }));
 ---
 <section class="hs" aria-roledescription="carousel" aria-label="Manşet haberler">
   <div class="hs-track">

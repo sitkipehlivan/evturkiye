@@ -4,10 +4,11 @@
   "description": "",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run stations && astro build",
+    "build": "npm run stations && npm run covers && astro build",
     "preview": "astro preview",
     "stations": "node --experimental-strip-types --no-warnings scripts/fetch-stations.ts",
-    "build:fast": "astro build"
+    "build:fast": "npm run covers && astro build",
+    "covers": "node scripts/covers.mjs"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +18,10 @@
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "gray-matter": "^4.0.3",
+    "satori": "^0.63.2"
+  }
 }

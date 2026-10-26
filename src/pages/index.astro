@@ -6,20 +6,20 @@ import AdSlot from '../components/AdSlot.astro';
 import DealCard from '../components/DealCard.astro';
 import ops from '../data/operators.json';
 import routes from '../data/routes.json';
-import { getNews, getDeals, fmtDate, tl, CATS, imgIfExists, type Cat } from '../lib/util';
+import { getNews, getDeals, fmtDate, tl, CATS, newsImg, hasRealImg, type Cat } from '../lib/util';
 
 const news = await getNews();
 const deals = (await getDeals()).slice(0, 3);
 // Manşet: görseli olan en yeni haberler önce, sonra diğerleri (en fazla 6)
-const withImg = news.filter((p) => imgIfExists(p.data.image));
-const heroPosts = [...withImg, ...news.filter((p) => !imgIfExists(p.data.image))].slice(0, 6);
+const withImg = news.filter((p) => hasRealImg(p));
+const heroPosts = [...withImg, ...news.filter((p) => !hasRealImg(p))].slice(0, 6);
 const heroIds = new Set(heroPosts.map((p) => p.id));
 const latest = news.filter((p) => !heroIds.has(p.id)).slice(0, 4);
 const used = new Set([...heroIds, ...latest.map((p) => p.id)]);
 const byCat = (c: Cat, n: number) => news.filter((p) => p.data.category === c && !used.has(p.id)).slice(0, n);
 const turkiye = news.filter((p) => p.data.category !== 'rehber' && !used.has(p.id)).slice(0, 4);
 const rehber = byCat('rehber', 4);
-const card = (p: any) => ({ p, cat: p.data.category as Cat, img: imgIfExists(p.data.image), url: `/haberler/${p.data.category}/${p.id}` });
+const card = (p: any) => ({ p, cat: p.data.category as Cat, img: newsImg(p), url: `/haberler/${p.data.category}/${p.id}` });
 const cheapest = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 5);
 const majors = ['trugo', 'zes', 'esarj', 'tesla', 'voltrun', 'astor'].map((id) => ops.operators.find((o) => o.id === id)!).filter(Boolean);
 const jsonLd = {

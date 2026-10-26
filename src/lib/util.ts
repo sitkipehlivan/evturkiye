@@ -29,3 +29,9 @@ export function imgIfExists(path?: string) {
   if (/^https?:\/\//.test(path)) return path;
   return existsSync(`public${path}`) ? path : undefined;
 }
+
+/** Haberin gerçek görseli; yoksa otomatik üretilen markalı kapak (scripts/covers.mjs). */
+export function newsImg(post: { id: string; data: { image?: string } }) {
+  return imgIfExists(post.data.image) ?? imgIfExists(`/images/otomatik/${post.id}.png`);
+}
+export const hasRealImg = (post: { data: { image?: string } }) => !!imgIfExists(post.data.image);

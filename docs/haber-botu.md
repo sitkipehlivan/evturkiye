@@ -46,7 +46,7 @@ draft: false
 ---
 Metin…
 ```
-`image` alanı her zaman yazılır; dosya henüz yoksa site yer tutucu gösterir, görsel sonradan eklenir.
+`image` alanı her zaman yazılır. Dosya yoksa site derlenirken başlık ve kategoriyle otomatik markalı bir kapak üretir (scripts/covers.mjs); gerçek görsel sonradan aynı adla `public/images/haberler/` içine eklenince otomatik kapak devreden çıkar. Bot görsel indirmez ve yapay zekâ görseli üretmez.
 
 ## 7. Doğrudan yayın mı, taslak mı? (karışık mod)
 **Doğrudan yayın (`main` dalına commit):** yalnızca resmi ve kesin veriye dayanan haberler: üreticinin resmi fiyat listesi, EPDK/Resmî Gazete düzenlemesi, ODMD/TÜİK/EPDK verisi, operatörün kendi sitesinde ilan ettiği tarife değişikliği, markanın resmi kampanya duyurusu.
