@@ -25,13 +25,14 @@ const payload = JSON.stringify(ops.operators.map((o) => ({ id: o.id, name: o.nam
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
   import { parseOsm, findOperator, type Operator } from '../scripts/planner-core';
+  import { overpass } from '../scripts/planner';
   const operators: Operator[] = JSON.parse(document.getElementById('st-ops')!.textContent!);
   const status = document.getElementById('f-status')!;
   const fDc = document.getElementById('f-dc') as HTMLInputElement;
   const fOp = document.getElementById('f-op') as HTMLSelectElement;
   const map = L.map('st-map', { scrollWheelZoom: true }).setView([39.3, 33.2], 6);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19, className: 'osm-tiles',
   }).addTo(map);
   const layer = L.layerGroup().addTo(map);
   const cache = new Map<string, any>();
@@ -61,8 +62,7 @@ const payload = JSON.stringify(ops.operators.map((o) => ({ id: o.id, name: o.nam
     status.textContent = 'Yükleniyor…';
     try {
       const q = `[out:json][timeout:40];(node["amenity"="charging_station"](${bbox});way["amenity"="charging_station"](${bbox}););out center tags;`;
-      const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-      const j = await res.json();
+      const j = await overpass(q);
       for (const el of j.elements || []) {
         const s = parseOsm(el);
         if (s) cache.set(s.id, { ...s, op: findOperator(`${s.operator} ${s.name}`, operators) });

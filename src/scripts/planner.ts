@@ -10,7 +10,11 @@ interface Place { label: string; lat: number; lon: number; }
 
 const PHOTON = 'https://photon.komoot.io/api/';
 const OSRM = 'https://router.project-osrm.org/route/v1/driving/';
-const OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
+export const OVERPASS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.private.coffee/api/interpreter',
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
+];
 const TR_BBOX = '25.6,35.8,44.9,42.2';
 
 const root = document.querySelector<HTMLElement>('[data-planner]');
@@ -39,9 +43,8 @@ function init(root: HTMLElement) {
 
   // --- Harita
   const map = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false }).setView([39.2, 33.5], 6);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains: 'abcd', maxZoom: 19,
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19, className: 'osm-tiles',
   }).addTo(map);
   map.on('click', () => map.scrollWheelZoom.enable());
   const layer = L.layerGroup().addTo(map);
@@ -243,27 +246,46 @@ function init(root: HTMLElement) {
   }
 
   async function getStations(coords: LatLon[], cum: number[]): Promise<Station[]> {
-    const pts = sample(coords, cum, 4).map((p) => `${p[0].toFixed(4)},${p[1].toFixed(4)}`).join(',');
-    const q = `[out:json][timeout:60];(node["amenity"="charging_station"](around:2500,${pts});way["amenity"="charging_station"](around:2500,${pts}););out center tags;`;
-    let lastErr: any;
-    for (const ep of OVERPASS) {
-      try {
-        const res = await fetch(ep, { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
-        if (!res.ok) throw new Error(String(res.status));
-        const j = await res.json();
-        const out: Station[] = [];
-        for (const el of j.elements || []) {
-          const s = parseOsm(el);
-          if (!s) continue;
-          const loc = locate(coords, cum, [s.lat, s.lon]);
-          if (loc.offset > 3) continue;
-          out.push({ ...s, ...loc });
-        }
-        return out;
-      } catch (e) { lastErr = e; }
+    // Rotayı ~120 km'lik parçalara bölüp her parça için küçük bir kutu sorgula (hızlı indeks araması)
+    const boxes: string[] = [];
+    const PAD = 0.035;
+    let startI = 0;
+    for (let i = 1; i < coords.length; i++) {
+      if (cum[i] - cum[startI] >= 120 || i === coords.length - 1) {
+        let s = 90, w = 180, n = -90, e = -180;
+        for (let j = startI; j <= i; j++) { s = Math.min(s, coords[j][0]); n = Math.max(n, coords[j][0]); w = Math.min(w, coords[j][1]); e = Math.max(e, coords[j][1]); }
+        boxes.push([s - PAD, w - PAD, n + PAD, e + PAD].map((v) => v.toFixed(3)).join(','));
+        startI = i;
+      }
     }
-    throw new Error('İstasyon verisine şu an ulaşılamıyor. Biraz sonra tekrar deneyin.' + (lastErr ? '' : ''));
+    const q = `[out:json][timeout:25];(${boxes.map((b) => `node["amenity"="charging_station"](${b});way["amenity"="charging_station"](${b});`).join('')});out center tags;`;
+    const j = await overpass(q);
+    const seen = new Set<string>();
+    const out: Station[] = [];
+    for (const el of j.elements || []) {
+      const s = parseOsm(el);
+      if (!s || seen.has(s.id)) continue;
+      seen.add(s.id);
+      const loc = locate(coords, cum, [s.lat, s.lon]);
+      if (loc.offset > 3) continue;
+      out.push({ ...s, ...loc });
+    }
+    return out;
   }
+}
+
+export async function overpass(q: string): Promise<any> {
+  const body = 'data=' + encodeURIComponent(q);
+  for (const ep of OVERPASS) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 20000);
+    try {
+      const res = await fetch(ep, { method: 'POST', body, headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, signal: ctrl.signal });
+      if (!res.ok) throw new Error(String(res.status));
+      return await res.json();
+    } catch { /* sıradaki sunucuyu dene */ } finally { clearTimeout(t); }
+  }
+  throw new Error('İstasyon verisine şu an ulaşılamıyor. Biraz sonra tekrar deneyin.');
 }
 
 function num(v: string | null) { if (v == null) return undefined; const n = Number(v); return Number.isFinite(n) ? n : undefined; }

@@ -125,3 +125,4 @@ input[type=range] { height: auto; padding: 0; border: 0; box-shadow: none; accen
 
 [hidden] { display: none !important; }
 select { min-width: 0; text-overflow: ellipsis; }
+.osm-tiles { filter: saturate(.55) brightness(1.04) contrast(.95); }
