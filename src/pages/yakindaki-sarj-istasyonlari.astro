@@ -47,6 +47,16 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
 <script>
   import { loadGoogle, GoogleAutocomplete, GoogleMapView, type Pin } from '../scripts/google';
   import { findOperator, haversine, type Operator } from '../scripts/planner-core';
+  import { authEnabled, onUser, currentUser, idToken } from '../scripts/auth';
+  import { openAuth } from '../scripts/auth-ui';
+  import { NEAR_LIMITS } from '../lib/firebase-config';
+
+  // Misafir için cihaz bazlı günlük hak (aynı ~1 km'lik bölge tekrar sayılmaz)
+  const QKEY = 'evt-yakin-hakki';
+  const today = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Istanbul' });
+  const qRead = (): string[] => { try { const v = JSON.parse(localStorage.getItem(QKEY) || 'null'); return v?.day === today() ? v.keys : []; } catch { return []; } };
+  const qAdd = (k: string) => { const keys = qRead(); if (!keys.includes(k)) keys.push(k); try { localStorage.setItem(QKEY, JSON.stringify({ day: today(), keys })); } catch {} };
+  const userReady = new Promise<void>((res) => { onUser(() => res()); });
 
   const root = document.querySelector<HTMLElement>('[data-near]')!;
   const data = JSON.parse(root.querySelector('script[type="application/json"]')!.textContent || '{}');
@@ -109,13 +119,28 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
   addr.addEventListener('blur', () => setTimeout(() => (sug.hidden = true), 150));
   dcOnly.addEventListener('change', () => last && render(last.at, last.stations));
 
-  async function search(at: [number, number]) {
+  async function search(at: [number, number], retried = false) {
     say('Yakındaki şarj istasyonları aranıyor…');
     try {
+      const spot = `${at[0].toFixed(2)},${at[1].toFixed(2)}`;
+      const members = authEnabled();
+      if (members) await userReady;
+      if (members && !currentUser() && !qRead().includes(spot) && qRead().length >= NEAR_LIMITS.guest) {
+        say('');
+        const u = await openAuth({ reason: `Üye olmadan günde ${NEAR_LIMITS.guest} arama yapabilirsiniz. Ücretsiz üye olarak günde ${NEAR_LIMITS.member} aramaya kadar devam edin.` });
+        if (!u) { say(`Bugünkü ${NEAR_LIMITS.guest} ücretsiz arama hakkınızı kullandınız. Devam etmek için ücretsiz üye olun veya giriş yapın.`, true); return; }
+        say('Yakındaki şarj istasyonları aranıyor…');
+      }
       const q = `${at[0].toFixed(3)},${at[1].toFixed(3)}`;
-      const res = await fetch(`/api/yakin?at=${q}`);
+      const token = members ? await idToken().catch(() => null) : null;
+      const res = await fetch(`/api/yakin?at=${q}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
       const j = await res.json().catch(() => ({}));
+      if (res.status === 429 && j.needLogin && members && !retried) {
+        const u = await openAuth({ reason: j.error });
+        if (u) return search(at, true);
+      }
       if (!res.ok) throw new Error(j.error || 'İstasyonlar alınamadı.');
+      qAdd(spot);
       last = { at, stations: j.stations || [] };
       await ready.catch(() => {});
       render(at, last.stations);

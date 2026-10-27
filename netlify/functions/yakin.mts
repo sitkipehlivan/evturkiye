@@ -2,7 +2,8 @@
 // GET /api/yakin?at=lat,lng  → { stations[] }   Konum saklanmaz.
 // Koordinatlar istemcide ~100 m'ye yuvarlanır; yanıt CDN'de 5 dk önbellekte tutulur (anlık doluluk için kısa).
 import type { Config, Context } from '@netlify/functions';
-import { getStore } from '@netlify/blobs';
+import { uidFrom, takeQuota } from '../../src/lib/server-quota';
+import { NEAR_LIMITS, GUEST_IP_LIMIT } from '../../src/lib/firebase-config';
 
 const NEARBY = 'https://places.googleapis.com/v1/places:searchNearby';
 const DC_TYPES = new Set(['EV_CONNECTOR_TYPE_CCS_COMBO_2', 'EV_CONNECTOR_TYPE_CCS_COMBO_1', 'EV_CONNECTOR_TYPE_CHADEMO', 'EV_CONNECTOR_TYPE_TESLA', 'EV_CONNECTOR_TYPE_GB_T_DC', 'EV_CONNECTOR_TYPE_NACS']);
@@ -12,7 +13,6 @@ const LABEL: Record<string, string> = {
   EV_CONNECTOR_TYPE_GB_T_DC: 'GB/T DC', EV_CONNECTOR_TYPE_GB_T: 'GB/T', EV_CONNECTOR_TYPE_UNSPECIFIED_WALL_OUTLET: 'Priz', EV_CONNECTOR_TYPE_OTHER: 'Diğer',
 };
 const ALLOWED = /^https?:\/\/([a-z0-9-]+\.)*(evturkiye\.online|evturkiye\.com\.tr|netlify\.app)(:\d+)?$|^http:\/\/localhost(:\d+)?$/i;
-const IP_DAILY = 40;
 
 const json = (body: unknown, status = 200, cache = false) => new Response(JSON.stringify(body), {
   status,
@@ -35,14 +35,18 @@ export default async (req: Request, ctx: Context) => {
     return json({ error: 'Bu hizmet şimdilik yalnızca Türkiye içinde çalışıyor.' }, 400);
   }
 
-  // IP başına günlük kötüye kullanım sınırı
+  // Günlük hak: üyeler hesap bazında 5, misafirler cihazda 2 (sunucuda IP başına geniş sınır)
+  const spot = `${at[0].toFixed(2)},${at[1].toFixed(2)}`; // ~1 km: aynı bölgede tekrar arama hak düşürmez
+  const uid = await uidFrom(req);
   try {
-    const day = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Istanbul' });
-    const store = getStore('yakin-kota');
-    const k = `${day}/${ctx.ip || 'x'}`;
-    const n = Number((await store.get(k)) || 0);
-    if (n >= IP_DAILY) return json({ error: 'Bugün çok fazla arama yapıldı. Biraz sonra tekrar deneyin.' }, 429);
-    await store.set(k, String(n + 1));
+    const q = uid
+      ? await takeQuota('yakin-kota', 'u/' + uid, spot, NEAR_LIMITS.member)
+      : await takeQuota('yakin-kota', 'ip/' + (ctx.ip || 'x'), spot, GUEST_IP_LIMIT);
+    if (!q.ok) {
+      return json(uid
+        ? { error: `Bugün için ${NEAR_LIMITS.member} arama hakkınızı kullandınız. Yarın tekrar arayabilirsiniz.`, limit: true }
+        : { error: 'Bugünkü ücretsiz arama hakkı doldu. Devam etmek için ücretsiz üye olun.', limit: true, needLogin: true }, 429);
+    }
   } catch (e: any) { console.error('kota', e?.message); }
 
   try {

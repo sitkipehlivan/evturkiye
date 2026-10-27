@@ -11,5 +11,8 @@ export function parseFirebaseConfig(raw: string | undefined | null): FirebaseCon
   return out.apiKey && out.projectId && out.authDomain && out.appId ? (out as FirebaseConfig) : null;
 }
 
-/** Üye olmadan ve üye olarak günlük farklı rota hakkı */
+/** Üye olmadan ve üye olarak günlük hak (rota planlayıcı ve yakındaki istasyonlar için ayrı ayrı) */
 export const ROUTE_LIMITS = { guest: 2, member: 5 };
+export const NEAR_LIMITS = { guest: 2, member: 5 };
+/** Aynı IP'yi paylaşan misafirler (mobil operatör, ofis ağı) için sunucu tarafı üst sınır */
+export const GUEST_IP_LIMIT = 10;

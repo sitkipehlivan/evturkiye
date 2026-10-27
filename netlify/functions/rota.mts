@@ -3,35 +3,8 @@
 // GET /api/rota?a=lat,lng&b=lat,lng  → { distanceM, durationS, polyline, stations[] }
 // Aynı (yuvarlanmış) koordinatlar için yanıt Netlify CDN'inde 1 gün önbelleğe alınır.
 import type { Config, Context } from '@netlify/functions';
-import { getStore } from '@netlify/blobs';
-import { createRemoteJWKSet, jwtVerify } from 'jose';
-import { parseFirebaseConfig, ROUTE_LIMITS } from '../../src/lib/firebase-config';
-
-const JWKS = createRemoteJWKSet(new URL('https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com'));
-const GUEST_IP_LIMIT = 20; // aynı IP'yi paylaşan (mobil operatör, ofis) misafirler için kötüye kullanım sınırı
-
-async function uidFrom(req: Request): Promise<string | null> {
-  const m = (req.headers.get('authorization') || '').match(/^Bearer (.+)$/);
-  const cfg = parseFirebaseConfig(process.env.PUBLIC_FIREBASE_CONFIG);
-  if (!m || !cfg) return null;
-  try {
-    const { payload } = await jwtVerify(m[1], JWKS, { issuer: `https://securetoken.google.com/${cfg.projectId}`, audience: cfg.projectId });
-    return typeof payload.sub === 'string' ? payload.sub : null;
-  } catch { return null; }
-}
-
-/** Günlük farklı rota hakkı. true → izin var (ve kaydedildi). */
-async function takeQuota(who: string, routeKey: string, limit: number): Promise<{ ok: boolean; used: number }> {
-  const day = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Istanbul' });
-  const store = getStore('rota-kota');
-  const key = `${day}/${who}`;
-  const list: string[] = ((await store.get(key, { type: 'json' })) as string[] | null) || [];
-  if (list.includes(routeKey)) return { ok: true, used: list.length };
-  if (list.length >= limit) return { ok: false, used: list.length };
-  list.push(routeKey);
-  await store.setJSON(key, list);
-  return { ok: true, used: list.length };
-}
+import { uidFrom, takeQuota } from '../../src/lib/server-quota';
+import { ROUTE_LIMITS, GUEST_IP_LIMIT } from '../../src/lib/firebase-config';
 
 const ROUTES = 'https://routes.googleapis.com/directions/v2:computeRoutes';
 const PLACES = 'https://places.googleapis.com/v1/places:searchText';
@@ -167,7 +140,7 @@ export default async (req: Request, _ctx: Context) => {
   const uid = await uidFrom(req);
   const ip = _ctx.ip || req.headers.get('x-nf-client-connection-ip') || 'bilinmiyor';
   try {
-    const q = uid ? await takeQuota('u/' + uid, routeKey, ROUTE_LIMITS.member) : await takeQuota('ip/' + ip, routeKey, GUEST_IP_LIMIT);
+    const q = uid ? await takeQuota('rota-kota', 'u/' + uid, routeKey, ROUTE_LIMITS.member) : await takeQuota('rota-kota', 'ip/' + ip, routeKey, GUEST_IP_LIMIT);
     if (!q.ok) {
       return json(uid
         ? { error: `Bugün için ${ROUTE_LIMITS.member} farklı rota hakkınızı kullandınız. Yarın yeni rota oluşturabilirsiniz.`, limit: true }
