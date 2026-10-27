@@ -2,8 +2,14 @@
 import Base from '../layouts/Base.astro';
 import modelsData from '../data/models.json';
 import { ROUTE_LIMITS } from '../lib/firebase-config';
+import opsData from '../data/operators.json';
+import iller from '../data/iller.json';
 const models = modelsData.models;
 const brands = [...new Set(models.map((m) => m.brand))];
+const ops = opsData.operators;
+const allBrands = [...new Set([...brands, 'Audi', 'BYD', 'Citroën', 'Cupra', 'Hyundai', 'Kia', 'Mercedes-Benz', 'MINI', 'Opel', 'Porsche', 'Škoda', 'Tesla', 'Togg', 'Volvo', 'KG Mobility', 'Leapmotor', 'Zeekr', 'Alpine'])].sort((a, b) => a.localeCompare(b, 'tr'));
+const years = Array.from({ length: 10 }, (_, i) => String(2027 - i));
+const STATUS = [['ev', 'Elektrikli aracım var'], ['phev', 'Plug-in hibrit aracım var'], ['buyer', 'Almayı düşünüyorum'], ['none', 'Henüz değil']];
 ---
 <Base title="Hesabım" description="EV Türkiye üyelik hesabınız: kayıtlı araç, bildirim tercihleri ve rota hakkı.">
   <meta slot="head" name="robots" content="noindex" />
@@ -34,21 +40,88 @@ const brands = [...new Set(models.map((m) => m.brand))];
 
         <form class="acc-form" data-profile>
           <label>Ad soyad <input name="name" autocomplete="name" /></label>
-          <label>Aracım
-            <select name="car">
-              <option value="">Seçilmedi</option>
-              {brands.map((b) => (
-                <optgroup label={b}>
-                  {models.filter((m) => m.brand === b).map((m) => <option value={m.slug}>{m.brand} {m.model} {m.version}</option>)}
-                </optgroup>
-              ))}
-            </select>
+          <label>Şehir
+            <select name="city"><option value="">Seçilmedi</option>{iller.map((c) => <option>{c}</option>)}</select>
           </label>
+
+          <fieldset class="fs">
+            <legend>Aracım</legend>
+            <div class="seg" role="radiogroup" aria-label="Araç durumu">
+              {STATUS.map(([v, t]) => <label><input type="radio" name="status" value={v} /><span>{t}</span></label>)}
+            </div>
+
+            <div class="grid2" data-show="owner">
+              <label>Model
+                <select name="car">
+                  <option value="">Seçilmedi</option>
+                  {brands.map((b) => (
+                    <optgroup label={b}>
+                      {models.filter((m) => m.brand === b).map((m) => <option value={m.slug}>{m.brand} {m.model} {m.version}</option>)}
+                    </optgroup>
+                  ))}
+                  <option value="diger">Listede yok</option>
+                </select>
+              </label>
+              <label>Model yılı
+                <select name="year"><option value="">—</option>{years.map((y) => <option>{y}</option>)}</select>
+              </label>
+              <label class="span2" data-show="other-car">Marka ve model <input name="carOther" placeholder="Ör. Hyundai Kona Electric 64 kWh" maxlength="80" /></label>
+              <label>Evde şarj
+                <select name="home">
+                  <option value="">—</option>
+                  <option value="wallbox">Ev tipi şarj ünitem var</option>
+                  <option value="priz">Normal prizden şarj ediyorum</option>
+                  <option value="site">Site/otoparkta ortak şarj var</option>
+                  <option value="yok">Evde şarj imkânım yok</option>
+                </select>
+              </label>
+              <label>Aylık yaklaşık yol
+                <select name="km">
+                  <option value="">—</option>
+                  <option value="0-500">500 km'den az</option>
+                  <option value="500-1500">500 – 1.500 km</option>
+                  <option value="1500-3000">1.500 – 3.000 km</option>
+                  <option value="3000+">3.000 km'den fazla</option>
+                </select>
+              </label>
+              <div class="span2">
+                <span class="lbl">Kullandığım şarj uygulamaları</span>
+                <div class="chips">{ops.map((o) => <label class="chip"><input type="checkbox" name="ops" value={o.id} /><span>{o.name}</span></label>)}</div>
+              </div>
+            </div>
+
+            <div class="grid2" data-show="buyer">
+              <label>Ne zaman almayı düşünüyorsunuz?
+                <select name="when">
+                  <option value="">—</option>
+                  <option value="3ay">3 ay içinde</option>
+                  <option value="6ay">6 ay içinde</option>
+                  <option value="1yil">1 yıl içinde</option>
+                  <option value="belirsiz">Henüz belli değil</option>
+                </select>
+              </label>
+              <label>Bütçe
+                <select name="budget">
+                  <option value="">—</option>
+                  <option value="0-2">2 milyon TL'ye kadar</option>
+                  <option value="2-3">2 – 3 milyon TL</option>
+                  <option value="3-5">3 – 5 milyon TL</option>
+                  <option value="5+">5 milyon TL üzeri</option>
+                </select>
+              </label>
+              <div class="span2">
+                <span class="lbl">İlgilendiğim markalar</span>
+                <div class="chips">{allBrands.map((b) => <label class="chip"><input type="checkbox" name="brands" value={b} /><span>{b}</span></label>)}</div>
+              </div>
+            </div>
+          </fieldset>
+
           <label class="chk"><input type="checkbox" name="marketing" /> <span>Kampanya, haber ve işbirliği duyurularını e-posta ve bildirim yoluyla almak istiyorum.</span></label>
           <div class="row">
             <button class="btn btn-volt" type="submit">Kaydet</button>
             <span class="saved small" data-saved hidden>Kaydedildi ✓</span>
           </div>
+          <p class="muted small">Araç bilgileriniz planlayıcıda aracınızın hazır gelmesi ve size uygun içerik sunulması için kullanılır. Tüm alanlar isteğe bağlıdır.</p>
         </form>
 
         <div class="acc-foot">
@@ -76,6 +149,16 @@ const brands = [...new Set(models.map((m) => m.brand))];
   const guest = $('[data-guest]'), member = $('[data-member]'), msg = $('[data-msg]');
   const form = $<HTMLFormElement>('[data-profile]');
   const say = (t: string) => { msg.textContent = t; msg.hidden = !t; };
+  const setVal = (n: string, v: string) => { const el = form.elements.namedItem(n) as HTMLInputElement | HTMLSelectElement | null; if (el) el.value = v; };
+  // Durum seçimine göre ilgili alanları göster
+  const sync = () => {
+    const st = (form.querySelector('input[name="status"]:checked') as HTMLInputElement | null)?.value || '';
+    (form.querySelector('[data-show="owner"]') as HTMLElement).hidden = !(st === 'ev' || st === 'phev');
+    (form.querySelector('[data-show="buyer"]') as HTMLElement).hidden = st !== 'buyer';
+    (form.querySelector('[data-show="other-car"]') as HTMLElement).hidden = (form.elements.namedItem('car') as HTMLSelectElement).value !== 'diger';
+  };
+  form.addEventListener('change', sync);
+  sync();
 
   if (!authEnabled()) {
     $('[data-disabled]').hidden = false;
@@ -95,9 +178,16 @@ const brands = [...new Set(models.map((m) => m.brand))];
       $('[data-email]').textContent = u.email || '';
       $('[data-avatar]').textContent = (name || u.email || '?').trim().charAt(0).toLocaleUpperCase('tr');
       $('[data-verify]').hidden = u.emailVerified || u.providerData.some((x) => x.providerId === 'google.com');
-      (form.elements.namedItem('name') as HTMLInputElement).value = name;
-      (form.elements.namedItem('car') as HTMLSelectElement).value = p.car || '';
+      const v: any = p.vehicle || {};
+      setVal('name', name);
+      setVal('city', p.city || '');
+      setVal('car', p.car || v.car || '');
+      ['year', 'carOther', 'home', 'km', 'when', 'budget'].forEach((k) => setVal(k, v[k] || ''));
+      form.querySelectorAll<HTMLInputElement>('input[name="status"]').forEach((r) => (r.checked = r.value === (v.status || '')));
+      form.querySelectorAll<HTMLInputElement>('input[name="ops"]').forEach((c) => (c.checked = (v.ops || []).includes(c.value)));
+      form.querySelectorAll<HTMLInputElement>('input[name="brands"]').forEach((c) => (c.checked = (v.brands || []).includes(c.value)));
       (form.elements.namedItem('marketing') as HTMLInputElement).checked = !!p.consents?.marketing;
+      sync();
     });
 
     form.addEventListener('submit', async (e) => {
@@ -105,12 +195,28 @@ const brands = [...new Set(models.map((m) => m.brand))];
       if (!current) return;
       const f = new FormData(form);
       try {
+        const status = String(f.get('status') || '');
+        const owner = status === 'ev' || status === 'phev';
+        const car = owner ? String(f.get('car') || '') : '';
         await saveProfile(current, {
           name: String(f.get('name') || ''),
-          car: String(f.get('car') || ''),
+          city: String(f.get('city') || ''),
+          car: car === 'diger' ? '' : car,
+          vehicle: {
+            status,
+            car,
+            carOther: owner && car === 'diger' ? String(f.get('carOther') || '').slice(0, 80) : '',
+            year: owner ? String(f.get('year') || '') : '',
+            home: owner ? String(f.get('home') || '') : '',
+            km: owner ? String(f.get('km') || '') : '',
+            ops: owner ? f.getAll('ops').map(String) : [],
+            when: status === 'buyer' ? String(f.get('when') || '') : '',
+            budget: status === 'buyer' ? String(f.get('budget') || '') : '',
+            brands: status === 'buyer' ? f.getAll('brands').map(String) : [],
+          },
           consents: { kvkk: true, marketing: f.get('marketing') === 'on' },
-        });
-        try { localStorage.setItem('evt-car', String(f.get('car') || '')); } catch {}
+        } as any);
+        try { localStorage.setItem('evt-car', car === 'diger' ? '' : car); } catch {}
         const s = $('[data-saved]'); s.hidden = false; setTimeout(() => (s.hidden = true), 2500);
       } catch (err) { say(authError(err)); }
     });
@@ -143,6 +249,25 @@ const brands = [...new Set(models.map((m) => m.brand))];
   .chk { display: flex !important; grid-template-columns: none; gap: 9px; align-items: flex-start; font-weight: 400 !important; color: var(--ink-2); }
   .chk input { margin-top: 3px; accent-color: var(--green); }
   .saved { color: var(--green); font-weight: 600; }
+  .fs { border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 0; display: grid; gap: 14px; }
+  .fs legend { font-weight: 800; padding: 0 6px; }
+  .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .seg label { display: block !important; margin: 0; position: relative; cursor: pointer; }
+  .seg input { position: absolute; opacity: 0; }
+  .seg span { display: block; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; font-weight: 600; font-size: .88rem; text-align: center; }
+  .seg input:checked + span { border-color: var(--green); background: var(--green-soft); color: #0b6b35; }
+  .seg input:focus-visible + span { box-shadow: 0 0 0 3px var(--volt-soft); }
+  .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .grid2[hidden], [data-show][hidden] { display: none !important; }
+  .span2 { grid-column: 1 / -1; }
+  .lbl { display: block; font-weight: 600; font-size: .9rem; margin-bottom: 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { display: inline-flex !important; position: relative; cursor: pointer; margin: 0; }
+  .chip input { position: absolute; opacity: 0; }
+  .chip span { padding: 6px 11px; border: 1px solid var(--line); border-radius: 999px; font-size: .82rem; font-weight: 500; }
+  .chip input:checked + span { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip input:focus-visible + span { box-shadow: 0 0 0 3px var(--volt-soft); }
+  @media (max-width: 560px) { .grid2, .seg { grid-template-columns: minmax(0, 1fr); } }
   .acc-foot { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; }
   .link { border: 0; background: none; color: var(--volt); font: 600 .88rem var(--font); cursor: pointer; padding: 0; }
   .link.danger { color: var(--red); margin-left: auto; }

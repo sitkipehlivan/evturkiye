@@ -9,7 +9,7 @@ import { getFirestore, doc, getDoc, setDoc, deleteDoc, serverTimestamp, type Fir
 import { parseFirebaseConfig } from '../lib/firebase-config';
 
 export interface Consents { kvkk: boolean; marketing: boolean; }
-export interface Profile { name?: string; email?: string; car?: string; consents?: Consents & { updatedAt?: unknown }; createdAt?: unknown; }
+export interface Profile { name?: string; email?: string; car?: string; city?: string; vehicle?: Record<string, unknown>; consents?: Consents & { updatedAt?: unknown }; createdAt?: unknown; }
 
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
