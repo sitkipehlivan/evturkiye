@@ -2,6 +2,9 @@
 title: "Kışın elektrikli araç menzili ne kadar düşer? 18 bin araçlık verinin gösterdikleri"
 description: "Soğuk havada elektrikli araçlar menzilinin dörtte birine kadarını kaybedebiliyor. Isı pompasının farkı, en dayanıklı modeller ve kışın menzili korumanın 8 yolu."
 image: "/images/haberler/kisin-elektrikli-arac-menzili.jpg"
+imageMode: generate
+imageScene: "close-up of a modern outdoor DC charging post covered with light snow and frost during gentle snowfall, its charging cable hanging in the holster, cold blue winter daylight, warm green status LED"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-25
 source: "Recurrent araştırması (DonanımHaber aracılığıyla)"

@@ -2,6 +2,9 @@
 title: "Elektrikli araçlarda ÖTV ve MTV 2026: Hangi model hangi dilimde?"
 description: "Elektrikli otomobillerde ÖTV oranları motor gücü ve matraha göre %25 ile %75 arasında değişiyor. 2026 ÖTV dilimlerini ve MTV'nin nasıl hesaplandığını sade bir tabloyla anlattık."
 image: "/images/haberler/elektrikli-arac-otv-mtv-2026.jpg"
+imageMode: generate
+imageScene: "minimal white desk seen at a slight angle with a calculator, a neat stack of tax documents without readable text and a generic smart key fob, soft morning window light"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-23
 source: "Hesapkurdu – Elektrikli araç ÖTV ve MTV dilimleri"

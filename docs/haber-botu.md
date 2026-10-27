@@ -51,10 +51,23 @@ Metin…
 ## 7. Yayın
 Seçilen tüm haberler doğrudan `main` dalına eklenir ve yayınlanır (taslak/onay adımı yok). Bu yüzden doğrulama şarttır: rakamı ve tarihi kaynak sayfada kendin görmediysen yazma; emin olmadığın haberi hiç ekleme.
 
-## 7a. Görsel brifi
-Her yeni haber için `docs/gorsel-bekleyenler.md` dosyasına (yoksa oluştur, en yeni üstte) bir satır ekle:
-`| <tarih> | <slug>.jpg | <yüklenecek gerçek fotoğrafın kaynağı: üreticinin basın/medya sayfası linki veya Unsplash/Pexels arama kelimesi> | <SCENE satırı: arka plan tarifi, İngilizce> |`
-Gerçek araç fotoğrafı yalnızca lisansı uygun kaynaklardan önerilir (üretici basın kiti, Unsplash, Pexels, Wikimedia Commons). Haber sitelerinden veya ajanslardan fotoğraf önerme. Görsel düzenleme kuralları (araç aynen kalır, sadece çevre yapay zekâ ile değişir) `docs/gorsel-duzenleme.md` dosyasındadır.
+## 7a. Görsel (Gemini ile otomatik)
+Her yeni haberin ön bilgisine (frontmatter) görsel alanlarını yaz; görseli GitHub'daki "Haber görselleri (Gemini)" işlemi otomatik hazırlar ve siteye ekler. Hazırlanana kadar otomatik markalı kapak görünür.
+
+- **Görselde araç olacaksa → `imageMode: edit`**. Araç MUTLAKA gerçek bir fotoğraftan gelir; Gemini yalnızca arka planı, ışığı ve rengi değiştirir.
+  - `imageSource`: lisansı uygun gerçek fotoğrafın **doğrudan görsel adresi** (.jpg/.png/.webp). Uygun kaynaklar: üreticinin basın/medya sitesi, Wikimedia Commons (`upload.wikimedia.org/...` adresi), Unsplash (`images.unsplash.com/...`), Pexels (`images.pexels.com/...`). Haber sitelerinden ve ajanslardan (AA, DHA, Getty, Reuters vb.) ASLA alma.
+  - `imageCredit`: "Togg Basın" / "Wikimedia Commons / <fotoğrafçı>, <lisans>" / "Unsplash / <fotoğrafçı>".
+  - Uygun gerçek fotoğraf bulamazsan araçsız bir sahneyle `generate` modunu kullan.
+- **Görselde araç olmayacaksa → `imageMode: generate`** (fiş, şarj ünitesi, masa, belge, yol, istasyon, batarya vb.). Sahne kesinlikle araç içermez. `imageCredit: "EV Türkiye / yapay zekâ ile üretildi"`.
+- `imageScene`: İngilizce, tek cümlelik sahne tarifi (konu, ortam, ışık). Metin, logo, marka adı isteme.
+
+Örnek:
+```
+imageMode: edit
+imageSource: "https://upload.wikimedia.org/wikipedia/commons/x/xx/Togg_T10X.jpg"
+imageScene: "bright minimalist showroom with polished light-grey floor and soft daylight"
+imageCredit: "Wikimedia Commons / Ad Soyad, CC BY-SA 4.0"
+```
 
 ## 8. Veri tablolarının güncellenmesi
 - Bir operatörün resmi tarife değişikliği doğrulanırsa `src/data/operators.json` içindeki fiyatı ve `updated` tarihini de güncelle (doğrudan yayın).
@@ -62,8 +75,8 @@ Gerçek araç fotoğrafı yalnızca lisansı uygun kaynaklardan önerilir (üret
 
 ## 9. Teknik
 - Commit'ten önce `npm ci && npm run build:fast` ile derlemenin geçtiğini doğrula; hata varsa düzelt, düzelmiyorsa o haberi ekleme.
-- Bir çalıştırmada `main`e en fazla bir commit (Netlify derleme limitini korumak için). Haberler ve görsel brifi aynı commit'te.
+- Bir çalıştırmada `main`e en fazla bir commit (Netlify derleme limitini korumak için). Görsel alanları haberle aynı commit'te.
 - Commit mesajı: `Haber: <kısa başlık>` (birden fazla ise `Haberler: 2 yeni`).
 
 ## 10. Rapor
-Çalıştırmanın sonunda: kaç kaynak tarandı, ne eklendi (başlık + link), her haber için hangi gerçek fotoğrafın hazırlanması gerektiği, ne neden elendi. Yeni bir şey yoksa tek satır: "Yeni haber yok."
+Çalıştırmanın sonunda: kaç kaynak tarandı, ne eklendi (başlık + link), her haber için seçilen görsel modu (edit/generate) ve kaynak, ne neden elendi. Yeni bir şey yoksa tek satır: "Yeni haber yok."

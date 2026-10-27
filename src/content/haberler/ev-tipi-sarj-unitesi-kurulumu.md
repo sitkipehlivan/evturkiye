@@ -2,6 +2,9 @@
 title: "Ev tipi şarj ünitesi (wallbox) kurulumu: Başlamadan önce bilmeniz gerekenler"
 description: "Evde elektrikli araç şarjı için wallbox seçimi, monofaze/trifaze farkı, site yönetimi süreci ve kurulumda dikkat edilmesi gerekenler."
 image: "/images/haberler/ev-tipi-sarj-unitesi-kurulumu.jpg"
+imageMode: generate
+imageScene: "an electrician's hands in work gloves mounting a white wall-box EV charger on a clean garage wall, a level, screwdriver and drill neatly arranged on a small step ladder, bright daylight"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-18
 ---

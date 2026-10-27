@@ -2,6 +2,9 @@
 title: "Elektrikli aracı evde şarj etmek kaça mal olur? 2026 hesabı"
 description: "Konut elektrik tarifesiyle evde şarjın kWh ve 100 km maliyetini, kademe sınırının etkisini ve gece tarifesinin avantajını örneklerle hesapladık."
 image: "/images/haberler/evde-sarj-maliyeti-2026.jpg"
+imageMode: generate
+imageScene: "a modern tidy home garage wall in the evening with a white wall-mounted EV charger (wallbox) and its neatly coiled cable, soft blue LED glow, warm interior light, a small plant on a shelf"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-24
 source: "Akıllı Tarife (2026 2. çeyrek konut tarifesi)"

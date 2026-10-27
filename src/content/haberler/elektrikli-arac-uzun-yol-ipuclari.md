@@ -2,6 +2,9 @@
 title: "Elektrikli araçla uzun yola çıkmadan önce 7 ipucu"
 description: "Rota planlamasından şarj uygulamalarına, kış koşullarından mola stratejisine kadar elektrikli araçla uzun yolculuk için pratik öneriler."
 image: "/images/haberler/elektrikli-arac-uzun-yol-ipuclari.jpg"
+imageMode: generate
+imageScene: "an empty scenic Turkish Aegean coastal road at golden hour winding between olive trees with the sea and mountains in soft focus, a small modern charging station sign-free pole at the roadside with a soft green glow"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-15
 ---

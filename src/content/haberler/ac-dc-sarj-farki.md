@@ -2,6 +2,9 @@
 title: "AC ve DC şarj arasındaki fark nedir? Hangisini ne zaman kullanmalı?"
 description: "Elektrikli araçlarda AC ve DC şarjın çalışma mantığı, hızları, maliyetleri ve batarya sağlığına etkileri üzerine sade bir rehber."
 image: "/images/haberler/ac-dc-sarj-farki.jpg"
+imageMode: generate
+imageScene: "product photo of two EV charging plugs lying side by side on a pure white surface: a Type 2 AC plug and a larger CCS Combo 2 DC plug, black cables curving softly, one plug with a faint green glow and the other with a faint blue glow"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-20
 featured: false

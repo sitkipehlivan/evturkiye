@@ -29,7 +29,12 @@ const jsonLd = {
         <p class="lede">{d.description}</p>
         <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time></div>
       </header>
-      {img && <img class="cover" src={img} alt={d.title} />}
+      {img && (
+        <figure class="cover-fig">
+          <img class="cover" src={img} alt={d.title} />
+          {d.imageCredit && img.startsWith('/images/haberler/') && <figcaption>Görsel: {d.imageCredit}</figcaption>}
+        </figure>
+      )}
       <div class="prose"><Content /></div>
       {d.sourceUrl && <p class="source small">Kaynak: <a href={d.sourceUrl} target="_blank" rel="noopener nofollow">{d.source ?? new URL(d.sourceUrl).hostname} ↗</a></p>}
     </div>
@@ -46,7 +51,9 @@ const jsonLd = {
   .head { max-width: 780px; margin-bottom: 28px; }
   .lede { font-size: 1.15rem; color: var(--ink-2); }
   .meta { display: flex; gap: 10px; align-items: center; }
-  .cover { border-radius: var(--radius); margin-bottom: 28px; max-height: 460px; width: 100%; object-fit: cover; }
+  .cover-fig { margin: 0 0 28px; }
+  .cover-fig figcaption { font-size: .78rem; color: var(--muted); margin-top: 8px; }
+  .cover { border-radius: var(--radius); max-height: 460px; width: 100%; object-fit: cover; }
   .source { max-width: 720px; padding-top: 18px; margin-top: 28px; border-top: 1px solid var(--line); color: var(--muted); }
   .source a { color: var(--volt); }
 </style>

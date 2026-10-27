@@ -2,6 +2,9 @@
 title: "Elektrikli araç bataryası kaç yıl dayanır? Garanti, yıpranma ve uzun ömür için 7 kural"
 description: "Elektrikli araç bataryaları sanıldığından çok daha uzun ömürlü. Batarya garantisi, yıllık kapasite kaybı ve bataryayı korumak için dikkat edilmesi gerekenler."
 image: "/images/haberler/elektrikli-arac-batarya-omru.jpg"
+imageMode: generate
+imageScene: "a clean electric-vehicle battery pack with neatly arranged silver battery modules and orange high-voltage cables on a white technical studio table, soft even light, subtle blue rim light"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-21
 ---

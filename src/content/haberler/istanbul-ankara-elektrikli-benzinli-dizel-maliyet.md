@@ -2,6 +2,9 @@
 title: "İstanbul–Ankara elektrikliyle kaça gidilir? Benzinli ve dizelle maliyet karşılaştırması"
 description: "Ekim 2026 akaryakıt ve şarj fiyatlarıyla İstanbul–Ankara yolculuğunun maliyetini hesapladık: elektrikli araçla evde şarj, hızlı şarj, benzinli ve dizel."
 image: "/images/haberler/istanbul-ankara-elektrikli-benzinli-dizel-maliyet.jpg"
+imageMode: generate
+imageScene: "a long empty Anatolian motorway curving through gentle golden hills at late afternoon, a modern DC fast-charging canopy at a rest area on the roadside in the mid-distance with a soft green LED glow, clear sky"
+imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-26
 ---

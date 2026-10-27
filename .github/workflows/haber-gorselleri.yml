@@ -1,0 +1,42 @@
+# Görseli eksik haberler için Gemini ile kapak görseli hazırlar ve siteye ekler.
+name: Haber görselleri (Gemini)
+on:
+  push:
+    branches: [main]
+    paths: ['src/content/haberler/**']
+  schedule:
+    - cron: '20 7 * * *'   # her gün 10:20 (Türkiye)
+  workflow_dispatch:
+    inputs:
+      max:
+        description: 'Bu çalıştırmada en fazla kaç görsel'
+        default: '6'
+permissions:
+  contents: write
+concurrency:
+  group: haber-gorselleri
+  cancel-in-progress: false
+jobs:
+  gorsel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow pyyaml
+      - name: Görselleri üret
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MAX_IMAGES: ${{ github.event.inputs.max || '6' }}
+        run: python scripts/haber_gorselleri.py
+      - name: Değişiklik varsa kaydet
+        run: |
+          git config user.name "evturkiye-bot"
+          git config user.email "sitki.pehlivan@advancedigital.media"
+          git add public/images/haberler
+          if git diff --cached --quiet; then echo "Yeni görsel yok"; exit 0; fi
+          git commit -m "Görseller: $(git diff --cached --name-only | wc -l) yeni (Gemini)"
+          git pull --rebase origin main
+          git push
