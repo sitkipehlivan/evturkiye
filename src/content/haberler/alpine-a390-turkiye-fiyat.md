@@ -2,9 +2,9 @@
 title: "Alpine A390 Türkiye'de satışta: 400 beygirlik elektrikli SUV 6,3 milyon TL"
 description: "Alpine'in ilk elektrikli SUV'u A390, GT versiyonuyla 6.300.000 TL'den siparişe açıldı. 89 kWh batarya, 557 km WLTP menzil ve 190 kW'a kadar DC şarj."
 image: "/images/haberler/alpine-a390-turkiye-fiyat.jpg"
-imageMode: generate
-imageScene: "Winding mountain road in the French Alps at golden hour seen from a high viewpoint, empty asphalt with crisp white lines, pine trees and dramatic peaks, no vehicles."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Alpine A390"
+imageScene: "A winding mountain road in the French Alps at golden hour, pine trees and dramatic snowy peaks in the background."
 category: turkiye
 date: 2026-07-04
 source: "OtonomHaber"

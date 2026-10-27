@@ -12,6 +12,7 @@ const haberler = defineCollection({
     image: z.string().optional(),
     imageMode: z.enum(['edit', 'generate']).optional(),
     imageSource: z.string().optional(),
+    imageWiki: z.string().optional(),
     imageScene: z.string().optional(),
     imageCredit: z.string().optional(),
     source: z.string().optional(),

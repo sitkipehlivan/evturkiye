@@ -2,9 +2,9 @@
 title: "Renault elektrikli fiyat listesi Ekim 2026: R5 E-Tech 2,1 milyon TL"
 description: "Renault'nun Türkiye'deki elektrikli modelleri R5 E-Tech, Megane E-Tech ve Scenic E-Tech'in Ekim 2026 fiyatları, batarya kapasiteleri ve WLTP menzilleri."
 image: "/images/haberler/renault-elektrikli-fiyat-listesi-ekim-2026.jpg"
-imageMode: generate
-imageScene: "Colorful retro-modern French city street corner with pastel facades and a compact public charging post on the pavement, morning light, café chairs, no vehicles, no logos."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Renault 5 E-Tech"
+imageScene: "A colorful French city street with pastel facades and café chairs, soft morning light, clean cobblestone pavement."
 category: turkiye
 date: 2026-10-05
 source: "Webtekno"

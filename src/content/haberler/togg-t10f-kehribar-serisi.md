@@ -2,9 +2,9 @@
 title: "Togg T10F'ye Kehribar Serisi: 435 PS'lik 4More tabanlı özel seri 7 renkle geliyor"
 description: "Togg, T10F 4More tabanlı Kehribar Serisi'ni tanıttı: 320 kW güç, 89,6 kWh batarya, 500 km WLTP menzil ve kehribar tonlu tasarım detayları. Fiyat henüz açıklanmadı."
 image: "/images/haberler/togg-t10f-kehribar-serisi.jpg"
-imageMode: generate
-imageScene: "Macro close-up of polished amber gemstones and warm amber-toned trim material samples on a light grey design studio table, soft studio lighting, premium automotive design atmosphere, no vehicles, no text."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Togg T10F"
+imageScene: "Golden-hour landscape in Cappadocia, Turkey, with soft warm amber light, fairy chimneys softly blurred in the distance, clean asphalt viewpoint."
 category: turkiye
 date: 2026-10-23
 source: "İstanbul Ticaret Gazetesi"

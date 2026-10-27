@@ -2,9 +2,9 @@
 title: "Kia EV2 Türkiye'de satışta: Lansman fiyatı 1.599.000 TL'den başlıyor"
 description: "Kia'nın kompakt elektrikli SUV'u EV2, üç versiyonla Türkiye'de satışa sunuldu. 42,2 ve 61 kWh batarya, 453 km'ye varan WLTP menzil ve lansman indirimi."
 image: "/images/haberler/kia-ev2-turkiye-fiyat.jpg"
-imageMode: generate
-imageScene: "Modern urban street in Istanbul with a compact public AC charging post on a clean sidewalk, colorful facades and trees, bright summer afternoon light, no vehicles."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Kia EV2"
+imageScene: "A clean modern street in Istanbul with colorful historic facades and trees, bright summer afternoon light, a compact public charging post on the sidewalk."
 category: turkiye
 date: 2026-08-13
 source: "DonanımHaber"

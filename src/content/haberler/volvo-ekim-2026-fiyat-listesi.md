@@ -2,9 +2,9 @@
 title: "Volvo Ekim 2026 fiyat listesi: EX30 2,47 milyon TL, XC60 plug-in hibritte kampanya"
 description: "Volvo'nun Ekim 2026 Türkiye fiyatları: EX30, EX40, ES90 elektrikli modeller; XC60 plug-in hibritte kampanyalı fiyat, XC90'da 250 bin TL'ye varan takas desteği."
 image: "/images/haberler/volvo-ekim-2026-fiyat-listesi.jpg"
-imageMode: generate
-imageScene: "Scandinavian minimalist showroom corner with pale wood floor, white walls, a wall-mounted charger and a small birch plant, soft north daylight, calm premium atmosphere, no vehicles."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Volvo EX30"
+imageScene: "Scandinavian minimalist showroom with pale wood floor, white walls and a small birch plant, soft north daylight, a wall-mounted charger on the side."
 category: turkiye
 date: 2026-10-19
 source: "Batman Pusula"

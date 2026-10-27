@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "evturkiye-bot"
           git config user.email "sitki.pehlivan@advancedigital.media"
-          git add public/images/haberler
+          git add public/images/haberler src/content/haberler
           if git diff --cached --quiet; then echo "Yeni görsel yok"; exit 0; fi
           git commit -m "Görseller: $(git diff --cached --name-only | wc -l) yeni (Gemini)"
           git pull --rebase origin main

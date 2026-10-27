@@ -2,9 +2,9 @@
 title: "Togg fiyat listesi Haziran 2026: T10X 1.869.048 TL'den başlıyor"
 description: "Togg T10X ve T10F'nin Haziran 2026 anahtar teslim fiyatları ve opsiyon paketleri. T10F 1.884.980 TL'den, 4More versiyonlar 3,2 milyon TL'nin üzerinde."
 image: "/images/haberler/togg-fiyat-listesi-haziran-2026.jpg"
-imageMode: generate
-imageScene: "Close-up of a modern tablet on a light wooden desk showing an abstract blurred configurator interface in tulip-red and white tones, coffee cup and car key fob nearby, soft daylight, no vehicles, no readable text."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Togg T10X"
+imageScene: "A coastal road along the Bosphorus in Istanbul on a bright morning, the bridge softly blurred in the background, clean asphalt."
 category: turkiye
 date: 2026-06-02
 source: "Webtekno"

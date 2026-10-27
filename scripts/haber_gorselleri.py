@@ -4,14 +4,20 @@ Haber dosyasındaki alanlar:
   imageMode:   edit      -> imageSource'taki GERÇEK fotoğraf korunur, sadece çevre/ışık düzenlenir (araç içeren görseller)
                generate  -> imageScene tarifinden sıfırdan üretilir (ARAÇ İÇERMEYEN sahneler: fiş, masa, priz, batarya vb.)
   imageSource: lisansı uygun gerçek fotoğrafın doğrudan görsel adresi (edit modu için)
+  imageWiki:   imageSource yerine: aracın Wikipedia makale adı (ör. "Cupra Formentor"). Makalenin ana fotoğrafı
+               Wikimedia Commons'tan alınır; yalnızca serbest lisanslı (CC BY, CC BY-SA, CC0, kamu malı) fotoğraflar
+               kabul edilir ve imageCredit otomatik doldurulur.
   imageScene:  İngilizce sahne tarifi
   imageCredit: görsel altına yazılacak kaynak (ör. "Togg Basın", "Wikimedia Commons / Ad Soyad, CC BY-SA 4.0")
 
 Çıktı: public/images/haberler/<slug>.jpg  (zaten varsa dokunulmaz)
 """
 import glob
+import json
 import os
+import re
 import sys
+import urllib.parse
 
 import yaml
 
@@ -56,6 +62,56 @@ RULES:
 - It must look like a real professional photograph, not an illustration or 3D render."""
 
 
+FREE = re.compile(r'^(CC0|CC BY(-SA)? [0-9.]+|Public domain|PD)', re.I)
+
+
+def _api(base, params):
+    url = base + '?' + urllib.parse.urlencode({**params, 'format': 'json', 'formatversion': '2'})
+    return json.loads(fetch_json(url))
+
+
+def fetch_json(url):
+    import urllib.request
+    req = urllib.request.Request(url, headers={'User-Agent': 'EVTurkiyeBot/1.0 (https://evturkiye.online; sitki.pehlivan@advancedigital.media)'})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return r.read().decode()
+
+
+def wiki_photo(title):
+    """Wikipedia makalesinin ana görseli -> (görsel url, kredi satırı). Serbest lisans değilse hata."""
+    for lang in ('en', 'tr', 'de'):
+        d = _api(f'https://{lang}.wikipedia.org/w/api.php', {'action': 'query', 'titles': title, 'prop': 'pageimages', 'piprop': 'name', 'redirects': 1})
+        page = (d.get('query', {}).get('pages') or [{}])[0]
+        name = page.get('pageimage')
+        if name:
+            break
+    else:
+        raise GeminiError(f'Wikipedia görseli bulunamadı: {title}')
+    info = _api('https://commons.wikimedia.org/w/api.php', {'action': 'query', 'titles': 'File:' + name, 'prop': 'imageinfo',
+                                                             'iiprop': 'url|extmetadata|size', 'iiurlwidth': 1600})
+    pg = (info.get('query', {}).get('pages') or [{}])[0]
+    ii = (pg.get('imageinfo') or [None])[0]
+    if not ii:
+        raise GeminiError(f'Commons bilgisi yok (yerel/serbest olmayan dosya olabilir): {name}')
+    meta = ii.get('extmetadata', {})
+    lic = re.sub('<[^>]+>', '', meta.get('LicenseShortName', {}).get('value', '')).strip()
+    if not FREE.match(lic):
+        raise GeminiError(f'Lisans uygun değil ({lic}): {name}')
+    artist = re.sub('<[^>]+>', '', meta.get('Artist', {}).get('value', '')).strip() or 'bilinmiyor'
+    artist = re.sub(r'\s+', ' ', artist)[:80]
+    return ii.get('thumburl') or ii['url'], f'Wikimedia Commons / {artist}, {lic} (arka plan yapay zekâ ile düzenlendi)'
+
+
+def set_credit(path, credit):
+    raw = open(path, encoding='utf-8').read()
+    line = 'imageCredit: "' + credit.replace('"', "'") + '"'
+    if re.search(r'^imageCredit:.*$', raw, re.M):
+        raw = re.sub(r'^imageCredit:.*$', lambda _: line, raw, count=1, flags=re.M)
+    else:
+        raw = raw.replace('\n---\n', '\n' + line + '\n---\n', 1)
+    open(path, 'w', encoding='utf-8').write(raw)
+
+
 def main():
     done, failed, skipped = [], [], []
     for path in sorted(glob.glob('src/content/haberler/*.md')):
@@ -75,13 +131,19 @@ def main():
         try:
             if mode == 'edit':
                 src = (fm.get('imageSource') or '').strip()
+                credit = None
+                if not src and (fm.get('imageWiki') or '').strip():
+                    src, credit = wiki_photo(fm['imageWiki'].strip())
+                    print(f'   kaynak: {src}')
                 if not src:
-                    raise GeminiError('edit modu için imageSource yok')
+                    raise GeminiError('edit modu için imageSource / imageWiki yok')
                 mime, data = fetch(src)
                 img = generate(EDIT_PROMPT.format(scene=scene), [(mime, data)])
             else:
                 img = generate(GENERATE_PROMPT.format(scene=scene))
             save_jpeg(img, out)
+            if mode == 'edit' and credit:
+                set_credit(path, credit)
             done.append(slug)
         except Exception as e:  # tek haberdeki hata diğerlerini durdurmasın
             print(f'   HATA: {e}')
