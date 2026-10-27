@@ -161,8 +161,9 @@ export default async (req: Request, _ctx: Context) => {
     const seen = new Set<string>();
     const stations = [];
     let failed = 0;
+    let firstError = '';
     for (const res of results) {
-      if (res.status !== 'fulfilled') { failed++; console.error('places', res.reason?.message); continue; }
+      if (res.status !== 'fulfilled') { failed++; firstError ||= String(res.reason?.message || '').slice(0, 200); console.error('places', res.reason?.message); continue; }
       for (const p of res.value.places || []) {
         if (seen.has(p.id)) continue;
         seen.add(p.id);
@@ -177,6 +178,7 @@ export default async (req: Request, _ctx: Context) => {
       stations,
       source: 'google',
       partial: failed > 0,
+      ...(failed ? { placesError: firstError } : {}),
     }, 200, failed === 0);
   } catch (e: any) {
     console.error('rota', e?.message);
