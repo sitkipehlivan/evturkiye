@@ -8,6 +8,7 @@ Türkiye'deki elektrikli araç (EV) kullanıcıları ve alıcıları için **hab
 ## 2. Taranacak konular ve kaynaklar
 Web araması ile (son 24 saat, öncelik son 2 saat):
 - Türkiye: Togg, Tesla Türkiye, BYD Türkiye ve diğer markaların fiyat listeleri ve yeni modelleri; ÖTV/MTV ve vergi düzenlemeleri; EPDK şarj düzenlemeleri ve şarj piyasası verileri; ODMD/TÜİK satış ve trafik verileri; şarj operatörlerinin (Trugo, ZES, Eşarj, Voltrun, Astor, WAT, Tesla Supercharger vb.) tarife değişiklikleri, yeni istasyonları ve kampanyaları; sıfır faiz / indirim kampanyaları; yerli batarya ve şarj yatırımları.
+- Plug-in hibrit (PHEV, `category: hibrit`): Türkiye'de satılan şarj edilebilir hibrit modellerin fiyat listeleri ve kampanyaları, PHEV ÖTV düzenlemeleri (25 g/km CO2 ve 70 km elektrikli menzil şartı), ODMD'nin PHEV satış verileri, Türkiye'ye gelecek PHEV modeller. Tam hibrit ve mild hibrit haberleri yalnızca elektrikli/PHEV pazarıyla doğrudan ilgiliyse (ör. vergi, pazar payı karşılaştırması) alınır.
 - Dünya: Türkiye pazarına gelecek modeller, büyük üreticilerin önemli kararları, batarya teknolojisinde somut gelişmeler. Dünya haberi yalnızca Türkiye'deki okur için anlamı varsa seçilir.
 - Kaynak önceliği: resmi kurum ve şirket duyuruları (EPDK, Resmî Gazete, ODMD, üreticinin kendi sitesi/bülteni) > ulusal haber siteleri ve sektör yayınları > yabancı sektör yayınları (Electrek, InsideEVs, Reuters, Bloomberg vb.).
 
@@ -46,7 +47,7 @@ Yol: `src/content/haberler/<kisa-slug>.md` (Türkçe karakterler ASCII'ye: ç→
 title: "Başlık (60–90 karakter)"
 description: "Google'da görünecek özet, 140–160 karakter."
 image: "/images/haberler/<kisa-slug>.jpg"
-category: turkiye | dunya | rehber
+category: turkiye | dunya | hibrit | rehber
 date: YYYY-MM-DD
 source: "Kaynak adı"
 sourceUrl: "https://…"
@@ -81,6 +82,7 @@ imageCredit: "Wikimedia Commons / Ad Soyad, CC BY-SA 4.0"
 ## 8. Veri tablolarının güncellenmesi
 - Bir operatörün resmi tarife değişikliği doğrulanırsa `src/data/operators.json` içindeki fiyatı ve `updated` tarihini de güncelle (doğrudan yayın).
 - Kampanya haberi resmi ise `src/content/firsatlar/` altına da kısa bir kayıt ekle (`endDate` biliniyorsa yaz).
+- Kampanyalar: Her çalıştırmada elektrikli ve plug-in hibrit modellerde yeni sıfır faiz / indirim / takas desteği kampanyası var mı bak; varsa `src/content/firsatlar/<marka-model-ay-yil>.md` olarak ekle. Alanlar: `title`, `type: arac|sarj`, `powertrain: elektrikli|plug-in-hibrit`, `brand`, `summary` (tutar, vade, faiz, kime geçerli), `date`, `endDate` (biliniyorsa), `sourceUrl`. Ay başlarında (1–7'si arası) o ayın kampanya derlemelerini tarayıp toplu ekle; süresi dolan kampanyalar sitede otomatik gizlenir.
 
 ## 9. Teknik
 - Commit'ten önce `npm ci && npm run build:fast` ile derlemenin geçtiğini doğrula; hata varsa düzelt, düzelmiyorsa o haberi ekleme.

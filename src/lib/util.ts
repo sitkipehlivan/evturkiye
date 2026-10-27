@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 export const CATS = {
   turkiye: { label: 'Türkiye', desc: 'Yerli üretim, ÖTV ve vergi düzenlemeleri, yeni modeller ve şarj altyapısı yatırımları.' },
   dunya: { label: 'Dünya', desc: 'Tesla, BYD ve diğer üreticilerden gelişmeler, batarya teknolojileri ve küresel trendler.' },
+  hibrit: { label: 'Plug-in Hibrit', desc: 'Şarj edilebilir hibrit (PHEV) modeller, fiyatlar, ÖTV kuralları ve satış verileri.' },
   rehber: { label: 'Rehber', desc: 'Elektrikli araç alırken, şarj ederken ve uzun yola çıkarken bilmeniz gerekenler.' },
 } as const;
 export type Cat = keyof typeof CATS;

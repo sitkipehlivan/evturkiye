@@ -17,8 +17,9 @@ const heroIds = new Set(heroPosts.map((p) => p.id));
 const latest = news.filter((p) => !heroIds.has(p.id)).slice(0, 4);
 const used = new Set([...heroIds, ...latest.map((p) => p.id)]);
 const byCat = (c: Cat, n: number) => news.filter((p) => p.data.category === c && !used.has(p.id)).slice(0, n);
-const turkiye = news.filter((p) => p.data.category !== 'rehber' && !used.has(p.id)).slice(0, 4);
+const turkiye = news.filter((p) => !['rehber', 'hibrit'].includes(p.data.category) && !used.has(p.id)).slice(0, 4);
 const rehber = byCat('rehber', 4);
+const hibrit = news.filter((p) => p.data.category === 'hibrit' && !used.has(p.id)).slice(0, 4);
 const card = (p: any) => ({ p, cat: p.data.category as Cat, img: newsImg(p), url: `/haberler/${p.data.category}/${p.id}` });
 const cheapest = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 5);
 const majors = ['trugo', 'zes', 'esarj', 'tesla', 'voltrun', 'astor'].map((id) => ops.operators.find((o) => o.id === id)!).filter(Boolean);
@@ -87,6 +88,20 @@ const jsonLd = {
                   <li><a href={c.url}><span class:list={['nc-cat', c.cat]}>{CATS[c.cat].label} · {fmtDate(c.p.data.date)}</span><h4>{c.p.data.title}</h4></a></li>
                 ))}
               </ul>
+            </div>
+          </>
+        )}
+
+        {hibrit.length > 0 && (
+          <>
+            <div class="block-head"><h2>Plug-in Hibrit</h2><a href="/haberler/hibrit">Tümü</a></div>
+            <div class="cards-2">
+              {hibrit.map(card).map((c) => (
+                <a class="nc row" href={c.url}>
+                  <div class:list={['nc-img', c.cat]}>{c.img ? <img src={c.img} alt="" loading="lazy" /> : <svg viewBox="0 0 120 60" aria-hidden="true"><path d="M66 6 46 33h14l-6 21 22-30H62l4-18Z" fill="currentColor" /></svg>}</div>
+                  <div><span class="nc-cat hibrit">Plug-in Hibrit</span><h3>{c.p.data.title}</h3></div>
+                </a>
+              ))}
             </div>
           </>
         )}
@@ -179,9 +194,10 @@ const jsonLd = {
   .nc-img svg { width: 30%; }
   .nc-img.turkiye { background: #eaf3ff; color: var(--volt); }
   .nc-img.dunya { background: #eef1ff; color: #3b5bfd; }
+  .nc-img.hibrit { background: #e6f6f7; color: #0e8c99; }
   .nc-img.rehber { background: var(--green-soft); color: var(--green); }
   .nc-cat { font: 700 .7rem var(--font-head); letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-top: 4px; }
-  .nc-cat.turkiye { color: var(--volt); } .nc-cat.dunya { color: #3b5bfd; }
+  .nc-cat.turkiye { color: var(--volt); } .nc-cat.dunya { color: #3b5bfd; } .nc-cat.hibrit { color: #0e8c99; }
   .nc h3 { margin: 0; font-size: 1.05rem; line-height: 1.35; transition: color .15s; }
   .nc time { font-size: .78rem; color: var(--muted); }
   .cards-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }

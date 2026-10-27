@@ -5,7 +5,7 @@ const d = deal.data;
 ---
 <article class="card deal">
   <div class="top">
-    <span class:list={['tag', d.type === 'sarj' ? 'volt' : 'green']}>{d.type === 'sarj' ? 'Şarj' : 'Araç'} · {d.brand}</span>
+    <span class:list={['tag', d.type === 'sarj' ? 'volt' : 'green']}>{d.type === 'sarj' ? 'Şarj' : d.powertrain === 'plug-in-hibrit' ? 'Plug-in hibrit' : 'Elektrikli'} · {d.brand}</span>
     {d.endDate && <span class="end">Son gün: {fmtDate(d.endDate)}</span>}
   </div>
   <h3>{d.title}</h3>

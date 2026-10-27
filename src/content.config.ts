@@ -7,7 +7,7 @@ const haberler = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    category: z.enum(['turkiye', 'dunya', 'rehber']),
+    category: z.enum(['turkiye', 'dunya', 'hibrit', 'rehber']),
     date: z.coerce.date(),
     image: z.string().optional(),
     imageMode: z.enum(['edit', 'generate']).optional(),
@@ -26,6 +26,7 @@ const firsatlar = defineCollection({
   schema: z.object({
     title: z.string(),
     type: z.enum(['arac', 'sarj']),
+    powertrain: z.enum(['elektrikli', 'plug-in-hibrit']).default('elektrikli'),
     brand: z.string(),
     summary: z.string(),
     endDate: z.coerce.date().optional(),

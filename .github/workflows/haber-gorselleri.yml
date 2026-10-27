@@ -29,7 +29,7 @@ jobs:
       - name: Görselleri üret
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          MAX_IMAGES: ${{ github.event.inputs.max || '6' }}
+          MAX_IMAGES: ${{ github.event.inputs.max || '30' }}
         run: python scripts/haber_gorselleri.py
       - name: Değişiklik varsa kaydet
         run: |

@@ -6,6 +6,7 @@ const nav = [
   { href: '/haberler', label: 'Haberler' },
   { href: '/haberler/turkiye', label: 'Türkiye' },
   { href: '/haberler/dunya', label: 'Dünya' },
+  { href: '/haberler/hibrit', label: 'Plug-in Hibrit' },
   { href: '/elektrikli-arac', label: 'EV Rehberi' },
   { href: '/rota-planlayici', label: 'Rota Planlayıcı', hl: true },
   { href: '/sarj-fiyatlari', label: 'Şarj Fiyatları' },
@@ -96,8 +97,8 @@ const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'nu
 
   .cat-nav { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; }
   .cat-nav::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--grad); }
-  .cat-in { display: flex; justify-content: center; gap: 4px 30px; flex-wrap: wrap; padding: 12px 20px; }
-  .cat-in a { font-family: var(--font-head); font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); padding: 2px 0; border-bottom: 2px solid transparent; }
+  .cat-in { display: flex; justify-content: center; gap: 4px 22px; flex-wrap: wrap; padding: 12px 20px; }
+  .cat-in a { font-family: var(--font-head); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); padding: 2px 0; border-bottom: 2px solid transparent; }
   .cat-in a:hover { color: var(--volt); }
   .cat-in a.active { border-bottom-color: var(--green); }
   .cat-in a.hl { color: var(--green); }

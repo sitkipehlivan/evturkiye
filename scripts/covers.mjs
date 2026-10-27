@@ -24,6 +24,7 @@ const fonts = [
 const CAT = {
   turkiye: { label: 'TÜRKİYE', color: '#0A7CFF', soft: '#EAF3FF' },
   dunya: { label: 'DÜNYA', color: '#3B5BFD', soft: '#EEF1FF' },
+  hibrit: { label: 'PLUG-IN HİBRİT', color: '#0E8C99', soft: '#E6F6F7' },
   rehber: { label: 'REHBER', color: '#12A150', soft: '#E8F7EE' },
 };
 const MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
