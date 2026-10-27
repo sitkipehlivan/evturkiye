@@ -5,6 +5,7 @@ import {
   type LatLon, type Operator, type Station, type PlanResult,
 } from './planner-core';
 import { stationsInBoxes, loadStatic, type Box } from './stations';
+import { loadGoogle, GoogleAutocomplete, GoogleMapView, decodePolyline, type Pin } from './google';
 
 interface Model { slug: string; brand: string; model: string; version: string; battery: number; wltp: number; dcMax: number; highway: number; }
 interface Place { label: string; lat: number; lon: number; }
@@ -37,13 +38,27 @@ function init(root: HTMLElement) {
 
   const places: Record<string, Place | null> = { from: null, to: null };
 
-  // --- Harita
-  const map = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false }).setView([39.2, 33.5], 6);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19, className: 'osm-tiles',
-  }).addTo(map);
-  map.on('click', () => map.scrollWheelZoom.enable());
-  const layer = L.layerGroup().addTo(map);
+  // --- Harita: Google anahtarı varsa Google Haritalar, yoksa OpenStreetMap (Leaflet)
+  const gmKey: string = data.gmKey || '';
+  let useGoogle = !!gmKey;
+  let gview: GoogleMapView | null = null;
+  const gac = new GoogleAutocomplete();
+  let map: L.Map | null = null;
+  let layer: L.LayerGroup | null = null;
+  const leaflet = () => {
+    if (map) return;
+    map = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false }).setView([39.2, 33.5], 6);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19, className: 'osm-tiles',
+    }).addTo(map);
+    map.on('click', () => map!.scrollWheelZoom.enable());
+    layer = L.layerGroup().addTo(map);
+  };
+  const ready: Promise<void> = useGoogle
+    ? loadGoogle(gmKey)
+        .then(async () => { gview = await GoogleMapView.create(mapEl, data.gmMapId || 'DEMO_MAP_ID'); })
+        .catch(() => { useGoogle = false; mapEl.innerHTML = ''; leaflet(); })
+    : Promise.resolve(leaflet());
 
   // --- Başlangıç değerleri (URL veya data)
   const qs = new URLSearchParams(location.search);
@@ -77,14 +92,19 @@ function init(root: HTMLElement) {
       timer = window.setTimeout(async () => {
         ctrl?.abort(); ctrl = new AbortController();
         try {
-          const res = await geocode(q, 6, ctrl.signal);
+          await ready;
+          const res: { label: string; resolve: () => Promise<Place> }[] = useGoogle
+            ? await gac.suggest(q)
+            : (await geocode(q, 6, ctrl.signal)).map((p) => ({ label: p.label, resolve: async () => p }));
+          if (input.value.trim() !== q) return;
           list.innerHTML = '';
           res.forEach((p) => {
             const li = document.createElement('li');
             li.textContent = p.label;
-            li.addEventListener('mousedown', (e) => {
+            li.addEventListener('mousedown', async (e) => {
               e.preventDefault();
-              input.value = p.label; places[key] = p; list.hidden = true;
+              input.value = p.label; list.hidden = true;
+              try { places[key] = await p.resolve(); } catch { places[key] = null; }
             });
             list.appendChild(li);
           });
@@ -108,18 +128,29 @@ function init(root: HTMLElement) {
     results.innerHTML = '';
     try {
       setStatus('Adresler bulunuyor…');
-      const a = places.from ?? (await geocode(fromIn.value, 1))[0];
-      const b = places.to ?? (await geocode(toIn.value, 1))[0];
+      await ready;
+      const find = async (q: string) => (useGoogle ? await gac.first(q).catch(() => null) : null) ?? (await geocode(q, 1))[0];
+      const a = places.from ?? (await find(fromIn.value));
+      const b = places.to ?? (await find(toIn.value));
       if (!a || !b) throw new Error('Başlangıç veya varış noktası bulunamadı. Lütfen listeden bir adres seçin.');
       places.from = a; places.to = b;
 
-      setStatus('Rota hesaplanıyor…');
-      const route = await getRoute(a, b);
+      setStatus('Rota ve güzergâhtaki şarj istasyonları hesaplanıyor…');
+      let route: { coords: LatLon[]; duration: number } | null = null;
+      let gStations: any[] = [];
+      if (useGoogle) {
+        try {
+          const g = await googleRoute(a, b);
+          route = { coords: decodePolyline(g.polyline), duration: g.durationS };
+          gStations = g.stations || [];
+        } catch { route = null; }
+      }
+      route ??= await getRoute(a, b);
       const cum = cumulative(route.coords);
       const routeKm = cum[cum.length - 1];
 
-      setStatus('Güzergahtaki şarj istasyonları taranıyor…');
-      const stations = await getStations(route.coords, cum);
+      if (!gStations.length) setStatus('Güzergahtaki şarj istasyonları taranıyor…');
+      const stations = mergeStations(route.coords, cum, gStations, await getStations(route.coords, cum));
 
       const consumption = (car.highway * factor) / 100;
       const r = plan({ routeKm, durationS: route.duration, battery: car.battery, consumption, carDcMax: car.dcMax, startSoc, mode, stations, operators });
@@ -148,6 +179,18 @@ function init(root: HTMLElement) {
 
   // --- Harita çizimi
   function draw(coords: LatLon[], a: Place, b: Place, stations: Station[], r: PlanResult) {
+    if (gview) {
+      const stopIds = new Set(r.stops.map((s) => s.station.id));
+      const pins: Pin[] = [
+        ...stations.filter((s) => !stopIds.has(s.id) && s.dc !== false).map((s) => ({ lat: s.lat, lon: s.lon, kind: 'station' as const, html: `<b>${esc(s.name)}</b><br>${s.powerKw ? `${s.powerKw} kW` : ''}` })),
+        { lat: a.lat, lon: a.lon, kind: 'start', label: 'A', html: esc(a.label) },
+        { lat: b.lat, lon: b.lon, kind: 'end', label: 'B', html: esc(b.label) },
+        ...r.stops.map((s, i) => ({ lat: s.station.lat, lon: s.station.lon, kind: 'stop' as const, label: String(i + 1), html: `<b>${i + 1}. durak: ${esc(s.station.name)}</b><br>${esc(s.price.opName)} · ${tl(s.price.price)}/kWh` })),
+      ];
+      gview.draw(coords, pins);
+      return;
+    }
+    if (!map || !layer) return;
     layer.clearLayers();
     L.polyline(coords, { color: '#ffffff', weight: 9, opacity: 1 }).addTo(layer);
     const line = L.polyline(coords, { color: '#0a7cff', weight: 5, opacity: .9 }).addTo(layer);
@@ -213,7 +256,7 @@ function init(root: HTMLElement) {
       </li>`;
     });
     body += '</ol>';
-    const foot = `<p class="pl-disclaimer">${esc(ctx.car.brand)} ${esc(ctx.car.model)} ${esc(ctx.car.version)} için 100 km'de ~${(ctx.consumption * 100).toFixed(1)} kWh otoyol tüketimi, %15 güvenlik rezervi ve %80 hedef şarj ile hesaplanmıştır. Hesaplama tahminidir; hız, hava, yük ve eğim tüketimi değiştirir. İstasyon verisi OpenStreetMap katkıcılarındandır.</p>`;
+    const foot = `<p class="pl-disclaimer">${esc(ctx.car.brand)} ${esc(ctx.car.model)} ${esc(ctx.car.version)} için 100 km'de ~${(ctx.consumption * 100).toFixed(1)} kWh otoyol tüketimi, %15 güvenlik rezervi ve %80 hedef şarj ile hesaplanmıştır. Hesaplama tahminidir; hız, hava, yük ve eğim tüketimi değiştirir. İstasyon verisi ${useGoogle ? 'Google ve ' : ''}OpenStreetMap katkıcılarındandır.</p>`;
     results.innerHTML = summary + body + foot;
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -239,6 +282,25 @@ function init(root: HTMLElement) {
     if (!j.routes?.length) throw new Error('Bu iki nokta arasında karayolu rotası bulunamadı.');
     const r = j.routes[0];
     return { coords: r.geometry.coordinates.map((c: number[]) => [c[1], c[0]] as LatLon), duration: r.duration };
+  }
+
+  async function googleRoute(a: Place, b: Place): Promise<{ polyline: string; durationS: number; stations: any[] }> {
+    const res = await fetch(`/api/rota?a=${a.lat.toFixed(4)},${a.lon.toFixed(4)}&b=${b.lat.toFixed(4)},${b.lon.toFixed(4)}`);
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok || !j.polyline) throw new Error(j.error || 'Google rota servisi yanıt vermedi.');
+    return j;
+  }
+
+  /** Google ve OSM istasyonlarını birleştirir; 150 m içindeki kopyalarda Google kaydı kalır. */
+  function mergeStations(coords: LatLon[], cum: number[], g: any[], osm: Station[]): Station[] {
+    const out: Station[] = [];
+    for (const s of g) {
+      const loc = locate(coords, cum, [s.lat, s.lon]);
+      if (loc.offset <= 3) out.push({ id: s.id, lat: s.lat, lon: s.lon, name: s.name, operator: s.operator || s.name, powerKw: s.powerKw ?? null, dc: s.dc ?? null, ...loc });
+    }
+    const near = (x: Station, y: Station) => Math.abs(x.lat - y.lat) < 0.0014 && Math.abs(x.lon - y.lon) < 0.0018;
+    for (const s of osm) if (!out.some((o) => near(o, s))) out.push(s);
+    return out;
   }
 
   async function getStations(coords: LatLon[], cum: number[]): Promise<Station[]> {

@@ -6,7 +6,9 @@ const { preset, autorun = false } = Astro.props;
 const models = modelsData.models;
 const brands = [...new Set(models.map((m) => m.brand))];
 const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug ?? models[0].slug;
-const payload = JSON.stringify({ models, operators: opsData.operators, preset, autorun });
+const gmKey = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY || '';
+const gmMapId = import.meta.env.PUBLIC_GOOGLE_MAP_ID || '';
+const payload = JSON.stringify({ models, operators: opsData.operators, preset, autorun, gmKey, gmMapId });
 ---
 <section class="planner" data-planner>
   <script type="application/json" set:html={payload} />
@@ -101,6 +103,8 @@ const payload = JSON.stringify({ models, operators: opsData.operators, preset, a
   .pl-pin.start { background: var(--ink); }
   .pl-pin.end { background: var(--ink); }
   .pl-pin.stop { background: var(--green); }
+  .pl-pin.station { width: 12px; height: 12px; border: 2px solid #0a7cff; background: #fff; box-shadow: none; }
+  .pl-map .gm-style .pl-pin { cursor: pointer; transform: translateY(50%); }
 
   .pl-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
   .pl-summary > div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }

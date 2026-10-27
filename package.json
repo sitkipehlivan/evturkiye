@@ -20,6 +20,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "@netlify/functions": "^6.0.3",
     "@resvg/resvg-js": "^2.6.2",
     "gray-matter": "^4.0.3",
     "satori": "^0.63.2"
