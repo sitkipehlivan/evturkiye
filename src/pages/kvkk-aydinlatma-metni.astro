@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import c from '../data/company.json';
+const name = c.name || 'EV Türkiye';
+---
+<Base title="KVKK Aydınlatma Metni" description="EV Türkiye üyelik ve hizmetleri kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni.">
+  <section class="section-sm">
+    <div class="container prose">
+      <h1>Kişisel Verilerin İşlenmesine İlişkin Aydınlatma Metni</h1>
+      <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, evturkiye.com.tr ve evturkiye.online alan adlarında yayın yapan EV Türkiye'nin ("Site") ziyaretçi ve üyelerine ait kişisel verilerin işlenmesi hakkında bilgi vermek amacıyla hazırlanmıştır.</p>
+
+      <h2>1. Veri sorumlusu</h2>
+      <p>Veri sorumlusu <b>{name}</b>'dir.{c.address && <> Adres: {c.address}.</>}{c.mersis && <> MERSİS: {c.mersis}.</>}{c.email && <> İletişim: <a href={`mailto:${c.email}`}>{c.email}</a>.</>}</p>
+
+      <h2>2. İşlenen kişisel veriler</h2>
+      <ul>
+        <li><b>Kimlik ve iletişim:</b> ad soyad, e-posta adresi (üyelikte).</li>
+        <li><b>Üyelik ve tercih bilgileri:</b> kayıtlı araç modeli, bildirim ve ileti tercihleri, onay kayıtları.</li>
+        <li><b>Hizmet kullanımı:</b> rota planlayıcıda girilen başlangıç ve varış noktaları, günlük rota kullanım sayısı.</li>
+        <li><b>İşlem güvenliği:</b> IP adresi, oturum ve erişim kayıtları, tarayıcı bilgileri.</li>
+        <li><b>Pazarlama:</b> yalnızca onay vermeniz halinde, e-posta ve bildirim gönderimi için iletişim bilgileriniz.</li>
+      </ul>
+
+      <h2>3. İşleme amaçları ve hukuki sebepler</h2>
+      <ul>
+        <li>Üyelik hesabının oluşturulması ve yönetilmesi, rota ve şarj maliyeti hizmetinin sunulması: sözleşmenin kurulması ve ifası (KVKK m.5/2-c).</li>
+        <li>Hizmetin kötüye kullanımının önlenmesi, günlük kullanım sınırlarının uygulanması, bilgi güvenliği: veri sorumlusunun meşru menfaati (m.5/2-f) ve hukuki yükümlülükler (m.5/2-ç, 5651 sayılı Kanun).</li>
+        <li>Kampanya, haber ve işbirliği duyurularının e-posta ve bildirimle gönderilmesi: açık rızanız ve 6563 sayılı Kanun kapsamındaki ticari elektronik ileti onayınız. Bu onay isteğe bağlıdır; vermemeniz üyeliğinizi etkilemez.</li>
+      </ul>
+
+      <h2>4. Aktarım</h2>
+      <p>Kişisel verileriniz hizmetin sunulması için kullanılan altyapı sağlayıcılarına aktarılabilir: üyelik ve veri tabanı hizmeti için Google (Firebase), harita ve rota hizmeti için Google (Google Maps Platform), barındırma için Netlify. Bu sağlayıcıların sunucuları yurt dışında bulunabilir; aktarımlar KVKK'nın 9. maddesindeki şartlara uygun olarak gerçekleştirilir. Kanunen yetkili kamu kurum ve kuruluşlarına, talep halinde ve mevzuatın gerektirdiği ölçüde aktarım yapılabilir.</p>
+
+      <h2>5. Toplama yöntemi</h2>
+      <p>Veriler, Site'deki üyelik ve hesap formları, Google ile giriş seçeneği ve rota planlayıcı aracılığıyla elektronik ortamda otomatik yollarla toplanır.</p>
+
+      <h2>6. Saklama süresi</h2>
+      <p>Üyelik verileri üyelik süresince ve üyeliğin sona ermesinden sonra ilgili mevzuatta öngörülen süreler boyunca saklanır. Hesabınızı <a href="/hesabim">Hesabım</a> sayfasından dilediğiniz zaman silebilirsiniz. Günlük rota kullanım kayıtları kısa süreli tutulur.</p>
+
+      <h2>7. Haklarınız</h2>
+      <p>KVKK'nın 11. maddesi uyarınca kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme, işlenme amacını öğrenme, aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini, silinmesini veya yok edilmesini isteme, itiraz etme ve zararın giderilmesini talep etme haklarına sahipsiniz. Taleplerinizi {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : 'Site üzerindeki iletişim kanalları'} aracılığıyla iletebilirsiniz.</p>
+      <p>Ticari ileti onayınızı Hesabım sayfasından veya gönderilen iletilerdeki bağlantıdan dilediğiniz zaman geri alabilirsiniz.</p>
+    </div>
+  </section>
+</Base>

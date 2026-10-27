@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import c from '../data/company.json';
+import { ROUTE_LIMITS } from '../lib/firebase-config';
+const name = c.name || 'EV Türkiye';
+---
+<Base title="Üyelik Koşulları" description="EV Türkiye ücretsiz üyelik koşulları.">
+  <section class="section-sm">
+    <div class="container prose">
+      <h1>Üyelik Koşulları</h1>
+      <p>EV Türkiye üyeliği ücretsizdir. Üye olarak aşağıdaki koşulları kabul etmiş olursunuz.</p>
+      <h2>Hizmet</h2>
+      <ul>
+        <li>Rota ve şarj maliyeti planlayıcısı, üye olmayan ziyaretçilere günde {ROUTE_LIMITS.guest}, üyelere günde {ROUTE_LIMITS.member} farklı rota hesaplama imkânı sunar. Sınırlar önceden duyurularak değiştirilebilir.</li>
+        <li>Hesaplanan süreler, şarj durakları, fiyatlar ve maliyetler tahmini ve bilgilendirme amaçlıdır. İstasyon bilgileri, çalışma durumu ve tarifeler üçüncü taraf kaynaklara dayanır; yola çıkmadan önce operatörün resmi kanallarından teyit edilmelidir.</li>
+        <li>Hizmet önceden bildirim yapılmaksızın geçici olarak durdurulabilir veya değiştirilebilir.</li>
+      </ul>
+      <h2>Üyenin yükümlülükleri</h2>
+      <ul>
+        <li>Üyelik bilgilerinin doğru olması ve hesabın güvenliğinin korunması üyenin sorumluluğundadır.</li>
+        <li>Hizmetin otomatik araçlarla toplu sorgulanması, kullanım sınırlarının aşılmaya çalışılması veya hizmetin kötüye kullanılması yasaktır; bu durumda üyelik askıya alınabilir.</li>
+      </ul>
+      <h2>Fesih</h2>
+      <p>Üye, hesabını <a href="/hesabim">Hesabım</a> sayfasından dilediği zaman silebilir. {name}, koşullara aykırı kullanım halinde üyeliği sona erdirebilir.</p>
+      <h2>Kişisel veriler</h2>
+      <p>Kişisel verilerin işlenmesine ilişkin ayrıntılar <a href="/kvkk-aydinlatma-metni">KVKK Aydınlatma Metni</a>'nde yer alır.</p>
+    </div>
+  </section>
+</Base>

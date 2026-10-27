@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro';
+import modelsData from '../data/models.json';
+import { ROUTE_LIMITS } from '../lib/firebase-config';
+const models = modelsData.models;
+const brands = [...new Set(models.map((m) => m.brand))];
+---
+<Base title="Hesabım" description="EV Türkiye üyelik hesabınız: kayıtlı araç, bildirim tercihleri ve rota hakkı.">
+  <meta slot="head" name="robots" content="noindex" />
+  <section class="section-sm">
+    <div class="container acc">
+      <span class="eyebrow">Üyelik</span>
+      <h1>Hesabım</h1>
+
+      <div class="card acc-box" data-guest hidden>
+        <h2>EV Türkiye'ye ücretsiz üye olun</h2>
+        <ul class="perks">
+          <li>Günde {ROUTE_LIMITS.member} farklı rota ve şarj maliyeti hesabı (üye olmadan {ROUTE_LIMITS.guest})</li>
+          <li>Aracınızı kaydedin, planlayıcı her seferinde hazır gelsin</li>
+          <li>Şarj fiyatı ve kampanya bildirimleri (isteğe bağlı)</li>
+        </ul>
+        <div class="row">
+          <button class="btn btn-volt" data-open="register">Ücretsiz üye ol</button>
+          <button class="btn btn-ghost" data-open="login">Giriş yap</button>
+        </div>
+      </div>
+
+      <div class="card acc-box" data-member hidden>
+        <div class="who">
+          <div class="avatar" data-avatar></div>
+          <div><b data-name></b><span class="muted small" data-email></span></div>
+        </div>
+        <p class="verify small" data-verify hidden>E-posta adresiniz henüz doğrulanmadı. <button class="link" data-resend>Doğrulama e-postasını tekrar gönder</button></p>
+
+        <form class="acc-form" data-profile>
+          <label>Ad soyad <input name="name" autocomplete="name" /></label>
+          <label>Aracım
+            <select name="car">
+              <option value="">Seçilmedi</option>
+              {brands.map((b) => (
+                <optgroup label={b}>
+                  {models.filter((m) => m.brand === b).map((m) => <option value={m.slug}>{m.brand} {m.model} {m.version}</option>)}
+                </optgroup>
+              ))}
+            </select>
+          </label>
+          <label class="chk"><input type="checkbox" name="marketing" /> <span>Kampanya, haber ve işbirliği duyurularını e-posta ve bildirim yoluyla almak istiyorum.</span></label>
+          <div class="row">
+            <button class="btn btn-volt" type="submit">Kaydet</button>
+            <span class="saved small" data-saved hidden>Kaydedildi ✓</span>
+          </div>
+        </form>
+
+        <div class="acc-foot">
+          <a class="btn btn-ghost" href="/rota-planlayici">Rota planla</a>
+          <button class="btn btn-ghost" data-logout>Çıkış yap</button>
+          <button class="link danger" data-delete>Hesabımı sil</button>
+          <button class="link danger" data-delete-confirm hidden>Eminim, hesabımı ve verilerimi kalıcı olarak sil</button>
+        </div>
+        <p class="acc-msg small" data-msg hidden></p>
+      </div>
+
+      <p class="muted small legal">Kişisel verileriniz <a href="/kvkk-aydinlatma-metni">KVKK aydınlatma metni</a> kapsamında işlenir. <a href="/uyelik-sozlesmesi">Üyelik koşulları</a></p>
+      <noscript><p>Hesap işlemleri için JavaScript gereklidir.</p></noscript>
+      <p class="muted" data-disabled hidden>Üyelik sistemi yakında açılacak.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { authEnabled, onUser, getProfile, saveProfile, logout, deleteAccount, authError } from '../scripts/auth';
+  import { openAuth } from '../scripts/auth-ui';
+  import { sendEmailVerification } from 'firebase/auth';
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  const guest = $('[data-guest]'), member = $('[data-member]'), msg = $('[data-msg]');
+  const form = $<HTMLFormElement>('[data-profile]');
+  const say = (t: string) => { msg.textContent = t; msg.hidden = !t; };
+
+  if (!authEnabled()) {
+    $('[data-disabled]').hidden = false;
+  } else {
+    document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((b) =>
+      b.addEventListener('click', () => openAuth({ tab: b.dataset.open as any })));
+
+    let current: any = null;
+    onUser(async (u) => {
+      current = u;
+      guest.hidden = !!u;
+      member.hidden = !u;
+      if (!u) return;
+      const p = await getProfile(u).catch(() => ({} as any));
+      const name = p.name || u.displayName || '';
+      $('[data-name]').textContent = name || 'EV Türkiye üyesi';
+      $('[data-email]').textContent = u.email || '';
+      $('[data-avatar]').textContent = (name || u.email || '?').trim().charAt(0).toLocaleUpperCase('tr');
+      $('[data-verify]').hidden = u.emailVerified || u.providerData.some((x) => x.providerId === 'google.com');
+      (form.elements.namedItem('name') as HTMLInputElement).value = name;
+      (form.elements.namedItem('car') as HTMLSelectElement).value = p.car || '';
+      (form.elements.namedItem('marketing') as HTMLInputElement).checked = !!p.consents?.marketing;
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!current) return;
+      const f = new FormData(form);
+      try {
+        await saveProfile(current, {
+          name: String(f.get('name') || ''),
+          car: String(f.get('car') || ''),
+          consents: { kvkk: true, marketing: f.get('marketing') === 'on' },
+        });
+        try { localStorage.setItem('evt-car', String(f.get('car') || '')); } catch {}
+        const s = $('[data-saved]'); s.hidden = false; setTimeout(() => (s.hidden = true), 2500);
+      } catch (err) { say(authError(err)); }
+    });
+    $('[data-resend]').addEventListener('click', async () => {
+      try { await sendEmailVerification(current); say('Doğrulama e-postası gönderildi.'); } catch (err) { say(authError(err)); }
+    });
+    $('[data-logout]').addEventListener('click', () => logout());
+    $('[data-delete]').addEventListener('click', () => { $('[data-delete]').hidden = true; $('[data-delete-confirm]').hidden = false; });
+    $('[data-delete-confirm]').addEventListener('click', async () => {
+      try { await deleteAccount(); say('Hesabınız silindi.'); }
+      catch (err) { say(authError(err) + ' Çıkış yapıp tekrar giriş yaptıktan sonra yeniden deneyin.'); }
+    });
+  }
+</script>
+
+<style>
+  .acc { max-width: 640px; }
+  .acc-box { padding: 26px; margin-top: 18px; display: grid; gap: 16px; }
+  .acc-box[hidden] { display: none; }
+  .acc-box h2 { margin: 0; font-size: 1.3rem; }
+  .perks { margin: 0; padding-left: 1.2em; color: var(--ink-2); display: grid; gap: 6px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .btn-ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+  .who { display: flex; gap: 14px; align-items: center; }
+  .who b { display: block; font-size: 1.1rem; }
+  .avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: grid; place-items: center; font: 800 1.2rem var(--font-head); }
+  .acc-form { display: grid; gap: 14px; }
+  .acc-form label { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; }
+  .acc-form input:not([type='checkbox']), .acc-form select { height: 44px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; font: inherit; font-weight: 400; }
+  .chk { display: flex !important; grid-template-columns: none; gap: 9px; align-items: flex-start; font-weight: 400 !important; color: var(--ink-2); }
+  .chk input { margin-top: 3px; accent-color: var(--green); }
+  .saved { color: var(--green); font-weight: 600; }
+  .acc-foot { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; }
+  .link { border: 0; background: none; color: var(--volt); font: 600 .88rem var(--font); cursor: pointer; padding: 0; }
+  .link.danger { color: var(--red); margin-left: auto; }
+  .verify { margin: 0; padding: 10px 12px; border-radius: 10px; background: #fff8eb; color: #92400e; }
+  .acc-msg { margin: 0; }
+  .legal { margin-top: 18px; } .legal a { color: var(--volt); }
+</style>

@@ -6,6 +6,9 @@ import {
 } from './planner-core';
 import { stationsInBoxes, loadStatic, type Box } from './stations';
 import { loadGoogle, GoogleAutocomplete, GoogleMapView, decodePolyline, type Pin } from './google';
+import { authEnabled, onUser, currentUser, idToken } from './auth';
+import { openAuth } from './auth-ui';
+import { ROUTE_LIMITS } from '../lib/firebase-config';
 
 interface Model { slug: string; brand: string; model: string; version: string; battery: number; wltp: number; dcMax: number; highway: number; }
 interface Place { label: string; lat: number; lon: number; }
@@ -37,6 +40,8 @@ function init(root: HTMLElement) {
   const mapEl = $<HTMLElement>('.pl-map');
 
   const places: Record<string, Place | null> = { from: null, to: null };
+  // Oturum durumu (üyelik açıksa): ilk yanıt gelene kadar bekle
+  const userReady: Promise<void> = new Promise((res) => { const off = onUser(() => { res(); }); void off; });
 
   // --- Harita: Google anahtarı varsa Google Haritalar, yoksa OpenStreetMap (Leaflet)
   const gmKey: string = data.gmKey || '';
@@ -70,6 +75,7 @@ function init(root: HTMLElement) {
   setPlace('from', fromIn, qs.get('from') || pre.fromQ, num(qs.get('fl')) ?? pre.a?.[0], num(qs.get('fo')) ?? pre.a?.[1]);
   setPlace('to', toIn, qs.get('to') || pre.toQ, num(qs.get('tl')) ?? pre.b?.[0], num(qs.get('to_o')) ?? pre.b?.[1]);
   if (qs.get('car') && models.some((m) => m.slug === qs.get('car'))) carSel.value = qs.get('car')!;
+  else { try { const c = localStorage.getItem('evt-car'); if (c && models.some((m) => m.slug === c)) carSel.value = c; } catch { /* yoksay */ } }
   if (qs.get('soc')) socIn.value = qs.get('soc')!;
   if (qs.get('mode') === 'eco') (root.querySelector('input[value="eco"]') as HTMLInputElement).checked = true;
   socOut.textContent = `%${socIn.value}`;
@@ -135,8 +141,18 @@ function init(root: HTMLElement) {
       if (!a || !b) throw new Error('Başlangıç veya varış noktası bulunamadı. Lütfen listeden bir adres seçin.');
       places.from = a; places.to = b;
       const quotaKey = `${a.lat.toFixed(2)},${a.lon.toFixed(2)}>${b.lat.toFixed(2)},${b.lon.toFixed(2)}`;
-      if (!data.preset && !quota.allowed(quotaKey)) {
-        throw new Error(`Bugün için ${quota.LIMIT} farklı rota hakkınızı kullandınız. Daha önce hesapladığınız rotaları tekrar görüntüleyebilir, yarın yeni rota oluşturabilirsiniz. Popüler rotalar için aşağıdaki hazır rota sayfalarına göz atın.`);
+      const members = authEnabled();
+      if (members) await userReady;
+      const member = members && !!currentUser();
+      if (!data.preset && !member && !quota.allowed(quotaKey, members ? ROUTE_LIMITS.guest : quota.LIMIT)) {
+        if (members) {
+          setStatus('');
+          const u = await openAuth({ reason: `Üye olmadan günde ${ROUTE_LIMITS.guest} farklı rota hesaplayabilirsiniz. Ücretsiz üye olarak günde ${ROUTE_LIMITS.member} rotaya kadar devam edin.` });
+          if (!u) throw new Error(`Bugünkü ${ROUTE_LIMITS.guest} ücretsiz rota hakkınızı kullandınız. Devam etmek için ücretsiz üye olun veya giriş yapın.`);
+          setStatus('Rota ve güzergâhtaki şarj istasyonları hesaplanıyor…');
+        } else {
+          throw new Error(`Bugün için ${quota.LIMIT} farklı rota hakkınızı kullandınız. Daha önce hesapladığınız rotaları tekrar görüntüleyebilir, yarın yeni rota oluşturabilirsiniz.`);
+        }
       }
 
       setStatus('Rota ve güzergâhtaki şarj istasyonları hesaplanıyor…');
@@ -147,7 +163,10 @@ function init(root: HTMLElement) {
           const g = await googleRoute(a, b);
           route = { coords: decodePolyline(g.polyline), duration: g.durationS };
           gStations = g.stations || [];
-        } catch { route = null; }
+        } catch (err: any) {
+          if (err?.limit) throw err;
+          route = null;
+        }
       }
       route ??= await getRoute(a, b);
       const cum = cumulative(route.coords);
@@ -289,9 +308,16 @@ function init(root: HTMLElement) {
     return { coords: r.geometry.coordinates.map((c: number[]) => [c[1], c[0]] as LatLon), duration: r.duration };
   }
 
-  async function googleRoute(a: Place, b: Place): Promise<{ polyline: string; durationS: number; stations: any[] }> {
-    const res = await fetch(`/api/rota?a=${a.lat.toFixed(4)},${a.lon.toFixed(4)}&b=${b.lat.toFixed(4)},${b.lon.toFixed(4)}`);
+  async function googleRoute(a: Place, b: Place, retried = false): Promise<{ polyline: string; durationS: number; stations: any[] }> {
+    const token = authEnabled() ? await idToken().catch(() => null) : null;
+    const res = await fetch(`/api/rota?a=${a.lat.toFixed(4)},${a.lon.toFixed(4)}&b=${b.lat.toFixed(4)},${b.lon.toFixed(4)}`,
+      token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
     const j = await res.json().catch(() => ({}));
+    if (res.status === 429 && j.needLogin && authEnabled() && !retried) {
+      const u = await openAuth({ reason: j.error });
+      if (u) return googleRoute(a, b, true);
+    }
+    if (res.status === 429) throw Object.assign(new Error(j.error || 'Günlük rota hakkı doldu.'), { limit: true });
     if (!res.ok || !j.polyline) throw new Error(j.error || 'Google rota servisi yanıt vermedi.');
     return j;
   }
@@ -342,7 +368,7 @@ const quota = {
     } catch { /* depolama kapalı */ }
     return { day, keys: [] };
   },
-  allowed(k: string) { const v = this.read(); return v.keys.includes(k) || v.keys.length < this.LIMIT; },
+  allowed(k: string, limit = this.LIMIT) { const v = this.read(); return v.keys.includes(k) || v.keys.length < limit; },
   add(k: string) {
     const v = this.read();
     if (!v.keys.includes(k)) v.keys.push(k);

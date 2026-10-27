@@ -1,0 +1,70 @@
+---
+// Üyelik penceresi (giriş / üye ol). Açmak için: import { openAuth } from '../scripts/auth-ui'
+---
+<dialog id="evt-auth" class="auth-dlg" aria-labelledby="auth-title">
+  <form method="dialog" class="auth-x"><button aria-label="Kapat">×</button></form>
+  <div class="auth-body">
+    <h2 id="auth-title">Ücretsiz üye ol</h2>
+    <p class="auth-reason" hidden></p>
+    <div class="auth-tabs" role="tablist">
+      <button type="button" role="tab" data-tab="register" aria-selected="true">Üye ol</button>
+      <button type="button" role="tab" data-tab="login" aria-selected="false">Giriş yap</button>
+    </div>
+
+    <div class="auth-consents" data-for="register">
+      <label class="chk"><input type="checkbox" name="kvkk" /> <span><a href="/kvkk-aydinlatma-metni" target="_blank">Aydınlatma metnini</a> okudum; <a href="/uyelik-sozlesmesi" target="_blank">üyelik koşullarını</a> kabul ediyorum.</span></label>
+      <label class="chk"><input type="checkbox" name="marketing" /> <span>Kampanya, haber ve işbirliği duyurularını e-posta ve bildirim yoluyla almak istiyorum. <em>(isteğe bağlı)</em></span></label>
+    </div>
+
+    <button type="button" class="auth-google" data-google>
+      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+      <span>Google ile devam et</span>
+    </button>
+    <div class="auth-or"><span>veya e-posta ile</span></div>
+
+    <form class="auth-form" data-form="register">
+      <input name="name" autocomplete="name" placeholder="Adınız soyadınız" required />
+      <input name="email" type="email" autocomplete="email" placeholder="E-posta" required />
+      <input name="password" type="password" autocomplete="new-password" placeholder="Şifre (en az 6 karakter)" minlength="6" required />
+      <button class="btn btn-volt" type="submit">Üye ol</button>
+    </form>
+    <form class="auth-form" data-form="login" hidden>
+      <input name="email" type="email" autocomplete="email" placeholder="E-posta" required />
+      <input name="password" type="password" autocomplete="current-password" placeholder="Şifre" required />
+      <button class="btn btn-volt" type="submit">Giriş yap</button>
+      <button type="button" class="auth-link" data-reset>Şifremi unuttum</button>
+    </form>
+    <p class="auth-msg" role="alert" hidden></p>
+    <p class="auth-foot">Üyelik ücretsizdir. Üyeler günde 5 farklı rota hesaplayabilir, aracını ve rotalarını kaydedebilir.</p>
+  </div>
+</dialog>
+<style is:global>
+  .auth-dlg { border: 0; border-radius: 20px; padding: 0; width: min(440px, calc(100vw - 32px)); box-shadow: 0 30px 80px rgba(15, 23, 42, .3); color: var(--ink); }
+  .auth-dlg::backdrop { background: rgba(15, 23, 42, .55); backdrop-filter: blur(2px); }
+  .auth-x { position: absolute; right: 10px; top: 8px; margin: 0; }
+  .auth-x button { border: 0; background: none; font-size: 1.6rem; line-height: 1; cursor: pointer; color: var(--muted); padding: 6px 10px; }
+  .auth-body { padding: 28px 26px 22px; display: grid; gap: 14px; }
+  .auth-body h2 { margin: 0; font-size: 1.45rem; }
+  .auth-reason { margin: -6px 0 0; color: var(--ink-2); font-size: .95rem; }
+  .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--soft); border-radius: 12px; padding: 4px; }
+  .auth-tabs button { border: 0; background: none; padding: 9px; border-radius: 9px; font-weight: 700; cursor: pointer; color: var(--muted); font-family: inherit; }
+  .auth-tabs button[aria-selected='true'] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .auth-consents { display: grid; gap: 8px; font-size: .84rem; color: var(--ink-2); }
+  .auth-consents[hidden] { display: none; }
+  .chk { display: flex; gap: 9px; align-items: flex-start; cursor: pointer; margin: 0; font-weight: 400; }
+  .chk input { margin-top: 3px; width: 16px; height: 16px; flex: none; accent-color: var(--green); }
+  .chk a { color: var(--volt); text-decoration: underline; }
+  .chk em { color: var(--muted); font-style: normal; }
+  .auth-google { display: flex; align-items: center; justify-content: center; gap: 10px; height: 46px; border: 1px solid var(--line); background: #fff; border-radius: 12px; font: 600 .95rem var(--font); cursor: pointer; }
+  .auth-google:hover { border-color: #cbd5e1; background: var(--soft); }
+  .auth-or { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: .8rem; }
+  .auth-or::before, .auth-or::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .auth-form { display: grid; gap: 10px; }
+  .auth-form[hidden] { display: none; }
+  .auth-form input { height: 44px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; font: inherit; }
+  .auth-form .btn { height: 46px; border-radius: 12px; }
+  .auth-link { border: 0; background: none; color: var(--volt); font: 600 .85rem var(--font); cursor: pointer; justify-self: start; padding: 0; }
+  .auth-msg { margin: 0; font-size: .88rem; padding: 10px 12px; border-radius: 10px; background: #fff5f5; color: #991b1b; }
+  .auth-msg.ok { background: var(--green-soft); color: #0b6b35; }
+  .auth-foot { margin: 0; font-size: .78rem; color: var(--muted); }
+</style>

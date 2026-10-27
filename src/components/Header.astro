@@ -2,6 +2,7 @@
 import Logo from './Logo.astro';
 import AdSlot from './AdSlot.astro';
 const path = Astro.url.pathname;
+const hasAuth = !!(import.meta.env.PUBLIC_FIREBASE_CONFIG || process.env.PUBLIC_FIREBASE_CONFIG);
 const nav = [
   { href: '/haberler', label: 'Haberler' },
   { href: '/haberler/turkiye', label: 'Türkiye' },
@@ -46,6 +47,11 @@ const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'nu
       <a href="/istasyonlar" class="icon-btn" aria-label="Şarj istasyonu haritası">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"></path><path d="m12.6 6.5-2.4 3.6h3.4l-2.4 3.6"></path></svg>
       </a>
+      {hasAuth && (
+        <a href="/hesabim" class="icon-btn" aria-label="Hesabım" data-account>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+        </a>
+      )}
       <a href="/rota-planlayici" class="btn btn-volt cta">Rotanı Planla</a>
     </div>
   </div>
