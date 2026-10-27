@@ -1,0 +1,23 @@
+---
+// Sık sorulan sorular. Aynı listeyi sayfanın JSON-LD'sine faqLd() ile verin.
+interface Props { items: { q: string; a: string }[]; title?: string }
+const { items, title = 'Sık sorulan sorular' } = Astro.props;
+---
+<section class="faq">
+  <h2>{title}</h2>
+  {items.map((it) => (
+    <details>
+      <summary>{it.q}</summary>
+      <p>{it.a}</p>
+    </details>
+  ))}
+</section>
+<style>
+  .faq { max-width: 780px; margin-top: 36px; }
+  details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  summary { cursor: pointer; font-weight: 700; color: var(--ink); list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--volt); font-weight: 700; }
+  details[open] summary::after { content: '–'; }
+  details p { margin: 10px 0 0; color: var(--ink-2); line-height: 1.7; }
+</style>

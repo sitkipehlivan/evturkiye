@@ -1,0 +1,22 @@
+---
+// Konu sayfalarına iç link kutusu (haber sayfaları ve rehberlerin altında).
+import { GUIDES } from '../lib/ev';
+interface Props { exclude?: string; title?: string }
+const { exclude, title = 'Rehberler' } = Astro.props;
+const list = GUIDES.filter((g) => g.href !== exclude);
+---
+<nav class="guides" aria-label={title}>
+  <h2>{title}</h2>
+  <div class="g-grid">
+    {list.map((g) => (
+      <a class="card g" href={g.href}><b>{g.label}</b><span class="muted small">{g.desc}</span></a>
+    ))}
+  </div>
+</nav>
+<style>
+  .guides { margin-top: 36px; }
+  .guides h2 { font-size: 1.2rem; }
+  .g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  .g { padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; border-left: 3px solid var(--green); }
+  .g:hover b { color: var(--volt); }
+</style>

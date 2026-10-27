@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import GuideLinks from '../components/GuideLinks.astro';
+import { models, highwayRange } from '../lib/ev';
+
+const rows = [...models].sort((a, b) => b.wltp - a.wltp);
+const ratio = rows.map((m) => highwayRange(m) / m.wltp);
+const rMin = Math.round(Math.min(...ratio) * 100), rMax = Math.round(Math.max(...ratio) * 100);
+const best = [...models].sort((a, b) => highwayRange(b) - highwayRange(a))[0];
+const effi = [...models].sort((a, b) => a.highway - b.highway)[0];
+
+const faq = [
+  { q: 'En uzun menzilli elektrikli araç hangisi?', a: `Türkiye'de satılan modellerden veritabanımızdaki en yüksek WLTP menzili ${rows[0].brand} ${rows[0].model} ${rows[0].version} (${rows[0].wltp} km). Otoyolda tahmini en uzun menzil ise ${best.brand} ${best.model} ${best.version} (~${highwayRange(best)} km).` },
+  { q: 'WLTP menzili gerçekçi mi?', a: `WLTP, şehir içi ve şehir dışı karışık bir test döngüsüdür. Otoyolda 110–120 km/s hızda gerçek menzil, tahminlerimize göre WLTP değerinin yaklaşık %${rMin === rMax ? rMin : `${rMin}–${rMax}`}'i kadardır; sürüş tarzı ve hava koşullarına göre bu oran %65–80 arasında değişebilir.` },
+  { q: 'Kışın elektrikli araç menzili ne kadar düşer?', a: 'Soğuk havada batarya kimyası yavaşlar ve kabin ısıtması enerji harcar. Sıfırın altındaki sıcaklıklarda menzil, ısı pompası olup olmamasına ve sürüş şekline göre %20–30 kadar düşebilir.' },
+  { q: 'En verimli elektrikli araç hangisi?', a: `Otoyol tüketimine göre listemizdeki en verimli model ${effi.brand} ${effi.model} ${effi.version} (yaklaşık ${effi.highway.toLocaleString('tr-TR')} kWh/100 km).` },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Elektrikli araç menzil sıralaması', itemListElement: rows.slice(0, 10).map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })) },
+];
+---
+<Base title="Elektrikli Araç Menzil Sıralaması: WLTP ve Gerçek Otoyol Menzili" description={`Türkiye'de satılan ${models.length} elektrikli otomobilin WLTP menzili ve 110–120 km/s otoyolda tahmini gerçek menzili. En uzun menzilli elektrikli araçlar listesi.`} jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/elektrikli-arac">Elektrikli Araç Rehberi</a> / Menzil</nav>
+      <span class="eyebrow">Menzil</span>
+      <h1>Elektrikli araç menzil sıralaması</h1>
+      <p class="lede">Üreticinin açıkladığı WLTP menzili ile otoyolda gerçekte ne kadar gidebileceğiniz aynı şey değil. Tabloda ikisini yan yana görebilirsiniz.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Model</th><th class="num">Batarya</th><th class="num">WLTP</th><th class="num">Otoyol tüketimi</th><th class="num">Otoyol menzili*</th></tr></thead>
+          <tbody>{rows.map((m, i) => (
+            <tr>
+              <td class="muted">{i + 1}</td>
+              <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td>
+              <td class="num">{m.battery} kWh</td><td class="num"><b>{m.wltp} km</b></td>
+              <td class="num">{m.highway.toLocaleString('tr-TR')} kWh/100 km</td><td class="num">~{highwayRange(m)} km</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      <p class="muted small">* %100 doluluktan sıfıra, 110–120 km/s sabit hızda ılıman havada tahmini değer. Uzun yolda pratikte %10–80 arası kullanıldığı için iki şarj arası mesafe bunun yaklaşık %70'idir.</p>
+      <div class="prose">
+        <h2>Menzili etkileyen etkenler</h2>
+        <ul>
+          <li><b>Hız:</b> Hava direnci hızın karesiyle artar; 130 km/s ile 110 km/s arasında tüketim farkı belirgindir.</li>
+          <li><b>Sıcaklık:</b> Soğukta batarya verimi düşer, ısıtma enerji harcar. Ayrıntılar için <a href="/haberler/rehber/kisin-elektrikli-arac-menzili">kışın elektrikli araç menzili</a> yazımıza bakın.</li>
+          <li><b>Yük ve lastik:</b> Yolcu, bagaj, tavan yükü ve düşük lastik basıncı tüketimi artırır.</li>
+          <li><b>Yükseklik farkı:</b> Yokuş çıkarken harcanan enerjinin bir kısmı inişte rejeneratif frenle geri kazanılır.</li>
+        </ul>
+        <p>Belirli bir güzergâh için gerçekçi hesap isterseniz <a href="/rota-planlayici">rota planlayıcı</a> aracınızın otoyol tüketimine göre şarj duraklarını ve toplam maliyeti gösterir.</p>
+      </div>
+      <Faq items={faq} />
+      <GuideLinks exclude="/elektrikli-arac-menzil" title="Diğer rehberler" />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
+  .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 760px; }
+  .table-wrap { margin-top: 18px; }
+</style>

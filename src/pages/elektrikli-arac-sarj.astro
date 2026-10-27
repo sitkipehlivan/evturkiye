@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import GuideLinks from '../components/GuideLinks.astro';
+import NewsCard from '../components/NewsCard.astro';
+import ops from '../data/operators.json';
+import { getNews, tl } from '../lib/util';
+import { models, avgAc, avgDc, minDc, opsCount, dcMinutes, acHours, chargeCost } from '../lib/ev';
+
+const news = await getNews();
+const related = news.filter((p) => /şarj|sarj/i.test(p.data.title + p.id)).slice(0, 6);
+const rows = [...models].sort((a, b) => dcMinutes(a) - dcMinutes(b));
+const mins = rows.map(dcMinutes);
+const cheap = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 5);
+const fmtH = (h: number) => { const t = Math.round(h * 2) / 2; return `${t.toLocaleString('tr-TR')} sa`; };
+
+const faq = [
+  { q: 'Elektrikli araç şarjı kaç dakika sürer?', a: `DC hızlı şarjda %10'dan %80'e, veritabanımızdaki modeller için yaklaşık ${Math.min(...mins)}–${Math.max(...mins)} dakika sürer. Süre aracın kabul ettiği en yüksek şarj gücüne, batarya sıcaklığına ve istasyonun gücüne bağlıdır.` },
+  { q: 'Neden %80\'e kadar şarj ediliyor?', a: 'Batarya dolmaya yaklaştıkça araç şarj gücünü düşürür. %80\'den sonrası, ilk %80\'e göre çok daha yavaş dolar. Uzun yolda %80\'e kadar şarj edip yola devam etmek toplam süreyi kısaltır.' },
+  { q: 'AC ve DC şarj arasındaki fark nedir?', a: `AC şarjda akım araçtaki şarj cihazında DC'ye çevrilir; güç genelde 7–22 kW ile sınırlıdır ve fiyat daha düşüktür (ortalama ${tl(avgAc)}/kWh). DC şarjda dönüşüm istasyonda yapılır; 50–300 kW güç sunar ama kWh fiyatı daha yüksektir (ortalama ${tl(avgDc)}/kWh).` },
+  { q: 'Evde elektrikli araç şarj edilir mi?', a: 'Evet. Normal prizle (yaklaşık 2–2,3 kW) çok yavaş da olsa şarj mümkündür, ancak düzenli kullanım için ehliyetli bir elektrikçinin kuracağı duvar tipi şarj ünitesi (genelde 7,4 veya 11 kW) önerilir. Site ve apartmanlarda kurulum için yönetim onayı gerekir.' },
+  { q: 'En ucuz şarj operatörü hangisi?', a: `Standart DC tarifelerde en düşük fiyat şu anda ${cheap[0].name} (${tl(cheap[0].dc)}/kWh). Operatörler sık sık kampanya yaptığı için güncel tabloyu şarj fiyatları sayfamızdan kontrol edin.` },
+];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title="Elektrikli Araç Şarj Rehberi: AC/DC, Soket Tipleri ve Şarj Süreleri" description="Elektrikli araç nasıl şarj edilir? AC ve DC şarj farkı, Type 2 ve CCS2 soketler, model model hızlı şarj süreleri, evde şarj ve güncel kWh fiyatları." jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/elektrikli-arac">Elektrikli Araç Rehberi</a> / Şarj</nav>
+      <span class="eyebrow">Şarj rehberi</span>
+      <h1>Elektrikli araç şarj rehberi</h1>
+      <p class="lede">Elektrikli aracınızı nerede, ne kadar sürede ve kaça şarj edersiniz? Soket tiplerinden hızlı şarj sürelerine kadar bilmeniz gerekenler.</p>
+
+      <div class="prose">
+        <h2>Şarj türleri: AC ve DC</h2>
+        <ul>
+          <li><b>AC (yavaş/normal) şarj:</b> Evde, iş yerinde, AVM ve otel otoparklarında bulunur. Güç genelde 7–22 kW'tır, ancak aracın kabul ettiği AC gücü sınırı belirler. Halka açık istasyonlarda ortalama fiyat {tl(avgAc)}/kWh.</li>
+          <li><b>DC (hızlı) şarj:</b> Otoyollarda ve şehir içi hızlı şarj noktalarında bulunur. 50–300 kW güç sunar. Ortalama fiyat {tl(avgDc)}/kWh, en ucuzu {tl(minDc)}/kWh.</li>
+        </ul>
+        <h2>Türkiye'de kullanılan soket tipleri</h2>
+        <ul>
+          <li><b>Type 2 (Mennekes):</b> AC şarj için Avrupa ve Türkiye standardı. Bazı istasyonlarda kendi kablonuzu takmanız gerekir.</li>
+          <li><b>CCS2 (Combo 2):</b> DC hızlı şarj standardı. Type 2 soketin altına iki büyük pim eklenmiş halidir; kablo istasyona bağlıdır.</li>
+          <li><b>CHAdeMO:</b> Eski bazı Japon modellerde bulunur; yeni istasyonlarda giderek azalıyor.</li>
+        </ul>
+        <h2>Model model şarj süreleri</h2>
+        <p>Aşağıdaki tablo, ideal koşullarda DC'de %10 → %80 süresini ve aracın en yüksek AC gücüyle %0 → %100 süresini gösterir. Maliyet, operatörlerin ortalama DC fiyatıyla (%10 → %80) hesaplanmıştır.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th class="num">DC maks.</th><th class="num">%10→80 DC</th><th class="num">AC maks.</th><th class="num">%0→100 AC</th><th class="num">%10→80 maliyet</th></tr></thead>
+          <tbody>{rows.map((m) => (
+            <tr>
+              <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td>
+              <td class="num">{m.dcMax} kW</td><td class="num">~{dcMinutes(m)} dk</td>
+              <td class="num">{m.acMax} kW</td><td class="num">~{fmtH(acHours(m))}</td>
+              <td class="num">~{tl(chargeCost(m, avgDc))}</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      <p class="muted small">Süreler tahminidir; soğuk batarya, istasyon paylaşımı ve yüksek doluluk oranı şarjı yavaşlatır.</p>
+
+      <div class="prose">
+        <h2>Evde şarj</h2>
+        <p>Günlük kullanımda en ucuz ve en pratik yöntem evde şarjdır. Normal prizden şarj mümkündür ama yavaştır ve uzun süreli yüksek akım için tasarlanmamış tesisatı zorlayabilir. Duvar tipi şarj ünitesi (wallbox) hem daha hızlı hem daha güvenlidir. Kurulum, maliyet ve izin süreci için <a href="/haberler/rehber/ev-tipi-sarj-unitesi-kurulumu">ev tipi şarj ünitesi kurulumu</a> ve <a href="/haberler/rehber/evde-sarj-maliyeti-2026">evde şarj maliyeti</a> rehberlerimize bakın.</p>
+        <h2>En ucuz hızlı şarj operatörleri</h2>
+      </div>
+      <div class="table-wrap narrow">
+        <table>
+          <thead><tr><th>Operatör</th><th class="num">AC ₺/kWh</th><th class="num">DC ₺/kWh</th></tr></thead>
+          <tbody>{cheap.map((o) => <tr><td><b>{o.name}</b></td><td class="num">{o.ac == null ? '—' : tl(o.ac)}</td><td class="num">{tl(o.dc)}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p class="more"><a href="/sarj-fiyatlari">{opsCount} operatörün tüm fiyatları →</a> · <a href="/istasyonlar">Şarj istasyonu haritası →</a></p>
+
+      <Faq items={faq} />
+    </div>
+  </section>
+  <section class="section-sm soft">
+    <div class="container">
+      {related.length > 0 && <><h2>Şarj hakkında yazılar</h2><div class="grid grid-3">{related.map((p) => <NewsCard post={p} />)}</div></>}
+      <GuideLinks exclude="/elektrikli-arac-sarj" title="Diğer rehberler" />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
+  .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 760px; }
+  .table-wrap { margin-top: 14px; } .table-wrap.narrow { max-width: 560px; }
+  .more { margin: 10px 0 0; font-weight: 600; } .more a { color: var(--volt); }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import routes from '../data/routes.json';
+import { GUIDES } from '../lib/ev';
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
@@ -20,8 +21,12 @@ const year = new Date().getFullYear();
       <h4>İçerik</h4>
       <a href="/haberler/turkiye">Türkiye</a>
       <a href="/haberler/dunya">Dünya</a>
-      <a href="/haberler/rehber">Rehber</a>
       <a href="/firsatlar">Kampanyalar</a>
+    </div>
+    <div>
+      <h4>Rehberler</h4>
+      {GUIDES.map((g) => <a href={g.href}>{g.short}</a>)}
+      <a href="/haberler/rehber">Rehber yazıları</a>
     </div>
     <div>
       <h4>Popüler Rotalar</h4>
@@ -35,7 +40,7 @@ const year = new Date().getFullYear();
 </footer>
 <style>
   .site-footer { border-top: 1px solid var(--line); background: var(--soft); margin-top: 40px; padding: 48px 0 24px; }
-  .cols { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 32px; }
+  .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; gap: 32px; }
   .brand p { margin-top: 14px; max-width: 300px; }
   h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; }
   .cols a { display: block; padding: 4px 0; font-size: .93rem; color: var(--ink-2); }

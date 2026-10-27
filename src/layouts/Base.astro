@@ -17,6 +17,8 @@ const {
   type = 'website',
   jsonLd,
 } = Astro.props;
+// Google Search Console HTML etiketi doğrulaması: Netlify'da GSC_VERIFICATION ortam değişkeni (birden fazlaysa virgülle)
+const gsc = (process.env.GSC_VERIFICATION ?? '').split(',').map((x) => x.trim()).filter(Boolean);
 const fullTitle = title.includes('EV Türkiye') ? title : `${title} | EV Türkiye`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -29,6 +31,8 @@ const ogImage = new URL(image, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    {gsc.map((c) => <meta name="google-site-verification" content={c} />)}
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="EV Türkiye" />
     <meta property="og:title" content={fullTitle} />

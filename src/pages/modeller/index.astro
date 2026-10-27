@@ -43,6 +43,8 @@ const brands = [...new Set(models.map((m) => m.brand))];
         </table>
       </div>
       <p class="muted small foot">* {data.note}</p>
+      <h2 class="bh">Markalara göre</h2>
+      <div class="brands">{brands.map((b) => <a class="tag" href={`/modeller/${models.find((m) => m.brand === b)!.brandSlug}`}>{b} elektrikli araçlar</a>)}</div>
     </div>
   </section>
 </Base>
@@ -68,4 +70,5 @@ const brands = [...new Set(models.map((m) => m.brand))];
   .brands button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
   .plan { font-size: .85rem; font-weight: 600; color: var(--volt); }
   .foot { margin-top: 12px; }
+  .bh { margin-top: 32px; font-size: 1.2rem; }
 </style>

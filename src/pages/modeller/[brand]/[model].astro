@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import data from '../../../data/models.json';
 import ops from '../../../data/operators.json';
 import { tl } from '../../../lib/util';
+import GuideLinks from '../../../components/GuideLinks.astro';
 export function getStaticPaths() {
   const seen = new Set<string>();
   return data.models.filter((m) => { const k = m.brandSlug + m.modelSlug; if (seen.has(k)) return false; seen.add(k); return true; })
@@ -23,7 +24,7 @@ const jsonLd = {
 <Base title={`${name}: Batarya, Menzil, Şarj Süresi ve Şarj Maliyeti`} description={`${name} teknik verileri: ${v0.battery} kWh batarya, ${v0.wltp} km WLTP menzil, ${v0.dcMax} kW DC şarj. Hızlı şarj süresi ve maliyet hesaplaması.`} jsonLd={jsonLd}>
   <section class="section-sm">
     <div class="container">
-      <nav class="small muted crumbs"><a href="/modeller">Modeller</a> / {v0.brand}</nav>
+      <nav class="small muted crumbs"><a href="/modeller">Modeller</a> / <a href={`/modeller/${brand}`}>{v0.brand}</a> / {v0.model}</nav>
       <span class="eyebrow">{v0.body}</span>
       <h1>{name}</h1>
       <div class="versions">
@@ -59,11 +60,14 @@ const jsonLd = {
   <section class="section-sm soft">
     <div class="container">
       <h2>Diğer modeller</h2>
+      <p class="small"><a class="blink" href={`/modeller/${brand}`}>Tüm {v0.brand} elektrikli modelleri →</a></p>
       <div class="others">{others.map((m) => <a class="card" href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b><span class="muted small">{m.battery} kWh · {m.wltp} km</span></a>)}</div>
+      <GuideLinks />
     </div>
   </section>
 </Base>
 <style>
+  .blink { color: var(--volt); font-weight: 600; }
   .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
   h1 { margin-top: 8px; }
   .versions { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 20px 0 14px; }

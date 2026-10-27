@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import GuideLinks from '../components/GuideLinks.astro';
+import { tl } from '../lib/util';
+import { models, avgAc, avgDc, minDc, opsCount, opsUpdated, per100, chargeCost, CHARGE_EFF } from '../lib/ev';
+
+const rows = [...models].sort((a, b) => a.highway - b.highway);
+const d100 = rows.map((m) => per100(m, avgDc));
+const a100 = rows.map((m) => per100(m, avgAc));
+const upd = opsUpdated.split('-').reverse().join('.');
+const cheapest = rows[0], priciest = rows.at(-1)!;
+
+const faq = [
+  { q: 'Elektrikli araç şarjı kaç lira?', a: `Halka açık istasyonlarda ${opsCount} operatörün ortalama fiyatı AC'de ${tl(avgAc)}, DC hızlı şarjda ${tl(avgDc)} / kWh (${upd}). Bir aracı %10'dan %80'e DC ile şarj etmek, batarya boyutuna göre yaklaşık ${tl(Math.min(...rows.map((m) => chargeCost(m, avgDc))))} ile ${tl(Math.max(...rows.map((m) => chargeCost(m, avgDc))))} arasında tutar.` },
+  { q: 'Elektrikli araçla 100 km kaç lira?', a: `Otoyol tüketimiyle hesaplandığında 100 km, DC hızlı şarjda yaklaşık ${tl(Math.min(...d100))} – ${tl(Math.max(...d100))}, AC şarjda ${tl(Math.min(...a100))} – ${tl(Math.max(...a100))} tutar. Şehir içinde tüketim daha düşük olduğu için maliyet de düşer.` },
+  { q: 'Şarj maliyeti nasıl hesaplanır?', a: `100 km maliyeti = (100 km tüketimi kWh ÷ ${CHARGE_EFF.toLocaleString('tr-TR')} şarj verimi) × kWh fiyatı. Şarj sırasında enerjinin bir kısmı ısıya dönüştüğü için istasyondan çekilen enerji bataryaya girenden biraz fazladır.` },
+  { q: 'Evde şarj daha mı ucuz?', a: 'Evet. Mesken elektrik tarifesi halka açık istasyonlardaki kWh fiyatlarının belirgin şekilde altındadır; gece tarifesi (üç zamanlı tarife) kullanılırsa fark daha da büyür.' },
+];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title="Elektrikli Araç Şarj Maliyeti: 100 km ve Tam Şarj Kaç Lira?" description={`Elektrikli araçla 100 km kaç lira? ${models.length} model için AC ve DC şarjda 100 km maliyeti ve %10–80 şarj ücreti. Güncel ortalama kWh fiyatlarıyla (${upd}).`} jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/elektrikli-arac">Elektrikli Araç Rehberi</a> / Şarj maliyeti</nav>
+      <span class="eyebrow">Maliyet</span>
+      <h1>Elektrikli araç şarj maliyeti</h1>
+      <p class="lede">Model model 100 km maliyeti ve bir hızlı şarj molasının ücreti. Hesaplar {opsCount} operatörün ortalama fiyatıyla yapıldı: AC {tl(avgAc)}, DC {tl(avgDc)} / kWh (en ucuz DC {tl(minDc)}). Son güncelleme: {upd}.</p>
+      <div class="sum">
+        <div class="card"><span>En ekonomik</span><b>{cheapest.brand} {cheapest.model}</b><small>DC'de 100 km ~{tl(per100(cheapest, avgDc))}</small></div>
+        <div class="card"><span>En yüksek tüketim</span><b>{priciest.brand} {priciest.model}</b><small>DC'de 100 km ~{tl(per100(priciest, avgDc))}</small></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th class="num">Otoyol tüketimi</th><th class="num">100 km (AC)</th><th class="num">100 km (DC)</th><th class="num">100 km (en ucuz DC)</th><th class="num">%10→80 DC</th></tr></thead>
+          <tbody>{rows.map((m) => (
+            <tr>
+              <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td>
+              <td class="num">{m.highway.toLocaleString('tr-TR')} kWh</td>
+              <td class="num">{tl(per100(m, avgAc))}</td>
+              <td class="num"><b>{tl(per100(m, avgDc))}</b></td>
+              <td class="num">{tl(per100(m, minDc))}</td>
+              <td class="num">{tl(chargeCost(m, avgDc))}</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      <p class="muted small">Otoyol (110–120 km/s) tüketimiyle hesaplanmıştır; şehir içinde tüketim ve maliyet daha düşüktür. Kampanyalı tarifeler dahil değildir.</p>
+      <div class="prose">
+        <h2>Benzinli ve dizelle karşılaştırma</h2>
+        <p>Aynı güzergâhta elektrikli, benzinli ve dizel aracın yakıt/şarj maliyetini <a href="/haberler/rehber/istanbul-ankara-elektrikli-benzinli-dizel-maliyet">İstanbul–Ankara karşılaştırmamızda</a> adım adım hesapladık. Kendi aracınız ve güzergâhınız için <a href="/rota-planlayici">rota planlayıcıyı</a> kullanabilirsiniz; operatör seçimine göre toplam maliyeti gösterir.</p>
+        <h2>Şarj maliyetini düşürmenin yolları</h2>
+        <ul>
+          <li>Mümkün olduğunca evde veya AC istasyonlarda şarj edin.</li>
+          <li>Uzun yolda %80'in üzerine çıkmayın; yavaşlayan şarj için fazladan beklemeyin.</li>
+          <li>Operatörlerin indirimli saatlerini ve üyelik paketlerini takip edin: <a href="/firsatlar/sarj-kampanyalari">şarj kampanyaları</a>.</li>
+          <li>Otoyolda hızı 110 km/s civarında tutmak tüketimi belirgin şekilde azaltır.</li>
+        </ul>
+      </div>
+      <Faq items={faq} />
+      <GuideLinks exclude="/elektrikli-arac-sarj-maliyeti" title="Diğer rehberler" />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
+  .lede { font-size: 1.08rem; color: var(--ink-2); max-width: 800px; }
+  .sum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 640px; margin: 20px 0; }
+  .sum .card { padding: 16px; display: flex; flex-direction: column; gap: 2px; }
+  .sum span { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; }
+  .sum b { font-size: 1.15rem; } .sum small { color: var(--green); font-weight: 600; }
+</style>

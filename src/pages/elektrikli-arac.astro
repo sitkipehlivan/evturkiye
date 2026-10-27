@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import GuideLinks from '../components/GuideLinks.astro';
+import NewsCard from '../components/NewsCard.astro';
+import routes from '../data/routes.json';
+import { getNews, tl } from '../lib/util';
+import { models, brands, avgDc, avgAc, minDc, opsCount, opsUpdated, highwayRange, per100, dcMinutes, acHours } from '../lib/ev';
+
+const news = await getNews();
+const rehber = news.filter((p) => p.data.category === 'rehber').slice(0, 6);
+const latest = news.filter((p) => p.data.category !== 'rehber').slice(0, 3);
+const byWltp = [...models].sort((a, b) => b.wltp - a.wltp);
+const top = byWltp.slice(0, 5);
+const per100s = models.map((m) => per100(m, avgDc));
+const p100min = Math.min(...per100s), p100max = Math.max(...per100s);
+const acH = models.map(acHours);
+const acMin = Math.floor(Math.min(...acH)), acMax = Math.ceil(Math.max(...acH));
+const fastest = [...models].sort((a, b) => dcMinutes(a) - dcMinutes(b))[0];
+
+const faq = [
+  { q: 'Elektrikli araç kaç km gider?', a: `Türkiye'de satılan modellerin WLTP menzili veritabanımızda ${byWltp.at(-1)!.wltp} ile ${byWltp[0].wltp} km arasında. Otoyolda 110–120 km/s hızda gerçek menzil genellikle WLTP değerinin %65–80'i kadardır; soğuk havada daha da düşer.` },
+  { q: 'Elektrikli araçla 100 km gitmek kaç lira?', a: `Halka açık DC hızlı şarjda (ortalama ${tl(avgDc)}/kWh) otoyolda 100 km yaklaşık ${tl(p100min)} ile ${tl(p100max)} arasında tutar. AC şarjda (ortalama ${tl(avgAc)}/kWh) ve özellikle evde şarjda maliyet belirgin şekilde düşer.` },
+  { q: 'Elektrikli araç şarjı ne kadar sürer?', a: `DC hızlı şarjda %10'dan %80'e çoğu model 20–45 dakikada çıkar (veritabanımızdaki en hızlısı ${fastest.brand} ${fastest.model}, yaklaşık ${dcMinutes(fastest)} dk). Evde veya AC istasyonda, aracın kabul ettiği en yüksek AC gücüyle tam şarj ${acMin}–${acMax} saat sürer; normal prizden şarj bunun birkaç katı uzun sürer.` },
+  { q: 'Türkiye\'de hangi şarj soketi kullanılıyor?', a: 'Avrupa standardı geçerlidir: AC şarjda Type 2, DC hızlı şarjda CCS2 (Combo 2). Türkiye\'de satılan yeni elektrikli otomobillerin neredeyse tamamı bu iki soketi kullanır.' },
+  { q: 'Uzun yola elektrikli araçla çıkılır mı?', a: 'Evet. Otoyol güzergâhlarında DC hızlı şarj istasyonları yaygınlaştı. Yola çıkmadan önce rota planlayıcımızla hangi istasyonda ne kadar şarj edeceğinizi ve toplam maliyeti görebilirsiniz.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'EV Türkiye', item: Astro.site!.origin },
+    { '@type': 'ListItem', position: 2, name: 'Elektrikli Araç Rehberi', item: new URL('/elektrikli-arac', Astro.site).toString() },
+  ] },
+];
+---
+<Base title="Elektrikli Araç Rehberi: Menzil, Şarj, Maliyet ve Modeller" description="Elektrikli araç almadan ve kullanmadan önce bilmeniz gereken her şey: Türkiye'deki modellerin menzili, şarj süreleri, kWh fiyatları, 100 km maliyeti ve uzun yol planlaması." jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/">Ana sayfa</a> / Elektrikli Araç Rehberi</nav>
+      <span class="eyebrow">Rehber</span>
+      <h1>Elektrikli araç rehberi</h1>
+      <p class="lede">Türkiye'de elektrikli araç kullanmanın bütün konuları tek sayfada: hangi model kaç km gider, şarj ne kadar sürer, 100 km kaç lira tutar ve uzun yolda nerede şarj edilir.</p>
+
+      <div class="stats">
+        <div class="card"><span>Veritabanındaki model</span><b>{models.length}</b><small>{brands.length} marka</small></div>
+        <div class="card"><span>En uzun WLTP menzil</span><b>{byWltp[0].wltp} km</b><small>{byWltp[0].brand} {byWltp[0].model}</small></div>
+        <div class="card"><span>Ortalama DC fiyatı</span><b>{tl(avgDc)}</b><small>kWh başına, {opsCount} operatör</small></div>
+        <div class="card"><span>En ucuz DC</span><b>{tl(minDc)}</b><small>kWh başına</small></div>
+      </div>
+
+      <div class="prose">
+        <h2>Elektrikli araç nedir, nasıl çalışır?</h2>
+        <p>Elektrikli araç (EV), içten yanmalı motor yerine bataryadan beslenen bir elektrik motoruyla hareket eder. Batarya kapasitesi kWh ile, tüketim ise 100 km'de harcanan kWh ile ölçülür. Benzinli araçtaki "depo" ve "litre/100 km" yerine bu iki değere bakmak, menzili ve maliyeti anlamanın en kısa yoludur.</p>
+        <p>Frenleme sırasında motor jeneratör gibi çalışıp bataryayı kısmen geri doldurur (rejeneratif frenleme). Bu yüzden elektrikli araçlar şehir içinde verimlidir; otoyolda ise hava direnci arttığı için tüketim yükselir.</p>
+
+        <h2>Menzil: elektrikli araç kaç km gider?</h2>
+        <p>Üreticilerin açıkladığı WLTP menzili standart bir test döngüsünden gelir. Otoyolda 110–120 km/s hızda gerçek menzil genelde bunun %65–80'i kadardır. Soğuk havada batarya ve kabin ısıtması nedeniyle menzil daha da düşer.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th class="num">WLTP</th><th class="num">Otoyol (tahmini)</th></tr></thead>
+          <tbody>{top.map((m) => (
+            <tr><td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td><td class="num">{m.wltp} km</td><td class="num">~{highwayRange(m)} km</td></tr>
+          ))}</tbody>
+        </table>
+      </div>
+      <p class="more"><a href="/elektrikli-arac-menzil">Tüm modellerin menzil sıralaması →</a></p>
+
+      <div class="prose">
+        <h2>Şarj: AC mi, DC mi?</h2>
+        <p><b>AC şarj</b> evde, işte ve AVM otoparklarında kullanılır; genelde 7–22 kW güçtedir ve aracı birkaç saatte doldurur. <b>DC hızlı şarj</b> ise otoyol ve şehir içi hızlı istasyonlarda bulunur; 50–300 kW güçle aracı %10'dan %80'e çoğunlukla yarım saat civarında çıkarır. Türkiye'de AC için Type 2, DC için CCS2 soketi kullanılır.</p>
+        <p>Halka açık istasyonlarda {opsCount} operatörün ortalama fiyatı AC'de {tl(avgAc)}, DC'de {tl(avgDc)} / kWh (son güncelleme {opsUpdated.split('-').reverse().join('.')}). Operatörleri tek tabloda <a href="/sarj-fiyatlari">şarj fiyatları</a> sayfasında karşılaştırabilirsiniz.</p>
+      </div>
+      <p class="more"><a href="/elektrikli-arac-sarj">Şarj rehberi: soketler, süreler, evde şarj →</a></p>
+
+      <div class="prose">
+        <h2>Maliyet: 100 km kaç lira?</h2>
+        <p>Halka açık DC şarjla otoyolda 100 km, modele göre yaklaşık <b>{tl(p100min)} – {tl(p100max)}</b> tutar. AC istasyonlarda kWh fiyatı ortalama %{Math.round((1 - avgAc / avgDc) * 100)} daha düşüktür; evde şarjda ise elektrik tarifenize bağlı olarak çok daha ucuza gelir.</p>
+      </div>
+      <p class="more"><a href="/elektrikli-arac-sarj-maliyeti">Model model şarj maliyeti tablosu →</a> · <a href="/rota-planlayici">Rota ve maliyet planlayıcı →</a></p>
+
+      <div class="prose"><h2>Markalara göre elektrikli araçlar</h2></div>
+      <div class="chips">{brands.map((b) => <a class="tag" href={`/modeller/${b.slug}`}>{b.name} <span class="muted">({b.count})</span></a>)}</div>
+
+      <div class="prose"><h2>Popüler uzun yol rotaları</h2></div>
+      <div class="chips">{routes.slice(0, 12).map((r) => <a class="tag" href={`/rota/${r.slug}`}>{r.from} – {r.to}</a>)}</div>
+
+      <Faq items={faq} />
+    </div>
+  </section>
+  <section class="section-sm soft">
+    <div class="container">
+      <h2>Rehber yazıları</h2>
+      <div class="grid grid-3">{rehber.map((p) => <NewsCard post={p} />)}</div>
+      <h2 class="mt">Son haberler</h2>
+      <div class="grid grid-3">{latest.map((p) => <NewsCard post={p} />)}</div>
+      <GuideLinks exclude="/elektrikli-arac" title="Diğer rehberler" />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
+  .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 760px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 22px 0 8px; }
+  .stats .card { padding: 16px; display: flex; flex-direction: column; gap: 2px; }
+  .stats span { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .stats b { font-size: 1.5rem; color: var(--green); font-family: var(--font-head, inherit); }
+  .stats small { color: var(--muted); }
+  .table-wrap { max-width: 780px; margin-top: 14px; }
+  .more { margin: 10px 0 0; font-weight: 600; } .more a { color: var(--volt); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chips .tag:hover { color: var(--volt); }
+  .mt { margin-top: 36px; }
+  @media (max-width: 800px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

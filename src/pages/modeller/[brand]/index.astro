@@ -1,0 +1,73 @@
+---
+import Base from '../../../layouts/Base.astro';
+import NewsCard from '../../../components/NewsCard.astro';
+import DealCard from '../../../components/DealCard.astro';
+import GuideLinks from '../../../components/GuideLinks.astro';
+import { getNews, getDeals, tl } from '../../../lib/util';
+import { models, brands, avgDc, highwayRange, dcMinutes, per100 } from '../../../lib/ev';
+
+export function getStaticPaths() {
+  return brands.map((b) => ({ params: { brand: b.slug }, props: { name: b.name } }));
+}
+const { brand } = Astro.params;
+const { name } = Astro.props;
+const list = models.filter((m) => m.brandSlug === brand);
+const modelNames = [...new Set(list.map((m) => m.model))];
+const lc = (s: string) => s.toLocaleLowerCase('tr');
+const re = new RegExp(`(^|[^\\p{L}])${lc(name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^\\p{L}]|$)`, 'u');
+const news = (await getNews()).filter((p) => re.test(lc(`${p.data.title} ${p.data.description} ${p.body ?? ''}`))).slice(0, 6);
+const deals = (await getDeals()).filter((d) => lc(d.data.brand) === lc(name));
+const wl = list.map((m) => m.wltp);
+const desc = `${name} elektrikli araç modelleri: ${modelNames.join(', ')}. Batarya, WLTP menzili (${Math.min(...wl)}–${Math.max(...wl)} km), hızlı şarj süresi, 100 km şarj maliyeti, kampanyalar ve haberler.`;
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: `${name} elektrikli araç modelleri`,
+  itemListElement: list.map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })),
+};
+---
+<Base title={`${name} Elektrikli Araç Modelleri: Menzil, Şarj ve Maliyet`} description={desc} jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/modeller">Modeller</a> / {name}</nav>
+      <span class="eyebrow">Marka</span>
+      <h1>{name} elektrikli araçlar</h1>
+      <p class="lede">{name} markasının Türkiye'de satılan elektrikli modelleri ({list.length} versiyon): menzil, şarj süresi ve 100 km şarj maliyeti. Hesaplar operatörlerin ortalama DC fiyatıyla ({tl(avgDc)}/kWh) yapılmıştır.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>Kasa</th><th class="num">Batarya</th><th class="num">WLTP</th><th class="num">Otoyol menzili</th><th class="num">%10→80 DC</th><th class="num">100 km (DC)</th><th></th></tr></thead>
+          <tbody>{list.map((m) => (
+            <tr>
+              <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.model}</b> <span class="muted">{m.version}</span></a></td>
+              <td>{m.body}</td>
+              <td class="num">{m.battery} kWh</td><td class="num">{m.wltp} km</td><td class="num">~{highwayRange(m)} km</td>
+              <td class="num">~{dcMinutes(m)} dk</td><td class="num">{tl(per100(m, avgDc))}</td>
+              <td><a class="plan" href={`/rota-planlayici?car=${m.slug}`}>Rota planla</a></td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      {deals.length > 0 && (
+        <>
+          <h2 class="mt">{name} kampanyaları</h2>
+          <div class="grid grid-3">{deals.map((d) => <DealCard deal={d} />)}</div>
+        </>
+      )}
+    </div>
+  </section>
+  <section class="section-sm soft">
+    <div class="container">
+      {news.length > 0 && <><h2>{name} haberleri</h2><div class="grid grid-3">{news.map((p) => <NewsCard post={p} />)}</div></>}
+      <h2 class="mt">Diğer markalar</h2>
+      <div class="chips">{brands.filter((b) => b.slug !== brand).map((b) => <a class="tag" href={`/modeller/${b.slug}`}>{b.name}</a>)}</div>
+      <GuideLinks />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
+  .lede { font-size: 1.08rem; color: var(--ink-2); max-width: 780px; }
+  .table-wrap { margin-top: 18px; }
+  .plan { font-size: .85rem; font-weight: 600; color: var(--volt); white-space: nowrap; }
+  .mt { margin-top: 36px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips .tag:hover { color: var(--volt); }
+</style>

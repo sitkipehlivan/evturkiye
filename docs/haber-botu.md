@@ -27,6 +27,15 @@ Eklemeden önce `src/content/haberler/` altındaki dosyaları kontrol et:
 - Ara başlıklar (`##`), gerektiğinde tablo. Rakamlar birimleriyle (TL, kWh, km, kW).
 - Ses tonu: sade, tarafsız, abartısız, "sen/siz" yerine nötr haber dili. Başlıkta tıklama tuzağı yok.
 - Uygunsa sitenin araçlarına iç link ver: [Rota Planlayıcı](/rota-planlayici), [Şarj Fiyatları](/sarj-fiyatlari), [Modeller](/modeller), [Fırsatlar](/firsatlar).
+
+### 5a. SEO kuralları
+- **Başlık:** Okurun Google'a yazacağı ifadeyi başa yakın koy (ör. "Togg T10X fiyat listesi", "elektrikli araç ÖTV", "ZES şarj fiyatı"). Marka ve model adını tam yaz. 60–90 karakter; tıklama tuzağı yok.
+- **Açıklama (description):** 140–160 karakter; ana ifade + somut rakam veya tarih ("Ekim 2026", "kWh başına 14,98 TL").
+- **İlk paragraf:** Ana ifade ilk 2 cümlede doğal biçimde geçsin; "elektrikli araç" / "elektrikli otomobil" ifadelerinden biri metinde en az bir kez yer alsın (zorlama tekrar yok).
+- **Slug:** Kısa ve aranan ifadeyi içeren (ör. `togg-t10x-fiyat-listesi-kasim-2026`), dolgu kelime yok.
+- **Ara başlıklar:** Okurun soracağı soruları başlık yap ("Yeni fiyatlar ne kadar?", "Hangi istasyonlarda geçerli?").
+- **İç link (her haberde en az 2):** İlgili model sayfası (`/modeller/<marka>/<model>`), marka sayfası (`/modeller/<marka>`) veya konu sayfalarından biri: [Elektrikli Araç Rehberi](/elektrikli-arac), [Şarj Rehberi](/elektrikli-arac-sarj), [Menzil Sıralaması](/elektrikli-arac-menzil), [Şarj Maliyeti](/elektrikli-arac-sarj-maliyeti), [Şarj Fiyatları](/sarj-fiyatlari), [Rota Planlayıcı](/rota-planlayici). Yalnızca `src/data/models.json` içinde olan marka/model sayfalarına link ver.
+- **Güncel tutma:** Aynı konunun yeni dönemi çıktığında (yeni ay fiyat listesi gibi) yeni haber yaz ve eski habere "Güncel liste için: …" linki ekle.
 - Doğrulayamadığın rakamı yazma.
 
 ## 6. Dosya biçimi

@@ -2,6 +2,8 @@
 import { render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import NewsCard from '../../../components/NewsCard.astro';
+import GuideLinks from '../../../components/GuideLinks.astro';
+import { brands } from '../../../lib/ev';
 import { getNews, CATS, fmtDate, newsImg, type Cat } from '../../../lib/util';
 export async function getStaticPaths() {
   const news = await getNews();
@@ -12,6 +14,9 @@ const { Content } = await render(post);
 const d = post.data;
 const cat = d.category as Cat;
 const img = newsImg(post);
+const lc = (x: string) => x.toLocaleLowerCase('tr');
+const text = lc(`${d.title} ${d.description} ${post.body ?? ''}`);
+const mentioned = brands.filter((b) => new RegExp(`(^|[^\\p{L}])${lc(b.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^\\p{L}]|$)`, 'u').test(text));
 const related = news.filter((p: any) => p.id !== post.id).slice(0, 3);
 const jsonLd = {
   '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
@@ -36,6 +41,7 @@ const jsonLd = {
         </figure>
       )}
       <div class="prose"><Content /></div>
+      {mentioned.length > 0 && <p class="brandlinks small">Bu haberdeki markalar: {mentioned.map((b) => <a class="tag" href={`/modeller/${b.slug}`}>{b.name}</a>)}</p>}
       {d.sourceUrl && <p class="source small">Kaynak: <a href={d.sourceUrl} target="_blank" rel="noopener nofollow">{d.source ?? new URL(d.sourceUrl).hostname} ↗</a></p>}
     </div>
   </article>
@@ -43,6 +49,7 @@ const jsonLd = {
     <div class="container">
       <h2>Diğer içerikler</h2>
       <div class="grid grid-3">{related.map((p: any) => <NewsCard post={p} />)}</div>
+      <GuideLinks />
     </div>
   </section>
 </Base>
@@ -54,6 +61,7 @@ const jsonLd = {
   .cover-fig { margin: 0 0 28px; }
   .cover-fig figcaption { font-size: .78rem; color: var(--muted); margin-top: 8px; }
   .cover { border-radius: var(--radius); max-height: 460px; width: 100%; object-fit: cover; }
+  .brandlinks { max-width: 720px; margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); }
   .source { max-width: 720px; padding-top: 18px; margin-top: 28px; border-top: 1px solid var(--line); color: var(--muted); }
   .source a { color: var(--volt); }
 </style>
