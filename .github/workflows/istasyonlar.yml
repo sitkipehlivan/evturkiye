@@ -1,0 +1,26 @@
+# OpenStreetMap şarj istasyonu verisini haftada bir yeniler (Netlify derlemesini yavaşlatmamak için ayrı iş).
+name: İstasyon verisi (OSM)
+on:
+  schedule:
+    - cron: '17 2 * * 1'   # her pazartesi 05:17 (Türkiye)
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  stations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm run stations
+      - name: Değişiklik varsa kaydet
+        run: |
+          git config user.name "evturkiye-bot"
+          git config user.email "sitki.pehlivan@advancedigital.media"
+          git add public/data/stations.json
+          if git diff --cached --quiet; then echo "Değişiklik yok"; exit 0; fi
+          git commit -m "İstasyon verisi güncellendi (OSM)"
+          git push
