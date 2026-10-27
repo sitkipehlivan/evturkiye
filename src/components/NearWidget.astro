@@ -1,0 +1,21 @@
+---
+// Ana sayfa kutusu: en yakın şarj istasyonları aracına tek dokunuşla geçiş (konum izni orada istenir).
+---
+<a class="nw" href="/yakindaki-sarj-istasyonlari?konum=1" aria-label="Yakınımdaki şarj istasyonlarını bul">
+  <span class="nw-ic" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><path d="m12.6 6.5-2.4 3.6h3.4l-2.4 3.6"/></svg>
+  </span>
+  <span class="nw-tx"><b>Yakınımdaki şarj</b><em>En yakın istasyonlar, güç, fiyat ve yol tarifi</em></span>
+  <span class="nw-go" aria-hidden="true">→</span>
+</a>
+<style>
+  .nw { width: 300px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); background: #fff; position: relative; transition: border-color .15s, box-shadow .15s; }
+  .nw::before { content: ''; position: absolute; left: -1px; right: -1px; top: -1px; height: 3px; background: var(--grad); }
+  .nw:hover { border-color: #bfe8cf; box-shadow: 0 6px 18px rgba(18, 161, 80, .12); }
+  .nw-ic { flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--grad); display: grid; place-items: center; }
+  .nw-tx { flex: 1; min-width: 0; }
+  .nw-tx b { display: block; font: 800 1rem/1.15 var(--font-head); color: var(--ink); }
+  .nw-tx em { font-style: normal; font-size: .76rem; color: var(--muted); }
+  .nw-go { font-size: 1.3rem; color: var(--green); font-weight: 800; }
+  @media (max-width: 760px) { .nw { width: 100%; } }
+</style>

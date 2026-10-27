@@ -1,0 +1,208 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import GuideLinks from '../components/GuideLinks.astro';
+import ops from '../data/operators.json';
+const gmKey = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY || '';
+const gmMapId = import.meta.env.PUBLIC_GOOGLE_MAP_ID || '';
+const payload = JSON.stringify({ gmKey, gmMapId, operators: ops.operators.map((o) => ({ id: o.id, name: o.name, dc: o.dc, ac: o.ac, match: o.match })) });
+const faq = [
+  { q: 'En yakın elektrikli araç şarj istasyonunu nasıl bulurum?', a: 'Bu sayfada "Konumumu kullan" düğmesine basın. Çevrenizdeki şarj istasyonları yakından uzağa sıralanır; her istasyon için güç, soket tipi ve tahmini kWh fiyatı görünür. Tek dokunuşla Google Haritalar veya Apple Haritalar üzerinden yol tarifi alabilirsiniz.' },
+  { q: 'Konum bilgim saklanıyor mu?', a: 'Hayır. Konumunuz yalnızca çevrenizdeki istasyonları aramak için kullanılır ve kaydedilmez.' },
+  { q: 'İstasyonun boş olup olmadığını görebilir miyim?', a: 'Operatör bu bilgiyi paylaşıyorsa, istasyon kartında müsait soket sayısı gösterilir. Bilgi her istasyon için mevcut değildir; yola çıkmadan önce operatör uygulamasından teyit etmenizi öneririz.' },
+];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title="Yakınımdaki Şarj İstasyonları: En Yakın Elektrikli Araç Şarjı" description="Konumunuza en yakın elektrikli araç şarj istasyonlarını bulun: DC hızlı şarj, soket tipi, güç, kWh fiyatı ve tek dokunuşla Google Haritalar / Apple Haritalar yol tarifi." jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container" data-near>
+      <script type="application/json" set:html={payload} />
+      <span class="eyebrow">Şarj bul</span>
+      <h1>Yakınımdaki şarj istasyonları</h1>
+      <p class="lede">Konumunu paylaş, çevrendeki şarj istasyonlarını yakından uzağa sıralayalım. İstediğine dokun, Google Haritalar ya da Apple Haritalar ile yola çık.</p>
+
+      <div class="nr-bar card">
+        <button class="btn btn-volt nr-me" data-me>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
+          Konumumu kullan
+        </button>
+        <div class="nr-or">veya</div>
+        <div class="nr-addr"><input data-addr placeholder="Adres veya yer yaz (ör. Kızılay, Ankara)" autocomplete="off" /><ul class="nr-suggest" hidden></ul></div>
+        <label class="nr-dc"><input type="checkbox" data-dc checked /> Yalnızca hızlı şarj (DC)</label>
+      </div>
+      <p class="nr-status" data-status hidden role="status"></p>
+
+      <div class="nr-grid">
+        <div class="card nr-map-wrap"><div class="nr-map" data-map></div></div>
+        <ol class="nr-list" data-list></ol>
+      </div>
+      <p class="muted small">İstasyon bilgileri Google Haritalar'dan alınır; fiyatlar operatörlerin standart tarifelerine göre tahminidir. Konumunuz kaydedilmez.</p>
+
+      <Faq items={faq} />
+      <GuideLinks />
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { loadGoogle, GoogleAutocomplete, GoogleMapView, type Pin } from '../scripts/google';
+  import { findOperator, haversine, type Operator } from '../scripts/planner-core';
+
+  const root = document.querySelector<HTMLElement>('[data-near]')!;
+  const data = JSON.parse(root.querySelector('script[type="application/json"]')!.textContent || '{}');
+  const operators: Operator[] = data.operators;
+  const $ = <T extends HTMLElement>(s: string) => root.querySelector(s) as T;
+  const status = $('[data-status]'), list = $('[data-list]'), dcOnly = $<HTMLInputElement>('[data-dc]');
+  const mapEl = $('[data-map]');
+  let view: GoogleMapView | null = null;
+  let last: { at: [number, number]; stations: any[] } | null = null;
+
+  const say = (t: string, err = false) => { status.textContent = t; status.hidden = !t; status.classList.toggle('error', err); };
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+  const tl = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺';
+  const km = (d: number) => (d < 1 ? `${Math.round(d * 1000)} m` : `${d.toLocaleString('tr-TR', { maximumFractionDigits: 1 })} km`);
+  const isIOS = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && 'ontouchend' in document;
+
+  const ready = data.gmKey ? loadGoogle(data.gmKey).then(async () => { view = await GoogleMapView.create(mapEl, data.gmMapId || 'DEMO_MAP_ID'); }) : Promise.reject(new Error('Harita yapılandırılmadı.'));
+  ready.catch(() => say('Harita şu an yüklenemedi.', true));
+
+  // Konum
+  $('[data-me]').addEventListener('click', () => {
+    if (!navigator.geolocation) { say('Tarayıcınız konum paylaşımını desteklemiyor. Adres yazarak arayabilirsiniz.', true); return; }
+    say('Konumunuz alınıyor…');
+    navigator.geolocation.getCurrentPosition(
+      (p) => search([p.coords.latitude, p.coords.longitude]),
+      (e) => say(e.code === 1 ? 'Konum izni verilmedi. Tarayıcı ayarlarından izin verebilir ya da adres yazarak arayabilirsiniz.' : 'Konum alınamadı. Adres yazarak arayabilirsiniz.', true),
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 },
+    );
+  });
+
+  if (new URLSearchParams(location.search).get('konum') === '1') ($('[data-me]') as HTMLButtonElement).click();
+
+  // Adresle arama (Google otomatik tamamlama)
+  const ac = new GoogleAutocomplete();
+  const addr = $<HTMLInputElement>('[data-addr]'), sug = $<HTMLUListElement>('.nr-suggest');
+  let t: number | undefined;
+  addr.addEventListener('input', () => {
+    clearTimeout(t);
+    const q = addr.value.trim();
+    if (q.length < 3) { sug.hidden = true; return; }
+    t = window.setTimeout(async () => {
+      try {
+        await ready;
+        const res = await ac.suggest(q);
+        if (addr.value.trim() !== q) return;
+        sug.innerHTML = '';
+        res.forEach((r) => {
+          const li = document.createElement('li');
+          li.textContent = r.label;
+          li.addEventListener('mousedown', async (e) => {
+            e.preventDefault(); addr.value = r.label; sug.hidden = true;
+            const p = await r.resolve(); search([p.lat, p.lon]);
+          });
+          sug.appendChild(li);
+        });
+        sug.hidden = !res.length;
+      } catch { /* yoksay */ }
+    }, 280);
+  });
+  addr.addEventListener('blur', () => setTimeout(() => (sug.hidden = true), 150));
+  dcOnly.addEventListener('change', () => last && render(last.at, last.stations));
+
+  async function search(at: [number, number]) {
+    say('Yakındaki şarj istasyonları aranıyor…');
+    try {
+      const q = `${at[0].toFixed(3)},${at[1].toFixed(3)}`;
+      const res = await fetch(`/api/yakin?at=${q}`);
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(j.error || 'İstasyonlar alınamadı.');
+      last = { at, stations: j.stations || [] };
+      await ready.catch(() => {});
+      render(at, last.stations);
+    } catch (e: any) { say(e.message, true); }
+  }
+
+  function render(at: [number, number], all: any[]) {
+    const rows = all
+      .map((s) => {
+        const dcConns = s.connectors.filter((c: any) => c.dc);
+        const maxKw = Math.max(0, ...s.connectors.map((c: any) => c.kw || 0));
+        const op = findOperator(s.name, operators);
+        return { ...s, d: haversine(at, [s.lat, s.lon]), dc: dcConns.length > 0, maxKw, op };
+      })
+      .filter((s) => !dcOnly.checked || s.dc)
+      .sort((a, b) => a.d - b.d);
+    say(rows.length ? '' : dcOnly.checked ? 'Yakınınızda hızlı şarj (DC) istasyonu bulunamadı. Filtreyi kaldırıp AC istasyonlara da bakabilirsiniz.' : 'Yakınınızda şarj istasyonu bulunamadı.');
+
+    list.innerHTML = rows.map((s, i) => {
+      const conns = s.connectors.map((c: any) => `<span class="cn ${c.dc ? 'dc' : 'ac'}">${esc(c.type)}${c.kw ? ` · ${Math.round(c.kw)} kW` : ''}${c.count ? ` · ${c.available != null ? `<b>${c.available}/${c.count} müsait</b>` : `${c.count} adet`}` : ''}</span>`).join('');
+      const price = s.op ? `${tl(s.dc ? s.op.dc : (s.op.ac ?? s.op.dc))}/kWh` : '';
+      const g = `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lon}&destination_place_id=${encodeURIComponent(s.id)}&travelmode=driving`;
+      const a = `https://maps.apple.com/?daddr=${s.lat},${s.lon}&dirflg=d&q=${encodeURIComponent(s.name)}`;
+      return `<li class="nr-card card" data-i="${i}">
+        <div class="nr-top"><span class="nr-num">${i + 1}</span><div class="nr-name"><h3>${esc(s.name)}</h3><p>${esc(s.address)}</p></div><span class="nr-dist">${km(s.d)}</span></div>
+        <div class="nr-conns">${conns || '<span class="cn">Soket bilgisi yok</span>'}</div>
+        <div class="nr-meta">${s.op ? `<span>${esc(s.op.name)} · <b>${price}</b></span>` : ''}${s.openNow === false ? '<span class="warn">Şu an kapalı</span>' : ''}</div>
+        <div class="nr-go">
+          <a class="btn btn-volt" target="_blank" rel="noopener" href="${isIOS ? a : g}">${isIOS ? 'Apple Haritalar' : 'Google Haritalar'} ile git</a>
+          <a class="btn btn-ghost" target="_blank" rel="noopener" href="${isIOS ? g : a}">${isIOS ? 'Google Haritalar' : 'Apple Haritalar'}</a>
+        </div>
+      </li>`;
+    }).join('');
+
+    if (view) {
+      const pins: Pin[] = [
+        { lat: at[0], lon: at[1], kind: 'me', html: 'Konumunuz' },
+        ...rows.slice(0, 20).map((s, i) => ({ lat: s.lat, lon: s.lon, kind: 'near' as const, label: String(i + 1), html: `<b>${esc(s.name)}</b><br>${km(s.d)}${s.maxKw ? ` · ${Math.round(s.maxKw)} kW` : ''}` })),
+      ];
+      view.pins(pins, (i) => { if (i > 0) list.querySelector(`[data-i="${i - 1}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+    }
+  }
+</script>
+
+<style is:global>
+  .lede { font-size: 1.08rem; color: var(--ink-2); max-width: 760px; }
+  .nr-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px; margin: 18px 0 10px; }
+  .nr-me { display: inline-flex; gap: 8px; align-items: center; height: 46px; }
+  .nr-or { color: var(--muted); font-size: .85rem; }
+  .nr-addr { position: relative; flex: 1 1 260px; }
+  .nr-addr input { width: 100%; height: 46px; border: 1px solid var(--line); border-radius: 12px; padding: 0 14px; font: inherit; }
+  .nr-suggest { position: absolute; z-index: 50; top: calc(100% + 4px); left: 0; right: 0; list-style: none; margin: 0; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  .nr-suggest li { padding: 9px 10px; border-radius: 8px; cursor: pointer; font-size: .9rem; }
+  .nr-suggest li:hover { background: var(--volt-soft); }
+  .nr-dc { display: flex; gap: 8px; align-items: center; margin: 0; font-size: .9rem; font-weight: 600; }
+  .nr-dc input { accent-color: var(--green); width: 16px; height: 16px; }
+  .nr-status { margin: 4px 0 10px; color: var(--volt); font-size: .92rem; }
+  .nr-status.error { color: var(--red); }
+  .nr-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; margin-bottom: 12px; }
+  .nr-map-wrap { padding: 0; overflow: hidden; position: sticky; top: 16px; }
+  .nr-map { height: 560px; }
+  .nr-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; max-height: 560px; overflow: auto; }
+  .nr-list:empty { display: none; }
+  .nr-card { padding: 14px 16px; display: grid; gap: 10px; }
+  .nr-top { display: flex; gap: 12px; align-items: flex-start; }
+  .nr-num { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: .85rem; }
+  .nr-name { flex: 1; min-width: 0; }
+  .nr-name h3 { margin: 0; font-size: 1rem; }
+  .nr-name p { margin: 2px 0 0; font-size: .82rem; color: var(--muted); }
+  .nr-dist { font-weight: 800; color: var(--volt); white-space: nowrap; }
+  .nr-conns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cn { font-size: .78rem; padding: 4px 9px; border-radius: 999px; background: var(--soft); color: var(--ink-2); }
+  .cn.dc { background: var(--green-soft); color: #0b6b35; }
+  .cn b { color: #0b6b35; }
+  .nr-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .86rem; color: var(--ink-2); }
+  .nr-meta:empty { display: none; }
+  .nr-meta .warn { color: var(--amber); font-weight: 600; }
+  .nr-go { display: flex; gap: 8px; flex-wrap: wrap; }
+  .nr-go .btn { height: 40px; font-size: .88rem; border-radius: 10px; }
+  .btn-ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+  .pl-pin { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 800 13px var(--font); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.25); transform: translateY(50%); cursor: pointer; }
+  .pl-pin.near { background: var(--green); }
+  .pl-pin.me { width: 18px; height: 18px; background: #0a7cff; box-shadow: 0 0 0 6px rgba(10,124,255,.2); }
+  @media (max-width: 900px) {
+    .nr-grid { grid-template-columns: minmax(0, 1fr); }
+    .nr-map-wrap { position: static; }
+    .nr-map { height: 340px; }
+    .nr-list { max-height: none; }
+  }
+</style>

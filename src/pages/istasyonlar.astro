@@ -8,7 +8,7 @@ const payload = JSON.stringify(ops.operators.map((o) => ({ id: o.id, name: o.nam
     <div class="container">
       <span class="eyebrow">Harita</span>
       <h1>Şarj istasyonları</h1>
-      <p class="muted intro">Haritada bir bölgeye yakınlaştır, o bölgedeki şarj istasyonları yüklensin. Operatör ve DC filtresiyle daralt; uzun yol için <a href="/rota-planlayici" class="link-arrow">Rota Planlayıcı</a></p>
+      <p class="muted intro"><a href="/yakindaki-sarj-istasyonlari" class="link-arrow"><b>En yakın şarj istasyonunu bul →</b></a><br>Haritada bir bölgeye yakınlaştır, o bölgedeki şarj istasyonları yüklensin. Operatör ve DC filtresiyle daralt; uzun yol için <a href="/rota-planlayici" class="link-arrow">Rota Planlayıcı</a></p>
       <div class="filters card">
         <label class="chk"><input type="checkbox" id="f-dc" checked /> Sadece DC hızlı şarj</label>
         <select id="f-op"><option value="">Tüm operatörler</option>{ops.operators.map((o) => <option value={o.id}>{o.name}</option>)}</select>

@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import HeroSlider from '../components/HeroSlider.astro';
 import RouteWidget from '../components/RouteWidget.astro';
+import NearWidget from '../components/NearWidget.astro';
 import AdSlot from '../components/AdSlot.astro';
 import DealCard from '../components/DealCard.astro';
 import ops from '../data/operators.json';
@@ -35,6 +36,7 @@ const jsonLd = {
       <HeroSlider posts={heroPosts} />
       <aside class="side" aria-label="Rota planlayıcı ve şarj fiyatları">
         <RouteWidget />
+        <NearWidget />
         <div class="mpu">
           <AdSlot id="home-mpu-1" size="300x250" />
           <div class="fallback prices-mini">
@@ -164,7 +166,8 @@ const jsonLd = {
 <style>
   .top { padding: 28px 0 8px; }
   .top-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
-  .side { display: flex; flex-direction: column; gap: 20px; }
+  .side { display: flex; flex-direction: column; gap: 12px; }
+  @media (min-width: 901px) { .top-grid { align-items: stretch; } .top-grid > :global(.hs) { height: auto; min-height: 520px; } }
   .mpu { width: 300px; height: 250px; }
   :global(html.ads-on) .fallback { display: none; }
 

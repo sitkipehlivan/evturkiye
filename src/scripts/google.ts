@@ -72,7 +72,7 @@ export function decodePolyline(str: string): [number, number][] {
   return out;
 }
 
-export interface Pin { lat: number; lon: number; kind: 'start' | 'end' | 'stop' | 'station'; label?: string; html: string; }
+export interface Pin { lat: number; lon: number; kind: 'start' | 'end' | 'stop' | 'station' | 'me' | 'near'; label?: string; html: string; }
 
 /** Google haritası: rota çizgisi, A/B, duraklar ve diğer istasyonlar. */
 export class GoogleMapView {
@@ -95,6 +95,22 @@ export class GoogleMapView {
   }
 
   clear() { this.overlays.forEach((o) => (o.setMap ? o.setMap(null) : (o.map = null))); this.overlays = []; }
+
+  /** Yalnızca işaretler (yakındaki istasyonlar): tüm işaretleri kapsayacak şekilde yakınlaştırır. */
+  pins(pins: Pin[], onClick?: (i: number) => void) {
+    this.clear();
+    const bounds = new google.maps.LatLngBounds();
+    pins.forEach((p, i) => {
+      const el = document.createElement('div');
+      el.className = `pl-pin ${p.kind}`;
+      if (p.label) el.textContent = p.label;
+      const m = new this.Adv({ map: this.map, position: { lat: p.lat, lng: p.lon }, content: el, zIndex: p.kind === 'start' ? 30 : 20 - i / 100 });
+      m.addListener('gmp-click', () => { this.info.setContent(p.html); this.info.open({ map: this.map, anchor: m }); onClick?.(i); });
+      this.overlays.push(m);
+      bounds.extend({ lat: p.lat, lng: p.lon });
+    });
+    if (pins.length > 1) this.map.fitBounds(bounds, 50); else if (pins.length) { this.map.setCenter({ lat: pins[0].lat, lng: pins[0].lon }); this.map.setZoom(14); }
+  }
 
   draw(coords: [number, number][], pins: Pin[]) {
     this.clear();
