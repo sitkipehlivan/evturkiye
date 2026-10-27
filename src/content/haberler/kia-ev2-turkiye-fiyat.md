@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-08-13
 source: "DonanımHaber"
 sourceUrl: "https://www.donanimhaber.com/kia-ev2-iddiali-fiyatiyla-turkiye-de-satisa-sunuldu-iste-liste--209247"
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Kia'nın B-SUV segmentindeki yeni elektrikli modeli **EV2** Türkiye'de satışa sunuldu. Model, lansmana özel fiyatlarla **1.599.000 TL**'den başlıyor ve Türkiye'deki en uygun fiyatlı elektrikli SUV'lar arasına giriyor.

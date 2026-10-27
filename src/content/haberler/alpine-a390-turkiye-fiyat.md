@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-07-04
 source: "OtonomHaber"
 sourceUrl: "https://otonomhaber.com/2026/07/yeni-elektrikli-alpine-a390-turkiyede-satisa-sunuldu/"
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Renault Grubu'nun performans markası Alpine'in ilk elektrikli SUV'u **A390** Türkiye'de siparişe açıldı. Modelin **GT** versiyonu **6.300.000 TL**'lik lansman fiyatıyla satışta. Daha güçlü **GTS** versiyonunun yıl sonunda Türkiye'ye gelmesi planlanıyor.

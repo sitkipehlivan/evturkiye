@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-10-19
 source: "Batman Pusula"
 sourceUrl: "https://www.batmanpusula.com/volvo-ekim-2026-fiyat-listesi-aciklandi-xc60a-indirim-xc90a-250-bin-tl-takas-destegi"
+imageCredit: "Wikimedia Commons / Alexander-93, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Volvo Car Türkiye'nin Ekim 2026 fiyat listesine göre markanın en uygun fiyatlı elektrikli modeli **EX30**, **2.472.390 TL**'den başlıyor. Yenilenen XC60'ın mild hibrit ve plug-in hibrit versiyonlarında ay sonuna kadar kampanyalı fiyat uygulanıyor.

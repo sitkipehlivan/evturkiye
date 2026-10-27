@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-10-23
 source: "İstanbul Ticaret Gazetesi"
 sourceUrl: "https://istanbulticaretgazetesi.com/togg-kampanya-ve-fiyat-listesi-2026-t10f-yeni-kehribar-serisi-tanitildi-7-renkle-geliyor"
+imageCredit: "Wikimedia Commons / Alexander-93, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Togg, sedan modeli **T10F** için **Kehribar Serisi** adlı yeni bir özel seri tanıttı. Seri, çift motorlu ve dört çeker **T10F 4More** versiyonuna dayanıyor; farkı, kehribar tonlarıyla öne çıkan dış ve iç tasarım detayları.

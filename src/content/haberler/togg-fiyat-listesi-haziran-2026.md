@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-06-02
 source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/haziran-2026-togg-fiyat-listesi-h217809.html"
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Togg'un Haziran 2026 fiyat listesine göre **T10X** **1.869.048 TL**'den, **T10F** ise **1.884.980 TL**'den başlıyor. Haziran'da iki modelde de kampanyalı fiyat uygulanmıyor.

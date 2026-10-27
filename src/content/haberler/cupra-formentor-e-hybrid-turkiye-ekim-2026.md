@@ -9,6 +9,7 @@ category: hibrit
 date: 2026-10-27
 source: "Webtekno (Cupra Ekim 2026 fiyat listesi)"
 sourceUrl: "https://www.webtekno.com/cupra-ekim-2026-fiyat-listesi-h226291.html"
+imageCredit: "Wikimedia Commons / Alexander-93, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Cupra Formentor'un 204 PS'lik plug-in hibrit versiyonu **e-Hybrid**, Türkiye'de 2025'te en çok ilgi gören şarj edilebilir hibritlerden biriydi. Ancak markanın **Ekim 2026** fiyat listesinde e-Hybrid versiyonu yer almıyor; Formentor şu an yalnızca **1.5 eTSI 150 PS DSG mild hibrit** motorla satılıyor.

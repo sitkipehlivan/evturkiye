@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-10-05
 source: "Webtekno"
 sourceUrl: "https://webtekno.com/2026-ekim-guncel-renault-elektrikli-otomobiller-fiyat-listesi-h226337.html"
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Renault'nun Türkiye'de satılan üç tam elektrikli modelinin Ekim 2026 fiyatları belli oldu. Markanın en uygun fiyatlı elektrikli modeli **R5 E-Tech Electric**, **2.099.000 TL**'den satışta.
