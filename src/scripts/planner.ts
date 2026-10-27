@@ -134,6 +134,10 @@ function init(root: HTMLElement) {
       const b = places.to ?? (await find(toIn.value));
       if (!a || !b) throw new Error('Başlangıç veya varış noktası bulunamadı. Lütfen listeden bir adres seçin.');
       places.from = a; places.to = b;
+      const quotaKey = `${a.lat.toFixed(2)},${a.lon.toFixed(2)}>${b.lat.toFixed(2)},${b.lon.toFixed(2)}`;
+      if (!data.preset && !quota.allowed(quotaKey)) {
+        throw new Error(`Bugün için ${quota.LIMIT} farklı rota hakkınızı kullandınız. Daha önce hesapladığınız rotaları tekrar görüntüleyebilir, yarın yeni rota oluşturabilirsiniz. Popüler rotalar için aşağıdaki hazır rota sayfalarına göz atın.`);
+      }
 
       setStatus('Rota ve güzergâhtaki şarj istasyonları hesaplanıyor…');
       let route: { coords: LatLon[]; duration: number } | null = null;
@@ -158,6 +162,7 @@ function init(root: HTMLElement) {
       draw(route.coords, a, b, stations, r);
       render(r, { a, b, car, routeKm, stations, startSoc, consumption, mode });
       updateUrl(a, b, car.slug, Math.round(startSoc * 100), mode);
+      if (!data.preset) quota.add(quotaKey);
     } catch (err: any) {
       setStatus(err?.message || 'Bir hata oluştu. Lütfen tekrar deneyin.', true);
     } finally {
@@ -324,6 +329,26 @@ function init(root: HTMLElement) {
     return out;
   }
 }
+
+/** Kullanıcı başına günlük farklı rota sınırı (tarayıcıda tutulur). Aynı rota tekrar hesaplanırsa hak düşmez. */
+const quota = {
+  LIMIT: 5,
+  KEY: 'evt-rota-hakki',
+  read(): { day: string; keys: string[] } {
+    const day = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Istanbul' });
+    try {
+      const v = JSON.parse(localStorage.getItem(this.KEY) || 'null');
+      if (v && v.day === day && Array.isArray(v.keys)) return v;
+    } catch { /* depolama kapalı */ }
+    return { day, keys: [] };
+  },
+  allowed(k: string) { const v = this.read(); return v.keys.includes(k) || v.keys.length < this.LIMIT; },
+  add(k: string) {
+    const v = this.read();
+    if (!v.keys.includes(k)) v.keys.push(k);
+    try { localStorage.setItem(this.KEY, JSON.stringify(v)); } catch { /* yoksay */ }
+  },
+};
 
 function num(v: string | null) { if (v == null) return undefined; const n = Number(v); return Number.isFinite(n) ? n : undefined; }
 function tl(v: number) { return '₺' + v.toLocaleString('tr-TR', { minimumFractionDigits: v < 100 ? 2 : 0, maximumFractionDigits: v < 100 ? 2 : 0 }); }
