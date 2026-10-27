@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '17 2 * * 1'   # her pazartesi 05:17 (Türkiye)
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/istasyonlar.yml', 'scripts/fetch-stations.ts']
 permissions:
   contents: write
 jobs:
