@@ -32,7 +32,7 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
       </div>
       <p class="nr-status" data-status hidden role="status"></p>
 
-      <div class="nr-grid">
+      <div class="nr-grid" data-grid hidden>
         <div class="card nr-map-wrap"><div class="nr-map" data-map></div></div>
         <ol class="nr-list" data-list></ol>
       </div>
@@ -73,8 +73,13 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
   const km = (d: number) => (d < 1 ? `${Math.round(d * 1000)} m` : `${d.toLocaleString('tr-TR', { maximumFractionDigits: 1 })} km`);
   const isIOS = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) && 'ontouchend' in document;
 
-  const ready = data.gmKey ? loadGoogle(data.gmKey).then(async () => { view = await GoogleMapView.create(mapEl, data.gmMapId || 'DEMO_MAP_ID'); }) : Promise.reject(new Error('Harita yapılandırılmadı.'));
-  ready.catch(() => say('Harita şu an yüklenemedi.', true));
+  // Google haritası yalnızca üye arama yaptığında yüklenir (misafir ziyaretleri kota harcamaz)
+  let member = false;
+  onUser((u) => { member = !!u; });
+  let mapPromise: Promise<void> | null = null;
+  const ensureMap = () => (mapPromise ??= (data.gmKey ? loadGoogle(data.gmKey) : Promise.reject(new Error('x')))
+    .then(async () => { mapEl.innerHTML = ''; view = await GoogleMapView.create(mapEl, data.gmMapId || 'DEMO_MAP_ID'); })
+    .catch(() => { mapPromise = null; say('Harita şu an yüklenemedi.', true); }));
 
   // Konum
   $('[data-me]').addEventListener('click', () => {
@@ -99,8 +104,9 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
     if (q.length < 3) { sug.hidden = true; return; }
     t = window.setTimeout(async () => {
       try {
-        await ready;
-        const res = await ac.suggest(q);
+        const res = member && data.gmKey && (await loadGoogle(data.gmKey).then(() => true, () => false))
+          ? await ac.suggest(q)
+          : await photon(q);
         if (addr.value.trim() !== q) return;
         sug.innerHTML = '';
         res.forEach((r) => {
@@ -119,30 +125,43 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
   addr.addEventListener('blur', () => setTimeout(() => (sug.hidden = true), 150));
   dcOnly.addEventListener('change', () => last && render(last.at, last.stations));
 
+  async function photon(q: string): Promise<{ label: string; resolve: () => Promise<{ lat: number; lon: number }> }[]> {
+    const r = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=6&bbox=25.6,35.8,44.9,42.2`);
+    const j = await r.json();
+    return (j.features || []).map((f: any) => {
+      const p = f.properties;
+      const label = [p.name, p.district, p.city || p.county, p.state].filter(Boolean).filter((v: string, i: number, a: string[]) => a.indexOf(v) === i).slice(0, 3).join(', ');
+      return { label, resolve: async () => ({ lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0] }) };
+    });
+  }
+
   async function search(at: [number, number], retried = false) {
     say('Yakındaki şarj istasyonları aranıyor…');
     try {
       const spot = `${at[0].toFixed(2)},${at[1].toFixed(2)}`;
       const members = authEnabled();
       if (members) await userReady;
-      if (members && !currentUser() && !qRead().includes(spot) && qRead().length >= NEAR_LIMITS.guest) {
+      if (members && !currentUser()) {
         say('');
-        const u = await openAuth({ reason: `Üye olmadan günde ${NEAR_LIMITS.guest} arama yapabilirsiniz. Ücretsiz üye olarak günde ${NEAR_LIMITS.member} aramaya kadar devam edin.` });
-        if (!u) { say(`Bugünkü ${NEAR_LIMITS.guest} ücretsiz arama hakkınızı kullandınız. Devam etmek için ücretsiz üye olun veya giriş yapın.`, true); return; }
+        const u = await openAuth({ reason: `Yakındaki şarj istasyonları aracı üyelerimize özel ve ücretsizdir. Üye olun, günde ${NEAR_LIMITS.member} aramaya kadar kullanın.` });
+        if (!u) { say('Yakındaki istasyonları görmek için ücretsiz üye olun veya giriş yapın.', true); return; }
+        member = true;
         say('Yakındaki şarj istasyonları aranıyor…');
       }
+      ($('[data-grid]') as HTMLElement).hidden = false;
+      const mapReady = ensureMap();
       const q = `${at[0].toFixed(3)},${at[1].toFixed(3)}`;
       const token = members ? await idToken().catch(() => null) : null;
       const res = await fetch(`/api/yakin?at=${q}`, token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
       const j = await res.json().catch(() => ({}));
-      if (res.status === 429 && j.needLogin && members && !retried) {
+      if ((res.status === 429 || res.status === 401) && j.needLogin && members && !retried) {
         const u = await openAuth({ reason: j.error });
         if (u) return search(at, true);
       }
       if (!res.ok) throw new Error(j.error || 'İstasyonlar alınamadı.');
       qAdd(spot);
       last = { at, stations: j.stations || [] };
-      await ready.catch(() => {});
+      await mapReady;
       render(at, last.stations);
     } catch (e: any) { say(e.message, true); }
   }
@@ -199,6 +218,7 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
   .nr-dc input { accent-color: var(--green); width: 16px; height: 16px; }
   .nr-status { margin: 4px 0 10px; color: var(--volt); font-size: .92rem; }
   .nr-status.error { color: var(--red); }
+  .nr-grid[hidden] { display: none; }
   .nr-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; margin-bottom: 12px; }
   .nr-map-wrap { padding: 0; overflow: hidden; position: sticky; top: 16px; }
   .nr-map { height: 560px; }

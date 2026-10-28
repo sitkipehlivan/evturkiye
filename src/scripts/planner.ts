@@ -43,9 +43,13 @@ function init(root: HTMLElement) {
   // Oturum durumu (üyelik açıksa): ilk yanıt gelene kadar bekle
   const userReady: Promise<void> = new Promise((res) => { const off = onUser(() => { res(); }); void off; });
 
-  // --- Harita: Google anahtarı varsa Google Haritalar, yoksa OpenStreetMap (Leaflet)
+  // --- Harita: başlangıçta ücretsiz OpenStreetMap (Leaflet). Google (harita + rota + istasyon) yalnızca
+  // giriş yapmış üyeler rota hesapladığında yüklenir; misafir ziyaretleri Google kotası harcamaz.
   const gmKey: string = data.gmKey || '';
-  let useGoogle = !!gmKey;
+  const gmAvailable = !!gmKey && authEnabled();
+  let useGoogle = false;
+  let member = false;
+  onUser((u) => { member = !!u; });
   let gview: GoogleMapView | null = null;
   const gac = new GoogleAutocomplete();
   let map: L.Map | null = null;
@@ -59,11 +63,21 @@ function init(root: HTMLElement) {
     map.on('click', () => map!.scrollWheelZoom.enable());
     layer = L.layerGroup().addTo(map);
   };
-  const ready: Promise<void> = useGoogle
-    ? loadGoogle(gmKey)
-        .then(async () => { gview = await GoogleMapView.create(mapEl, data.gmMapId || 'DEMO_MAP_ID'); })
-        .catch(() => { useGoogle = false; mapEl.innerHTML = ''; leaflet(); })
-    : Promise.resolve(leaflet());
+  leaflet();
+  const ready: Promise<void> = Promise.resolve();
+  /** Üye rota hesaplarken haritayı Google'a geçirir (Google verisi Google haritasında gösterilmeli). */
+  async function ensureGoogle(): Promise<boolean> {
+    if (gview) return true;
+    try {
+      await loadGoogle(gmKey);
+      if (map) { map.remove(); map = null; layer = null; }
+      mapEl.innerHTML = '';
+      mapEl.className = 'pl-map';
+      gview = await GoogleMapView.create(mapEl, data.gmMapId || 'DEMO_MAP_ID');
+      useGoogle = true;
+      return true;
+    } catch { return false; }
+  }
 
   // --- Başlangıç değerleri (URL veya data)
   const qs = new URLSearchParams(location.search);
@@ -99,7 +113,8 @@ function init(root: HTMLElement) {
         ctrl?.abort(); ctrl = new AbortController();
         try {
           await ready;
-          const res: { label: string; resolve: () => Promise<Place> }[] = useGoogle
+          const g = gmAvailable && member && (await loadGoogle(gmKey).then(() => true, () => false));
+          const res: { label: string; resolve: () => Promise<Place> }[] = g
             ? await gac.suggest(q)
             : (await geocode(q, 6, ctrl.signal)).map((p) => ({ label: p.label, resolve: async () => p }));
           if (input.value.trim() !== q) return;
@@ -135,30 +150,31 @@ function init(root: HTMLElement) {
     try {
       setStatus('Adresler bulunuyor…');
       await ready;
-      const find = async (q: string) => (useGoogle ? await gac.first(q).catch(() => null) : null) ?? (await geocode(q, 1))[0];
+      if (gmAvailable) await userReady;
+      // Rota planlayıcı üyelere özel (popüler rota sayfaları ücretsiz OSM motoruyla herkese açık)
+      if (gmAvailable && !member && !data.preset) {
+        setStatus('');
+        const u = await openAuth({ reason: `Rota ve şarj maliyeti planlayıcı üyelerimize özel ve ücretsizdir. Üye olun, günde ${ROUTE_LIMITS.member} rotaya kadar hesaplayın.` });
+        if (!u) throw new Error('Rota hesaplamak için ücretsiz üye olun veya giriş yapın.');
+        member = true;
+        setStatus('Adresler bulunuyor…');
+      }
+      const premium = gmAvailable && member;
+      if (premium) await ensureGoogle();
+      const find = async (q: string) => (premium && useGoogle ? await gac.first(q).catch(() => null) : null) ?? (await geocode(q, 1))[0];
       const a = places.from ?? (await find(fromIn.value));
       const b = places.to ?? (await find(toIn.value));
       if (!a || !b) throw new Error('Başlangıç veya varış noktası bulunamadı. Lütfen listeden bir adres seçin.');
       places.from = a; places.to = b;
       const quotaKey = `${a.lat.toFixed(2)},${a.lon.toFixed(2)}>${b.lat.toFixed(2)},${b.lon.toFixed(2)}`;
-      const members = authEnabled();
-      if (members) await userReady;
-      const member = members && !!currentUser();
-      if (!data.preset && !member && !quota.allowed(quotaKey, members ? ROUTE_LIMITS.guest : quota.LIMIT)) {
-        if (members) {
-          setStatus('');
-          const u = await openAuth({ reason: `Üye olmadan günde ${ROUTE_LIMITS.guest} farklı rota hesaplayabilirsiniz. Ücretsiz üye olarak günde ${ROUTE_LIMITS.member} rotaya kadar devam edin.` });
-          if (!u) throw new Error(`Bugünkü ${ROUTE_LIMITS.guest} ücretsiz rota hakkınızı kullandınız. Devam etmek için ücretsiz üye olun veya giriş yapın.`);
-          setStatus('Rota ve güzergâhtaki şarj istasyonları hesaplanıyor…');
-        } else {
-          throw new Error(`Bugün için ${quota.LIMIT} farklı rota hakkınızı kullandınız. Daha önce hesapladığınız rotaları tekrar görüntüleyebilir, yarın yeni rota oluşturabilirsiniz.`);
-        }
+      if (!gmAvailable && !data.preset && !quota.allowed(quotaKey)) {
+        throw new Error(`Bugün için ${quota.LIMIT} farklı rota hakkınızı kullandınız. Yarın yeni rota oluşturabilirsiniz.`);
       }
 
       setStatus('Rota ve güzergâhtaki şarj istasyonları hesaplanıyor…');
       let route: { coords: LatLon[]; duration: number } | null = null;
       let gStations: any[] = [];
-      if (useGoogle) {
+      if (premium && useGoogle) {
         try {
           const g = await googleRoute(a, b);
           route = { coords: decodePolyline(g.polyline), duration: g.durationS };
@@ -313,7 +329,7 @@ function init(root: HTMLElement) {
     const res = await fetch(`/api/rota?a=${a.lat.toFixed(4)},${a.lon.toFixed(4)}&b=${b.lat.toFixed(4)},${b.lon.toFixed(4)}`,
       token ? { headers: { Authorization: `Bearer ${token}` } } : undefined);
     const j = await res.json().catch(() => ({}));
-    if (res.status === 429 && j.needLogin && authEnabled() && !retried) {
+    if ((res.status === 429 || res.status === 401) && j.needLogin && authEnabled() && !retried) {
       const u = await openAuth({ reason: j.error });
       if (u) return googleRoute(a, b, true);
     }

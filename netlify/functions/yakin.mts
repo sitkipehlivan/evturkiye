@@ -38,6 +38,7 @@ export default async (req: Request, ctx: Context) => {
   // Günlük hak: üyeler hesap bazında 5, misafirler cihazda 2 (sunucuda IP başına geniş sınır)
   const spot = `${at[0].toFixed(2)},${at[1].toFixed(2)}`; // ~1 km: aynı bölgede tekrar arama hak düşürmez
   const uid = await uidFrom(req);
+  if (!uid) return json({ error: 'Yakındaki şarj istasyonları aracı üyelerimize özeldir. Ücretsiz üye olun veya giriş yapın.', needLogin: true }, 401);
   try {
     const q = uid
       ? await takeQuota('yakin-kota', 'u/' + uid, spot, NEAR_LIMITS.member)
