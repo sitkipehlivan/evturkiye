@@ -138,7 +138,6 @@ export default async (req: Request, _ctx: Context) => {
   // Günlük hak: üyeler hesap bazında, misafirler IP bazında (geniş) sınırlı
   const routeKey = `${a[0].toFixed(2)},${a[1].toFixed(2)}>${b[0].toFixed(2)},${b[1].toFixed(2)}`;
   const uid = await uidFrom(req);
-  if (!uid) return json({ error: 'Rota planlayıcı üyelerimize özeldir. Ücretsiz üye olun veya giriş yapın.', needLogin: true }, 401);
   const ip = _ctx.ip || req.headers.get('x-nf-client-connection-ip') || 'bilinmiyor';
   try {
     const q = uid ? await takeQuota('rota-kota', 'u/' + uid, routeKey, ROUTE_LIMITS.member) : await takeQuota('rota-kota', 'ip/' + ip, routeKey, GUEST_IP_LIMIT);

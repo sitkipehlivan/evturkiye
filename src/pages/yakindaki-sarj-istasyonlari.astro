@@ -141,10 +141,10 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
       const spot = `${at[0].toFixed(2)},${at[1].toFixed(2)}`;
       const members = authEnabled();
       if (members) await userReady;
-      if (members && !currentUser()) {
+      if (members && !currentUser() && !qRead().includes(spot) && qRead().length >= NEAR_LIMITS.guest) {
         say('');
-        const u = await openAuth({ reason: `Yakındaki şarj istasyonları aracı üyelerimize özel ve ücretsizdir. Üye olun, günde ${NEAR_LIMITS.member} aramaya kadar kullanın.` });
-        if (!u) { say('Yakındaki istasyonları görmek için ücretsiz üye olun veya giriş yapın.', true); return; }
+        const u = await openAuth({ reason: `Üye olmadan günde ${NEAR_LIMITS.guest} arama yapabilirsiniz. Ücretsiz üye olun, günde ${NEAR_LIMITS.member} aramaya kadar devam edin.` });
+        if (!u) { say(`Bugünkü ${NEAR_LIMITS.guest} ücretsiz arama hakkınızı kullandınız. Devam etmek için ücretsiz üye olun veya giriş yapın.`, true); return; }
         member = true;
         say('Yakındaki şarj istasyonları aranıyor…');
       }

@@ -151,15 +151,20 @@ function init(root: HTMLElement) {
       setStatus('Adresler bulunuyor…');
       await ready;
       if (gmAvailable) await userReady;
-      // Rota planlayıcı üyelere özel (popüler rota sayfaları ücretsiz OSM motoruyla herkese açık)
+      // Misafir günde ROUTE_LIMITS.guest farklı rota hesaplar, sonrası üyelikle (popüler rota sayfaları ücretsiz OSM motoruyla)
+      const pre = (fromIn.value + '>' + toIn.value).toLocaleLowerCase('tr');
+      let guestTry = false;
       if (gmAvailable && !member && !data.preset) {
-        setStatus('');
-        const u = await openAuth({ reason: `Rota ve şarj maliyeti planlayıcı üyelerimize özel ve ücretsizdir. Üye olun, günde ${ROUTE_LIMITS.member} rotaya kadar hesaplayın.` });
-        if (!u) throw new Error('Rota hesaplamak için ücretsiz üye olun veya giriş yapın.');
-        member = true;
-        setStatus('Adresler bulunuyor…');
+        if (quota.allowed(pre, ROUTE_LIMITS.guest)) guestTry = true;
+        else {
+          setStatus('');
+          const u = await openAuth({ reason: `Üye olmadan günde ${ROUTE_LIMITS.guest} farklı rota hesaplayabilirsiniz. Ücretsiz üye olun, günde ${ROUTE_LIMITS.member} rotaya kadar devam edin.` });
+          if (!u) throw new Error(`Bugünkü ${ROUTE_LIMITS.guest} ücretsiz rota hakkınızı kullandınız. Devam etmek için ücretsiz üye olun veya giriş yapın.`);
+          member = true;
+          setStatus('Adresler bulunuyor…');
+        }
       }
-      const premium = gmAvailable && member;
+      const premium = gmAvailable && (member || guestTry);
       if (premium) await ensureGoogle();
       const find = async (q: string) => (premium && useGoogle ? await gac.first(q).catch(() => null) : null) ?? (await geocode(q, 1))[0];
       const a = places.from ?? (await find(fromIn.value));
@@ -197,7 +202,7 @@ function init(root: HTMLElement) {
       draw(route.coords, a, b, stations, r);
       render(r, { a, b, car, routeKm, stations, startSoc, consumption, mode });
       updateUrl(a, b, car.slug, Math.round(startSoc * 100), mode);
-      if (!data.preset) quota.add(quotaKey);
+      if (!data.preset) quota.add(gmAvailable ? pre : quotaKey);
     } catch (err: any) {
       setStatus(err?.message || 'Bir hata oluştu. Lütfen tekrar deneyin.', true);
     } finally {

@@ -1,0 +1,93 @@
+---
+// Ana sayfa sağ sütunu: üç araç için eşit boyutlu önizleme kartları.
+import ops from '../data/operators.json';
+const cheapest = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 3);
+const tl = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺';
+---
+<div class="tools">
+  <form class="tc tc-route" action="/rota-planlayici" method="get" aria-labelledby="tc-r">
+    <div class="tc-head">
+      <span class="tc-ic grad" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="6" r="2.4"/><path d="M8.4 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.6"/></svg></span>
+      <div><b id="tc-r">Rotanı planla</b><em>Şarj durakları ve yol maliyeti</em></div>
+    </div>
+    <div class="tc-in"><span class="dot a" aria-hidden="true"></span><label class="visually-hidden" for="tc-from">Nereden</label><input id="tc-from" name="from" placeholder="Nereden? (Kadıköy)" required /></div>
+    <div class="tc-in"><span class="dot b" aria-hidden="true"></span><label class="visually-hidden" for="tc-to">Nereye</label><input id="tc-to" name="to" placeholder="Nereye? (Çeşme)" required /></div>
+    <button class="tc-btn grad" type="submit">Durakları ve maliyeti göster →</button>
+  </form>
+
+  <a class="tc tc-near" href="/yakindaki-sarj-istasyonlari?konum=1">
+    <div class="tc-head">
+      <span class="tc-ic radar" aria-hidden="true"><span class="pulse"></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0b1f3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><path d="m12.6 6.5-2.4 3.6h3.4l-2.4 3.6"/></svg></span>
+      <div><b>Yakınımdaki şarj</b><em>En yakın istasyonlar, şu an</em></div>
+      <span class="live" aria-hidden="true">CANLI</span>
+    </div>
+    <ul class="tc-feats">
+      <li>Anlık müsait soket</li>
+      <li>kW, soket ve fiyat</li>
+      <li>Google / Apple Haritalar</li>
+    </ul>
+    <span class="tc-btn light">📍 Konumumu kullan</span>
+  </a>
+
+  <a class="tc tc-price" href="/sarj-fiyatlari">
+    <div class="tc-head">
+      <span class="tc-ic green" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M7 15V9"/><path d="M12 15V5"/><path d="M17 15v-3"/></svg></span>
+      <div><b>En uygun hızlı şarj</b><em>DC ₺/kWh · {ops.operators.length} operatör</em></div>
+    </div>
+    <ol class="tc-prices">
+      {cheapest.map((o, i) => <li><span><i>{i + 1}</i>{o.name}</span><b>{tl(o.dc)}</b></li>)}
+    </ol>
+    <span class="tc-link">Tüm fiyatları karşılaştır →</span>
+  </a>
+</div>
+
+<style>
+  .tools { display: grid; grid-template-rows: repeat(3, minmax(170px, 1fr)); gap: 12px; height: 100%; width: 300px; }
+  .tc { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; overflow: hidden; transition: transform .15s, box-shadow .15s; color: var(--ink); }
+  a.tc:hover, .tc-route:focus-within { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(15, 23, 42, .12); }
+  .tc-head { display: flex; align-items: center; gap: 10px; }
+  .tc-head b { display: block; font: 800 1.02rem/1.15 var(--font-head); }
+  .tc-head em { display: block; font-style: normal; font-size: .74rem; color: var(--muted); }
+  .tc-ic { position: relative; flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; }
+  .grad { background: var(--grad); }
+  .green { background: var(--green); }
+
+  /* Rota */
+  .tc-route { border: 0; box-shadow: 0 0 0 1.5px rgba(10, 124, 255, .35) inset; }
+  .tc-route::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--grad); }
+  .tc-in { position: relative; }
+  .tc-in input { width: 100%; height: 32px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px 0 26px; font: inherit; font-size: .82rem; }
+  .dot { position: absolute; left: 10px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; pointer-events: none; }
+  .dot.a { border: 2px solid var(--ink); box-sizing: border-box; } .dot.b { background: var(--green); }
+  .tc-btn { margin-top: auto; height: 36px; border: 0; border-radius: 9px; color: #fff; font: 700 .84rem var(--font); cursor: pointer; display: grid; place-items: center; }
+
+  /* Yakınımdaki şarj: koyu, dikkat çekici */
+  .tc-near { background: radial-gradient(120% 140% at 100% 0%, #0a7cff 0%, #0b3a6e 45%, #0b1f3a 100%); border: 0; color: #fff; }
+  .tc-near .tc-head em { color: #b9d6ff; }
+  .radar { background: #2ee07a; box-shadow: 0 0 0 4px rgba(46, 224, 122, .18); }
+  .pulse { position: absolute; inset: 0; border-radius: 10px; border: 2px solid #2ee07a; animation: ping 1.8s ease-out infinite; }
+  @keyframes ping { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(1.7); opacity: 0; } }
+  .live { margin-left: auto; align-self: flex-start; font: 800 .62rem var(--font); letter-spacing: .1em; color: #2ee07a; display: inline-flex; align-items: center; gap: 5px; }
+  .live::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #2ee07a; animation: blink 1.4s infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .tc-feats { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: .78rem; color: #dbe9ff; }
+  .tc-feats li::before { content: '✓'; color: #2ee07a; font-weight: 800; margin-right: 7px; }
+  .tc-btn.light { background: #2ee07a; color: #062814; }
+  .tc-near:hover .tc-btn.light { background: #4cf08f; }
+
+  /* Fiyat */
+  .tc-price { background: linear-gradient(180deg, #f2fbf5, #fff 70%); border-color: #cdeedb; }
+  .tc-prices { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; flex: 1; }
+  .tc-prices li { display: flex; justify-content: space-between; align-items: center; font-size: .84rem; padding: 4px 0; border-bottom: 1px dashed #d6efe0; }
+  .tc-prices li:last-child { border-bottom: 0; }
+  .tc-prices i { font-style: normal; display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #dff5e8; color: #0b7a3b; font-size: .68rem; font-weight: 800; margin-right: 8px; }
+  .tc-prices li:first-child b { color: var(--green); }
+  .tc-prices b { font-variant-numeric: tabular-nums; }
+  .tc-link { font-size: .8rem; font-weight: 700; color: var(--green); }
+
+  @media (prefers-reduced-motion: reduce) { .pulse, .live::before { animation: none; } a.tc:hover { transform: none; } }
+  @media (max-width: 760px) { .tools { padding: 0 16px; box-sizing: border-box; } }
+  @media (max-width: 900px) {
+    .tools { width: 100%; grid-template-rows: none; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); height: auto; }
+  }
+</style>
