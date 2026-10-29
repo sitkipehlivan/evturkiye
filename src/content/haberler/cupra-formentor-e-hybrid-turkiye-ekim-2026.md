@@ -3,7 +3,7 @@ title: "Cupra Formentor e-Hybrid Türkiye'de satılıyor mu? Ekim 2026 Cupra fiy
 description: "Cupra'nın Ekim 2026 Türkiye fiyat listesinde Formentor e-Hybrid yok; yalnızca 150 PS mild hibrit versiyonlar satışta. Güncel fiyatlar ve PHEV'in neden listede olmadığı."
 image: "/images/haberler/cupra-formentor-e-hybrid-turkiye-ekim-2026.jpg"
 imageMode: edit
-imageWiki: "Cupra Formentor"
+imageSource: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Cupra_Formentor_Facelift_IMG_0435.jpg"
 imageScene: "Moody premium car showroom with copper-colored accent lighting and a polished dark concrete floor, large windows in the background, a wall charger with a soft blue LED on the side wall."
 category: hibrit
 date: 2026-10-27
