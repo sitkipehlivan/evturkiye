@@ -20,6 +20,8 @@ OUT = 'src/data/model-images.json'
 
 
 def main():
+    os.makedirs('public/images/modeller', exist_ok=True)
+    open('public/images/modeller/.gitkeep', 'a').close()
     models = json.load(open(MODELS, encoding='utf-8'))['models']
     images = json.load(open(OUT, encoding='utf-8')) if os.path.exists(OUT) else {}
     done, failed = [], []

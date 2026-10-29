@@ -190,7 +190,8 @@
       "hp": 218,
       "priceTL": 7842600,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html"
+      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html",
+      "wiki": "BMW 5 Series (G60)"
     },
     {
       "slug": "i5-xdrive40",
@@ -209,7 +210,8 @@
       "accel": 5.4,
       "priceTL": 8403100,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html"
+      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html",
+      "wiki": "BMW 5 Series (G60)"
     },
     {
       "slug": "i7-xdrive60",
@@ -228,7 +230,8 @@
       "accel": 4.7,
       "priceTL": 14188000,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html"
+      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html",
+      "wiki": "BMW 7 Series (G70)"
     },
     {
       "slug": "ix1-edrive20",
@@ -247,7 +250,8 @@
       "accel": 8.6,
       "priceTL": 4261800,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html"
+      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html",
+      "wiki": "BMW X1 (U11)"
     },
     {
       "slug": "ix2-edrive20",
@@ -266,7 +270,8 @@
       "accel": 8.6,
       "priceTL": 4699900,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html"
+      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html",
+      "wiki": "BMW X2 (U10)"
     },
     {
       "slug": "ix3-50-xdrive",
@@ -285,7 +290,8 @@
       "accel": 7.9,
       "priceTL": 6819500,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html"
+      "priceSource": "https://www.webtekno.com/ekim-2026-bmw-fiyat-listesi-h226228.html",
+      "wiki": "BMW iX3"
     },
     {
       "slug": "atto-3-comfort",
@@ -300,7 +306,8 @@
       "dcMax": 88,
       "acMax": 11,
       "highway": 19,
-      "discontinued": true
+      "discontinued": true,
+      "wiki": "BYD Atto 3"
     },
     {
       "slug": "dolphin-comfort",
@@ -315,7 +322,8 @@
       "dcMax": 88,
       "acMax": 11,
       "highway": 18.7,
-      "discontinued": true
+      "discontinued": true,
+      "wiki": "BYD Dolphin"
     },
     {
       "slug": "seal-awd-excellence",
@@ -365,7 +373,8 @@
       "dcMax": 115,
       "acMax": 11,
       "highway": 22.6,
-      "discontinued": true
+      "discontinued": true,
+      "wiki": "BYD Seal U"
     },
     {
       "slug": "sealion-7-excellence-awd",
@@ -544,7 +553,8 @@
       "accel": 7.8,
       "priceTL": 4990000,
       "priceDate": "2026-10",
-      "priceSource": "https://webtekno.com/ds-automobiles-ekim-2026-fiyat-listesi-h226288.html"
+      "priceSource": "https://webtekno.com/ds-automobiles-ekim-2026-fiyat-listesi-h226288.html",
+      "wiki": "DS N°8"
     },
     {
       "slug": "500e-42-kwh",
@@ -562,7 +572,8 @@
       "hp": 118,
       "priceTL": 2379900,
       "priceDate": "2026-10",
-      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-fiat-sifir-arac-fiyatlari"
+      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-fiat-sifir-arac-fiyatlari",
+      "wiki": "Fiat 500e"
     },
     {
       "slug": "600e-54-kwh",
@@ -581,7 +592,8 @@
       "accel": 9,
       "priceTL": 1989900,
       "priceDate": "2026-10",
-      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-fiat-sifir-arac-fiyatlari"
+      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-fiat-sifir-arac-fiyatlari",
+      "wiki": "Fiat 600 (2023)"
     },
     {
       "slug": "grande-panda-44-kwh",
@@ -620,7 +632,8 @@
       "accel": 9,
       "priceTL": 3211600,
       "priceDate": "2026-09",
-      "priceSource": "https://www.webtekno.com/eylul-2026-ford-fiyat-listesi-h223927.html"
+      "priceSource": "https://www.webtekno.com/eylul-2026-ford-fiyat-listesi-h223927.html",
+      "wiki": "Ford Capri (2024)"
     },
     {
       "slug": "capri-140-kw",
@@ -639,7 +652,8 @@
       "accel": 8,
       "priceTL": 3371600,
       "priceDate": "2026-09",
-      "priceSource": "https://www.webtekno.com/eylul-2026-ford-fiyat-listesi-h223927.html"
+      "priceSource": "https://www.webtekno.com/eylul-2026-ford-fiyat-listesi-h223927.html",
+      "wiki": "Ford Capri (2024)"
     },
     {
       "slug": "capri-awd",
@@ -658,7 +672,8 @@
       "accel": 5.3,
       "priceTL": 4330000,
       "priceDate": "2026-09",
-      "priceSource": "https://www.webtekno.com/eylul-2026-ford-fiyat-listesi-h223927.html"
+      "priceSource": "https://www.webtekno.com/eylul-2026-ford-fiyat-listesi-h223927.html",
+      "wiki": "Ford Capri (2024)"
     },
     {
       "slug": "explorer-125-kw",
@@ -797,7 +812,8 @@
       "accel": 8.8,
       "priceTL": 1799000,
       "priceDate": "2026-10",
-      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-hyundai-sifir-arac-fiyatlari"
+      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-hyundai-sifir-arac-fiyatlari",
+      "wiki": "Hyundai Ioniq 3"
     },
     {
       "slug": "ioniq-3-long-range",
@@ -816,7 +832,8 @@
       "accel": 9.6,
       "priceTL": 2099000,
       "priceDate": "2026-10",
-      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-hyundai-sifir-arac-fiyatlari"
+      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-hyundai-sifir-arac-fiyatlari",
+      "wiki": "Hyundai Ioniq 3"
     },
     {
       "slug": "ioniq-5-63-kwh",
@@ -1023,7 +1040,8 @@
       "accel": 8.5,
       "priceTL": 1769000,
       "priceDate": "2026-10",
-      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-kia-sifir-arac-fiyatlari"
+      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-kia-sifir-arac-fiyatlari",
+      "wiki": "Kia EV2"
     },
     {
       "slug": "ev2-long-range",
@@ -1042,7 +1060,8 @@
       "accel": 9.5,
       "priceTL": 2179000,
       "priceDate": "2026-10",
-      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-kia-sifir-arac-fiyatlari"
+      "priceSource": "https://www.araclo.com/sifir-arac-fiyatlari/ekim-2026-kia-sifir-arac-fiyatlari",
+      "wiki": "Kia EV2"
     },
     {
       "slug": "ev3-long-range",
@@ -1211,7 +1230,8 @@
       "dcMax": 100,
       "acMax": 11,
       "highway": 17.6,
-      "discontinued": true
+      "discontinued": true,
+      "wiki": "Mercedes-Benz EQA"
     },
     {
       "slug": "eqe-280",
@@ -1366,7 +1386,8 @@
       "dcMax": 140,
       "acMax": 11,
       "highway": 19.4,
-      "discontinued": true
+      "discontinued": true,
+      "wiki": "MG4 EV"
     },
     {
       "slug": "countryman-e",
@@ -1445,7 +1466,8 @@
       "accel": 12.1,
       "priceTL": 1895000,
       "priceDate": "2026-10",
-      "priceSource": "https://www.cnbce.com/otomotiv/opel-ekim-fiyat-listesi-acikladi-corsadan-grandlanda-tum-fiyatlar-g38673"
+      "priceSource": "https://www.cnbce.com/otomotiv/opel-ekim-fiyat-listesi-acikladi-corsadan-grandlanda-tum-fiyatlar-g38673",
+      "wiki": "Opel Frontera (2024)"
     },
     {
       "slug": "frontera-electric-54-kwh",
@@ -1464,7 +1486,8 @@
       "accel": 13,
       "priceTL": 2010000,
       "priceDate": "2026-10",
-      "priceSource": "https://www.cnbce.com/otomotiv/opel-ekim-fiyat-listesi-acikladi-corsadan-grandlanda-tum-fiyatlar-g38673"
+      "priceSource": "https://www.cnbce.com/otomotiv/opel-ekim-fiyat-listesi-acikladi-corsadan-grandlanda-tum-fiyatlar-g38673",
+      "wiki": "Opel Frontera (2024)"
     },
     {
       "slug": "grandland-electric-157-kw",
@@ -1622,7 +1645,8 @@
       "accel": 4.8,
       "priceTL": 11796750,
       "priceDate": "2026-06",
-      "priceSource": "https://www.webtekno.com/elektrikli-porsche-cayenne-turkiye-fiyati-h219202.html"
+      "priceSource": "https://www.webtekno.com/elektrikli-porsche-cayenne-turkiye-fiyati-h219202.html",
+      "wiki": "Porsche Cayenne Electric"
     },
     {
       "slug": "cayenne-turbo-electric",
@@ -1641,7 +1665,8 @@
       "accel": 2.5,
       "priceTL": 17695230,
       "priceDate": "2026-06",
-      "priceSource": "https://www.webtekno.com/elektrikli-porsche-cayenne-turkiye-fiyati-h219202.html"
+      "priceSource": "https://www.webtekno.com/elektrikli-porsche-cayenne-turkiye-fiyati-h219202.html",
+      "wiki": "Porsche Cayenne Electric"
     },
     {
       "slug": "macan-electric-4",
@@ -1906,7 +1931,8 @@
       "dcMax": 170,
       "acMax": 11,
       "highway": 14.3,
-      "discontinued": true
+      "discontinued": true,
+      "wiki": "Tesla Model 3"
     },
     {
       "slug": "model-y-rwd",
@@ -1981,7 +2007,8 @@
       "accel": 7.2,
       "priceTL": 1884980,
       "priceDate": "2026-10",
-      "priceSource": "https://togg.com.tr/en/t10f-price-list"
+      "priceSource": "https://togg.com.tr/en/t10f-price-list",
+      "wiki": "Togg T10F"
     },
     {
       "slug": "t10f-v1-rwd-uzun-menzil",
@@ -2000,7 +2027,8 @@
       "accel": 7.5,
       "priceTL": 2195600,
       "priceDate": "2026-10",
-      "priceSource": "https://togg.com.tr/en/t10f-price-list"
+      "priceSource": "https://togg.com.tr/en/t10f-price-list",
+      "wiki": "Togg T10F"
     },
     {
       "slug": "t10f-v2-awd",
@@ -2019,7 +2047,8 @@
       "accel": 4.1,
       "priceTL": 3217937,
       "priceDate": "2026-10",
-      "priceSource": "https://togg.com.tr/en/t10f-price-list"
+      "priceSource": "https://togg.com.tr/en/t10f-price-list",
+      "wiki": "Togg T10F"
     },
     {
       "slug": "t10x-v2-rwd-standart-menzil",
@@ -2152,7 +2181,8 @@
       "hp": 204,
       "priceTL": 4552406,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html"
+      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html",
+      "wiki": "Volvo EC40"
     },
     {
       "slug": "ec40-twin-motor",
@@ -2171,7 +2201,8 @@
       "accel": 4.8,
       "priceTL": 5472825,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html"
+      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html",
+      "wiki": "Volvo EC40"
     },
     {
       "slug": "es90-twin-motor-performance",
@@ -2268,7 +2299,8 @@
       "hp": 204,
       "priceTL": 4453361,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html"
+      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html",
+      "wiki": "Volvo EX40"
     },
     {
       "slug": "ex40-twin-motor",
@@ -2287,7 +2319,8 @@
       "accel": 4.8,
       "priceTL": 5383356,
       "priceDate": "2026-10",
-      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html"
+      "priceSource": "https://www.webtekno.com/volvo-ekim-2026-fiyat-listesi-h226480.html",
+      "wiki": "Volvo EX40"
     }
   ]
 }
