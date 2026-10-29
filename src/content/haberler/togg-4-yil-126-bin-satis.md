@@ -11,6 +11,7 @@ source: "Anadolu Ajansı / TRT Haber"
 sourceUrl: "https://trthaber.com/haber/ekonomi/t10xten-t6xe-uzanan-basari-togg-4-yilda-126-bin-araci-yollara-cikardi-961471.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **Togg satışları**, ilk aracın Gemlik'te banttan indiği 29 Ekim 2022'den bu yana geçen dört yılda **126 bini aştı**. Anadolu Ajansı'nın ODMD verilerine dayanan derlemesine göre seri üretimin başladığı 2023'ten Eylül 2026 sonuna kadar **126.122** Togg kullanıcısıyla buluştu. Yerli elektrikli otomobil üreticisi, 2026'nın ilk dokuz ayında Türkiye'deki elektrikli otomobil satışlarının **%31**'ini tek başına aldı.
