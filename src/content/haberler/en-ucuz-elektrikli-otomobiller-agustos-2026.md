@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/agustos-2026-turkiye-en-ucuz-elektrikli-otomobiller-h221875.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Ağustos 2026 fiyat listelerine göre Türkiye'de satılan en ucuz elektrikli otomobil **Hyundai Inster** oldu. Modelin 42 kWh bataryalı Dynamic versiyonu, 1.550.000 TL liste fiyatı yerine **1.400.000 TL** kampanya fiyatıyla sunuluyor. Listenin ilk on sırası 2 milyon TL'nin altında kalıyor; sıralamada kampanya fiyatı olan modellerde kampanyalı fiyat esas alındı.

@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/temmuz-2026-togg-fiyat-listesi-h219591.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Togg'un Temmuz 2026 fiyat listesinde **T10X** modeline **40.000 TL** zam geldi. Giriş versiyonu T10X V1 RWD Standart Menzil'in tavsiye edilen anahtar teslim fiyatı **1.869.048 TL**'den **1.909.048 TL**'ye çıktı. Elektrikli otomobil pazarının en çok satan markasının fastback modeli **T10F**'nin fiyatları ise Haziran'la aynı kaldı.

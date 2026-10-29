@@ -11,6 +11,7 @@ source: "İstiklal"
 sourceUrl: "https://www.istiklal.com.tr/editorun-sectikleri/tesla-eylul-2026-fiyat-listesi-model-y-ne-kadar-1104233h"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Tesla, Eylül 2026'da **Model Y**'nin Türkiye fiyatlarında değişiklik yapmadı. Model Y'nin arkadan itişli giriş versiyonu **2.474.985 TL**'den satılmaya devam ediyor. Yaz aylarında üst versiyonlara gelen zamların ardından fiyatlar Eylül boyunca sabit kaldı.

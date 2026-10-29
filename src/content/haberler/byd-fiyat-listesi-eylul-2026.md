@@ -11,6 +11,7 @@ source: "CNBC-e"
 sourceUrl: "https://www.cnbce.com/otomotiv/bydnin-model-sayisi-3e-dustu-en-ucuz-model-4-milyon-tlyi-asti-h36400"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / User3204, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 BYD'nin 1 Eylül 2026 tarihli Türkiye fiyat listesinde yalnızca üç elektrikli model yer aldı: **Seal**, **Sealion 7** ve **Tang**. CNBC-e'nin aktardığına göre büyük sedan **Han**, Eylül listesine girmedi. Listedeki en uygun BYD olan Seal **4.077.000 TL**'den satılıyor; böylece BYD'nin Türkiye gamında 4 milyon TL'nin altında elektrikli otomobil kalmadı.

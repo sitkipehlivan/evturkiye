@@ -11,6 +11,7 @@ source: "DonanımHaber"
 sourceUrl: "https://www.donanimhaber.com/kia-ev2-agustosta-turkiye-ye-geliyor-iste-beklenen-fiyati--207731"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Kia'nın küçük elektrikli SUV'u **EV2**, Türkiye'de **Ağustos 2026**'da satışa çıkacak. Kia Türkiye Genel Müdürü **Şafak Savcı**, CNBC-e'deki Oto Ekonomi programında modelin aslında Haziran'da gelmesinin planlandığını, ancak fiyatlandırma çalışmaları uzadığı için lansmanın Ağustos'a kaydığını açıkladı. Savcı'ya göre uzun menzilli versiyonun fiyatı **2 milyon TL'nin altında** olacak ve EV2, kardeş model **EV3**'ten **yüzde 10'dan fazla** daha ucuza satılacak.

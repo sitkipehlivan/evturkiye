@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/agustos-2026-hyundai-fiyat-listesi-h221782.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Kevauto, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Hyundai, Ağustos 2026 fiyat listesinde elektrikli modellerinde büyük indirimlere gitti. En dikkat çeken fark **Yeni Ioniq 6**'da: 125 kW Standart Menzil Advance versiyonu, 3.225.000 TL liste fiyatı yerine **2.483.000 TL** kampanya fiyatıyla sunuluyor. Fark **742.000 TL**. Kampanyalar 5–31 Ağustos 2026 arasında, stoklarla sınırlı olarak geçerli.

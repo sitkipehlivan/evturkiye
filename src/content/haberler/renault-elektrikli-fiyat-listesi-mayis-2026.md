@@ -11,6 +11,7 @@ source: "Haber Yazıyor"
 sourceUrl: "https://haberyaziyor.com.tr/mayis-2026-renault-fiyat-listesi-elektrikli-scenic-yuksek-fiyatiyla-satista/"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Renault'nun **Mayıs 2026** fiyat listesinde iki tam elektrikli model öne çıkıyor. Kompakt hatchback **R5 E-Tech**, **1.886.000 TL** tavsiye edilen anahtar teslim fiyatla listede yer alıyor. Elektrikli SUV **Scenic E-Tech** ise Esprit Alpine donanımıyla 3.490.000 TL liste fiyatına sahip; Mayıs kampanyasıyla **3.300.000 TL**'ye satılıyor.

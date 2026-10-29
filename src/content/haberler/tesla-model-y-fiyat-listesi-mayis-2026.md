@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/tesla-mayis-2026-fiyat-listesi-h216457.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Tesla'nın Türkiye'deki **Mayıs 2026** fiyat listesinde **Model Y**'nin giriş versiyonu olan arkadan itişli (RWD) model, vergiler dahil **2.474.985 TL** seviyesinde yer alıyor. Nisan başında yayımlanan listede aynı versiyonun fiyatı 2.349.300 TL'ydi. Diğer versiyonlarda da fiyatlar yukarı yönlü güncellendi; en pahalı versiyon Performance 4.546.500 TL'ye çıktı.

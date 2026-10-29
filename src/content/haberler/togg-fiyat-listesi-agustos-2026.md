@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/togg-agustos-2026-indirimler-kampanyalar-kredi-firsatlari-h222049.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Togg, Ağustos 2026'da **T10X** ve **T10F** fiyatlarına zam yapmadı. Yerli elektrikli otomobilin başlangıç fiyatları T10X için **1.909.048 TL**, T10F için **1.884.980 TL** olarak kaldı. Fiyat yerine finansman tarafında hareket var: T10F'nin farklı versiyonları için sıfır faizli ve düşük faizli kredi seçenekleri sunuluyor.

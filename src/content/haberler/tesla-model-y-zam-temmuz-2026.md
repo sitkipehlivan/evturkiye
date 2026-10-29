@@ -11,6 +11,7 @@ source: "GZT"
 sourceUrl: "https://www.gzt.com/teknoloji/tesla-turkiye-fiyatlarina-zam-geldi-model-ynin-yeni-fiyatlari-belli-oldu-iste-tesla-fiyat-listesi-temmuz-2026-4240277"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Tesla, Türkiye'de **Model Y** fiyatlarını Temmuz 2026'nın ilk yarısında güncelledi. Elektrikli SUV'un Premium Long Range ve Performance versiyonlarına **148.800 TL ile 210.000 TL** arasında zam geldi. Arkadan itişli giriş modeli ise **2.474.985 TL**'de sabit kaldı.

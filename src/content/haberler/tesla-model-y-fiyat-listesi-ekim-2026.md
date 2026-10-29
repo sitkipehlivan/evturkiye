@@ -11,6 +11,7 @@ source: "İşin Olsa"
 sourceUrl: "https://www.isinolsa.com/teslada-ekim-zammi-model-y-247-milyondan-basliyor-5-milyona-dayaniyor/"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Tesla, Türkiye'deki **Model Y** fiyat listesini 2 Ekim 2026 itibarıyla güncelledi. Elektrikli SUV'un giriş versiyonu **Arkadan Çekiş** 2.474.985 TL'de sabit kalırken, üst versiyonlara 210 bin ile 223 bin TL arasında zam yapıldı. En pahalı versiyon olan Performance artık 5 milyon TL sınırının hemen altında.

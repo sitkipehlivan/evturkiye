@@ -11,6 +11,7 @@ source: "CNN Türk"
 sourceUrl: "https://www.cnnturk.com/ekonomi/togg-sifir-faiz-kampanyasi-mayis-2026-togg-faizsiz-kredi-hangi-bankalarda-var-filo-alimlarina-kurban-bayrami-oncesi-togg-firsati-2424193"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander-93, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Togg, **Mayıs 2026** için sedan modeli T10F'ye odaklanan bir finansman kampanyası başlattı. Kampanyada **T10F V2** ve **T10F 4More** için **1 milyon TL, 12 ay vadeli ve %0 faizli** kredi sunuluyor; aylık taksit yaklaşık 83.300 TL. Markanın Mayıs fiyat listesine göre T10X 1.869.048 TL'den, T10F ise 1.884.980 TL'den başlıyor.

@@ -11,6 +11,7 @@ source: "TimeTürk"
 sourceUrl: "https://www.timeturk.com/hyundai-eylul-2026-fiyat-listesi-ioniq-6ya-zam-geldi"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Kevauto, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Hyundai'nin Eylül 2026 fiyat listesinde elektrikli otomobil tarafındaki en büyük değişiklik **Ioniq 6**'da oldu. Ağustos'ta 2.483.000 TL'lik kampanya fiyatıyla satılan 125 kW Standart Menzil Advance versiyonu, Eylül'de **3.225.000 TL**'ye çıktı. Fark **742.000 TL**. Ağustos fiyatı yüzde 25 ÖTV diliminde kalırken yeni fiyatla model yüzde 55'lik dilime geçti.

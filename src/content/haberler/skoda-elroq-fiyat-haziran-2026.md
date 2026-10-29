@@ -11,6 +11,7 @@ source: "GZT – Skoda Haziran 2026 fiyat listesi"
 sourceUrl: "https://www.gzt.com/teknoloji/skoda-fiyat-listesi-haziran-2026-skoda-elroq-enyaq-coupe-enyaq-fabia-scala-octavia-superb-kamiq-karoq-kodiaq-4228820"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Skoda'nın Haziran 2026 fiyat listesinde kompakt elektrikli SUV **Elroq**, **2.349.900 TL** kampanyalı fiyatla öne çıkıyor. Modelin tavsiye edilen liste fiyatı 3.199.900 TL olduğundan alıcı açısından fark **850.000 TL**'lik net indirim anlamına geliyor. Liste, 2 Haziran 2026'da yayımlandı.
