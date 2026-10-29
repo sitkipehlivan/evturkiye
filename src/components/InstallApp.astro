@@ -1,0 +1,89 @@
+---
+// "Ana ekrana ekle" (PWA): service worker kaydı, yükleme düğmeleri, iOS talimatı ve mobilde alttan çıkan davet.
+// Sayfadaki [data-install] düğmeleri ve [data-install-card] kartları yüklenebilir olduğunda görünür.
+---
+<div class="ia-bar" id="iaBar" role="dialog" aria-label="EV Türkiye uygulaması" hidden>
+  <img src="/app/icon-192.png" alt="" width="44" height="44" />
+  <div class="ia-txt"><b>EV Türkiye uygulaması</b><span>Yakındaki şarj ve rota tek dokunuşla</span></div>
+  <button type="button" class="ia-add" data-install>Ekle</button>
+  <button type="button" class="ia-x" aria-label="Kapat" id="iaClose">×</button>
+</div>
+<div class="ia-ios" id="iaIos" role="dialog" aria-label="Ana ekrana ekle" hidden>
+  <div class="ia-ios-box">
+    <img src="/app/icon-192.png" alt="" width="56" height="56" />
+    <b>EV Türkiye'yi ana ekrana ekle</b>
+    <ol>
+      <li>Safari'de alttaki <b>Paylaş</b> simgesine <span class="ia-share" aria-hidden="true">⬆︎</span> dokun.</li>
+      <li>Listeden <b>Ana Ekrana Ekle</b>'yi seç.</li>
+      <li>Sağ üstteki <b>Ekle</b>'ye dokun.</li>
+    </ol>
+    <button type="button" class="btn btn-volt" id="iaIosOk">Tamam</button>
+  </div>
+</div>
+<script is:inline>
+  (function () {
+    var nativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    if ('serviceWorker' in navigator && location.protocol === 'https:' && !nativeApp) {
+      window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+    }
+    if (nativeApp || standalone) { if (standalone && window.gtag) gtag('event', 'app_open'); return; }
+
+    var ua = navigator.userAgent;
+    var ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var iosSafari = ios && /safari/i.test(ua) && !/crios|fxios|edgios|opios|instagram|fban|fbav/i.test(ua);
+    var mobile = /android|iphone|ipad|ipod/i.test(ua) || ios;
+    var deferred = null;
+    var bar = document.getElementById('iaBar');
+    var KEY = 'evt-uygulama-kapat';
+    var dismissed = function () { try { return Number(localStorage.getItem(KEY) || 0) > Date.now(); } catch (e) { return false; } };
+    var show = function () {
+      document.querySelectorAll('[data-install],[data-install-card]').forEach(function (el) { if (el !== bar) el.hidden = false; });
+      if (!mobile || dismissed()) return;
+      // çerez bildirimiyle üst üste binmesin: çerez seçimi yapılana kadar bekle
+      var tries = 0, t = setInterval(function () {
+        var ck = document.getElementById('ck');
+        if ((!ck || ck.hidden) && ++tries > 2) { clearInterval(t); bar.hidden = false; }
+      }, 2000);
+    };
+    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; show(); });
+    if (iosSafari) show();
+
+    document.addEventListener('click', async function (e) {
+      var b = e.target.closest && e.target.closest('[data-install]');
+      if (!b) return;
+      if (window.gtag) gtag('event', 'app_install_click');
+      if (deferred) {
+        deferred.prompt();
+        var r = await deferred.userChoice;
+        if (window.gtag) gtag('event', 'app_install_prompt', { outcome: r.outcome });
+        deferred = null;
+        if (r.outcome === 'accepted') hideAll();
+      } else if (ios) {
+        document.getElementById('iaIos').hidden = false;
+      }
+    });
+    function hideAll() { document.querySelectorAll('[data-install],[data-install-card]').forEach(function (el) { el.hidden = true; }); bar.hidden = true; }
+    document.getElementById('iaClose').onclick = function () { bar.hidden = true; try { localStorage.setItem(KEY, String(Date.now() + 14 * 864e5)); } catch (e) {} };
+    document.getElementById('iaIosOk').onclick = function () { document.getElementById('iaIos').hidden = true; };
+    window.addEventListener('appinstalled', function () { hideAll(); if (window.gtag) gtag('event', 'app_installed'); });
+  })();
+</script>
+<style>
+  .ia-bar { position: fixed; z-index: 80; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #fff; border-radius: 16px; box-shadow: 0 12px 40px rgba(15, 23, 42, .22); border: 1px solid var(--line); }
+  .ia-bar[hidden], .ia-ios[hidden] { display: none; }
+  .ia-bar img { border-radius: 11px; flex: none; }
+  .ia-txt { flex: 1; display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+  .ia-txt b { font: 800 .92rem var(--font-head); }
+  .ia-txt span { font-size: .76rem; color: var(--muted); }
+  .ia-add { flex: none; height: 36px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--grad); color: #fff; font: 700 .86rem var(--font); cursor: pointer; }
+  .ia-x { flex: none; width: 30px; height: 30px; border: 0; background: none; font-size: 1.4rem; color: var(--muted); cursor: pointer; }
+  .ia-ios { position: fixed; inset: 0; z-index: 95; background: rgba(15, 23, 42, .5); display: grid; place-items: end center; padding: 16px; }
+  .ia-ios-box { background: #fff; border-radius: 18px; padding: 22px 20px 18px; max-width: 420px; width: 100%; text-align: center; }
+  .ia-ios-box img { border-radius: 13px; }
+  .ia-ios-box b { display: block; font: 800 1.08rem var(--font-head); margin: 10px 0 6px; }
+  .ia-ios-box ol { text-align: left; margin: 8px 0 16px; padding-left: 20px; font-size: .92rem; line-height: 1.6; }
+  .ia-share { display: inline-grid; place-items: center; width: 22px; height: 22px; border: 1.5px solid var(--volt); color: var(--volt); border-radius: 5px; font-size: .8rem; }
+  .ia-ios-box .btn { width: 100%; }
+  @media (min-width: 761px) { .ia-bar { left: auto; right: 20px; bottom: 20px; width: 380px; } }
+</style>

@@ -1,0 +1,46 @@
+---
+// Ana sayfa: araç karşılaştırma şeridi
+import { compareCars, POPULAR_PAIRS, carBySlug, pairSlug } from '../lib/ev';
+import { name } from '../lib/compare';
+const live = compareCars.filter((c) => !c.discontinued);
+const brands = [...new Set(live.map((c) => c.brand))].sort((a, b) => a.localeCompare(b, 'tr'));
+const pairs = POPULAR_PAIRS.slice(0, 4).map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const);
+const sel = (n: string, def: string) => ({ n, def });
+---
+<section class="cw">
+  <div class="container cw-in">
+    <div class="cw-txt">
+      <span class="cw-badge">YENİ</span>
+      <h2>Elektrikli araçları karşılaştır</h2>
+      <p>{live.length} versiyonu yan yana koy: fiyat, gerçek otoyol menzili, şarj süresi, 100 km maliyeti, artı ve eksiler.</p>
+    </div>
+    <form class="cw-form" action="/karsilastir" method="get">
+      {[sel('a', 't10x-v2-rwd-uzun-menzil'), sel('b', 'model-y-rwd')].map((s, i) => (
+        <select name={s.n} aria-label={`${i + 1}. araç`}>
+          {brands.map((b) => <optgroup label={b}>{live.filter((c) => c.brand === b).map((c) => <option value={c.slug} selected={c.slug === s.def}>{c.brand} {c.model} {c.version}</option>)}</optgroup>)}
+        </select>
+      ))}
+      <button class="cw-btn" type="submit">Karşılaştır →</button>
+    </form>
+    <div class="cw-pop">
+      <span>Popüler:</span>
+      {pairs.map(([a, b]) => <a href={`/karsilastir/${pairSlug(a, b)}`}>{name(a)} vs {name(b)}</a>)}
+    </div>
+  </div>
+</section>
+<style>
+  .cw { padding: 26px 0; }
+  .cw-in { display: grid; grid-template-columns: 1fr 1.35fr; gap: 14px 28px; align-items: center; background: linear-gradient(120deg, #0b1f3a, #0b3a6e 55%, #0a7cff); color: #fff; border-radius: 18px; padding: 24px 28px; }
+  .cw-txt h2 { color: #fff; margin: 6px 0 6px; font-size: 1.45rem; }
+  .cw-txt p { margin: 0; color: #cfe2ff; font-size: .92rem; }
+  .cw-badge { font: 800 .64rem var(--font); letter-spacing: .12em; background: #2ee07a; color: #062814; padding: 3px 8px; border-radius: 999px; }
+  .cw-form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; }
+  .cw-form select { height: 46px; border: 0; border-radius: 10px; padding: 0 10px; font: 600 .88rem var(--font); color: var(--ink); background: #fff; min-width: 0; }
+  .cw-btn { height: 46px; border: 0; border-radius: 10px; padding: 0 18px; background: #2ee07a; color: #062814; font: 800 .92rem var(--font); cursor: pointer; white-space: nowrap; }
+  .cw-btn:hover { background: #4cf08f; }
+  .cw-pop { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: .8rem; }
+  .cw-pop span { color: #9fc4f5; font-weight: 700; }
+  .cw-pop a { color: #fff; background: rgba(255, 255, 255, .12); border-radius: 999px; padding: 5px 11px; }
+  .cw-pop a:hover { background: rgba(255, 255, 255, .22); color: #fff; }
+  @media (max-width: 900px) { .cw-in { grid-template-columns: 1fr; padding: 20px 18px; border-radius: 0; } .cw-form { grid-template-columns: 1fr; } .cw { padding: 18px 0; } .cw .container { padding-left: 0; padding-right: 0; } }
+</style>

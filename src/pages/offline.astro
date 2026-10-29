@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="İnternet bağlantısı yok" description="EV Türkiye çevrimdışı sayfası." noindex>
+  <section class="section">
+    <div class="container" style="max-width:560px;text-align:center">
+      <div style="font-size:3rem">📡</div>
+      <h1>İnternet bağlantısı yok</h1>
+      <p class="muted">Bağlantın geri geldiğinde sayfa açılacak. Daha önce açtığın sayfalar bu sırada da görüntülenebilir.</p>
+      <p><button class="btn btn-volt" onclick="location.reload()">Tekrar dene</button></p>
+    </div>
+  </section>
+</Base>

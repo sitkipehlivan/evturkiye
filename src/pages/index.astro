@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro';
 import HeroSlider from '../components/HeroSlider.astro';
 import ToolCards from '../components/ToolCards.astro';
+import CompareWidget from '../components/CompareWidget.astro';
+import AppCard from '../components/AppCard.astro';
 import AdSlot from '../components/AdSlot.astro';
 import DealCard from '../components/DealCard.astro';
 import ops from '../data/operators.json';
@@ -40,6 +42,8 @@ const jsonLd = {
     </div>
   </section>
 
+  <CompareWidget />
+
   <!-- 2. En yeniler -->
   <section class="block">
     <div class="container">
@@ -56,6 +60,8 @@ const jsonLd = {
       </div>
     </div>
   </section>
+
+  <AppCard />
 
   <div class="container ad-row"><AdSlot id="home-leaderboard-1" size="970x250" mobile="300x250" /></div>
 

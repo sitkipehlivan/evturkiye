@@ -14,6 +14,7 @@ const nav = [
   { href: '/yakindaki-sarj-istasyonlari', label: 'Yakınımdaki Şarj' },
   { href: '/firsatlar', label: 'Fırsatlar' },
   { href: '/modeller', label: 'Modeller' },
+  { href: '/karsilastir', label: 'Karşılaştır' },
 ];
 const active = (h: string) => (h === '/haberler' ? path === '/haberler' || path === '/haberler/' : path === h || path.startsWith(h + '/'));
 const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Istanbul' });
@@ -47,6 +48,9 @@ const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'nu
       <a href="/yakindaki-sarj-istasyonlari" class="icon-btn" aria-label="Yakınımdaki şarj istasyonları">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"></path><path d="m12.6 6.5-2.4 3.6h3.4l-2.4 3.6"></path></svg>
       </a>
+      <button type="button" class="icon-btn" aria-label="Uygulamayı yükle" title="Uygulamayı yükle" data-install hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><path d="M12 7.5v7"></path><path d="m9 11.5 3 3 3-3"></path></svg>
+      </button>
       {hasAuth && (
         <a href="/hesabim" class="icon-btn" aria-label="Hesabım" data-account>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
@@ -103,8 +107,8 @@ const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'nu
 
   .cat-nav { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; }
   .cat-nav::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--grad); }
-  .cat-in { display: flex; justify-content: center; gap: 4px 22px; flex-wrap: wrap; padding: 12px 20px; }
-  .cat-in a { font-family: var(--font-head); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); padding: 2px 0; border-bottom: 2px solid transparent; }
+  .cat-in { display: flex; justify-content: center; gap: 4px 17px; flex-wrap: wrap; padding: 12px 20px; }
+  .cat-in a { font-family: var(--font-head); font-size: .76rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink); padding: 2px 0; border-bottom: 2px solid transparent; }
   .cat-in a:hover { color: var(--volt); }
   .cat-in a.active { border-bottom-color: var(--green); }
   .cat-in a.hl { color: var(--green); }

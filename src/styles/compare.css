@@ -1,0 +1,47 @@
+/* Araç karşılaştırma (karsilastir sayfaları) */
+.cp-head { display: grid; grid-template-columns: 200px repeat(var(--n), minmax(0, 1fr)); gap: 14px; margin: 22px 0 6px; }
+.cp-head::before { content: ''; }
+.cp-car { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cp-img { display: block; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: radial-gradient(120% 120% at 100% 0%, #e8f2ff, #e8f7ee 60%, #f6f8fa); margin-bottom: 8px; }
+.cp-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cp-img span { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 800 1.3rem var(--font-head); color: var(--volt); }
+.cp-img small { font-size: .66rem; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+.cp-name { font: 800 1.08rem/1.2 var(--font-head); }
+.cp-ver { font-size: .8rem; color: var(--muted); }
+.cp-price { font: 800 1.15rem var(--font-head); color: var(--green); margin-top: 4px; }
+.cp-price small { display: block; font: 600 .7rem var(--font); color: var(--muted); }
+.cp-off { align-self: flex-start; margin-top: 4px; font-size: .7rem; font-weight: 700; background: #0f172a; color: #fff; border-radius: 999px; padding: 3px 9px; }
+.cp-route { margin-top: 6px; font-size: .82rem; font-weight: 700; color: var(--volt); }
+.cp-verdict { background: var(--volt-soft); border-radius: 12px; padding: 14px 16px; margin: 16px 0; line-height: 1.6; }
+.cp-tablewrap { overflow-x: auto; }
+.cp-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.cp-table th, .cp-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.cp-table tbody th { width: 200px; font-weight: 600; font-size: .9rem; }
+.cp-table tbody th small { display: block; font-weight: 500; font-size: .72rem; color: var(--muted); }
+.cp-table td { font-weight: 700; font-variant-numeric: tabular-nums; }
+.cp-table td.best { color: var(--green); }
+.cp-table td.best::after { content: ' ✓'; }
+.cp-g th { background: var(--soft); font: 800 .78rem var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); padding: 8px 12px; }
+.cp-h { margin-top: 30px; }
+.cp-pcs { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 14px; }
+.cp-pc { border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.cp-pc > b { font: 800 1rem var(--font-head); }
+.cp-pc ul { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; font-size: .9rem; }
+.cp-pc li { padding-left: 24px; position: relative; }
+.cp-pc .pro li::before { content: '+'; position: absolute; left: 0; top: -1px; width: 17px; height: 17px; border-radius: 50%; background: var(--green-soft); color: var(--green); font-weight: 800; display: grid; place-items: center; font-size: .8rem; }
+.cp-pc .con li::before { content: '−'; position: absolute; left: 0; top: -1px; width: 17px; height: 17px; border-radius: 50%; background: #fdecec; color: #d12c2c; font-weight: 800; display: grid; place-items: center; font-size: .8rem; }
+.cp-pc li.none { color: var(--muted); }
+.cp-pc li.none::before { display: none; }
+.cp-note { font-size: .78rem; color: var(--muted); margin-top: 14px; }
+@media (max-width: 760px) {
+  .cp-head { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 10px; }
+  .cp-head::before { display: none; }
+  .cp-name { font-size: .92rem; } .cp-price { font-size: .95rem; }
+  .cp-table tbody th { width: 34%; font-size: .8rem; }
+  .cp-table th, .cp-table td { padding: 8px 6px; font-size: .82rem; }
+  .cp-pcs { grid-template-columns: 1fr; }
+}
+.cp-table th, .cp-table td { white-space: normal; }
+.cp-table tbody th { text-transform: none; letter-spacing: 0; color: var(--ink); background: none; font-size: .9rem; }
+.cp-table .cp-g th { background: var(--soft); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-size: .74rem; }
+@media (max-width: 760px) { .cp-table tbody th { font-size: .8rem; } }

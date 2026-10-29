@@ -1,0 +1,21 @@
+---
+// Ana sayfa: "telefonuna ekle" kartı (yalnızca yüklenebilir tarayıcılarda görünür; InstallApp yönetir)
+---
+<div class="container"><div class="apc" data-install-card hidden>
+  <img src="/app/icon-192.png" alt="" width="64" height="64" />
+  <div class="apc-t">
+    <b>EV Türkiye'yi telefonuna ekle</b>
+    <p>Ana ekrandan tek dokunuşla aç: yakınımdaki şarj, rota planlayıcı ve şarj fiyatları uygulama gibi çalışır. Ücretsiz, mağaza gerektirmez.</p>
+  </div>
+  <button type="button" class="btn btn-volt" data-install>Uygulamayı ekle</button>
+</div></div>
+<style>
+  .apc { display: flex; align-items: center; gap: 18px; padding: 18px 22px; margin: 6px 0 26px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(90deg, var(--green-soft), var(--volt-soft)); }
+  .apc[hidden] { display: none; }
+  .apc img { border-radius: 15px; flex: none; box-shadow: 0 6px 18px rgba(10, 124, 255, .25); }
+  .apc-t { flex: 1; }
+  .apc-t b { font: 800 1.1rem var(--font-head); }
+  .apc-t p { margin: 4px 0 0; font-size: .9rem; color: var(--ink-2); }
+  .apc .btn { flex: none; }
+  @media (max-width: 640px) { .apc { flex-wrap: wrap; } .apc .btn { width: 100%; } }
+</style>

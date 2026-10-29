@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import GuideLinks from '../../components/GuideLinks.astro';
+import '../../styles/compare.css';
+import { avgDc, avgAc, POPULAR_PAIRS, carBySlug, pairSlug, price, monthTr } from '../../lib/ev';
+import { renderCompare, name, hwRange, dcMin, cost100 } from '../../lib/compare';
+
+export function getStaticPaths() {
+  return POPULAR_PAIRS.map(([a, b]) => {
+    const A = carBySlug(a)!, B = carBySlug(b)!;
+    return { params: { pair: pairSlug(A, B) }, props: { a, b } };
+  });
+}
+const A = carBySlug(Astro.props.a)!, B = carBySlug(Astro.props.b)!;
+const ctx = { avgDc, avgAc };
+const title = `${name(A)} vs ${name(B)}: Menzil, Şarj, Fiyat Karşılaştırması`;
+const desc = `${name(A)} ${A.version} ile ${name(B)} ${B.version} karşılaştırması: otoyol menzili ${hwRange(A)} / ${hwRange(B)} km, %10→80 şarj ${dcMin(A)} / ${dcMin(B)} dk${A.priceTL && B.priceTL ? `, fiyat ${price(A.priceTL)} / ${price(B.priceTL)}` : ''}.`;
+const others = POPULAR_PAIRS.filter(([a, b]) => !(a === Astro.props.a && b === Astro.props.b)).slice(0, 6).map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const);
+const tl0 = (v: number) => Math.round(v).toLocaleString('tr-TR') + ' TL';
+const faq = [
+  { q: `${name(A)} mi ${name(B)} mi daha uzun menzilli?`, a: `Otoyolda (110–120 km/s) ${name(A)} ~${hwRange(A)} km, ${name(B)} ~${hwRange(B)} km gidebiliyor. WLTP değerleri ${A.wltp} ve ${B.wltp} km.` },
+  { q: `Hangisi daha hızlı şarj oluyor?`, a: `%10'dan %80'e hızlı şarj ${name(A)} için ~${dcMin(A)} dakika (${A.dcMax} kW), ${name(B)} için ~${dcMin(B)} dakika (${B.dcMax} kW) sürüyor.` },
+  { q: `100 km'nin şarj maliyeti ne kadar?`, a: `Halka açık DC istasyonlarda ortalama fiyatla 100 km ${name(A)} için ~${tl0(cost100(A, avgDc))}, ${name(B)} için ~${tl0(cost100(B, avgDc))}.` },
+  ...(A.priceTL && B.priceTL ? [{ q: `Türkiye fiyatları ne kadar?`, a: `${monthTr(A.priceDate)} liste fiyatlarıyla ${name(A)} ${A.version} ${price(A.priceTL)}, ${name(B)} ${B.version} ${price(B.priceTL)}.` }] : []),
+];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base title={title} description={desc} jsonLd={jsonLd} image={A.img}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="small muted crumbs"><a href="/karsilastir">Karşılaştırma</a> / {name(A)} vs {name(B)}</nav>
+      <h1>{name(A)} vs {name(B)}</h1>
+      <p class="muted intro">{A.version} ve {B.version} versiyonlarının fiyat, menzil, şarj ve maliyet karşılaştırması. Başka versiyon veya üçüncü bir araç eklemek için <a href={`/karsilastir?a=${A.slug}&b=${B.slug}`}>karşılaştırma aracını aç</a>.</p>
+      <div set:html={renderCompare([A, B], ctx)} />
+      <h2 class="cp-h">Sık sorulanlar</h2>
+      <div class="faq">{faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+    </div>
+  </section>
+  <section class="section-sm soft">
+    <div class="container">
+      <h2>Diğer karşılaştırmalar</h2>
+      <div class="pop">{others.map(([a, b]) => <a class="card" href={`/karsilastir/${pairSlug(a, b)}`}><b>{name(a)}</b><span>vs</span><b>{name(b)}</b></a>)}</div>
+      <GuideLinks />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; }
+  .intro { max-width: 760px; }
+  .intro a { color: var(--volt); font-weight: 600; }
+  .faq details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .faq summary { font-weight: 700; cursor: pointer; }
+  .faq p { margin: 8px 0 0; color: var(--ink-2); }
+  .pop { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .pop a { padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+  .pop a span { color: var(--muted); font-size: .8rem; }
+</style>

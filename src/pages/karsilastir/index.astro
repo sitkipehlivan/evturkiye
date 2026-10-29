@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import GuideLinks from '../../components/GuideLinks.astro';
+import '../../styles/compare.css';
+import { compareCars, avgDc, avgAc, POPULAR_PAIRS, carBySlug, pairSlug } from '../../lib/ev';
+import { renderCompare, name } from '../../lib/compare';
+
+const brands = [...new Set(compareCars.map((c) => c.brand))].sort((a, b) => a.localeCompare(b, 'tr'));
+const def = ['t10x-v2-rwd-uzun-menzil', 'model-y-rwd'];
+const initial = def.map((s) => carBySlug(s)!).filter(Boolean);
+const ctx = { avgDc, avgAc };
+const pairs = POPULAR_PAIRS.map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const);
+const opt = (c: (typeof compareCars)[number]) => `${c.model} ${c.version}${c.discontinued ? ' (satıştan kalktı)' : ''}`;
+---
+<Base title="Elektrikli Araç Karşılaştırma: Menzil, Şarj, Fiyat, Artı ve Eksiler" description={`Türkiye'de satılan ${compareCars.filter((c) => !c.discontinued).length} elektrikli araç versiyonunu yan yana karşılaştır: fiyat, WLTP ve otoyol menzili, şarj süresi, 100 km maliyeti, güç, artı ve eksiler.`}>
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Karşılaştırma aracı</span>
+      <h1>Elektrikli araç karşılaştırma</h1>
+      <p class="muted intro">En fazla 3 aracı seç; fiyat, gerçekçi otoyol menzili, şarj süresi ve kullanım maliyeti yan yana gelsin. Artı ve eksiler, seçtiğin araçlara göre otomatik çıkarılır.</p>
+
+      <form class="cp-pick card" id="cpForm">
+        {[0, 1, 2].map((i) => (
+          <label>
+            <span>{i + 1}. araç{i === 2 && ' (isteğe bağlı)'}</span>
+            <select name={['a', 'b', 'c'][i]}>
+              <option value="">{i === 2 ? '— Araç ekle —' : '— Araç seç —'}</option>
+              {brands.map((b) => (
+                <optgroup label={b}>
+                  {compareCars.filter((c) => c.brand === b).map((c) => <option value={c.slug} selected={c.slug === def[i]}>{opt(c)}</option>)}
+                </optgroup>
+              ))}
+            </select>
+          </label>
+        ))}
+        <button type="button" class="btn swap" id="cpSwap" aria-label="1. ve 2. aracın yerini değiştir" title="Yer değiştir">⇄</button>
+      </form>
+
+      <div id="cpOut" class="cp-out" set:html={renderCompare(initial, ctx)} />
+      <p class="share"><button type="button" class="btn" id="cpShare">🔗 Bu karşılaştırmanın linkini kopyala</button><span id="cpShared" class="muted small" hidden>Link kopyalandı</span></p>
+    </div>
+  </section>
+  <section class="section-sm soft">
+    <div class="container">
+      <h2>Popüler karşılaştırmalar</h2>
+      <div class="pop">
+        {pairs.map(([a, b]) => <a class="card" href={`/karsilastir/${pairSlug(a, b)}`}><b>{name(a)}</b><span>vs</span><b>{name(b)}</b></a>)}
+      </div>
+      <GuideLinks />
+    </div>
+  </section>
+</Base>
+<script>
+  import { renderCompare } from '../../lib/compare';
+  import { compareCars, avgDc, avgAc } from '../../lib/ev';
+  const ctx = { avgDc, avgAc };
+  const form = document.getElementById('cpForm') as HTMLFormElement;
+  const out = document.getElementById('cpOut')!;
+  const sels = [...form.querySelectorAll('select')] as HTMLSelectElement[];
+  const q = new URLSearchParams(location.search);
+  ['a', 'b', 'c'].forEach((k, i) => { const v = q.get(k); if (v && compareCars.some((c) => c.slug === v)) sels[i].value = v; });
+  function draw(push = true) {
+    const cars = sels.map((s) => compareCars.find((c) => c.slug === s.value)).filter(Boolean) as typeof compareCars;
+    out.innerHTML = cars.length ? renderCompare(cars, ctx) : '<p class="muted">Karşılaştırmak için araç seç.</p>';
+    if (push) {
+      const p = new URLSearchParams();
+      sels.forEach((s, i) => s.value && p.set(['a', 'b', 'c'][i], s.value));
+      history.replaceState(null, '', `${location.pathname}?${p}`);
+    }
+  }
+  sels.forEach((s) => s.addEventListener('change', () => { draw(); (window as any).gtag?.('event', 'compare', { a: sels[0].value, b: sels[1].value, c: sels[2].value }); }));
+  document.getElementById('cpSwap')!.addEventListener('click', () => { const t = sels[0].value; sels[0].value = sels[1].value; sels[1].value = t; draw(); });
+  document.getElementById('cpShare')!.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(location.href); document.getElementById('cpShared')!.hidden = false; } catch {}
+  });
+  if ([...q.keys()].length) draw(false);
+</script>
+<style>
+  .intro { max-width: 720px; }
+  .cp-pick { display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 12px; padding: 16px; margin-top: 18px; align-items: end; }
+  .cp-pick label { display: flex; flex-direction: column; gap: 6px; font-size: .78rem; font-weight: 700; color: var(--muted); }
+  .cp-pick select { height: 44px; border: 1px solid var(--line); border-radius: 10px; padding: 0 10px; font: 600 .92rem var(--font); color: var(--ink); background: #fff; }
+  .swap { height: 44px; width: 44px; padding: 0; font-size: 1.2rem; }
+  .share { margin-top: 18px; display: flex; gap: 12px; align-items: center; }
+  .pop { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .pop a { padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+  .pop a span { color: var(--muted); font-size: .8rem; }
+  .pop a:hover b { color: var(--volt); }
+  @media (max-width: 760px) { .cp-pick { grid-template-columns: 1fr; } .swap { display: none; } }
+</style>

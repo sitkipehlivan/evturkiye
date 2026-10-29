@@ -67,3 +67,29 @@ export const GUIDES = [
   { href: '/elektrikli-arac-menzil', label: 'Elektrikli Araç Menzil Sıralaması', short: 'Menzil sıralaması', desc: 'WLTP ve gerçekçi otoyol menzili.' },
   { href: '/elektrikli-arac-sarj-maliyeti', label: 'Elektrikli Araç Şarj Maliyeti', short: 'Şarj maliyeti', desc: '100 km ve tam şarj maliyeti, model model.' },
 ];
+
+/** Karşılaştırma aracı için araç listesi (fotoğraflı). */
+import type { CCar } from './compare';
+export const compareCars: CCar[] = models.map((m) => ({
+  slug: m.slug, brand: m.brand, brandSlug: m.brandSlug, model: m.model, modelSlug: m.modelSlug, version: m.version, body: m.body,
+  battery: m.battery, wltp: m.wltp, dcMax: m.dcMax, acMax: m.acMax, highway: m.highway, hp: m.hp, accel: m.accel,
+  priceTL: m.priceTL, priceDate: m.priceDate, discontinued: m.discontinued, img: imgMap[`${m.brandSlug}/${m.modelSlug}`]?.src,
+}));
+const slugOf = (c: CCar) => `${c.brandSlug}-${c.modelSlug}`;
+/** Hazır (SEO) karşılaştırma sayfaları: versiyon slug çiftleri */
+export const POPULAR_PAIRS: [string, string][] = [
+  ['t10x-v2-rwd-uzun-menzil', 'model-y-rwd'],
+  ['t10f-v1-rwd-uzun-menzil', 'model-y-rwd'],
+  ['t10x-v2-rwd-standart-menzil', 'kona-electric-48-kwh'],
+  ['model-y-rwd', 'sealion-7-excellence-awd'],
+  ['ev3-long-range', 'ex30-extended-range'],
+  ['ioniq-3-long-range', 'ev2-long-range'],
+  ['r5-e-tech-ev52', 'grande-panda-44-kwh'],
+  ['e-3008-157-kw', 'elroq-60'],
+  ['ix1-edrive20', 'glb-200-plus'],
+  ['model-y-long-range-awd', 'ix3-50-xdrive'],
+  ['t10x-v2-rwd-uzun-menzil', 'ex30-extended-range'],
+  ['frontera-electric-54-kwh', 'e-c3-aircross-54-kwh'],
+];
+export const pairSlug = (a: CCar, b: CCar) => `${slugOf(a)}-vs-${slugOf(b)}`;
+export const carBySlug = (s: string) => compareCars.find((c) => c.slug === s);
