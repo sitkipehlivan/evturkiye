@@ -27,8 +27,40 @@
   "src": "/images/modeller/bmw-i4.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "bmw/i5": {
+  "src": "/images/modeller/bmw-i5.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
+ },
+ "bmw/i7": {
+  "src": "/images/modeller/bmw-i7.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
+ },
+ "bmw/ix1": {
+  "src": "/images/modeller/bmw-ix1.jpg",
+  "credit": "Wikimedia Commons / Vauxford, CC BY-SA 4.0"
+ },
+ "bmw/ix2": {
+  "src": "/images/modeller/bmw-ix2.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
+ },
+ "bmw/ix3": {
+  "src": "/images/modeller/bmw-ix3.jpg",
+  "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
+ "byd/atto-3": {
+  "src": "/images/modeller/byd-atto-3.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "byd/dolphin": {
+  "src": "/images/modeller/byd-dolphin.jpg",
+  "credit": "Wikimedia Commons / User3204, CC BY-SA 4.0"
+ },
  "byd/seal": {
   "src": "/images/modeller/byd-seal.jpg",
+  "credit": "Wikimedia Commons / User3204, CC BY-SA 4.0"
+ },
+ "byd/seal-u": {
+  "src": "/images/modeller/byd-seal-u.jpg",
   "credit": "Wikimedia Commons / User3204, CC BY-SA 4.0"
  },
  "byd/sealion-7": {
@@ -59,6 +91,18 @@
   "src": "/images/modeller/citroen-e-c5-aircross.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
+ "ds/n8": {
+  "src": "/images/modeller/ds-n8.jpg",
+  "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
+ "fiat/500e": {
+  "src": "/images/modeller/fiat-500e.jpg",
+  "credit": "Wikimedia Commons / Daniel Przygoda, CC BY-SA 4.0"
+ },
+ "fiat/600e": {
+  "src": "/images/modeller/fiat-600e.jpg",
+  "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
  "fiat/grande-panda": {
   "src": "/images/modeller/fiat-grande-panda.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
@@ -74,6 +118,10 @@
  "hyundai/inster": {
   "src": "/images/modeller/hyundai-inster.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
+ "hyundai/ioniq-3": {
+  "src": "/images/modeller/hyundai-ioniq-3.jpg",
+  "credit": "Wikimedia Commons / AutoGids, CC BY 3.0"
  },
  "hyundai/ioniq-5": {
   "src": "/images/modeller/hyundai-ioniq-5.jpg",
@@ -94,6 +142,10 @@
  "jeep/avenger": {
   "src": "/images/modeller/jeep-avenger.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
+ "kia/ev2": {
+  "src": "/images/modeller/kia-ev2.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
  "kia/ev3": {
   "src": "/images/modeller/kia-ev3.jpg",
@@ -119,6 +171,10 @@
   "src": "/images/modeller/mercedes-benz-cla.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "mercedes-benz/eqa": {
+  "src": "/images/modeller/mercedes-benz-eqa.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
  "mercedes-benz/eqe": {
   "src": "/images/modeller/mercedes-benz-eqe.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
@@ -139,6 +195,10 @@
   "src": "/images/modeller/mercedes-benz-glc.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "mg/mg4": {
+  "src": "/images/modeller/mg-mg4.jpg",
+  "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
  "mini/countryman": {
   "src": "/images/modeller/mini-countryman.jpg",
   "credit": "Wikimedia Commons / Vauxford, CC BY-SA 4.0"
@@ -146,6 +206,10 @@
  "opel/corsa-electric": {
   "src": "/images/modeller/opel-corsa-electric.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "opel/frontera-electric": {
+  "src": "/images/modeller/opel-frontera-electric.jpg",
+  "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
  },
  "opel/grandland-electric": {
   "src": "/images/modeller/opel-grandland-electric.jpg",
@@ -170,6 +234,10 @@
  "peugeot/e-5008": {
   "src": "/images/modeller/peugeot-e-5008.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "porsche/cayenne-electric": {
+  "src": "/images/modeller/porsche-cayenne-electric.jpg",
+  "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
  },
  "porsche/macan-electric": {
   "src": "/images/modeller/porsche-macan-electric.jpg",
@@ -203,9 +271,17 @@
   "src": "/images/modeller/skoda-enyaq-coupe.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
+ "tesla/model-3": {
+  "src": "/images/modeller/tesla-model-3.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
+ },
  "tesla/model-y": {
   "src": "/images/modeller/tesla-model-y.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
+ "togg/t10f": {
+  "src": "/images/modeller/togg-t10f.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
  "togg/t10x": {
   "src": "/images/modeller/togg-t10x.jpg",
@@ -219,6 +295,10 @@
   "src": "/images/modeller/volkswagen-id-7.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "volvo/ec40": {
+  "src": "/images/modeller/volvo-ec40.jpg",
+  "credit": "Wikimedia Commons / Elise240SX, CC BY-SA 4.0"
+ },
  "volvo/es90": {
   "src": "/images/modeller/volvo-es90.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
@@ -230,5 +310,9 @@
  "volvo/ex30-cross-country": {
   "src": "/images/modeller/volvo-ex30-cross-country.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
+ },
+ "volvo/ex40": {
+  "src": "/images/modeller/volvo-ex40.jpg",
+  "credit": "Wikimedia Commons / Elise240SX, CC BY-SA 4.0"
  }
 }
