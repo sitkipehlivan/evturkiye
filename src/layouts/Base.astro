@@ -33,19 +33,21 @@ const ogImage = new URL(image, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>
-      // Google Analytics 4 + Consent Mode v2: analitik çerezler yalnızca ziyaretçi onay verirse açılır.
+      // Google Analytics 4 + AdSense, Consent Mode v2: analitik ve reklam çerezleri yalnızca ziyaretçi onay verirse açılır;
+      // onay yoksa AdSense kişiselleştirilmemiş/sınırlı reklam gösterir.
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       (function () {
         var c = null;
         try { c = localStorage.getItem('evt-cerez'); } catch (e) {}
         var ok = c === 'kabul' ? 'granted' : 'denied';
-        gtag('consent', 'default', { analytics_storage: ok, ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+        gtag('consent', 'default', { analytics_storage: ok, ad_storage: ok, ad_user_data: ok, ad_personalization: ok, wait_for_update: 500 });
       })();
       gtag('js', new Date());
       gtag('config', 'G-6S4Y5HKH1N');
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S4Y5HKH1N"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5841017945537557" crossorigin="anonymous"></script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

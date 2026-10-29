@@ -1,8 +1,8 @@
 ---
-// Çerez bildirimi: analitik çerezler (Google Analytics) yalnızca "Kabul et" ile açılır.
+// Çerez bildirimi: analitik (Google Analytics) ve reklam (Google AdSense) çerezleri yalnızca "Kabul et" ile açılır.
 ---
 <div class="ck" id="ck" role="dialog" aria-live="polite" aria-label="Çerez tercihleri" hidden>
-  <p>Sitenin nasıl kullanıldığını anlamak için, onay verirseniz <b>Google Analytics</b> analitik çerezlerini kullanıyoruz. Zorunlu çerezler her zaman açıktır. <a href="/cerez-politikasi">Çerez Politikası</a></p>
+  <p>Onay verirseniz sitenin kullanımını ölçmek için <b>Google Analytics</b>, ilgi alanınıza uygun reklamlar için <b>Google AdSense</b> çerezlerini kullanıyoruz. Reddederseniz kişiselleştirilmemiş reklamlar görürsünüz; zorunlu çerezler her zaman açıktır. <a href="/cerez-politikasi">Çerez Politikası</a></p>
   <div class="ck-btns">
     <button type="button" class="ck-no" data-v="red">Reddet</button>
     <button type="button" class="ck-yes" data-v="kabul">Kabul et</button>
@@ -18,7 +18,7 @@
       b.addEventListener('click', function () {
         var v = b.getAttribute('data-v');
         try { localStorage.setItem('evt-cerez', v); } catch (e) {}
-        if (window.gtag) gtag('consent', 'update', { analytics_storage: v === 'kabul' ? 'granted' : 'denied' });
+        if (window.gtag) { var g = v === 'kabul' ? 'granted' : 'denied'; gtag('consent', 'update', { analytics_storage: g, ad_storage: g, ad_user_data: g, ad_personalization: g }); }
         box.hidden = true;
       });
     });
