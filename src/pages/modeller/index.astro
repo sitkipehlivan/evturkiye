@@ -1,17 +1,25 @@
 ---
 import Base from '../../layouts/Base.astro';
 import data from '../../data/models.json';
-const models = data.models;
-const groups = new Map<string, typeof models>();
-for (const m of models) { const k = `${m.brandSlug}/${m.modelSlug}`; groups.set(k, [...(groups.get(k) ?? []), m]); }
-const brands = [...new Set(models.map((m) => m.brand))];
+import ModelCard from '../../components/ModelCard.astro';
+import { models, modelGroups, price } from '../../lib/ev';
+const brands = [...new Set(models.map((m) => m.brand))].sort((a, b) => a.localeCompare(b, 'tr'));
+const bodies = [...new Set(modelGroups.map((g) => g.body))];
+const cards = [...modelGroups].sort((a, b) => (a.fromPrice ?? 9e9) - (b.fromPrice ?? 9e9));
 ---
-<Base title="Elektrikli Araç Modelleri: Batarya, Menzil ve Şarj Gücü Karşılaştırma" description="Türkiye'de satılan elektrikli otomobillerin batarya kapasitesi, WLTP menzili, DC/AC şarj gücü ve tahmini otoyol tüketimi.">
+<Base title="Türkiye'de Satılan Elektrikli Araçlar: Fiyat Listesi, Menzil ve Şarj" description={`Türkiye'de satılan ${modelGroups.length} elektrikli otomobil modeli: güncel liste fiyatları, WLTP menzil, batarya, DC/AC şarj gücü ve otoyol tüketimi karşılaştırması.`}>
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">EV veritabanı</span>
-      <h1>Elektrikli araç modelleri</h1>
-      <p class="muted intro">Batarya, menzil ve şarj gücüne göre karşılaştır. Sütun başlıklarına tıklayarak sırala.</p>
+      <h1>Türkiye'de satılan elektrikli araçlar</h1>
+      <p class="muted intro">{brands.length} markadan {modelGroups.length} elektrikli model ve {models.length} versiyon: güncel liste fiyatı, menzil ve şarj gücü. Kartlar en uygun fiyattan sıralıdır.</p>
+      <div class="filters" id="cf">
+        <button class="tag active" data-body="">Tüm kasalar</button>
+        {bodies.map((b) => <button class="tag" data-body={b}>{b}</button>)}
+      </div>
+      <div class="cards" id="cards">{cards.map((g) => <ModelCard g={g} />)}</div>
+      <h2 class="bh">Teknik karşılaştırma tablosu</h2>
+      <p class="muted small">Marka seçerek süz, sütun başlıklarına tıklayarak sırala.</p>
       <div class="brands">
         <button class="tag active" data-b="">Tümü</button>
         {brands.map((b) => <button class="tag" data-b={b}>{b}</button>)}
@@ -20,6 +28,7 @@ const brands = [...new Set(models.map((m) => m.brand))];
         <table id="mtable">
           <thead><tr>
             <th><button data-k="name">Model</button></th>
+            <th class="num"><button data-k="price">Fiyat</button></th>
             <th class="num"><button data-k="battery">Batarya</button></th>
             <th class="num"><button data-k="wltp">WLTP menzil</button></th>
             <th class="num"><button data-k="dc">DC maks.</button></th>
@@ -29,8 +38,9 @@ const brands = [...new Set(models.map((m) => m.brand))];
           </tr></thead>
           <tbody>
             {models.map((m) => (
-              <tr data-brand={m.brand} data-name={`${m.brand} ${m.model} ${m.version}`} data-battery={m.battery} data-wltp={m.wltp} data-dc={m.dcMax} data-ac={m.acMax} data-hw={m.highway}>
+              <tr data-brand={m.brand} data-name={`${m.brand} ${m.model} ${m.version}`} data-battery={m.battery} data-wltp={m.wltp} data-dc={m.dcMax} data-ac={m.acMax} data-hw={m.highway} data-price={m.priceTL ?? 0}>
                 <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td>
+                <td class="num nowrap">{m.priceTL ? price(m.priceTL) : '—'}</td>
                 <td class="num">{m.battery} kWh</td>
                 <td class="num">{m.wltp} km</td>
                 <td class="num">{m.dcMax} kW</td>
@@ -44,12 +54,17 @@ const brands = [...new Set(models.map((m) => m.brand))];
       </div>
       <p class="muted small foot">* {data.note}</p>
       <h2 class="bh">Markalara göre</h2>
-      <div class="brands">{brands.map((b) => <a class="tag" href={`/modeller/${models.find((m) => m.brand === b)!.brandSlug}`}>{b} elektrikli araçlar</a>)}</div>
+      <div class="brandlinks">{brands.map((b) => <a class="tag" href={`/modeller/${models.find((m) => m.brand === b)!.brandSlug}`}>{b} elektrikli araçlar</a>)}</div>
     </div>
   </section>
 </Base>
 <script>
   const tbody = document.querySelector('#mtable tbody')!;
+  document.querySelectorAll<HTMLButtonElement>('#cf button').forEach((b) => b.addEventListener('click', () => {
+    document.querySelectorAll('#cf button').forEach((x) => x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll<HTMLElement>('#cards > a').forEach((c) => (c.hidden = !!b.dataset.body && c.dataset.body !== b.dataset.body));
+  }));
   document.querySelectorAll<HTMLButtonElement>('.brands button').forEach((b) => b.addEventListener('click', () => {
     document.querySelectorAll('.brands button').forEach((x) => x.classList.remove('active'));
     b.classList.add('active');
@@ -65,6 +80,13 @@ const brands = [...new Set(models.map((m) => m.brand))];
 </script>
 <style>
   .intro { max-width: 680px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+  .filters button { border: 1px solid var(--line); background: #fff; cursor: pointer; height: 32px; padding: 0 14px; font-size: .84rem; }
+  .filters button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+  .cards > a[hidden] { display: none; }
+  .nowrap { white-space: nowrap; }
+  .brandlinks { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
   .brands { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
   .brands button { border: 1px solid var(--line); background: #fff; cursor: pointer; height: 32px; padding: 0 14px; font-size: .84rem; }
   .brands button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
