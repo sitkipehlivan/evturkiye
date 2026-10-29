@@ -64,20 +64,53 @@ const ogImage = new URL(image, Astro.site);
     </main>
     <Footer />
     <script is:inline>
-      // Büyük harfle yazılan etiketlerde noktalı "İ" yerine "I" kullan (CSS büyük harf dönüşümü dile göre yapılır)
+      // Büyük harfli etiketler Türkçe kurala göre çevrilir (i → İ). Yabancı kelimeler
+      // (Plug-in, marka/model adları) lang="en" ile işaretlenir; böylece büyük harfte noktasız I olur.
       (function () {
-        var fix = function (root) {
-          var els = (root || document.body).querySelectorAll('*');
-          for (var i = 0; i < els.length; i++) {
-            var el = els[i];
-            if (el.lang !== 'en' && getComputedStyle(el).textTransform === 'uppercase') el.lang = 'en';
-          }
+        var LIST = {};
+        'plug-in plugin hybrid hybride electric edition line online premium mini kia fiat audi hyundai nissan mitsubishi skoda citroen citroën xiaomi nio lucid rivian dolphin clio niro prius civic explorer tiggo octavia picanto tiguan ariya kamiq kodiaq qashqai ioniq wallbox wi-fi google apple android'.split(' ').forEach(function (w) { LIST[w] = 1; });
+        var foreign = function (w) {
+          if (!/[iI]/.test(w)) return false;
+          return !!LIST[w.toLowerCase()] || /[qwxQWX]/.test(w) || /^i[0-9A-Z]/.test(w) || /^ID\.[0-9]/.test(w);
         };
-        fix();
-        var t;
+        var up = function (el) { return el && el.nodeType === 1 && getComputedStyle(el).textTransform === 'uppercase'; };
+        var fixText = function (node) {
+          var v = node.nodeValue;
+          if (!/i/i.test(v)) return;
+          var RE = /[0-9A-Za-zÇĞİÖŞÜçğıöşüë]+(?:[.\-][0-9A-Za-zÇĞİÖŞÜçğıöşüë]+)*/g;
+          var frag = null, last = 0, m;
+          while ((m = RE.exec(v))) {
+            if (!foreign(m[0])) continue;
+            frag = frag || document.createDocumentFragment();
+            frag.appendChild(document.createTextNode(v.slice(last, m.index)));
+            var sp = document.createElement('span');
+            sp.lang = 'en'; sp.setAttribute('data-evt-en', '');
+            sp.textContent = m[0];
+            frag.appendChild(sp);
+            last = m.index + m[0].length;
+          }
+          if (!frag) return;
+          frag.appendChild(document.createTextNode(v.slice(last)));
+          node.parentNode.replaceChild(frag, node);
+        };
+        var fix = function (root) {
+          var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+            acceptNode: function (n) {
+              var p = n.parentNode;
+              if (!p || p.closest('script,style,textarea,[data-evt-en],[lang]:not(html)')) return NodeFilter.FILTER_REJECT;
+              return up(p) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+            },
+          });
+          var list = [], n;
+          while ((n = w.nextNode())) list.push(n);
+          list.forEach(fixText);
+        };
+        fix(document.body);
+        var t, q = [];
         new MutationObserver(function (m) {
+          m.forEach(function (r) { r.addedNodes.forEach(function (n) { q.push(n.nodeType === 1 ? n : n.parentNode); }); });
           clearTimeout(t);
-          t = setTimeout(function () { m.forEach(function (r) { r.addedNodes.forEach(function (n) { if (n.nodeType === 1) { if (getComputedStyle(n).textTransform === 'uppercase') n.lang = 'en'; fix(n); } }); }); }, 50);
+          t = setTimeout(function () { var l = q; q = []; l.forEach(function (n) { if (n && n.isConnected && !n.closest('[data-evt-en]')) fix(n); }); }, 50);
         }).observe(document.body, { childList: true, subtree: true });
       })();
     </script>
