@@ -1,0 +1,28 @@
+name: Operatör logoları (App Store)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['scripts/operator_logolari.py']
+permissions:
+  contents: write
+jobs:
+  logo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow
+      - run: python scripts/operator_logolari.py
+      - name: Kaydet
+        run: |
+          git config user.name "evturkiye-bot"
+          git config user.email "sitki.pehlivan@advancedigital.media"
+          git add public/images/operatorler
+          if git diff --cached --quiet; then echo "Değişiklik yok"; exit 0; fi
+          git commit -m "Operatör logoları"
+          git pull --rebase origin main
+          git push
