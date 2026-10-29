@@ -53,8 +53,14 @@ const tl = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, 
   .green { background: var(--green); }
 
   /* Rota */
-  .tc-route { border: 0; box-shadow: 0 0 0 1.5px rgba(10, 124, 255, .35) inset; }
-  .tc-route::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--grad); }
+  .tc-route { border: 0; color: #fff; background: radial-gradient(120% 140% at 100% 0%, #12a150 0%, #0b5e4a 42%, #0b1f3a 100%); }
+  .tc-route .tc-head em { color: #bdeccd; }
+  .tc-route .tc-ic.grad { background: #fff; }
+  .tc-route .tc-ic.grad svg { stroke: #0b5e4a; }
+  .tc-route .tc-in input { border: 0; background: rgba(255, 255, 255, .96); color: var(--ink); }
+  .tc-route .dot.b { background: #2ee07a; }
+  .tc-route .tc-btn.grad { background: #2ee07a; color: #062814; }
+  .tc-route:hover .tc-btn.grad, .tc-route:focus-within .tc-btn.grad { background: #4cf08f; }
   .tc-in { position: relative; }
   .tc-in input { width: 100%; height: 32px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px 0 26px; font: inherit; font-size: .82rem; }
   .dot { position: absolute; left: 10px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; pointer-events: none; }
