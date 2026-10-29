@@ -13,7 +13,7 @@ const onSale = modelGroups.filter((g) => g.onSale);
     <div class="container">
       <span class="eyebrow">EV veritabanı</span>
       <h1>Türkiye'de satılan elektrikli araçlar</h1>
-      <p class="muted intro">{brands.length} markadan Türkiye'de satışta olan {onSale.length} elektrikli model ve {models.filter((m) => !m.discontinued).length} versiyon: güncel liste fiyatı, menzil ve şarj gücü. Kartlar en uygun fiyattan sıralıdır.</p>
+      <p class="muted intro">{new Set(onSale.map((g) => g.brand)).size} markadan Türkiye'de satışta olan {onSale.length} elektrikli model ve {models.filter((m) => !m.discontinued).length} versiyon: güncel liste fiyatı, menzil ve şarj gücü. Kartlar en uygun fiyattan sıralıdır.</p>
       <div class="filters" id="cf">
         <button class="tag active" data-body="">Tüm kasalar</button>
         {bodies.map((b) => <button class="tag" data-body={b}>{b}</button>)}
