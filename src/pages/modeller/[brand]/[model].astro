@@ -45,7 +45,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
           <h1>{name}</h1>
           {g.fromPrice
             ? <p class="from"><em>Türkiye liste fiyatı · {monthTr(g.priceDate)}</em><b>{price(g.fromPrice)}</b><span>'den başlayan fiyatlarla</span></p>
-            : <p class="from none">Güncel fiyat için distribütörün fiyat listesine bakın.</p>}
+            : <p class="from none">{g.onSale ? 'Güncel fiyat için distribütörün fiyat listesine bakın.' : `${name} Türkiye'de artık yeni olarak satılmıyor; teknik veriler ikinci el alıcılar ve mevcut sahipler için yer alıyor.`}</p>}
           <ul class="facts">
             <li><b>{range}</b><span>WLTP menzil</span></li>
             <li><b>{Math.max(...versions.map((v) => v.dcMax))} kW</b><span>DC hızlı şarj</span></li>
@@ -64,7 +64,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
           const per100 = (v.highway / 0.93) * avgDc;
           return (
             <article class="card ver">
-              <h3>{v.version}</h3>
+              <h3>{v.version}{v.discontinued && <span class="off">Satıştan kalktı</span>}</h3>
               {v.priceTL && <p class="vprice">{price(v.priceTL)}<small> · {monthTr(v.priceDate)} liste fiyatı</small></p>}
               <dl>
                 {v.hp && <div><dt>Güç</dt><dd>{v.hp} PS</dd></div>}
@@ -120,6 +120,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
   .facts b { display: block; font: 800 1.05rem var(--font-head); }
   .facts span { font-size: .74rem; color: var(--muted); font-weight: 600; }
   .vh { margin-top: 30px; font-size: 1.25rem; }
+  .ver h3 .off { margin-left: 8px; vertical-align: middle; font-size: .68rem; font-weight: 700; background: #0f172a; color: #fff; border-radius: 999px; padding: 3px 9px; }
   .vprice { margin: -6px 0 0; font-weight: 800; color: var(--green); }
   .vprice small { color: var(--muted); font-weight: 600; }
   .nws { margin-bottom: 30px; }

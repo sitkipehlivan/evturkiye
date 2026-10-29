@@ -13,7 +13,7 @@ export function getStaticPaths() {
 const { brand } = Astro.params;
 const { name } = Astro.props;
 const list = models.filter((m) => m.brandSlug === brand);
-const groups = modelGroups.filter((g) => g.brandSlug === brand).sort((a, b) => (a.fromPrice ?? 9e9) - (b.fromPrice ?? 9e9));
+const groups = modelGroups.filter((g) => g.brandSlug === brand).sort((a, b) => (Number(b.onSale) - Number(a.onSale)) || (a.fromPrice ?? 9e9) - (b.fromPrice ?? 9e9));
 const priced = groups.filter((g) => g.fromPrice);
 const pd = priced[0]?.priceDate;
 const modelNames = [...new Set(list.map((m) => m.model))];
@@ -34,7 +34,7 @@ const jsonLd = {
       <nav class="crumbs small muted"><a href="/modeller">Modeller</a> / {name}</nav>
       <span class="eyebrow">Marka</span>
       <h1>{name} elektrikli araçlar</h1>
-      <p class="lede">{name} markasının Türkiye'de satılan elektrikli modelleri ({list.length} versiyon): menzil, şarj süresi ve 100 km şarj maliyeti. Hesaplar operatörlerin ortalama DC fiyatıyla ({tl(avgDc)}/kWh) yapılmıştır.</p>
+      <p class="lede">{name} markasının Türkiye'de satılan elektrikli modelleri ({list.filter((m) => !m.discontinued).length} versiyon): menzil, şarj süresi ve 100 km şarj maliyeti. Hesaplar operatörlerin ortalama DC fiyatıyla ({tl(avgDc)}/kWh) yapılmıştır.</p>
       <div class="cards">{groups.map((g) => <ModelCard g={g} showBrand={false} />)}</div>
       <h2 class="mt">{name} elektrikli modeller karşılaştırma{pd && ` ve ${monthTr(pd)} fiyatları`}</h2>
       <div class="table-wrap">

@@ -7,22 +7,23 @@ export const CHARGE_EFF = 0.93;
 export interface Model {
   slug: string; brand: string; brandSlug: string; model: string; modelSlug: string; version: string; body: string;
   battery: number; wltp: number; dcMax: number; acMax: number; highway: number;
-  hp?: number; accel?: number; priceTL?: number; priceDate?: string; priceSource?: string; wiki?: string;
+  hp?: number; accel?: number; priceTL?: number; priceDate?: string; priceSource?: string; wiki?: string; discontinued?: boolean;
 }
 export const models = data.models as Model[];
 
 /** Model (marka+model) bazında gruplar: versiyonlar, fotoğraf, başlangıç fiyatı */
-export interface ModelGroup { key: string; brand: string; brandSlug: string; model: string; modelSlug: string; body: string; versions: Model[]; image?: { src: string; credit: string }; fromPrice?: number; priceDate?: string; wltpMax: number; }
+export interface ModelGroup { key: string; brand: string; brandSlug: string; model: string; modelSlug: string; body: string; versions: Model[]; image?: { src: string; credit: string }; fromPrice?: number; priceDate?: string; wltpMax: number; onSale: boolean; }
 const imgMap = images as Record<string, { src: string; credit: string }>;
 export const modelGroups: ModelGroup[] = (() => {
   const map = new Map<string, Model[]>();
   for (const m of models) { const k = `${m.brandSlug}/${m.modelSlug}`; map.set(k, [...(map.get(k) ?? []), m]); }
   return [...map.entries()].map(([key, versions]) => {
-    const priced = versions.filter((v) => v.priceTL);
+    const live = versions.filter((v) => !v.discontinued);
+    const priced = live.filter((v) => v.priceTL);
     const cheapest = priced.sort((a, b) => a.priceTL! - b.priceTL!)[0];
     const v0 = versions[0];
     return { key, brand: v0.brand, brandSlug: v0.brandSlug, model: v0.model, modelSlug: v0.modelSlug, body: v0.body, versions,
-      image: imgMap[key], fromPrice: cheapest?.priceTL, priceDate: cheapest?.priceDate, wltpMax: Math.max(...versions.map((v) => v.wltp)) };
+      image: imgMap[key], fromPrice: cheapest?.priceTL, priceDate: cheapest?.priceDate, wltpMax: Math.max(...(live.length ? live : versions).map((v) => v.wltp)), onSale: live.length > 0 };
   });
 })();
 export const groupOf = (brandSlug: string, modelSlug: string) => modelGroups.find((g) => g.brandSlug === brandSlug && g.modelSlug === modelSlug)!;

@@ -5,19 +5,20 @@ interface Props { g: ModelGroup; showBrand?: boolean; }
 const { g, showBrand = true } = Astro.props;
 const maxDc = Math.max(...g.versions.map((v) => v.dcMax));
 ---
-<a class="mc card" href={`/modeller/${g.brandSlug}/${g.modelSlug}`} data-brand={g.brand} data-body={g.body}>
+<a class:list={['mc card', { off: !g.onSale }]} href={`/modeller/${g.brandSlug}/${g.modelSlug}`} data-brand={g.brand} data-body={g.body}>
   <div class="mc-img">
     {g.image
       ? <img src={g.image.src} alt={`${g.brand} ${g.model}`} loading="lazy" width="600" height="338" />
       : <div class="mc-ph" aria-hidden="true"><span>{g.brand}</span><b>{g.model}</b></div>}
     <span class="mc-body">{g.body}</span>
+    {!g.onSale && <span class="mc-off">Satıştan kalktı</span>}
   </div>
   <div class="mc-txt">
     <b class="mc-name">{showBrand && <span class="muted">{g.brand} </span>}{g.model}</b>
     <span class="mc-meta">{g.wltpMax} km WLTP · {maxDc} kW DC{g.versions.length > 1 && ` · ${g.versions.length} versiyon`}</span>
     {g.fromPrice
       ? <span class="mc-price"><em>{monthTr(g.priceDate)} liste fiyatı</em>{price(g.fromPrice)}<small>'den başlayan</small></span>
-      : <span class="mc-price none">Fiyat için distribütöre bakın</span>}
+      : <span class="mc-price none">{g.onSale ? 'Fiyat için distribütöre bakın' : 'Türkiye\'de yeni satışta değil'}</span>}
   </div>
 </a>
 <style>
@@ -29,6 +30,8 @@ const maxDc = Math.max(...g.versions.map((v) => v.dcMax));
   .mc-ph span { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   .mc-ph b { font: 800 1.5rem/1.1 var(--font-head); background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .mc-body { position: absolute; left: 10px; top: 10px; font-size: .68rem; font-weight: 700; background: rgba(255, 255, 255, .92); border-radius: 999px; padding: 3px 9px; }
+  .mc-off { position: absolute; right: 10px; top: 10px; font-size: .68rem; font-weight: 700; background: #0f172a; color: #fff; border-radius: 999px; padding: 3px 9px; }
+  .mc.off .mc-img { filter: grayscale(.7); opacity: .8; }
   .mc-txt { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px 14px; }
   .mc-name { font: 800 1.02rem/1.2 var(--font-head); }
   .mc-name .muted { font-weight: 600; }
