@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import c from '../data/company.json';
+const name = c.name || 'EV Türkiye';
+---
+<Base title="Çerez Politikası" description="EV Türkiye'de kullanılan zorunlu ve analitik çerezler, Google Analytics ve çerez tercihlerinizi nasıl değiştirebileceğiniz.">
+  <section class="section-sm">
+    <div class="container prose">
+      <h1>Çerez Politikası</h1>
+      <p>Bu politika, {name} tarafından işletilen EV Türkiye sitesinde (evturkiye.com.tr ve evturkiye.online) kullanılan çerezler ve benzeri teknolojiler hakkında bilgi verir. Kişisel verilerin işlenmesine ilişkin ayrıntılar için <a href="/kvkk-aydinlatma-metni">KVKK Aydınlatma Metni</a>'ni inceleyebilirsiniz.</p>
+
+      <h2>Çerez nedir?</h2>
+      <p>Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınıza kaydedilen küçük metin dosyalarıdır. Benzer amaçla tarayıcının yerel depolama alanı (localStorage) da kullanılabilir.</p>
+
+      <h2>Kullandığımız çerezler</h2>
+      <table>
+        <thead><tr><th>Tür</th><th>Amaç</th><th>Onay</th></tr></thead>
+        <tbody>
+          <tr><td><b>Zorunlu</b></td><td>Üyelik oturumunun açık kalması, çerez tercihinizin hatırlanması, günlük rota ve istasyon arama haklarının takibi, kayıtlı aracınızın hatırlanması.</td><td>Gerekmez (hizmetin çalışması için zorunludur)</td></tr>
+          <tr><td><b>Analitik</b></td><td>Google Analytics 4 ile sayfaların ne kadar ziyaret edildiğini ve sitenin nasıl kullanıldığını toplu olarak ölçmek. Bu bilgiler sizi kişisel olarak tanımlamak için kullanılmaz.</td><td>Yalnızca "Kabul et" seçerseniz</td></tr>
+          <tr><td><b>Reklam</b></td><td>Sitede reklam alanları yayına alındığında reklam ortaklarının çerezleri. Şu an kullanılmamaktadır; kullanılmaya başlandığında bu politika güncellenecek ve ayrıca onayınız istenecektir.</td><td>Ayrı onay</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Google Analytics</h2>
+      <p>Analitik ölçüm Google Ireland Limited / Google LLC tarafından sağlanan Google Analytics 4 ile yapılır. Onay vermediğiniz sürece analitik çerezler tarayıcınıza yazılmaz (Google Consent Mode). Google'ın verileri nasıl kullandığı hakkında: <a href="https://policies.google.com/technologies/partner-sites?hl=tr" rel="noopener">Google ortak siteleri politikası</a>.</p>
+
+      <h2>Tercihinizi nasıl değiştirirsiniz?</h2>
+      <p>Sayfanın en altındaki <b>Çerez tercihleri</b> bağlantısından seçiminizi istediğiniz zaman değiştirebilirsiniz. Tarayıcı ayarlarınızdan çerezleri silebilir veya engelleyebilirsiniz; zorunlu çerezleri engellemeniz halinde üyelik gibi bazı özellikler çalışmayabilir.</p>
+
+      <p class="muted small">Son güncelleme: 29 Ekim 2026</p>
+    </div>
+  </section>
+</Base>

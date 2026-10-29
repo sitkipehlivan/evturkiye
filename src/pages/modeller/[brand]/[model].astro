@@ -1,32 +1,61 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import data from '../../../data/models.json';
-import ops from '../../../data/operators.json';
-import { tl } from '../../../lib/util';
+import ModelCard from '../../../components/ModelCard.astro';
+import NewsCard from '../../../components/NewsCard.astro';
+import { tl, getNews } from '../../../lib/util';
+import { modelGroups, groupOf, avgDc, price, monthTr } from '../../../lib/ev';
 import GuideLinks from '../../../components/GuideLinks.astro';
 export function getStaticPaths() {
-  const seen = new Set<string>();
-  return data.models.filter((m) => { const k = m.brandSlug + m.modelSlug; if (seen.has(k)) return false; seen.add(k); return true; })
-    .map((m) => ({ params: { brand: m.brandSlug, model: m.modelSlug } }));
+  return modelGroups.map((g) => ({ params: { brand: g.brandSlug, model: g.modelSlug } }));
 }
 const { brand, model } = Astro.params;
-const versions = data.models.filter((m) => m.brandSlug === brand && m.modelSlug === model);
+const g = groupOf(brand!, model!);
+const versions = g.versions;
 const v0 = versions[0];
 const name = `${v0.brand} ${v0.model}`;
-const avgDc = ops.operators.reduce((a, o) => a + o.dc, 0) / ops.operators.length;
-const others = data.models.filter((m) => m.brandSlug !== brand || m.modelSlug !== model)
-  .filter((m, i, arr) => arr.findIndex((x) => x.modelSlug === m.modelSlug && x.brandSlug === m.brandSlug) === i).slice(0, 8);
+const same = modelGroups.filter((x) => x.brandSlug === brand && x.key !== g.key);
+const rivals = modelGroups.filter((x) => x.brandSlug !== brand && x.body === g.body)
+  .sort((a, b) => Math.abs((a.fromPrice ?? 9e9) - (g.fromPrice ?? 0)) - Math.abs((b.fromPrice ?? 9e9) - (g.fromPrice ?? 0)));
+const others = [...same, ...rivals].slice(0, 8);
+const lc = (s: string) => s.toLocaleLowerCase('tr');
+const news = (await getNews()).filter((p) => lc(`${p.data.title} ${p.data.description}`).includes(lc(name))).slice(0, 3);
+const wl = versions.map((v) => v.wltp);
+const range = Math.min(...wl) === Math.max(...wl) ? `${wl[0]} km` : `${Math.min(...wl)}–${Math.max(...wl)} km`;
+const hps = versions.map((v) => v.hp).filter(Boolean) as number[];
 const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'Car', name, brand: { '@type': 'Brand', name: v0.brand },
+  '@context': 'https://schema.org', '@type': 'Car', name, brand: { '@type': 'Brand', name: v0.brand }, bodyType: v0.body,
   fuelType: 'Electric', vehicleEngine: { '@type': 'EngineSpecification', fuelType: 'Electric' },
+  ...(g.image ? { image: new URL(g.image.src, Astro.site).toString() } : {}),
+  ...(g.fromPrice ? { offers: { '@type': 'Offer', priceCurrency: 'TRY', price: g.fromPrice, availability: 'https://schema.org/InStock' } } : {}),
 };
+const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'den başlıyor (${monthTr(g.priceDate)})` : ''}. ${range} WLTP menzil, ${Math.max(...versions.map((v) => v.dcMax))} kW DC şarj, şarj süresi ve 100 km maliyeti.`;
 ---
-<Base title={`${name}: Batarya, Menzil, Şarj Süresi ve Şarj Maliyeti`} description={`${name} teknik verileri: ${v0.battery} kWh batarya, ${v0.wltp} km WLTP menzil, ${v0.dcMax} kW DC şarj. Hızlı şarj süresi ve maliyet hesaplaması.`} jsonLd={jsonLd}>
+<Base title={`${name} Fiyatı, Menzili ve Şarj Süresi${g.priceDate ? ` (${monthTr(g.priceDate)})` : ''}`} description={desc} jsonLd={jsonLd} image={g.image?.src}>
   <section class="section-sm">
     <div class="container">
       <nav class="small muted crumbs"><a href="/modeller">Modeller</a> / <a href={`/modeller/${brand}`}>{v0.brand}</a> / {v0.model}</nav>
-      <span class="eyebrow">{v0.body}</span>
-      <h1>{name}</h1>
+      <div class="hero">
+        <figure class="hero-img">
+          {g.image
+            ? <><img src={g.image.src} alt={`${name} elektrikli ${v0.body.toLocaleLowerCase('tr')}`} width="1200" height="675" /><figcaption>Fotoğraf: {g.image.credit}</figcaption></>
+            : <div class="ph" aria-hidden="true"><span>{v0.brand}</span><b>{v0.model}</b></div>}
+        </figure>
+        <div class="hero-txt">
+          <span class="eyebrow">{v0.body} · Elektrikli</span>
+          <h1>{name}</h1>
+          {g.fromPrice
+            ? <p class="from"><em>Türkiye liste fiyatı · {monthTr(g.priceDate)}</em><b>{price(g.fromPrice)}</b><span>'den başlayan fiyatlarla</span></p>
+            : <p class="from none">Güncel fiyat için distribütörün fiyat listesine bakın.</p>}
+          <ul class="facts">
+            <li><b>{range}</b><span>WLTP menzil</span></li>
+            <li><b>{Math.max(...versions.map((v) => v.dcMax))} kW</b><span>DC hızlı şarj</span></li>
+            {hps.length > 0 && <li><b>{Math.min(...hps) === Math.max(...hps) ? hps[0] : `${Math.min(...hps)}–${Math.max(...hps)}`} PS</b><span>Güç</span></li>}
+            <li><b>{versions.length}</b><span>Versiyon</span></li>
+          </ul>
+          <a class="btn btn-volt" href={`/rota-planlayici?car=${v0.slug}`}>Bu araçla rota planla</a>
+        </div>
+      </div>
+      <h2 class="vh">{name} versiyonları ve teknik veriler</h2>
       <div class="versions">
         {versions.map((v) => {
           const e = v.battery * 0.7; // %10 → %80
@@ -35,8 +64,11 @@ const jsonLd = {
           const per100 = (v.highway / 0.93) * avgDc;
           return (
             <article class="card ver">
-              <h2>{v.version}</h2>
+              <h3>{v.version}</h3>
+              {v.priceTL && <p class="vprice">{price(v.priceTL)}<small> · {monthTr(v.priceDate)} liste fiyatı</small></p>}
               <dl>
+                {v.hp && <div><dt>Güç</dt><dd>{v.hp} PS</dd></div>}
+                {v.accel && <div><dt>0–100 km/s</dt><dd>{v.accel.toLocaleString('tr-TR')} sn</dd></div>}
                 <div><dt>Batarya (kullanılabilir)</dt><dd>{v.battery} kWh</dd></div>
                 <div><dt>WLTP menzil</dt><dd>{v.wltp} km</dd></div>
                 <div><dt>DC maks. şarj</dt><dd>{v.dcMax} kW</dd></div>
@@ -54,14 +86,15 @@ const jsonLd = {
           );
         })}
       </div>
-      <p class="muted small">Teknik veriler üretici açıklamalarına dayanır ve yaklaşıktır. Şarj süresi, ideal koşullarda ortalama şarj gücüyle; maliyet, operatörlerin ortalama DC fiyatı ({tl(avgDc)}/kWh) ile hesaplanmıştır.</p>
+      <p class="muted small">Fiyatlar distribütörün açıkladığı anahtar teslim liste fiyatlarıdır; kampanya ve donanım paketlerine göre değişebilir, satın almadan önce yetkili satıcıdan teyit edin. Teknik veriler üretici açıklamalarına dayanır ve yaklaşıktır. Şarj süresi, ideal koşullarda ortalama şarj gücüyle; maliyet, operatörlerin ortalama DC fiyatı ({tl(avgDc)}/kWh) ile hesaplanmıştır.</p>
     </div>
   </section>
   <section class="section-sm soft">
     <div class="container">
-      <h2>Diğer modeller</h2>
+      {news.length > 0 && <><h2>{name} haberleri</h2><div class="grid grid-3 nws">{news.map((p) => <NewsCard post={p} />)}</div></>}
+      <h2>Benzer modeller ve rakipler</h2>
       <p class="small"><a class="blink" href={`/modeller/${brand}`}>Tüm {v0.brand} elektrikli modelleri →</a></p>
-      <div class="others">{others.map((m) => <a class="card" href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b><span class="muted small">{m.battery} kWh · {m.wltp} km</span></a>)}</div>
+      <div class="others">{others.map((x) => <ModelCard g={x} />)}</div>
       <GuideLinks />
     </div>
   </section>
@@ -69,10 +102,30 @@ const jsonLd = {
 <style>
   .blink { color: var(--volt); font-weight: 600; }
   .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
-  h1 { margin-top: 8px; }
+  .hero { display: grid; grid-template-columns: 1.25fr 1fr; gap: 28px; align-items: center; margin: 6px 0 10px; }
+  .hero-img { margin: 0; }
+  .hero-img img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; display: block; background: var(--soft-2); }
+  .hero-img figcaption { font-size: .7rem; color: var(--muted); margin-top: 6px; }
+  .ph { aspect-ratio: 16 / 9; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(120% 120% at 100% 0%, #e8f2ff, #e8f7ee 60%, #f6f8fa); }
+  .ph span { font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .ph b { font: 800 2.6rem/1.1 var(--font-head); background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h1 { margin: 6px 0 10px; }
+  .from { margin: 0 0 16px; }
+  .from em { display: block; font-style: normal; font-size: .76rem; font-weight: 600; color: var(--muted); }
+  .from b { font: 800 1.9rem/1.15 var(--font-head); color: var(--green); }
+  .from span { font-weight: 600; color: var(--ink-2); }
+  .from.none { color: var(--muted); }
+  .facts { list-style: none; padding: 0; margin: 0 0 18px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .facts li { background: var(--soft); border-radius: 12px; padding: 10px 12px; }
+  .facts b { display: block; font: 800 1.05rem var(--font-head); }
+  .facts span { font-size: .74rem; color: var(--muted); font-weight: 600; }
+  .vh { margin-top: 30px; font-size: 1.25rem; }
+  .vprice { margin: -6px 0 0; font-weight: 800; color: var(--green); }
+  .vprice small { color: var(--muted); font-weight: 600; }
+  .nws { margin-bottom: 30px; }
   .versions { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 20px 0 14px; }
   .ver { padding: 22px; display: flex; flex-direction: column; gap: 14px; }
-  .ver h2 { font-size: 1.15rem; margin: 0; }
+  .ver h3 { font-size: 1.15rem; margin: 0; }
   dl { margin: 0; display: grid; gap: 0; }
   dl div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .93rem; }
   dt { color: var(--muted); } dd { margin: 0; font-weight: 700; }
@@ -80,7 +133,7 @@ const jsonLd = {
   .calc div { background: var(--soft); border-radius: 10px; padding: 10px; }
   .calc span { display: block; font-size: .72rem; color: var(--muted); font-weight: 600; }
   .calc b { font-size: .98rem; color: var(--green); }
-  .others { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .others a { padding: 14px 16px; display: flex; flex-direction: column; }
-  @media (max-width: 800px) { .others { grid-template-columns: repeat(2, 1fr); } }
+  .others { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 16px; } .others { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .others { grid-template-columns: 1fr; } .from b { font-size: 1.6rem; } }
 </style>

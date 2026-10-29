@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import CookieBanner from '../components/CookieBanner.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import AuthDialog from '../components/AuthDialog.astro';
@@ -31,6 +32,20 @@ const ogImage = new URL(image, Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Google Analytics 4 + Consent Mode v2: analitik çerezler yalnızca ziyaretçi onay verirse açılır.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      (function () {
+        var c = null;
+        try { c = localStorage.getItem('evt-cerez'); } catch (e) {}
+        var ok = c === 'kabul' ? 'granted' : 'denied';
+        gtag('consent', 'default', { analytics_storage: ok, ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+      })();
+      gtag('js', new Date());
+      gtag('config', 'G-6S4Y5HKH1N');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S4Y5HKH1N"></script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -115,5 +130,6 @@ const ogImage = new URL(image, Astro.site);
       })();
     </script>
     {fbMeta && <AuthDialog />}
+    <CookieBanner />
   </body>
 </html>

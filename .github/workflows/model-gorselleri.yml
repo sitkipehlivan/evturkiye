@@ -1,0 +1,32 @@
+# models.json'daki `wiki` alanından model fotoğraflarını Wikimedia Commons'tan çeker (ücretsiz, yapay zekâ yok).
+name: Model görselleri (Wikimedia)
+on:
+  push:
+    branches: [main]
+    paths: ['src/data/models.json', 'scripts/model_gorselleri.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: model-gorselleri
+  cancel-in-progress: false
+jobs:
+  gorsel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow pyyaml
+      - run: python scripts/model_gorselleri.py
+      - name: Değişiklik varsa kaydet
+        run: |
+          git config user.name "evturkiye-bot"
+          git config user.email "sitki.pehlivan@advancedigital.media"
+          git add public/images/modeller src/data/model-images.json
+          if git diff --cached --quiet; then echo "Yeni görsel yok"; exit 0; fi
+          git commit -m "Model görselleri: $(git diff --cached --name-only -- public | wc -l) yeni (Wikimedia)"
+          git pull --rebase origin main
+          git push

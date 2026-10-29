@@ -1,10 +1,36 @@
 // Konu (rehber) sayfaları ve marka sayfaları için ortak hesaplar.
 import data from '../data/models.json';
 import ops from '../data/operators.json';
+import images from '../data/model-images.json';
 
 export const CHARGE_EFF = 0.93;
-export const models = data.models;
-export type Model = (typeof models)[number];
+export interface Model {
+  slug: string; brand: string; brandSlug: string; model: string; modelSlug: string; version: string; body: string;
+  battery: number; wltp: number; dcMax: number; acMax: number; highway: number;
+  hp?: number; accel?: number; priceTL?: number; priceDate?: string; priceSource?: string; wiki?: string;
+}
+export const models = data.models as Model[];
+
+/** Model (marka+model) bazında gruplar: versiyonlar, fotoğraf, başlangıç fiyatı */
+export interface ModelGroup { key: string; brand: string; brandSlug: string; model: string; modelSlug: string; body: string; versions: Model[]; image?: { src: string; credit: string }; fromPrice?: number; priceDate?: string; wltpMax: number; }
+const imgMap = images as Record<string, { src: string; credit: string }>;
+export const modelGroups: ModelGroup[] = (() => {
+  const map = new Map<string, Model[]>();
+  for (const m of models) { const k = `${m.brandSlug}/${m.modelSlug}`; map.set(k, [...(map.get(k) ?? []), m]); }
+  return [...map.entries()].map(([key, versions]) => {
+    const priced = versions.filter((v) => v.priceTL);
+    const cheapest = priced.sort((a, b) => a.priceTL! - b.priceTL!)[0];
+    const v0 = versions[0];
+    return { key, brand: v0.brand, brandSlug: v0.brandSlug, model: v0.model, modelSlug: v0.modelSlug, body: v0.body, versions,
+      image: imgMap[key], fromPrice: cheapest?.priceTL, priceDate: cheapest?.priceDate, wltpMax: Math.max(...versions.map((v) => v.wltp)) };
+  });
+})();
+export const groupOf = (brandSlug: string, modelSlug: string) => modelGroups.find((g) => g.brandSlug === brandSlug && g.modelSlug === modelSlug)!;
+/** 2650000 -> "2.650.000 TL" */
+export const price = (v?: number) => (v ? v.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + ' TL' : '');
+const AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+/** "2026-10" -> "Ekim 2026" */
+export const monthTr = (s?: string) => { if (!s) return ''; const [y, m] = s.split('-').map(Number); return `${AYLAR[m - 1]} ${y}`; };
 
 const acList = ops.operators.filter((o) => o.ac != null).map((o) => o.ac as number);
 const dcList = ops.operators.map((o) => o.dc);

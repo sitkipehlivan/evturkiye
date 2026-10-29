@@ -1,0 +1,40 @@
+---
+// Model kartı: fotoğraf (yoksa markalı yer tutucu), ad, başlangıç fiyatı, menzil.
+import { type ModelGroup, price, monthTr } from '../lib/ev';
+interface Props { g: ModelGroup; showBrand?: boolean; }
+const { g, showBrand = true } = Astro.props;
+const maxDc = Math.max(...g.versions.map((v) => v.dcMax));
+---
+<a class="mc card" href={`/modeller/${g.brandSlug}/${g.modelSlug}`} data-brand={g.brand} data-body={g.body}>
+  <div class="mc-img">
+    {g.image
+      ? <img src={g.image.src} alt={`${g.brand} ${g.model}`} loading="lazy" width="600" height="338" />
+      : <div class="mc-ph" aria-hidden="true"><span>{g.brand}</span><b>{g.model}</b></div>}
+    <span class="mc-body">{g.body}</span>
+  </div>
+  <div class="mc-txt">
+    <b class="mc-name">{showBrand && <span class="muted">{g.brand} </span>}{g.model}</b>
+    <span class="mc-meta">{g.wltpMax} km WLTP · {maxDc} kW DC{g.versions.length > 1 && ` · ${g.versions.length} versiyon`}</span>
+    {g.fromPrice
+      ? <span class="mc-price"><em>{monthTr(g.priceDate)} liste fiyatı</em>{price(g.fromPrice)}<small>'den başlayan</small></span>
+      : <span class="mc-price none">Fiyat için distribütöre bakın</span>}
+  </div>
+</a>
+<style>
+  .mc { display: flex; flex-direction: column; overflow: hidden; padding: 0; color: var(--ink); transition: transform .15s, box-shadow .15s; }
+  .mc:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(15, 23, 42, .1); color: var(--ink); }
+  .mc-img { position: relative; aspect-ratio: 16 / 9; background: var(--soft-2); overflow: hidden; }
+  .mc-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mc-ph { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(120% 120% at 100% 0%, #e8f2ff, #e8f7ee 60%, #f6f8fa); }
+  .mc-ph span { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .mc-ph b { font: 800 1.5rem/1.1 var(--font-head); background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .mc-body { position: absolute; left: 10px; top: 10px; font-size: .68rem; font-weight: 700; background: rgba(255, 255, 255, .92); border-radius: 999px; padding: 3px 9px; }
+  .mc-txt { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px 14px; }
+  .mc-name { font: 800 1.02rem/1.2 var(--font-head); }
+  .mc-name .muted { font-weight: 600; }
+  .mc-meta { font-size: .78rem; color: var(--muted); }
+  .mc-price { margin-top: 6px; font-weight: 800; color: var(--green); font-size: 1rem; }
+  .mc-price em { display: block; font-style: normal; font-size: .68rem; font-weight: 600; color: var(--muted); }
+  .mc-price small { font-weight: 600; font-size: .78rem; color: var(--ink-2); }
+  .mc-price.none { font-size: .8rem; color: var(--muted); font-weight: 600; }
+</style>
