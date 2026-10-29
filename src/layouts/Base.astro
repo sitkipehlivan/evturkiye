@@ -63,6 +63,24 @@ const ogImage = new URL(image, Astro.site);
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      // Büyük harfle yazılan etiketlerde noktalı "İ" yerine "I" kullan (CSS büyük harf dönüşümü dile göre yapılır)
+      (function () {
+        var fix = function (root) {
+          var els = (root || document.body).querySelectorAll('*');
+          for (var i = 0; i < els.length; i++) {
+            var el = els[i];
+            if (el.lang !== 'en' && getComputedStyle(el).textTransform === 'uppercase') el.lang = 'en';
+          }
+        };
+        fix();
+        var t;
+        new MutationObserver(function (m) {
+          clearTimeout(t);
+          t = setTimeout(function () { m.forEach(function (r) { r.addedNodes.forEach(function (n) { if (n.nodeType === 1) { if (getComputedStyle(n).textTransform === 'uppercase') n.lang = 'en'; fix(n); } }); }); }, 50);
+        }).observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
     {fbMeta && <AuthDialog />}
   </body>
 </html>
