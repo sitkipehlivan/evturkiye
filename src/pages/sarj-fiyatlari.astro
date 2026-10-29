@@ -21,7 +21,7 @@ const jsonLd = {
       <p class="muted intro">Türkiye'deki şarj operatörlerinin standart (kampanyasız) AC ve DC kWh fiyatları. <b>Son güncelleme: {updated}.</b></p>
 
       <div class="stats">
-        <div class="card"><span>En uygun DC</span><b class="g">{tl(minDc)}</b><em>{list[0].name}</em></div>
+        <div class="card"><span>En uygun DC</span><b class="g">{tl(minDc)}</b><em><img class="sl" src={`/images/operatorler/${list[0].id}.png`} alt="" width="18" height="18" />{list[0].name}</em></div>
         <div class="card"><span>Ortalama DC</span><b>{tl(avgDc)}</b><em>{list.length} operatör</em></div>
         <div class="card"><span>En uygun AC</span><b class="v">{tl(minAc)}</b><em>{list.find((o) => o.ac === minAc)?.name}</em></div>
       </div>
@@ -43,7 +43,7 @@ const jsonLd = {
           <tbody>
             {list.map((o) => (
               <tr data-name={o.name} data-dc={o.dc} data-ac={o.ac ?? 999}>
-                <td><b>{o.name}</b></td>
+                <td><span class="op"><img src={`/images/operatorler/${o.id}.png`} alt={`${o.name} logosu`} width="28" height="28" loading="lazy" /><b>{o.name}</b></span></td>
                 <td class:list={['num', { best: o.dc === minDc }]}>{o.dcMin ? <span class="muted small">{tl(o.dcMin)} – </span> : null}{tl(o.dc)}</td>
                 <td class:list={['num', { best: o.ac === minAc }]}>{tl(o.ac)}</td>
                 <td class="num cost" data-p={o.dc}>{tl(o.dc * 40)}</td>
@@ -88,6 +88,9 @@ const jsonLd = {
   }));
 </script>
 <style>
+  .op { display: inline-flex; align-items: center; gap: 10px; }
+  .op img { width: 28px; height: 28px; border-radius: 7px; flex: none; box-shadow: 0 0 0 1px var(--line); }
+  .sl { width: 18px; height: 18px; border-radius: 5px; vertical-align: -4px; margin-right: 6px; }
   .intro { max-width: 720px; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 16px; }
   .stats .card { padding: 16px 18px; }
