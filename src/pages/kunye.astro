@@ -29,7 +29,7 @@ const jsonLd = {
         {c.email && <><dt>E-posta</dt><dd><a href={`mailto:${c.email}`}>{c.email}</a></dd></>}
         {c.phone && <><dt>Telefon</dt><dd>{c.phone}</dd></>}
         {c.mersis && <><dt>MERSİS No</dt><dd>{c.mersis}</dd></>}
-        <dt>Yer sağlayıcı</dt><dd>{c.hosting}</dd>
+        {c.hosting && <><dt>Yer sağlayıcı</dt><dd>{c.hosting}</dd></>}
       </dl>
       <p>Yayın ilkelerimiz, kaynak kullanımı ve düzeltme politikamız için <a href="/yayin-ilkeleri">Yayın İlkeleri</a> sayfasına, sitenin amacı ve ekibi için <a href="/hakkimizda">Hakkımızda</a> sayfasına bakabilirsiniz.</p>
       <p class="muted small">Sitede yer alan fiyat, menzil ve maliyet bilgileri bilgilendirme amaçlıdır. Haberlerde hata fark ederseniz {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : 'iletişim adresimiz'} üzerinden bize ulaşın; doğrulanan düzeltmeler ilgili haberde belirtilerek yapılır.</p>
