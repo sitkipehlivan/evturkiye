@@ -1,4 +1,5 @@
 ---
+import company from '../data/company.json';
 import Base from '../layouts/Base.astro';
 import HeroSlider from '../components/HeroSlider.astro';
 import ToolCards from '../components/ToolCards.astro';
@@ -26,8 +27,21 @@ const card = (p: any) => ({ p, cat: p.data.category as Cat, img: newsImg(p), url
 const cheapest = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 5);
 const majors = ['trugo', 'zes', 'esarj', 'tesla', 'voltrun', 'astor'].map((id) => ops.operators.find((o) => o.id === id)!).filter(Boolean);
 const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'WebSite', name: 'EV Türkiye', alternateName: 'Electric Vehicle Türkiye', url: Astro.site!.origin,
-  potentialAction: { '@type': 'SearchAction', target: `${Astro.site!.origin}/ara?q={search_term_string}`, 'query-input': 'required name=search_term_string' },
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite', '@id': `${Astro.site!.origin}/#website`, name: 'EV Türkiye', alternateName: 'Electric Vehicle Türkiye', url: Astro.site!.origin, inLanguage: 'tr',
+      publisher: { '@id': `${Astro.site!.origin}/#org` },
+      potentialAction: { '@type': 'SearchAction', target: `${Astro.site!.origin}/ara?q={search_term_string}`, 'query-input': 'required name=search_term_string' },
+    },
+    {
+      '@type': 'NewsMediaOrganization', '@id': `${Astro.site!.origin}/#org`, name: 'EV Türkiye', url: Astro.site!.origin,
+      logo: new URL('/brand/ev-turkiye-amblem-96.png', Astro.site).toString(),
+      description: "Türkiye'nin elektrikli araç rehberi: haberler, şarj fiyatları, rota ve şarj maliyeti planlayıcı, model karşılaştırma.",
+      publishingPrinciples: new URL('/yayin-ilkeleri', Astro.site).toString(),
+      parentOrganization: { '@type': 'Organization', name: company.legalName || company.name, url: company.website },
+    },
+  ],
 };
 ---
 <Base title="EV Türkiye: Elektrikli Araç Haberleri, Şarj Fiyatları ve Rota Planlayıcı" jsonLd={jsonLd}>

@@ -8,5 +8,5 @@ const site = process.env.SITE_URL || 'https://evturkiye.online';
 export default defineConfig({
   site,
   trailingSlash: 'ignore',
-  integrations: [sitemap({ filter: (p) => !p.includes('/admin') && !p.includes('/offline') })],
+  integrations: [sitemap({ filter: (p) => !['/admin', '/offline', '/hesabim'].some((x) => p.includes(x)) })],
 });
