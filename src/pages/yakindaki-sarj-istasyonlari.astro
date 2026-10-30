@@ -13,7 +13,7 @@ const faq = [
 ];
 const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
-<Base title="Yakınımdaki Şarj İstasyonları: En Yakın Elektrikli Araç Şarjı" description="Konumunuza en yakın elektrikli araç şarj istasyonlarını bulun: DC hızlı şarj, soket tipi, güç, kWh fiyatı ve tek dokunuşla Google Haritalar / Apple Haritalar yol tarifi." jsonLd={jsonLd}>
+<Base image="/images/araclar/yakindaki-sarj.png" title="Yakınımdaki Şarj İstasyonları: En Yakın Elektrikli Araç Şarjı" description="Konumunuza en yakın elektrikli araç şarj istasyonlarını bulun: DC hızlı şarj, soket tipi, güç, kWh fiyatı ve tek dokunuşla Google Haritalar / Apple Haritalar yol tarifi." jsonLd={jsonLd}>
   <section class="section-sm">
     <div class="container" data-near>
       <script type="application/json" set:html={payload} />

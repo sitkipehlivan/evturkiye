@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import ops from '../data/operators.json';
 const payload = JSON.stringify(ops.operators.map((o) => ({ id: o.id, name: o.name, dc: o.dc, ac: o.ac, match: o.match })));
 ---
-<Base title="Elektrikli Araç Şarj İstasyonları Haritası" description="Türkiye genelindeki elektrikli araç şarj istasyonlarını harita üzerinde görün; DC hızlı şarj ve operatöre göre filtreleyin.">
+<Base image="/images/araclar/istasyonlar.png" title="Elektrikli Araç Şarj İstasyonları Haritası" description="Türkiye genelindeki elektrikli araç şarj istasyonlarını harita üzerinde görün; DC hızlı şarj ve operatöre göre filtreleyin.">
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">Harita</span>

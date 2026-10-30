@@ -12,7 +12,7 @@ const ctx = { avgDc, avgAc };
 const pairs = POPULAR_PAIRS.map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const);
 const opt = (c: (typeof compareCars)[number]) => `${c.model} ${c.version}${c.discontinued ? ' (satıştan kalktı)' : ''}`;
 ---
-<Base title="Elektrikli Araç Karşılaştırma: Menzil, Şarj, Fiyat, Artı ve Eksiler" description={`Türkiye'de satılan ${compareCars.filter((c) => !c.discontinued).length} elektrikli araç versiyonunu yan yana karşılaştır: fiyat, WLTP ve otoyol menzili, şarj süresi, 100 km maliyeti, güç, artı ve eksiler.`}>
+<Base image="/images/araclar/karsilastir.png" title="Elektrikli Araç Karşılaştırma: Menzil, Şarj, Fiyat, Artı ve Eksiler" description={`Türkiye'de satılan ${compareCars.filter((c) => !c.discontinued).length} elektrikli araç versiyonunu yan yana karşılaştır: fiyat, WLTP ve otoyol menzili, şarj süresi, 100 km maliyeti, güç, artı ve eksiler.`}>
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">Karşılaştırma aracı</span>
