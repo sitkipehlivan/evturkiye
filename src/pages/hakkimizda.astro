@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import c from '../data/company.json';
+const owner = c.legalName || c.name;
+---
+<Base title="Hakkımızda" description="EV Türkiye nedir, kim yayınlar, verilerimizi nasıl hazırlarız?">
+  <section class="section-sm">
+    <div class="container prose">
+      <h1>Hakkımızda</h1>
+      <p><b>EV Türkiye (Electric Vehicle Türkiye)</b>, Türkiye'de elektrikli ve plug-in hibrit araç kullananlar ve almayı düşünenler için hazırlanan bağımsız bir haber ve rehber sitesidir. Amacımız, elektrikli araçla ilgili kararları kolaylaştıracak bilgiyi tek yerde, anlaşılır ve güncel şekilde sunmaktır.</p>
+
+      <h2>Neler sunuyoruz?</h2>
+      <ul>
+        <li><b>Haberler ve rehberler:</b> Türkiye ve dünyadan elektrikli araç gelişmeleri, fiyat listeleri, vergi düzenlemeleri ve kullanım rehberleri.</li>
+        <li><b>Rota ve şarj maliyeti planlayıcı:</b> Seçtiğin araç ve güzergaha göre şarj durakları ve toplam yol maliyeti.</li>
+        <li><b>Şarj fiyatları ve yakınımdaki şarj:</b> Operatörlerin güncel kWh fiyatları ve çevrendeki istasyonlar.</li>
+        <li><b>Model veritabanı ve karşılaştırma:</b> Türkiye'de satılan elektrikli modellerin fiyat, menzil, şarj süresi ve kullanım maliyeti.</li>
+      </ul>
+
+      <h2>Verilerimizi nasıl hazırlıyoruz?</h2>
+      <p>Fiyat listeleri ve satış verileri distribütörlerin, operatörlerin ve sektör kuruluşlarının açıkladığı bilgilere dayanır; her haberde kaynağı belirtiriz. Menzil, tüketim ve maliyet hesapları sitemizin kendi hesaplama yöntemiyle yapılır ve tahminidir. Ayrıntılar için <a href="/yayin-ilkeleri">Yayın İlkeleri</a> sayfamıza bakabilirsiniz.</p>
+
+      <h2>Kim yayınlıyor?</h2>
+      <p>EV Türkiye, dijital medya ve reklam teknolojileri şirketi <b>{owner}</b> tarafından yayınlanır. Genel yayın yönetmeni <a href={`/yazar/${c.editorSlug}`}>{c.editor}</a>'dir. Yayın sahibi ve iletişim bilgileri <a href="/kunye">Künye</a> sayfasındadır.</p>
+
+      <h2>Reklam ve bağımsızlık</h2>
+      <p>Sitede reklam alanları bulunur; reklamlar "Reklam" ibaresiyle içerikten ayrılır. Reklam verenler haber ve karşılaştırma içeriklerimizi, sıralamalarımızı veya hesaplamalarımızı etkilemez.</p>
+    </div>
+  </section>
+</Base>

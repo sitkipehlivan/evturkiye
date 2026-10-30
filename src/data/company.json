@@ -1,6 +1,13 @@
 {
-  "name": "",
+  "name": "Advance Digital",
+  "legalName": "",
   "address": "",
   "email": "",
-  "mersis": ""
+  "phone": "",
+  "mersis": "",
+  "website": "https://advancedigital.media",
+  "editor": "Sıtkı Pehlivan",
+  "editorTitle": "Genel Yayın Yönetmeni",
+  "editorSlug": "sitki-pehlivan",
+  "hosting": "Netlify, Inc. (ABD)"
 }

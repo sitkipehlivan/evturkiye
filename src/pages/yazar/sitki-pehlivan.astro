@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import c from '../../data/company.json';
+import { getNews } from '../../lib/util';
+const news = (await getNews()).slice(0, 12);
+const owner = c.legalName || c.name;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: c.editor,
+    jobTitle: c.editorTitle,
+    worksFor: { '@type': 'Organization', name: owner, url: c.website || undefined },
+    url: new URL(`/yazar/${c.editorSlug}`, Astro.site).toString(),
+  },
+};
+---
+<Base title={`${c.editor} – ${c.editorTitle}`} description={`${c.editor}, EV Türkiye ${c.editorTitle.toLocaleLowerCase('tr')}. Yazıları ve editörlüğünü yaptığı içerikler.`} jsonLd={jsonLd}>
+  <section class="section-sm">
+    <div class="container">
+      <span class="eyebrow">Yazar</span>
+      <h1>{c.editor}</h1>
+      <p class="muted">{c.editorTitle}, EV Türkiye</p>
+      <div class="prose">
+        <p>{c.editor}, EV Türkiye'nin yayın sahibi {owner}'in kurucusudur ve sitenin genel yayın yönetmenliğini yürütür. Dijital medya ve reklam teknolojileri alanında çalışır; EV Türkiye'de elektrikli araç haberleri, fiyat listeleri, şarj maliyetleri ve uzun yol planlaması üzerine içeriklerin editörlüğünü yapar.</p>
+        <p>Yayın ilkelerimiz için <a href="/yayin-ilkeleri">Yayın İlkeleri</a>, iletişim bilgileri için <a href="/kunye">Künye</a> sayfasına bakabilirsiniz.</p>
+      </div>
+      <h2 class="sub">Son içerikler</h2>
+      <div class="grid grid-3">{news.map((p) => <NewsCard post={p} />)}</div>
+    </div>
+  </section>
+</Base>
+<style>.sub { margin: 32px 0 16px; }</style>

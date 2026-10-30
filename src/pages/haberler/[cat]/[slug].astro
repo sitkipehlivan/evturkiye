@@ -5,6 +5,7 @@ import NewsCard from '../../../components/NewsCard.astro';
 import GuideLinks from '../../../components/GuideLinks.astro';
 import { brands } from '../../../lib/ev';
 import { getNews, CATS, fmtDate, newsImg, type Cat } from '../../../lib/util';
+import company from '../../../data/company.json';
 export async function getStaticPaths() {
   const news = await getNews();
   return news.map((post) => ({ params: { cat: post.data.category, slug: post.id }, props: { post, news } }));
@@ -18,10 +19,16 @@ const lc = (x: string) => x.toLocaleLowerCase('tr');
 const text = lc(`${d.title} ${d.description} ${post.body ?? ''}`);
 const mentioned = brands.filter((b) => new RegExp(`(^|[^\\p{L}])${lc(b.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^\\p{L}]|$)`, 'u').test(text));
 const related = news.filter((p: any) => p.id !== post.id).slice(0, 3);
+const authorUrl = new URL(`/yazar/${company.editorSlug}`, Astro.site).toString();
 const jsonLd = {
   '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
-  headline: d.title, description: d.description, datePublished: d.date.toISOString(), inLanguage: 'tr',
-  publisher: { '@type': 'Organization', name: 'EV Türkiye', url: Astro.site!.origin },
+  headline: d.title, description: d.description, datePublished: d.date.toISOString(), dateModified: d.date.toISOString(), inLanguage: 'tr',
+  ...(img ? { image: [new URL(img, Astro.site).toString()] } : {}),
+  author: [{ '@type': 'Person', name: company.editor, url: authorUrl }],
+  publisher: {
+    '@type': 'NewsMediaOrganization', name: 'EV Türkiye', url: Astro.site!.origin,
+    logo: { '@type': 'ImageObject', url: new URL('/brand/ev-turkiye-amblem-96.png', Astro.site).toString() },
+  },
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
 };
 ---
@@ -32,7 +39,7 @@ const jsonLd = {
       <header class="head">
         <h1>{d.title}</h1>
         <p class="lede">{d.description}</p>
-        <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time></div>
+        <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time> · <a class="byline" href={`/yazar/${company.editorSlug}`} rel="author">{company.editor}</a></div>
       </header>
       {img && (
         <figure class="cover-fig">
@@ -57,7 +64,8 @@ const jsonLd = {
   .crumbs { margin-bottom: 14px; } .crumbs a:hover { color: var(--volt); }
   .head { max-width: 780px; margin-bottom: 28px; }
   .lede { font-size: 1.15rem; color: var(--ink-2); }
-  .meta { display: flex; gap: 10px; align-items: center; }
+  .meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .byline { color: var(--ink-2); font-weight: 600; } .byline:hover { color: var(--volt); }
   .cover-fig { margin: 0 0 28px; }
   .cover-fig figcaption { font-size: .78rem; color: var(--muted); margin-top: 8px; }
   .cover { border-radius: var(--radius); max-height: 460px; width: 100%; object-fit: cover; }

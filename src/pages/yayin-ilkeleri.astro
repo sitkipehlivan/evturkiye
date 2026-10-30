@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import c from '../data/company.json';
+---
+<Base title="Yayın İlkeleri" description="EV Türkiye yayın ilkeleri, kaynak kullanımı, görsel politikası ve düzeltme politikası.">
+  <section class="section-sm">
+    <div class="container prose">
+      <h1>Yayın İlkeleri</h1>
+      <p>EV Türkiye'de yayımlanan içeriklerden <a href={`/yazar/${c.editorSlug}`}>{c.editor}</a> ({c.editorTitle}) sorumludur. Aşağıdaki ilkeler tüm haber, rehber ve araç sayfalarımız için geçerlidir.</p>
+
+      <h2>Doğruluk ve kaynak</h2>
+      <ul>
+        <li>Fiyat, satış ve teknik veriler resmi açıklamalara, distribütör fiyat listelerine, operatör tarifelerine ve sektör kuruluşlarının verilerine dayanır.</li>
+        <li>Başka bir yayından derlenen bilgilerde kaynak, haberin sonunda bağlantısıyla belirtilir.</li>
+        <li>Tahmini hesaplamalar (menzil, şarj süresi, yol maliyeti) açıkça "tahmini" olarak işaretlenir ve kullanılan varsayımlar yazıda belirtilir.</li>
+        <li>Haber takibi ve taslak hazırlığında otomatik araçlardan ve yapay zekâdan yararlanırız; yayımlanan içerik yayın ilkelerimize ve editör sorumluluğuna tabidir.</li>
+      </ul>
+
+      <h2>Görseller</h2>
+      <ul>
+        <li>Araç içeren görsellerde araç her zaman gerçek bir fotoğraftan gelir; yapay zekâ yalnızca arka planı veya ışığı düzenlemek için kullanılabilir.</li>
+        <li>Tamamen yapay zekâ ile üretilen görseller altında "yapay zekâ ile üretildi" notu yer alır.</li>
+        <li>Üçüncü taraf fotoğraflarında lisans ve kaynak belirtilir.</li>
+      </ul>
+
+      <h2>Başlıklar</h2>
+      <p>Başlıklarımız haberin içeriğini doğru yansıtır; yanıltıcı, abartılı veya tıklama tuzağı başlıklar kullanmayız.</p>
+
+      <h2>Reklam ve içerik ayrımı</h2>
+      <p>Reklamlar "Reklam" ibaresiyle işaretlenir. Sponsorlu içerik yayımlanırsa başlıkta ve yazının başında açıkça belirtilir. Reklam ilişkileri sıralama ve karşılaştırma sonuçlarını etkilemez.</p>
+
+      <h2 id="duzeltme">Düzeltme politikası</h2>
+      <p>Bir hatayı fark ettiğimizde veya bize bildirildiğinde bilgiyi doğrular, ilgili içeriği en kısa sürede düzeltiriz. Anlamı değiştiren düzeltmeler yazının sonunda tarihiyle belirtilir. Hata bildirimleri için {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : <a href="/kunye">Künye</a>} üzerinden bize ulaşabilirsiniz.</p>
+
+      <h2>Güncelleme</h2>
+      <p>Fiyat listeleri ve tarifeler gibi zamanla değişen bilgiler düzenli olarak güncellenir; güncellenen sayfalarda son güncelleme tarihi belirtilir.</p>
+    </div>
+  </section>
+</Base>
