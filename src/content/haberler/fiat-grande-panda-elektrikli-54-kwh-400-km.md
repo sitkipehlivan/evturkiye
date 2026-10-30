@@ -11,6 +11,7 @@ source: "Stellantis Media (Hollanda)"
 sourceUrl: "https://www.media.stellantis.com/nl-nl/fiat/press/fiat-grande-panda-nu-met-400-km-actieradius"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **Fiat Grande Panda Elektrikli**, yeni **54 kWh** batarya seçeneğiyle **400 km** WLTP menzile ulaştı. Stellantis'in 28 Ekim 2026'da Hollanda'da yaptığı açıklamaya göre büyük bataryalı versiyon hemen sipariş edilebiliyor. Bugüne kadar sunulan 44 kWh'lik elektrikli otomobil versiyonu WLTP normunda 320 km menzil sunuyordu; yeni bataryayla menzil yaklaşık 80 km, yani yüzde 25 artıyor.
