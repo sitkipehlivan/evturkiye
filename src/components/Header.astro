@@ -5,10 +5,7 @@ const path = Astro.url.pathname;
 const hasAuth = !!(import.meta.env.PUBLIC_FIREBASE_CONFIG || process.env.PUBLIC_FIREBASE_CONFIG);
 const nav = [
   { href: '/haberler', label: 'Haberler' },
-  { href: '/haberler/turkiye', label: 'Türkiye' },
-  { href: '/haberler/dunya', label: 'Dünya' },
-  { href: '/haberler/hibrit', label: 'Plug-in Hibrit' },
-  { href: '/elektrikli-arac', label: 'EV Rehberi' },
+  { href: '/elektrikli-arac', label: 'Elektrikli Araç Rehberi' },
   { href: '/rota-planlayici', label: 'Rota Planlayıcı', hl: true },
   { href: '/sarj-fiyatlari', label: 'Şarj Fiyatları' },
   { href: '/yakindaki-sarj-istasyonlari', label: 'Yakınımdaki Şarj' },
@@ -16,7 +13,7 @@ const nav = [
   { href: '/modeller', label: 'Modeller' },
   { href: '/karsilastir', label: 'Karşılaştır' },
 ];
-const active = (h: string) => (h === '/haberler' ? path === '/haberler' || path === '/haberler/' : path === h || path.startsWith(h + '/'));
+const active = (h: string) => path === h || path.startsWith(h + '/');
 const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Istanbul' });
 ---
 <div class="top-ad"><AdSlot id="masthead" size="970x250" mobile="320x100" /></div>
