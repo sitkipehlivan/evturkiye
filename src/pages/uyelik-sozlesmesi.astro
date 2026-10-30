@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import c from '../data/company.json';
 import { ROUTE_LIMITS } from '../lib/firebase-config';
-const name = c.name || 'EV Türkiye';
+const name = c.legalName || c.name || 'EV Türkiye';
 ---
 <Base title="Üyelik Koşulları" description="EV Türkiye ücretsiz üyelik koşulları.">
   <section class="section-sm">

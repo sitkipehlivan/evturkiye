@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import c from '../data/company.json';
-const name = c.name || 'EV Türkiye';
+const name = c.legalName || c.name || 'EV Türkiye';
 ---
 <Base title="Çerez Politikası" description="EV Türkiye'de kullanılan zorunlu ve analitik çerezler, Google Analytics ve çerez tercihlerinizi nasıl değiştirebileceğiniz.">
   <section class="section-sm">
