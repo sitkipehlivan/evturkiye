@@ -43,8 +43,8 @@ const ogImage = new URL(image, Astro.site);
       (function () {
         var c = null;
         try { c = localStorage.getItem('evt-cerez'); } catch (e) {}
-        var ok = c === 'kabul' ? 'granted' : 'denied';
-        gtag('consent', 'default', { analytics_storage: ok, ad_storage: ok, ad_user_data: ok, ad_personalization: ok, wait_for_update: 500 });
+        var ok = c === 'kabul' ? 'granted' : 'denied', an = (c === 'kabul' || c === 'istatistik') ? 'granted' : 'denied';
+        gtag('consent', 'default', { analytics_storage: an, ad_storage: ok, ad_user_data: ok, ad_personalization: ok, wait_for_update: 500 });
       })();
       gtag('js', new Date());
       gtag('config', 'G-6S4Y5HKH1N');
@@ -140,6 +140,19 @@ const ogImage = new URL(image, Astro.site);
     </script>
     {fbMeta && <AuthDialog />}
     <CookieBanner />
+    <script is:inline>
+      // Çerezsiz ziyaret sayacı: çerez, cihaz kimliği, IP saklamaz; yalnızca sayfa yolu ve reklam etiketi (utm) toplam olarak sayılır.
+      (function () {
+        try {
+          if (navigator.webdriver) return;
+          var q = new URLSearchParams(location.search), d = { p: location.pathname };
+          ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { var v = q.get(k); if (v) d[k.slice(4)] = v.slice(0, 80); });
+          var b = JSON.stringify(d);
+          if (navigator.sendBeacon) navigator.sendBeacon('/api/ziyaret', new Blob([b], { type: 'application/json' }));
+          else fetch('/api/ziyaret', { method: 'POST', body: b, keepalive: true, headers: { 'content-type': 'application/json' } });
+        } catch (e) {}
+      })();
+    </script>
     <InstallApp />
   </body>
 </html>
