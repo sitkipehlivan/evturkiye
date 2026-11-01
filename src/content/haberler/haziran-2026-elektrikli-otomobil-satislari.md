@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-07-02
 source: "Kamu Teknolojileri (ODMD verileri)"
 sourceUrl: "https://www.kamuteknolojileri.com/2026/07/02/elektrikli-otomobillerde-sert-kan-kaybi-haziran-ayinda-satislar-dustu-lider-degismedi/"
+imageCredit: "Wikimedia Commons / Alexander-93, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 ODMD verilerine göre Türkiye'de 2026'nın ilk altı ayında **80.709** tam elektrikli otomobil satıldı. Bu rakam geçen yılın aynı dönemine göre yaklaşık **%5** düşüşe işaret ediyor. Elektrikli otomobillerin toplam pazardaki payı **%18,33** oldu.

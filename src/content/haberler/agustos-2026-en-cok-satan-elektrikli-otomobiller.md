@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-09-02
 source: "Webtekno, ODMD Basın Bülteni"
 sourceUrl: "https://www.webtekno.com/agustos-2026-turkiye-en-cok-satan-elektrikli-otomobiller-h223420.html"
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 ODMD verilerine göre Türkiye'de Ağustos 2026'da **11.878** tam elektrikli otomobil satıldı. Ağustos 2025'te bu rakam 17.480 adetti; düşüş **%32**. Elektrikli otomobillerin pazar payı **%19,3** oldu. Yılın ilk sekiz ayında satılan elektrikli otomobil sayısı **105.255**'e ulaştı.

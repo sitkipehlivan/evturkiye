@@ -11,6 +11,7 @@ source: "electrive / Reuters"
 sourceUrl: "https://www.electrive.com/2026/10/30/volkswagen-pauses-development-of-the-id-golf/"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Vauxford, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **Volkswagen**, Golf'ün tamamen elektrikli versiyonu olarak planlanan **ID. Golf**'ün geliştirme çalışmalarını askıya aldı. Kararı ilk olarak marka CEO'su **Thomas Schäfer** şirket içi bir yazıda duyurdu; Volkswagen da 30 Ekim'de yayımladığı dokuz aylık finansal açıklamada çalışmaların "gerekli yatırımlar güvenle ayrılabilene kadar" durdurulduğunu resmen doğruladı. Reuters'ın aktardığına göre Schäfer, "Bu çalışmayı şu anda karşılayamıyoruz" dedi.

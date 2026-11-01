@@ -11,6 +11,7 @@ source: "Ekonomist / Anadolu Ajansı"
 sourceUrl: "https://www.ekonomist.com.tr/otomotiv/hyundai-nin-izmit-te-urettigi-ilk-elektrikli-modeli-ioniq-3-satisa-cikti-iste-ozellikleri-ve-guncel-fiyati-79715"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / AutoGids, CC BY 3.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Hyundai Motor Türkiye, İzmit fabrikasında ürettiği ilk elektrikli otomobil **IONIQ 3**'ü İstanbul'daki bir etkinlikle satışa sundu. **Hyundai IONIQ 3 Türkiye fiyatı** 1.799.000 TL'den başlıyor; en üst versiyon N Line EVO ise 3.220.000 TL.

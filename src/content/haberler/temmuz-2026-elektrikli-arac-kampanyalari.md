@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/temmuz-2026-sifir-otomobil-indirimli-modeller-h220327.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Temmuz 2026'da birçok marka elektrikli otomobillerde liste fiyatının altında kampanyalı fiyat uyguluyor. Ayın en yüksek indirimi **Hyundai IONIQ 5**'te: Model, **3.150.000 TL**'lik liste fiyatı yerine **2.484.602 TL**'ye sunuluyor ve fark **665.398 TL**'ye ulaşıyor. Opel'in iki elektrikli modelinde de indirim 300 bin TL civarında.

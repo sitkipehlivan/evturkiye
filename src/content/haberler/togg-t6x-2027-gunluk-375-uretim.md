@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-10-24
 source: "AutoBond"
 sourceUrl: "https://www.autobond.tr/haberler/togg-t6x-kacir-gunluk-375-uretim/"
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Sanayi ve Teknoloji Bakanı **Mehmet Fatih Kacır**, 23 Ekim'de Togg'un Gemlik'teki Üretim ve Teknoloji Üssü'nü ziyaretinin ardından yaptığı açıklamada, Togg'un yeni modeli **T6X**'in **önümüzdeki yıl** satışa sunulacağını söyledi. Kacır, tesiste günlük üretimin **375 adede** ulaştığını da açıkladı.

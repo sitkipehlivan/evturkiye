@@ -11,6 +11,7 @@ source: "İşin Olsa"
 sourceUrl: "https://www.isinolsa.com/elektrikli-mercedes-c-serisi-benzinli-c-200den-190-bin-tl-daha-ucuz/"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Mercedes-Benz, tamamen elektrikli yeni **C-Serisi**'ni 5 Ekim 2026'da İstanbul'da düzenlenen lansmanla Türkiye'de satışa sundu. **Elektrikli Mercedes C-Serisi Türkiye fiyatı**, şimdilik sunulan tek versiyon **C 400 4MATIC AMG** için 6.360.000 TL. Bu fiyatla elektrikli otomobil, aynı listedeki benzinli C 200 4MATIC AMG'den 190 bin TL daha ucuz.

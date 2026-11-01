@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/haziran-2026-peugeot-fiyat-listesi-h218041.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander-93, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Peugeot'nun Haziran 2026 fiyat listesine göre markanın en uygun fiyatlı elektrikli otomobili **E-208**, **1.999.500 TL**'den satılıyor. Yeni nesil yedi koltuklu elektrikli SUV **E-5008** ise **3.502.000 TL**'den başlıyor. Liste 5 Haziran 2026'da yayımlandı.

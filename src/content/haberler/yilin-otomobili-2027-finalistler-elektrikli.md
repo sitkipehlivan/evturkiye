@@ -11,6 +11,7 @@ source: "Renault Group / Il Sole 24 Ore"
 sourceUrl: "https://www.renaultgroup.com/en/magazine/our-group-news/twingo-reaches-the-car-of-the-year-2027-final-an-electric-city-car-at-the-heart-of-renaults-strategy/"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / AutoGids, CC BY 3.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Avrupa'nın en köklü otomobil ödülü **Car of the Year (Yılın Otomobili) 2027**'nin finalistleri 30 Ekim'de açıklandı ve listeye giren yedi modelin **tamamı elektrikli otomobil** oldu. İtalyan gazetesi Il Sole 24 Ore'ye göre bu, ödülün tarihinde finalistlerin hepsinin elektrikli olduğu ilk yıl. 25 ülkeden 65 gazeteciden oluşan jüri, 43 modellik ön listeden bu yedi aracı seçti. Kazanan **8 Ocak 2027**'de Brüksel Otomobil Fuarı'nda açıklanacak.

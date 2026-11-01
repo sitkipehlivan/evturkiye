@@ -9,6 +9,7 @@ category: turkiye
 date: 2026-10-10
 source: "Takvim, Webtekno"
 sourceUrl: "https://www.takvim.com.tr/galeri/otomobil/faizsiz-kredi-kapisi-acildi-ekim-2026-sifir-faizli-arac-kampanyalari-14-otomobil-markasi-86-teklif"
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Ekim 2026'da 14 otomobil markası sıfır faizli kredi kampanyası sunuyor. Bu kampanyaların bir bölümü elektrikli ve plug-in hibrit modelleri kapsıyor. Aşağıda yalnızca **elektrikli ve şarj edilebilir hibrit** modellerdeki kampanyaları derledik.

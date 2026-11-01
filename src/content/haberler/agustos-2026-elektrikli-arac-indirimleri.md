@@ -11,6 +11,7 @@ source: "CNBC-e"
 sourceUrl: "https://www.cnbce.com/otomotiv/otomobil-alacaklar-dikkat-agustos-ayinda-fiyatlar-degisti-iste-en-cok-zamlanan-ve-ucuzlayan-modeller-g34791"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Ağustos 2026 fiyat listelerinde birçok marka elektrikli otomobillerde indirime gitti. En büyük fark **Skoda Elroq**'ta: modelde **810.000 TL**'ye ulaşan indirim uygulanıyor. Opel, Kia ve Hyundai de elektrikli modellerinde yüksek tutarlı kampanyalar sunarken Togg, Volkswagen ve Renault elektrikli fiyatlarını sabit tuttu.

@@ -11,6 +11,7 @@ source: "Webtekno (ODMD verileri)"
 sourceUrl: "https://www.webtekno.com/turkiye-en-cok-tercih-edilen-elektrikli-benzinli-suv-otomobiller-mayis-2026-h217786.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander-93, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Otomotiv Distribütörleri ve Mobilite Derneği'nin (ODMD) 2 Haziran 2026'da açıkladığı verilere göre Mayıs 2026'da Türkiye'de **11.342 elektrikli otomobil** satıldı. Elektrikli otomobillerin binek pazarındaki payı **yüzde 17,35** oldu. Ayın en çok satan elektrikli modelleri yine Togg'un iki aracı: **T10X 1.832**, **T10F 1.673** adet.

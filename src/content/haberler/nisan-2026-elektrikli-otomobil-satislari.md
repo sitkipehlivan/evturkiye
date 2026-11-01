@@ -11,6 +11,7 @@ source: "Webtekno (ODMD verileri)"
 sourceUrl: "https://www.webtekno.com/kac-otomobil-satildi-nisan-2026-h216361.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Otomotiv Distribütörleri ve Mobilite Derneği'nin (ODMD) 5 Mayıs'ta açıkladığı verilere göre Türkiye'de **Nisan 2026**'da **16.435** elektrikli otomobil satıldı. Bu rakam geçen yılın aynı ayındaki 13.409 adede göre **%22,6** artış anlamına geliyor. Elektrikli otomobillerin toplam otomobil satışlarındaki payı Nisan'da **%20,5** oldu.
