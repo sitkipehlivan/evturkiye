@@ -2,9 +2,9 @@
 title: "Ağustos 2026 elektrikli araç indirimleri: Skoda Elroq'ta 810 bin TL, Opel'de 348 bin TL"
 description: "Ağustos 2026 elektrikli araç indirimleri: Skoda Elroq'ta 810 bin TL, Opel Grandland Elektrik'te 348 bin TL, Kia EV9'da 250 bin TL. Togg ve VW sabit."
 image: "/images/haberler/agustos-2026-elektrikli-arac-indirimleri.jpg"
-imageMode: generate
-imageScene: "Bright modern car dealership interior with polished floor, large glass windows and an empty display area, a price tag stand in the foreground, no vehicles."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Škoda Elroq"
+imageScene: "bright modern city street in late summer with clean pavement and soft daylight"
 category: turkiye
 date: 2026-08-11
 source: "CNBC-e"

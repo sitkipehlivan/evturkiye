@@ -2,9 +2,9 @@
 title: "Bakan Kacır: Togg T6X gelecek yıl satışta, günlük üretim 375 adet"
 description: "Sanayi ve Teknoloji Bakanı Kacır, Togg'un yeni modeli T6X'in 2027'de satışa çıkacağını ve fabrikada günlük üretimin 375 adede ulaştığını açıkladı."
 image: "/images/haberler/togg-t6x-2027-gunluk-375-uretim.jpg"
-imageMode: generate
-imageScene: "Wide shot of a bright modern automotive factory assembly hall with robotic arms and empty assembly line stations, clean white floors, blue and green accent lighting, no complete vehicles visible, no logos."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Togg T10X"
+imageScene: "clean modern industrial campus forecourt with glass buildings and soft daylight"
 category: turkiye
 date: 2026-10-24
 source: "AutoBond"

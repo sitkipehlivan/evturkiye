@@ -2,9 +2,9 @@
 title: "Elektrikli otomobil satışları ilk yarıda yüzde 5 geriledi: Haziran'ın lideri yine Togg"
 description: "2026'nın ilk yarısında Türkiye'de 80.709 elektrikli otomobil satıldı, pazar payı yüzde 18,3 oldu. Haziran'da Togg T10X ve KGM Torres EVX ilk iki sırada."
 image: "/images/haberler/haziran-2026-elektrikli-otomobil-satislari.jpg"
-imageMode: generate
-imageScene: "Aerial view of a large bright car dealership parking lot pattern made only of empty white-painted parking bays and several DC fast chargers with green accent lights, early summer morning light, no vehicles."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Togg T10F"
+imageScene: "bright early-summer coastal road with clear blue sky and soft sunlight"
 category: turkiye
 date: 2026-07-02
 source: "Kamu Teknolojileri (ODMD verileri)"

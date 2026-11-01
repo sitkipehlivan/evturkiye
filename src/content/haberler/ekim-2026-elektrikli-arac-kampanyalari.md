@@ -2,9 +2,9 @@
 title: "Ekim 2026 elektrikli araç kampanyaları: Sıfır faiz, indirim ve takas desteği"
 description: "Ekim 2026'da elektrikli ve plug-in hibrit modellerde geçerli sıfır faizli kredi, indirim ve takas desteği kampanyaları: Togg, Fiat, Citroën, Škoda, Volvo, Nissan, Mercedes."
 image: "/images/haberler/ekim-2026-elektrikli-arac-kampanyalari.jpg"
-imageMode: generate
-imageScene: "Autumn scene of a modern car dealership entrance with glass facade, orange and yellow leaves on the pavement, a wall charger beside the entrance with a green LED, warm afternoon light, no vehicles, no logos, no readable text."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Hyundai Ioniq 5"
+imageScene: "autumn city street with orange and yellow leaves on the pavement and soft daylight"
 category: turkiye
 date: 2026-10-10
 source: "Takvim, Webtekno"

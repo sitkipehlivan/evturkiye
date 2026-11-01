@@ -2,9 +2,9 @@
 title: "Hyundai IONIQ 3 Türkiye fiyatı: İzmit üretimi elektrikli 1.799.000 TL'den satışta"
 description: "Hyundai IONIQ 3 Türkiye'de satışa çıktı: Ekim 2026 fiyatları 1.799.000–3.220.000 TL, 42,2 ve 61 kWh batarya, 482 km'ye kadar karma menzil."
 image: "/images/haberler/hyundai-ioniq-3-turkiye-fiyat.jpg"
-imageMode: generate
-imageScene: "modern automotive factory assembly hall with clean robotic arms and bright white industrial lighting, no vehicles"
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Hyundai Ioniq 3"
+imageScene: "clean modern city square in Istanbul with soft daylight and light grey pavement"
 category: turkiye
 date: 2026-10-09
 source: "Ekonomist / Anadolu Ajansı"

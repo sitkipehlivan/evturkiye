@@ -2,9 +2,9 @@
 title: "Temmuz 2026 elektrikli araç kampanyaları: Hyundai IONIQ 5'te 665 bin TL indirim"
 description: "Temmuz 2026'da elektrikli otomobillerde indirimler 95 bin TL ile 665 bin TL arasında. Hyundai IONIQ 5, Opel, Kia, BYD, Skoda ve Citroën kampanyaları."
 image: "/images/haberler/temmuz-2026-elektrikli-arac-kampanyalari.jpg"
-imageMode: generate
-imageScene: "A bright modern car dealership interior with polished floor, large glass windows and summer daylight, a wall-mounted charging unit beside an empty display platform, no vehicles, no logos, no readable text."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Hyundai Ioniq 5"
+imageScene: "sunny summer coastal promenade with clear sky and soft warm light"
 category: turkiye
 date: 2026-07-10
 source: "Webtekno"

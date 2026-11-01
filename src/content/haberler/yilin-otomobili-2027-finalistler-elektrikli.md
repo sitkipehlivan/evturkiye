@@ -2,9 +2,9 @@
 title: "Avrupa'da Yılın Otomobili 2027 finalistleri: 7 modelin tamamı elektrikli"
 description: "Car of the Year 2027 finalistleri açıklandı: IONIQ 3, Kia EV2, BMW iX3 dahil 7 modelin hepsi elektrikli. Kazanan 8 Ocak 2027'de Brüksel'de belli olacak."
 image: "/images/haberler/yilin-otomobili-2027-finalistler-elektrikli.jpg"
-imageMode: generate
-imageScene: "empty modern auto show stage with seven spotlit round podiums, dramatic blue and white stage lighting and a glossy dark floor, no vehicles, no text"
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Hyundai Ioniq 3"
+imageScene: "modern European motor show hall with soft blue and white spotlights and a glossy dark floor, the car on a low round podium"
 category: dunya
 date: 2026-10-31
 source: "Renault Group / Il Sole 24 Ore"

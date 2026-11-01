@@ -2,9 +2,9 @@
 title: "Elektrikli Mercedes C-Serisi Türkiye fiyatı: C 400 4MATIC 6,36 milyon TL'den satışta"
 description: "Elektrikli Mercedes C-Serisi Türkiye'de: C 400 4MATIC AMG Ekim 2026'da 6.360.000 TL, 94 kWh batarya, 709 km WLTP menzil, benzinli C 200'den 190 bin TL ucuz."
 image: "/images/haberler/elektrikli-mercedes-c-serisi-turkiye-fiyat.jpg"
-imageMode: generate
-imageScene: "premium car showroom interior with polished dark floor, warm spot lighting and an empty display podium, no vehicles"
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Mercedes-Benz C-Class (W206)"
+imageScene: "premium modern architecture plaza with polished stone floor and soft evening light"
 category: turkiye
 date: 2026-10-05
 source: "İşin Olsa"

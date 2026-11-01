@@ -2,9 +2,9 @@
 title: "Nisan 2026 elektrikli otomobil satışları: 16.435 adet, pazar payı yüzde 20,5"
 description: "Nisan 2026'da Türkiye'de 16.435 elektrikli otomobil satıldı, pazar payı yüzde 20,5'e çıktı. Togg T10X 2.278 adetle zirvede, Opel Frontera ilk beşte."
 image: "/images/haberler/nisan-2026-elektrikli-otomobil-satislari.jpg"
-imageMode: generate
-imageScene: "Wide view of an empty modern car dealership delivery bay with polished concrete floor, a row of wall-mounted EV chargers glowing softly, spring morning daylight through tall windows, no vehicles."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Togg T10X"
+imageScene: "spring morning in a modern Turkish city street with blossoming trees and soft daylight"
 category: turkiye
 date: 2026-05-05
 source: "Webtekno (ODMD verileri)"

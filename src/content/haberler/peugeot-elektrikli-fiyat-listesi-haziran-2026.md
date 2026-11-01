@@ -2,9 +2,9 @@
 title: "Peugeot elektrikli fiyat listesi Haziran 2026: E-208 1.999.500 TL, E-5008 3,5 milyon TL"
 description: "Peugeot Haziran 2026 fiyat listesinde E-208 1.999.500 TL, E-2008 2.201.500 TL, E-3008 3.318.000 TL ve yeni E-5008 3.502.000 TL'den başlıyor."
 image: "/images/haberler/peugeot-elektrikli-fiyat-listesi-haziran-2026.jpg"
-imageMode: generate
-imageScene: "A bright modern car dealership interior with polished white floor, glass walls and an empty display platform under soft spotlights, no vehicles, no logos, no readable text."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Peugeot 3008"
+imageScene: "bright modern urban street in early summer with clean light-grey pavement"
 category: turkiye
 date: 2026-06-05
 source: "Webtekno"

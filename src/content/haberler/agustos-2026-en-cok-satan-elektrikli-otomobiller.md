@@ -2,9 +2,9 @@
 title: "Ağustos 2026'da 11.878 elektrikli otomobil satıldı: Togg zirvede, Volvo EX30 dördüncü"
 description: "ODMD verilerine göre Ağustos 2026'da elektrikli otomobil satışları 11.878 adet oldu, 8 aylık toplam 105.255'e ulaştı. En çok satan 10 model ve yıllık sıralama."
 image: "/images/haberler/agustos-2026-en-cok-satan-elektrikli-otomobiller.jpg"
-imageMode: generate
-imageScene: "Late summer evening at a modern shopping mall rooftop parking with a line of AC chargers glowing green, warm sunset sky over city skyline, empty parking bays, no vehicles."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Togg T10X"
+imageScene: "modern Istanbul waterfront road at golden hour with soft warm light"
 category: turkiye
 date: 2026-09-02
 source: "Webtekno, ODMD Basın Bülteni"

@@ -2,9 +2,9 @@
 title: "Mayıs 2026'da en çok satan elektrikli otomobiller: Togg ilk iki sırada, MINI üçüncü"
 description: "ODMD verilerine göre Mayıs 2026'da 11.342 elektrikli otomobil satıldı, pazar payı yüzde 17,35 oldu. Togg T10X 1.832, T10F 1.673 adetle ilk iki sırada."
 image: "/images/haberler/mayis-2026-en-cok-satan-elektrikli-otomobiller.jpg"
-imageMode: generate
-imageScene: "Rows of new-car delivery keys with blank tags arranged on a clean white showroom counter, soft daylight from large windows, shallow depth of field, no vehicles, no readable text."
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Togg T10F"
+imageScene: "spring city boulevard with green trees and soft morning daylight"
 category: turkiye
 date: 2026-06-02
 source: "Webtekno (ODMD verileri)"

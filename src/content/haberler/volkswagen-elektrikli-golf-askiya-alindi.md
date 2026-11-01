@@ -2,9 +2,9 @@
 title: "Volkswagen elektrikli Golf (ID. Golf) projesini askıya aldı: Maliyet baskısı büyüyor"
 description: "Volkswagen, elektrikli Golf (ID. Golf) geliştirme çalışmalarını Ekim 2026'da durdurdu. Wolfsburg fabrikası maliyet hedefinin 300 milyon avro gerisinde."
 image: "/images/haberler/volkswagen-elektrikli-golf-askiya-alindi.jpg"
-imageMode: generate
-imageScene: "empty modern car factory assembly hall with idle orange robotic arms and cool industrial lighting, no vehicles, no text"
-imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
+imageMode: edit
+imageWiki: "Volkswagen Golf Mk8"
+imageScene: "overcast day at a modern German factory forecourt with clean concrete and glass buildings, cool industrial light"
 category: dunya
 date: 2026-10-31
 source: "electrive / Reuters"

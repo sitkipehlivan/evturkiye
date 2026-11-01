@@ -62,6 +62,9 @@ RULES:
 - It must look like a real professional photograph, not an illustration or 3D render."""
 
 
+# Araç beklenen ama araçsız "boş" sahneler: haber görselinde araç eksikmiş gibi duruyor (generate'te yasak)
+BANNED = re.compile(r'showroom|podium|podyum|\bstage\b|auto ?show|motor ?show|exhibition|trade fair|dealership|assembly (hall|line)|car factory|production line|turntable|display (platform|area|podium)', re.I)
+
 FREE = re.compile(r'^(CC0|CC BY(-SA)? [0-9.]+|Public domain|PD)', re.I)
 
 
@@ -126,6 +129,9 @@ def main():
         scene = (fm.get('imageScene') or '').strip()
         if mode not in ('edit', 'generate') or not scene:
             skipped.append(slug)
+            continue
+        if mode == 'generate' and BANNED.search(scene):
+            failed.append(f'{slug}: generate sahnesi araç bekleyen boş bir mekân ({BANNED.search(scene).group(0)}); gerçek araç fotoğrafıyla edit kullanılmalı')
             continue
         print(f'-> {slug} ({mode})')
         try:

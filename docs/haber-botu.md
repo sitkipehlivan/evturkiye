@@ -68,8 +68,10 @@ Her yeni haberin ön bilgisine (frontmatter) görsel alanlarını yaz; görseli 
   - **Tercih edilen yol — `imageWiki`:** Haber belirli bir modelle ilgiliyse (fiyat listesi, lansman, kampanya, özel seri) aracın Wikipedia makale adını yaz (ör. `imageWiki: "Togg T10X"`). İşlem makalenin ana fotoğrafını Commons'tan alır, yalnızca serbest lisansları kabul eder ve `imageCredit`'i kendisi yazar; bu durumda `imageCredit` yazma. Makale adı İngilizce Wikipedia'daki başlık olmalı.
   - Alternatif — `imageSource`: lisansı uygun gerçek fotoğrafın **doğrudan görsel adresi** (.jpg/.png/.webp). Uygun kaynaklar: üreticinin basın/medya sitesi, Wikimedia Commons (`upload.wikimedia.org/...` adresi), Unsplash (`images.unsplash.com/...`), Pexels (`images.pexels.com/...`). Haber sitelerinden ve ajanslardan (AA, DHA, Getty, Reuters vb.) ASLA alma.
   - `imageCredit`: "Togg Basın" / "Wikimedia Commons / <fotoğrafçı>, <lisans>" / "Unsplash / <fotoğrafçı>".
-  - Uygun gerçek fotoğraf bulamazsan araçsız bir sahneyle `generate` modunu kullan.
-- **Görselde araç olmayacaksa → `imageMode: generate`** (fiş, şarj ünitesi, masa, belge, yol, istasyon, batarya vb.). Sahne kesinlikle araç içermez. `imageCredit: "EV Türkiye / yapay zekâ ile üretildi"`.
+  - **Haberin konusu otomobil(ler)se** (model adı geçen her haber: lansman, fiyat listesi, satış sıralaması, ödül/finalist, test, üretim/askıya alma, geri çağırma) görsel MUTLAKA `edit` olur. Birden fazla model varsa Türkiye'de satılan ya da en öne çıkan modelin fotoğrafını kullan. Model henüz fotoğraflanmadıysa markanın aynı sınıftaki güncel modelini veya selefini kullan.
+  - Gerçek fotoğraf hiç bulunamazsa `generate` yerine görsel alanlarını boş bırak (otomatik markalı kapak kalır).
+  - **YASAK sahneler (generate'te):** araç beklenen ama aracı olmayan boş sahneler — boş showroom, boş podyum/sahne/fuar standı, boş bayi, boş fabrika/montaj hattı, boş otopark. Bu sahneler "araç eksik" gibi görünür. İşlem bu kelimeleri içeren generate sahnelerini reddeder.
+- **Görselde araç olmayacaksa → `imageMode: generate`** — yalnızca konusu otomobil OLMAYAN haberlerde (şarj tarifesi, EPDK/şarj verisi, vergi/mevzuat, batarya, enerji, şarj ünitesi, fiş, belge). Sahne kesinlikle araç içermez. `imageCredit: "EV Türkiye / yapay zekâ ile üretildi"`.
 - `imageScene`: İngilizce, tek cümlelik sahne tarifi (konu, ortam, ışık). Metin, logo, marka adı isteme.
 
 Örnek:
