@@ -11,6 +11,7 @@ source: "Kia Türkiye"
 sourceUrl: "https://www.kia.com/tr/modeller/ev2/fiyat-listesi.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **Kia Türkiye**, elektrikli modelleri için **Kasım 2026 fiyat listesini** yayımladı. Markanın resmi sitesindeki listelere göre yeni fiyatlar **1 Kasım 2026** itibarıyla geçerli. Kompakt elektrikli SUV **EV2**, kampanya desteğiyle **1.749.000 TL**'den, **EV3** ise **2.450.000 TL**'den başlıyor. Bu ay kampanya desteği yalnızca EV2 ve EV9'da uygulanıyor.

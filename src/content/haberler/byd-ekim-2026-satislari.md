@@ -11,6 +11,7 @@ source: "CnEVPost"
 sourceUrl: "https://cnevpost.com/2026/11/01/byd-oct-2026-sales/"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / User3204, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Çinli üretici **BYD**, **Ekim 2026**'da toplam **490.168** yeni enerjili araç sattı. 1 Kasım'da açıklanan verilere göre satışlar geçen yılın aynı ayına göre **%10,97**, eylüle göre **%5,74** arttı. Tam elektrikli binek otomobil satışları **305.743** adetle ilk kez aylık 300 bin sınırını geçti. Rakamlar, elektrikli otomobil pazarının en büyük üreticisinde ağırlığın hem tam elektrikliye hem de yurt dışına kaydığını gösteriyor.
