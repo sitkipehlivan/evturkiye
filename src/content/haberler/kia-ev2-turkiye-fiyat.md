@@ -39,3 +39,5 @@ Kia'nın B-SUV segmentindeki yeni elektrikli modeli **EV2** Türkiye'de satışa
 EV2 piyasaya çıktıktan kısa süre sonra satış listelerine girdi: ODMD verilerine göre model Eylül 2026'da **809** adetle Türkiye'de en çok satan dördüncü elektrikli otomobil oldu ([Eylül sıralaması](/haberler/turkiye/eylul-2026-en-cok-satan-elektrikli-otomobiller)).
 
 Kia'nın diğer elektrikli modelleri için [Kia marka sayfamıza](/modeller/kia), uygun fiyatlı alternatifler için [en ucuz elektrikli otomobiller](/haberler/turkiye/en-ucuz-elektrikli-otomobiller-ekim-2026) haberimize bakabilirsiniz.
+
+Güncel liste için: [Kia elektrikli fiyat listesi Kasım 2026](/haberler/turkiye/kia-elektrikli-fiyat-listesi-kasim-2026)
