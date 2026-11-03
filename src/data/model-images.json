@@ -55,6 +55,11 @@
   "src": "/images/modeller/byd-dolphin.jpg",
   "credit": "Wikimedia Commons / User3204, CC BY-SA 4.0"
  },
+ "byd/han": {
+  "src": "/images/modeller/byd-han.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "BYD Han EV DSC 8759.jpg"
+ },
  "byd/seal": {
   "src": "/images/modeller/byd-seal.jpg",
   "credit": "Wikimedia Commons / User3204, CC BY-SA 4.0"
@@ -142,6 +147,11 @@
  "jeep/avenger": {
   "src": "/images/modeller/jeep-avenger.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
+ },
+ "kgm/musso-ev": {
+  "src": "/images/modeller/kgm-musso-ev.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "KGM Musso EV Auto Zuerich 2025 DSC 3556.jpg"
  },
  "kgm/torres-evx": {
   "src": "/images/modeller/kgm-torres-evx.jpg",
