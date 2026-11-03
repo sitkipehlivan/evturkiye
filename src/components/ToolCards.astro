@@ -2,16 +2,26 @@
 // Ana sayfa sağ sütunu: üç araç için eşit boyutlu önizleme kartları.
 import ops from '../data/operators.json';
 const cheapest = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 3);
+import { models } from '../lib/ev';
+const live = models.filter((m) => !m.discontinued);
+const brandList = [...new Set(live.map((m) => m.brand))].sort((a, b) => a.localeCompare(b, 'tr'));
+const defCar = live.find((m) => m.slug === 't10x-v2-rwd-uzun-menzil')?.slug ?? live[0].slug;
+const gmKey = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY || '';
 const tl = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺';
 ---
 <div class="tools">
-  <form class="tc tc-route" action="/rota-planlayici" method="get" aria-labelledby="tc-r">
+  <form class="tc tc-route" action="/rota-planlayici" method="get" aria-labelledby="tc-r" data-gm={gmKey} autocomplete="off">
     <div class="tc-head">
       <span class="tc-ic grad" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="6" r="2.4"/><path d="M8.4 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.6"/></svg></span>
       <div><b id="tc-r">Rotanı planla</b><em>Şarj durakları ve yol maliyeti</em></div>
     </div>
-    <div class="tc-in"><span class="dot a" aria-hidden="true"></span><label class="visually-hidden" for="tc-from">Nereden</label><input id="tc-from" name="from" placeholder="Nereden? (Kadıköy)" required /></div>
-    <div class="tc-in"><span class="dot b" aria-hidden="true"></span><label class="visually-hidden" for="tc-to">Nereye</label><input id="tc-to" name="to" placeholder="Nereye? (Çeşme)" required /></div>
+    <div class="tc-in"><span class="dot a" aria-hidden="true"></span><label class="visually-hidden" for="tc-from">Nereden</label><input id="tc-from" name="from" placeholder="Nereden? (Kadıköy)" autocomplete="off" required /><input type="hidden" name="fl" /><input type="hidden" name="fo" /></div>
+    <div class="tc-in"><span class="dot b" aria-hidden="true"></span><label class="visually-hidden" for="tc-to">Nereye</label><input id="tc-to" name="to" placeholder="Nereye? (Çeşme, İzmir)" autocomplete="off" required /><input type="hidden" name="tl" /><input type="hidden" name="to_o" /></div>
+    <div class="tc-in"><label class="visually-hidden" for="tc-car">Aracınız</label>
+      <select id="tc-car" name="car">
+        {brandList.map((b) => <optgroup label={b}>{live.filter((m) => m.brand === b).map((m) => <option value={m.slug} selected={m.slug === defCar}>{m.brand} {m.model} {m.version}</option>)}</optgroup>)}
+      </select>
+    </div>
     <button class="tc-btn grad" type="submit">Durakları ve maliyeti göster →</button>
   </form>
 
@@ -41,6 +51,54 @@ const tl = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, 
   </a>
 </div>
 
+<script>
+  import { loadGoogle, GoogleAutocomplete } from '../scripts/google';
+  const form = document.querySelector<HTMLFormElement>('.tc-route');
+  if (form) {
+    const key = form.dataset.gm || '';
+    const car = form.querySelector<HTMLSelectElement>('#tc-car')!;
+    try { const c = localStorage.getItem('evt-car'); if (c && [...car.options].some((o) => o.value === c)) car.value = c; } catch { /* yoksay */ }
+    car.addEventListener('change', () => { try { localStorage.setItem('evt-car', car.value); } catch { /* yoksay */ } });
+    const gac = new GoogleAutocomplete();
+    const wire = (input: HTMLInputElement, lat: HTMLInputElement, lon: HTMLInputElement) => {
+      const list = document.createElement('ul');
+      list.className = 'tc-suggest'; list.hidden = true;
+      input.parentElement!.appendChild(list);
+      let t: number | undefined;
+      input.addEventListener('input', () => {
+        lat.value = ''; lon.value = '';
+        clearTimeout(t);
+        const q = input.value.trim();
+        if (q.length < 2 || !key) { list.hidden = true; return; }
+        t = window.setTimeout(async () => {
+          try {
+            await loadGoogle(key);
+            const res = await gac.suggest(q);
+            if (input.value.trim() !== q) return;
+            list.innerHTML = '';
+            res.forEach((p) => {
+              const li = document.createElement('li');
+              li.textContent = p.label;
+              li.addEventListener('mousedown', async (e) => {
+                e.preventDefault();
+                input.value = p.label; list.hidden = true;
+                try { const r = await p.resolve(); lat.value = r.lat.toFixed(5); lon.value = r.lon.toFixed(5); } catch { /* yoksay */ }
+              });
+              list.appendChild(li);
+            });
+            list.hidden = !res.length;
+          } catch { list.hidden = true; }
+        }, 250);
+      });
+      input.addEventListener('blur', () => setTimeout(() => (list.hidden = true), 150));
+    };
+    const q = <T extends HTMLElement>(s: string) => form.querySelector<T>(s)!;
+    wire(q('#tc-from'), q('input[name="fl"]'), q('input[name="fo"]'));
+    wire(q('#tc-to'), q('input[name="tl"]'), q('input[name="to_o"]'));
+    // Koordinatı olmayan gizli alanları gönderme (adres planlayıcıda Google ile çözülür)
+    form.addEventListener('submit', () => form.querySelectorAll<HTMLInputElement>('input[type="hidden"]').forEach((h) => { if (!h.value) h.disabled = true; }));
+  }
+</script>
 <style>
   .tools { display: grid; grid-template-rows: repeat(3, minmax(170px, 1fr)); gap: 12px; height: 100%; width: 300px; }
   .tc { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; overflow: hidden; transition: transform .15s, box-shadow .15s; color: var(--ink); }
@@ -53,11 +111,16 @@ const tl = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, 
   .green { background: var(--green); }
 
   /* Rota */
-  .tc-route { border: 0; color: #fff; background: radial-gradient(120% 140% at 100% 0%, #12a150 0%, #0b5e4a 42%, #0b1f3a 100%); }
+  .tc-route { overflow: visible; z-index: 5; border: 0; color: #fff; background: radial-gradient(120% 140% at 100% 0%, #12a150 0%, #0b5e4a 42%, #0b1f3a 100%); }
   .tc-route .tc-head em { color: #bdeccd; }
   .tc-route .tc-ic.grad { background: #fff; }
   .tc-route .tc-ic.grad svg { stroke: #0b5e4a; }
   .tc-route .tc-in input { border: 0; background: rgba(255, 255, 255, .96); color: var(--ink); }
+  .tc-route .tc-in select { width: 100%; height: 32px; box-sizing: border-box; border: 0; border-radius: 8px; padding: 0 8px; font: 600 .8rem var(--font); color: var(--ink); background: rgba(255, 255, 255, .96); }
+  .tc-suggest { position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 4px); margin: 0; padding: 4px; list-style: none; background: #fff; color: var(--ink); border-radius: 10px; box-shadow: 0 12px 30px rgba(15, 23, 42, .25); max-height: 240px; overflow: auto; }
+  .tc-suggest[hidden] { display: none; }
+  .tc-suggest li { padding: 8px 10px; font-size: .82rem; border-radius: 7px; cursor: pointer; line-height: 1.3; }
+  .tc-suggest li:hover { background: var(--volt-soft); }
   .tc-route .dot.b { background: #2ee07a; }
   .tc-route .tc-btn.grad { background: #2ee07a; color: #062814; }
   .tc-route:hover .tc-btn.grad, .tc-route:focus-within .tc-btn.grad { background: #4cf08f; }

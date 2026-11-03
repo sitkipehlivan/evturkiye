@@ -28,7 +28,6 @@ export function rows(cars: CCar[], ctx: Ctx): { group: string; rows: Row[] }[] {
   return [
     { group: 'Fiyat', rows: [
       { label: 'Liste fiyatı', vals: v((c) => (c.discontinued ? undefined : c.priceTL)), fmt: (x) => tl(x), better: 'lo' },
-      { label: 'Menzil başına fiyat', hint: 'Liste fiyatı ÷ otoyol menzili', vals: v((c) => (c.priceTL && !c.discontinued ? c.priceTL / hwRange(c) : undefined)), fmt: (x) => tl(x) + '/km', better: 'lo' },
     ] },
     { group: 'Menzil ve verimlilik', rows: [
       { label: 'WLTP menzil', vals: v((c) => c.wltp), fmt: (x) => nf(x) + ' km', better: 'hi' },

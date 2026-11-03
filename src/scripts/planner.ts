@@ -63,8 +63,10 @@ function init(root: HTMLElement) {
     map.on('click', () => map!.scrollWheelZoom.enable());
     layer = L.layerGroup().addTo(map);
   };
-  leaflet();
-  const ready: Promise<void> = Promise.resolve();
+  // Ana planlayıcı: Google haritası ile açılır (rota sayfaları/ön ayarlı sayfalar ücretsiz OSM'de kalır)
+  const googleFirst = gmAvailable && !data.preset;
+  if (!googleFirst) leaflet();
+  const ready: Promise<void> = googleFirst ? ensureGoogle().then((ok) => { if (!ok) leaflet(); }) : Promise.resolve();
   /** Üye rota hesaplarken haritayı Google'a geçirir (Google verisi Google haritasında gösterilmeli). */
   async function ensureGoogle(): Promise<boolean> {
     if (gview) return true;
@@ -113,7 +115,7 @@ function init(root: HTMLElement) {
         ctrl?.abort(); ctrl = new AbortController();
         try {
           await ready;
-          const g = gmAvailable && member && (await loadGoogle(gmKey).then(() => true, () => false));
+          const g = gmAvailable && (await loadGoogle(gmKey).then(() => true, () => false));
           const res: { label: string; resolve: () => Promise<Place> }[] = g
             ? await gac.suggest(q)
             : (await geocode(q, 6, ctrl.signal)).map((p) => ({ label: p.label, resolve: async () => p }));
@@ -138,6 +140,25 @@ function init(root: HTMLElement) {
 
   // --- Hesaplama
   form.addEventListener('submit', (e) => { e.preventDefault(); run(); });
+  // Aynı başlangıç-varış için son rota ve istasyonlar: araç, şarj, mevsim veya tercih değişince
+  // rota tekrar sorgulanmaz (hak düşmez), plan anında yeniden hesaplanır.
+  let last: { key: string; a: Place; b: Place; route: { coords: LatLon[]; duration: number }; stations: Station[]; routeKm: number } | null = null;
+  const placeKey = (a: Place, b: Place) => `${a.lat.toFixed(4)},${a.lon.toFixed(4)}>${b.lat.toFixed(4)},${b.lon.toFixed(4)}`;
+  [carSel, seasonSel, speedSel].forEach((el) => el.addEventListener('change', () => { if (last) replan(); }));
+  socIn.addEventListener('change', () => { if (last) replan(); });
+  root.querySelectorAll<HTMLInputElement>('input[name="mode"]').forEach((el) => el.addEventListener('change', () => { if (last) replan(); }));
+  carSel.addEventListener('change', () => { try { localStorage.setItem('evt-car', carSel.value); } catch { /* yoksay */ } });
+  function replan() {
+    if (!last || !places.from || !places.to || placeKey(places.from, places.to) !== last.key) return;
+    const car = models.find((m) => m.slug === carSel.value)!;
+    const startSoc = Number(socIn.value) / 100;
+    const mode = ((root.querySelector('input[name="mode"]:checked') as HTMLInputElement)?.value || 'fast') as 'fast' | 'eco';
+    const consumption = (car.highway * Number(seasonSel.value) * Number(speedSel.value)) / 100;
+    const r = plan({ routeKm: last.routeKm, durationS: last.route.duration, battery: car.battery, consumption, carDcMax: car.dcMax, startSoc, mode, stations: last.stations, operators });
+    draw(last.route.coords, last.a, last.b, last.stations, r);
+    render(r, { a: last.a, b: last.b, car, routeKm: last.routeKm, stations: last.stations, startSoc, consumption, mode });
+    updateUrl(last.a, last.b, car.slug, Math.round(startSoc * 100), mode);
+  }
   if (data.autorun || (qs.get('from') && qs.get('to'))) run();
 
   async function run() {
@@ -145,6 +166,7 @@ function init(root: HTMLElement) {
     const startSoc = Number(socIn.value) / 100;
     const mode = ((root.querySelector('input[name="mode"]:checked') as HTMLInputElement)?.value || 'fast') as 'fast' | 'eco';
     const factor = Number(seasonSel.value) * Number(speedSel.value);
+    if (last && places.from && places.to && placeKey(places.from, places.to) === last.key) { replan(); return; }
     btn.disabled = true;
     results.innerHTML = '';
     try {
@@ -166,7 +188,8 @@ function init(root: HTMLElement) {
       }
       const premium = gmAvailable && (member || guestTry);
       if (premium) await ensureGoogle();
-      const find = async (q: string) => (premium && useGoogle ? await gac.first(q).catch(() => null) : null) ?? (await geocode(q, 1))[0];
+      const gOk = gmAvailable && (await loadGoogle(gmKey).then(() => true, () => false));
+      const find = async (q: string) => (gOk ? await gac.first(q).catch(() => null) : null) ?? (await geocode(q, 1))[0];
       const a = places.from ?? (await find(fromIn.value));
       const b = places.to ?? (await find(toIn.value));
       if (!a || !b) throw new Error('Başlangıç veya varış noktası bulunamadı. Lütfen listeden bir adres seçin.');
@@ -196,6 +219,7 @@ function init(root: HTMLElement) {
       if (!gStations.length) setStatus('Güzergahtaki şarj istasyonları taranıyor…');
       const stations = mergeStations(route.coords, cum, gStations, await getStations(route.coords, cum));
 
+      last = { key: placeKey(a, b), a, b, route, stations, routeKm };
       const consumption = (car.highway * factor) / 100;
       const r = plan({ routeKm, durationS: route.duration, battery: car.battery, consumption, carDcMax: car.dcMax, startSoc, mode, stations, operators });
       setStatus('');
