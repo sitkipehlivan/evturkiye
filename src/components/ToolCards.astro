@@ -117,10 +117,10 @@ const tl = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, 
   .tc-route .tc-ic.grad svg { stroke: #0b5e4a; }
   .tc-route .tc-in input { border: 0; background: rgba(255, 255, 255, .96); color: var(--ink); }
   .tc-route .tc-in select { width: 100%; height: 32px; box-sizing: border-box; border: 0; border-radius: 8px; padding: 0 8px; font: 600 .8rem var(--font); color: var(--ink); background: rgba(255, 255, 255, .96); }
-  .tc-suggest { position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 4px); margin: 0; padding: 4px; list-style: none; background: #fff; color: var(--ink); border-radius: 10px; box-shadow: 0 12px 30px rgba(15, 23, 42, .25); max-height: 240px; overflow: auto; }
-  .tc-suggest[hidden] { display: none; }
-  .tc-suggest li { padding: 8px 10px; font-size: .82rem; border-radius: 7px; cursor: pointer; line-height: 1.3; }
-  .tc-suggest li:hover { background: var(--volt-soft); }
+  :global(.tc-suggest) { position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 4px); margin: 0; padding: 4px; list-style: none; background: #fff; color: var(--ink); border-radius: 10px; box-shadow: 0 12px 30px rgba(15, 23, 42, .25); max-height: 240px; overflow: auto; }
+  :global(.tc-suggest[hidden]) { display: none; }
+  :global(.tc-suggest li) { padding: 8px 10px; font-size: .82rem; border-radius: 7px; cursor: pointer; line-height: 1.3; }
+  :global(.tc-suggest li:hover) { background: var(--volt-soft); }
   .tc-route .dot.b { background: #2ee07a; }
   .tc-route .tc-btn.grad { background: #2ee07a; color: #062814; }
   .tc-route:hover .tc-btn.grad, .tc-route:focus-within .tc-btn.grad { background: #4cf08f; }
