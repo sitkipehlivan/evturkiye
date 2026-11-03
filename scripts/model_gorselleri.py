@@ -13,7 +13,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from gemini_image import GeminiError, fetch, save_jpeg  # noqa: E402
-from haber_gorselleri import wiki_photo  # noqa: E402
+from haber_gorselleri import commons_photo, wiki_photo  # noqa: E402
 
 MODELS = 'src/data/models.json'
 OUT = 'src/data/model-images.json'
@@ -28,18 +28,19 @@ def main():
     seen = set()
     for m in models:
         key = f"{m['brandSlug']}/{m['modelSlug']}"
-        if key in seen or not m.get('wiki'):
+        if key in seen or not (m.get('wiki') or m.get('photo')):
             continue
         seen.add(key)
         path = f"public/images/modeller/{m['brandSlug']}-{m['modelSlug']}.jpg"
-        if key in images and os.path.exists(path):
+        want = m.get('photo') or m.get('wiki')
+        if key in images and os.path.exists(path) and images[key].get('from', want) == want:
             continue
         try:
-            url, credit = wiki_photo(m['wiki'])
+            url, credit = commons_photo(m['photo']) if m.get('photo') else wiki_photo(m['wiki'])
             _, data = fetch(url)
             save_jpeg(data, path, width=1200)
             images[key] = {'src': '/' + path.removeprefix('public/'),
-                           'credit': credit.replace(' (arka plan yapay zekâ ile düzenlendi)', '')}
+                           'credit': credit.replace(' (arka plan yapay zekâ ile düzenlendi)', ''), 'from': want}
             done.append(key)
         except (GeminiError, Exception) as e:  # noqa: BLE001
             failed.append(f'{key}: {e}')

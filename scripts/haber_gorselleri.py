@@ -90,6 +90,12 @@ def wiki_photo(title):
             break
     else:
         raise GeminiError(f'Wikipedia görseli bulunamadı: {title}')
+    return commons_photo(name)
+
+
+def commons_photo(name):
+    """Commons dosyası (ör. "KGM Torres EVX U100 Latte Greige (2).jpg") -> (görsel url, kredi). Serbest lisans değilse hata."""
+    name = name.removeprefix('File:')
     info = _api('https://commons.wikimedia.org/w/api.php', {'action': 'query', 'titles': 'File:' + name, 'prop': 'imageinfo',
                                                              'iiprop': 'url|extmetadata|size', 'iiurlwidth': 1600})
     pg = (info.get('query', {}).get('pages') or [{}])[0]

@@ -326,6 +326,27 @@
       "wiki": "BYD Dolphin"
     },
     {
+      "slug": "han-executive-awd",
+      "brand": "BYD",
+      "brandSlug": "byd",
+      "model": "Han",
+      "modelSlug": "han",
+      "version": "Executive 380 kW AWD",
+      "body": "Sedan",
+      "battery": 83,
+      "wltp": 521,
+      "dcMax": 120,
+      "acMax": 11,
+      "highway": 21,
+      "hp": 517,
+      "accel": 3.9,
+      "priceTL": 4873000,
+      "priceDate": "2026-06",
+      "priceSource": "https://www.gzt.com/teknoloji/byd-fiyat-listesi-haziran-2026-seal-sealion-7-han-tang-4228808",
+      "photo": "BYD Han EV DSC 8759.jpg",
+      "discontinued": true
+    },
+    {
       "slug": "seal-awd-excellence",
       "brand": "BYD",
       "brandSlug": "byd",
@@ -1040,7 +1061,8 @@
       "accel": 9.2,
       "priceTL": 2461003,
       "priceDate": "2026-10",
-      "priceSource": "https://www.cnbce.com/otomotiv/kgm-ssangyongun-ekim-ayi-fiyatlari-belli-oldu-17-milyon-tlden-basliyor-g39763"
+      "priceSource": "https://www.cnbce.com/otomotiv/kgm-ssangyongun-ekim-ayi-fiyatlari-belli-oldu-17-milyon-tlden-basliyor-g39763",
+      "photo": "KGM Musso EV Auto Zuerich 2025 DSC 3556.jpg"
     },
     {
       "slug": "torres-evx-4x2",
@@ -1060,7 +1082,8 @@
       "priceTL": 2487420,
       "priceDate": "2026-10",
       "priceSource": "https://www.cnbce.com/otomotiv/kgm-ssangyongun-ekim-ayi-fiyatlari-belli-oldu-17-milyon-tlden-basliyor-g39763",
-      "wiki": "SsangYong Torres"
+      "wiki": "SsangYong Torres",
+      "photo": "KGM Torres EVX U100 Latte Greige (2).jpg"
     },
     {
       "slug": "ev2-standard-range",
