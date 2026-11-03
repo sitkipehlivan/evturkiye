@@ -30,10 +30,15 @@ export class GoogleAutocomplete {
     this.token = new this.lib.AutocompleteSessionToken();
   }
 
-  async suggest(input: string): Promise<{ label: string; resolve: () => Promise<GPlace> }[]> {
+  /** regionsOnly: yalnızca il/ilçe/mahalle gibi bölgeler (listeden seçilmeden yazılan adres için). */
+  async suggest(input: string, regionsOnly = false): Promise<{ label: string; resolve: () => Promise<GPlace> }[]> {
     if (!this.lib) await this.init();
+    // Konum eğilimi tüm Türkiye: aksi halde Google kullanıcının IP konumunu öne alır
+    // ("Çeşme" yazınca İstanbul'daki "Çeşme Sokak" gelmesin, Çeşme/İzmir gelsin).
     const { suggestions } = await this.lib.AutocompleteSuggestion.fetchAutocompleteSuggestions({
       input, sessionToken: this.token, includedRegionCodes: ['tr'], language: 'tr', region: 'tr',
+      locationBias: { south: 35.8, west: 25.6, north: 42.2, east: 44.9 },
+      ...(regionsOnly ? { includedPrimaryTypes: ['(regions)'] } : {}),
     });
     return (suggestions || []).filter((s: any) => s.placePrediction).slice(0, 6).map((s: any) => {
       const p = s.placePrediction;
@@ -52,7 +57,8 @@ export class GoogleAutocomplete {
 
   /** Listeden seçim yapılmadıysa ilk öneriyi kullan. */
   async first(input: string): Promise<GPlace | null> {
-    const list = await this.suggest(input);
+    let list = await this.suggest(input, true);
+    if (!list.length) list = await this.suggest(input);
     return list.length ? list[0].resolve() : null;
   }
 }
