@@ -33,7 +33,7 @@ def main():
         seen.add(key)
         path = f"public/images/modeller/{m['brandSlug']}-{m['modelSlug']}.jpg"
         want = m.get('photo') or m.get('wiki')
-        if key in images and os.path.exists(path) and images[key].get('from', want) == want:
+        if key in images and os.path.exists(path) and images[key].get('from', None if m.get('photo') else want) == want:
             continue
         try:
             url, credit = commons_photo(m['photo']) if m.get('photo') else wiki_photo(m['wiki'])
