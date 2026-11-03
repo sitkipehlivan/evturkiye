@@ -41,3 +41,5 @@ Türkiye'nin en çok satan elektrikli otomobil markası Togg, Ekim 2026 fiyat li
 Ekim ayında **T10F V2** için 900.000 TL'ye 10 ay %0 faiz kampanyası bulunuyor ([detaylar](/firsatlar)).
 
 > Togg modellerinin teknik özellikleri ve şarj süreleri için [T10X](/modeller/togg/t10x) ve [T10F](/modeller/togg/t10f) sayfalarımıza bakın. Togg'la uzun yolda kaç kez şarj gerekeceğini [Rota Planlayıcı](/rota-planlayici) ile hesaplayabilirsiniz.
+
+Güncel liste için: [Togg fiyat listesi Kasım 2026](/haberler/turkiye/togg-fiyat-listesi-kasim-2026)
