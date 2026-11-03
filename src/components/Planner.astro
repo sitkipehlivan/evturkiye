@@ -29,7 +29,7 @@ const payload = JSON.stringify({ models, operators: opsData.operators, preset, a
         {brands.map((b) => (
           <optgroup label={b}>
             {models.filter((m) => m.brand === b).map((m) => (
-              <option value={m.slug} selected={m.slug === defaultCar}>{m.model} {m.version} · {m.battery} kWh</option>
+              <option value={m.slug} selected={m.slug === defaultCar}>{m.model} {m.version} · {m.battery} kWh{(m as any).discontinued ? " (satıştan kalktı)" : ""}</option>
             ))}
           </optgroup>
         ))}
