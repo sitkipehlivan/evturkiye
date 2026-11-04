@@ -44,3 +44,5 @@ Ekim 2026'da 14 otomobil markası sıfır faizli kredi kampanyası sunuyor. Bu k
 - **Birleştirme:** Bazı kampanyalar (ör. Fiat Grande Panda) başka indirimlerle birleştirilemiyor.
 
 Güncel ve süresi dolmamış tüm kampanyaları [Fırsatlar](/firsatlar) sayfamızda tek tek listeliyoruz. Kampanyalı bir aracın günlük şarj maliyetini [şarj maliyeti](/elektrikli-arac-sarj-maliyeti) sayfasından hesaplayabilirsiniz.
+
+> Güncel liste için: [Kasım 2026 elektrikli araç kampanyaları](/haberler/turkiye/kasim-2026-elektrikli-arac-kampanyalari)

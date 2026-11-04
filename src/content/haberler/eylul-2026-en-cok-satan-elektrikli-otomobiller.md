@@ -38,3 +38,5 @@ Ocak–Eylül 2026 döneminde tam elektrikli otomobil satışlarında marka sır
 Aynı dönemde Türkiye'de elektrikli otomobil satışlarının bir önceki yıla göre gerilediğini de hatırlatalım ([detaylı haber](/haberler/turkiye/turkiye-ev-satislari-9-ay-2026)).
 
 > En çok satan modellerin batarya, menzil ve şarj gücü bilgilerini [EV Modelleri](/modeller) sayfamızda karşılaştırabilirsiniz.
+
+> Güncel liste için: [Ekim 2026 elektrikli otomobil satışları](/haberler/turkiye/ekim-2026-elektrikli-otomobil-satislari)
