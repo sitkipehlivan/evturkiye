@@ -16,10 +16,10 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 export const name = (c: CCar) => `${c.brand} ${c.model}`;
 export const hwRange = (c: CCar) => Math.round((c.battery / c.highway) * 100);
 export const winterRange = (c: CCar) => Math.round(hwRange(c) * 0.8);
-export const dcMin = (c: CCar) => Math.round(((c.battery * 0.7) / (c.dcMax * 0.68)) * 60);
+export const dcMin = (c: CCar) => (c.dcMax ? Math.round(((c.battery * 0.7) / (c.dcMax * 0.68)) * 60) : undefined as unknown as number);
 export const acHours = (c: CCar) => c.battery / EFF / c.acMax;
 export const cost100 = (c: CCar, p: number) => (c.highway / EFF) * p;
-export const kmPer10min = (c: CCar) => Math.round(((c.dcMax * 0.68 * 10) / 60 / c.highway) * 100);
+export const kmPer10min = (c: CCar) => (c.dcMax ? Math.round(((c.dcMax * 0.68 * 10) / 60 / c.highway) * 100) : undefined as unknown as number);
 
 interface Row { label: string; hint?: string; vals: (number | undefined)[]; fmt: (v: number) => string; better?: 'hi' | 'lo'; }
 
@@ -83,7 +83,8 @@ export function prosCons(cars: CCar[], ctx: Ctx) {
     if (c.acMax >= 22) o.pros.push('22 kW AC şarj desteği (AC istasyonda çok daha hızlı dolar)');
     if (c.acMax < 11) o.cons.push(`AC şarj ${nf(c.acMax, 1)} kW ile sınırlı (11 kW istasyonda bile yavaş)`);
     if (c.dcMax >= 200) o.pros.push(`Yüksek DC şarj gücü (${c.dcMax} kW)`);
-    if (c.dcMax < 100) o.cons.push(`DC şarj gücü düşük (${c.dcMax} kW): uzun yolda molalar uzar`);
+    if (!c.dcMax) o.cons.push('DC hızlı şarj girişi yok: uzun yol için uygun değil');
+    else if (c.dcMax < 100) o.cons.push(`DC şarj gücü düşük (${c.dcMax} kW): uzun yolda molalar uzar`);
     if (hwRange(c) >= 450) o.pros.push(`Otoyolda ~${hwRange(c)} km: İstanbul–Ankara tek şarjla rahat`);
     else if (hwRange(c) < 280) o.cons.push(`Otoyol menzili ~${hwRange(c)} km: uzun yolda sık şarj molası`);
     if (c.highway <= 16) o.pros.push(`Çok verimli: 100 km ~${nf(cost100(c, ctx.avgDc), 0)} TL (DC)`);

@@ -7,9 +7,11 @@ export const CHARGE_EFF = 0.93;
 export interface Model {
   slug: string; brand: string; brandSlug: string; model: string; modelSlug: string; version: string; body: string;
   battery: number; wltp: number; dcMax: number; acMax: number; highway: number;
-  hp?: number; accel?: number; priceTL?: number; priceDate?: string; priceSource?: string; wiki?: string; discontinued?: boolean;
+  hp?: number; accel?: number; priceTL?: number; priceDate?: string; priceSource?: string; wiki?: string; photo?: string; discontinued?: boolean;
 }
 export const models = data.models as Model[];
+/** Türkiye'de şu an satışta olanlar (rehber/sıralama sayfaları bunları kullanır) */
+export const liveModels = models.filter((m) => !m.discontinued);
 
 /** Model (marka+model) bazında gruplar: versiyonlar, fotoğraf, başlangıç fiyatı */
 export interface ModelGroup { key: string; brand: string; brandSlug: string; model: string; modelSlug: string; body: string; versions: Model[]; image?: { src: string; credit: string }; fromPrice?: number; priceDate?: string; wltpMax: number; onSale: boolean; }
@@ -48,7 +50,9 @@ export const fullName = (m: Model) => `${m.brand} ${m.model} ${m.version}`;
 /** Otoyolda (110–120 km/s) tahmini menzil */
 export const highwayRange = (m: Model) => Math.round((m.battery / m.highway) * 100);
 /** %10 → %80 DC şarj süresi (ort. güç ≈ maks. gücün %68'i) */
-export const dcMinutes = (m: Model) => Math.round(((m.battery * 0.7) / (m.dcMax * 0.68)) * 60);
+export const dcMinutes = (m: Model) => (m.dcMax ? Math.round(((m.battery * 0.7) / (m.dcMax * 0.68)) * 60) : NaN);
+/** "~29 dk" ya da DC girişi olmayan araçlarda "DC yok" */
+export const dcText = (m: Model) => (m.dcMax ? `~${dcMinutes(m)} dk` : 'DC yok');
 /** %0 → %100 AC şarj süresi (saat) */
 export const acHours = (m: Model) => m.battery / CHARGE_EFF / m.acMax;
 /** 100 km maliyeti (otoyol tüketimi, verilen kWh fiyatıyla) */

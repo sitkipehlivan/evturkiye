@@ -5,7 +5,7 @@ import DealCard from '../../../components/DealCard.astro';
 import GuideLinks from '../../../components/GuideLinks.astro';
 import { getNews, getDeals, tl } from '../../../lib/util';
 import ModelCard from '../../../components/ModelCard.astro';
-import { models, brands, avgDc, highwayRange, dcMinutes, per100, modelGroups, price, monthTr } from '../../../lib/ev';
+import { models, brands, avgDc, highwayRange, dcMinutes, dcText, per100, modelGroups, price, monthTr } from '../../../lib/ev';
 
 export function getStaticPaths() {
   return brands.map((b) => ({ params: { brand: b.slug }, props: { name: b.name } }));
@@ -46,7 +46,7 @@ const jsonLd = {
               <td>{m.body}</td>
               <td class="num nowrap">{m.priceTL ? price(m.priceTL) : '—'}</td>
               <td class="num">{m.battery} kWh</td><td class="num">{m.wltp} km</td><td class="num">~{highwayRange(m)} km</td>
-              <td class="num">~{dcMinutes(m)} dk</td><td class="num">{tl(per100(m, avgDc))}</td>
+              <td class="num">{dcText(m)}</td><td class="num">{tl(per100(m, avgDc))}</td>
               <td><a class="plan" href={`/rota-planlayici?car=${m.slug}`}>Rota planla</a></td>
             </tr>
           ))}</tbody>

@@ -5,11 +5,11 @@ import GuideLinks from '../components/GuideLinks.astro';
 import NewsCard from '../components/NewsCard.astro';
 import ops from '../data/operators.json';
 import { getNews, tl } from '../lib/util';
-import { models, avgAc, avgDc, minDc, opsCount, dcMinutes, acHours, chargeCost } from '../lib/ev';
+import { liveModels as models, avgAc, avgDc, minDc, opsCount, dcMinutes, acHours, chargeCost } from '../lib/ev';
 
 const news = await getNews();
 const related = news.filter((p) => /şarj|sarj/i.test(p.data.title + p.id)).slice(0, 6);
-const rows = [...models].sort((a, b) => dcMinutes(a) - dcMinutes(b));
+const rows = [...models].filter((m) => m.dcMax).sort((a, b) => dcMinutes(a) - dcMinutes(b));
 const mins = rows.map(dcMinutes);
 const cheap = [...ops.operators].sort((a, b) => a.dc - b.dc).slice(0, 5);
 const fmtH = (h: number) => { const t = Math.round(h * 2) / 2; return `${t.toLocaleString('tr-TR')} sa`; };

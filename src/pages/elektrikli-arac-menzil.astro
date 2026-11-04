@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
 import GuideLinks from '../components/GuideLinks.astro';
-import { models, highwayRange } from '../lib/ev';
+import { liveModels as models, highwayRange } from '../lib/ev';
 
 const rows = [...models].sort((a, b) => b.wltp - a.wltp);
 const ratio = rows.map((m) => highwayRange(m) / m.wltp);

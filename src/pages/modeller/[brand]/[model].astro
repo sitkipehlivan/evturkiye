@@ -28,7 +28,7 @@ const jsonLd = {
   ...(g.image ? { image: new URL(g.image.src, Astro.site).toString() } : {}),
   ...(g.fromPrice ? { offers: { '@type': 'Offer', priceCurrency: 'TRY', price: g.fromPrice, availability: 'https://schema.org/InStock' } } : {}),
 };
-const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'den başlıyor (${monthTr(g.priceDate)})` : ''}. ${range} WLTP menzil, ${Math.max(...versions.map((v) => v.dcMax))} kW DC şarj, şarj süresi ve 100 km maliyeti.`;
+const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'den başlıyor (${monthTr(g.priceDate)})` : ''}. ${range} WLTP menzil, ${Math.max(...versions.map((v) => v.dcMax)) ? `${Math.max(...versions.map((v) => v.dcMax))} kW DC şarj` : 'yalnızca AC şarj'}, şarj süresi ve 100 km maliyeti.`;
 ---
 <Base title={`${name} Fiyatı, Menzili ve Şarj Süresi${g.priceDate ? ` (${monthTr(g.priceDate)})` : ''}`} description={desc} jsonLd={jsonLd} image={g.image?.src}>
   <section class="section-sm">
@@ -48,7 +48,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
             : <p class="from none">{g.onSale ? 'Güncel fiyat için distribütörün fiyat listesine bakın.' : `${name} Türkiye'de artık yeni olarak satılmıyor; teknik veriler ikinci el alıcılar ve mevcut sahipler için yer alıyor.`}</p>}
           <ul class="facts">
             <li><b>{range}</b><span>WLTP menzil</span></li>
-            <li><b>{Math.max(...versions.map((v) => v.dcMax))} kW</b><span>DC hızlı şarj</span></li>
+            <li><b>{Math.max(...versions.map((v) => v.dcMax)) ? `${Math.max(...versions.map((v) => v.dcMax))} kW` : 'Yok'}</b><span>DC hızlı şarj</span></li>
             {hps.length > 0 && <li><b>{Math.min(...hps) === Math.max(...hps) ? hps[0] : `${Math.min(...hps)}–${Math.max(...hps)}`} PS</b><span>Güç</span></li>}
             <li><b>{versions.length}</b><span>Versiyon</span></li>
           </ul>
@@ -59,7 +59,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
       <div class="versions">
         {versions.map((v) => {
           const e = v.battery * 0.7; // %10 → %80
-          const min = Math.round((e / (v.dcMax * 0.68)) * 60);
+          const min = v.dcMax ? Math.round((e / (v.dcMax * 0.68)) * 60) : null;
           const cost = (e / 0.93) * avgDc;
           const per100 = (v.highway / 0.93) * avgDc;
           return (
@@ -71,13 +71,13 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
                 {v.accel && <div><dt>0–100 km/s</dt><dd>{v.accel.toLocaleString('tr-TR')} sn</dd></div>}
                 <div><dt>Batarya (kullanılabilir)</dt><dd>{v.battery} kWh</dd></div>
                 <div><dt>WLTP menzil</dt><dd>{v.wltp} km</dd></div>
-                <div><dt>DC maks. şarj</dt><dd>{v.dcMax} kW</dd></div>
+                <div><dt>DC maks. şarj</dt><dd>{v.dcMax ? `${v.dcMax} kW` : 'Yok (yalnızca AC)'}</dd></div>
                 <div><dt>AC maks. şarj</dt><dd>{v.acMax} kW</dd></div>
                 <div><dt>Otoyol tüketimi (tahmini)</dt><dd>{v.highway.toLocaleString('tr-TR')} kWh/100 km</dd></div>
                 <div><dt>Otoyol menzili (tahmini)</dt><dd>~{Math.round(v.battery / v.highway * 100)} km</dd></div>
               </dl>
               <div class="calc">
-                <div><span>%10 → %80 DC</span><b>~{min} dk</b></div>
+                <div><span>%10 → %80 DC</span><b>{min == null ? 'DC yok' : `~${min} dk`}</b></div>
                 <div><span>Bu şarjın maliyeti</span><b>~{tl(cost)}</b></div>
                 <div><span>100 km (DC ort.)</span><b>~{tl(per100)}</b></div>
               </div>

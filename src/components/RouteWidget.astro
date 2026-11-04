@@ -1,7 +1,7 @@
 ---
 // 300x250 rota planlayıcı kutusu. Gönderince /rota-planlayici sayfasında hesap başlar.
 import modelsData from '../data/models.json';
-const models = modelsData.models;
+const models = (modelsData.models as any[]).filter((m) => m.dcMax > 0);
 const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug;
 ---
 <form class="rw" action="/rota-planlayici" method="get" aria-labelledby="rw-title">

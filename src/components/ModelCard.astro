@@ -15,7 +15,7 @@ const maxDc = Math.max(...g.versions.map((v) => v.dcMax));
   </div>
   <div class="mc-txt">
     <b class="mc-name">{showBrand && <span class="muted">{g.brand} </span>}{g.model}</b>
-    <span class="mc-meta">{g.wltpMax} km WLTP · {maxDc} kW DC{g.versions.length > 1 && ` · ${g.versions.length} versiyon`}</span>
+    <span class="mc-meta">{g.wltpMax} km WLTP · {maxDc ? `${maxDc} kW DC` : 'yalnızca AC şarj'}{g.versions.length > 1 && ` · ${g.versions.length} versiyon`}</span>
     {g.fromPrice
       ? <span class="mc-price"><em>{monthTr(g.priceDate)} liste fiyatı</em>{price(g.fromPrice)}<small>'den başlayan</small></span>
       : <span class="mc-price none">{g.onSale ? 'Fiyat için distribütöre bakın' : 'Türkiye\'de yeni satışta değil'}</span>}

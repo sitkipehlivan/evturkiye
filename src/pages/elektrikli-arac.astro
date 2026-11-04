@@ -5,7 +5,7 @@ import GuideLinks from '../components/GuideLinks.astro';
 import NewsCard from '../components/NewsCard.astro';
 import routes from '../data/routes.json';
 import { getNews, tl } from '../lib/util';
-import { models, brands, avgDc, avgAc, minDc, opsCount, opsUpdated, highwayRange, per100, dcMinutes, acHours } from '../lib/ev';
+import { liveModels as models, brands, avgDc, avgAc, minDc, opsCount, opsUpdated, highwayRange, per100, dcMinutes, acHours } from '../lib/ev';
 
 const news = await getNews();
 const rehber = news.filter((p) => p.data.category === 'rehber').slice(0, 6);
@@ -16,7 +16,7 @@ const per100s = models.map((m) => per100(m, avgDc));
 const p100min = Math.min(...per100s), p100max = Math.max(...per100s);
 const acH = models.map(acHours);
 const acMin = Math.floor(Math.min(...acH)), acMax = Math.ceil(Math.max(...acH));
-const fastest = [...models].sort((a, b) => dcMinutes(a) - dcMinutes(b))[0];
+const fastest = [...models].filter((m) => m.dcMax).sort((a, b) => dcMinutes(a) - dcMinutes(b))[0];
 
 const faq = [
   { q: 'Elektrikli araç kaç km gider?', a: `Türkiye'de satılan modellerin WLTP menzili veritabanımızda ${byWltp.at(-1)!.wltp} ile ${byWltp[0].wltp} km arasında. Otoyolda 110–120 km/s hızda gerçek menzil genellikle WLTP değerinin %65–80'i kadardır; soğuk havada daha da düşer.` },

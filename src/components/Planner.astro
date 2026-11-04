@@ -3,7 +3,7 @@ import modelsData from '../data/models.json';
 import opsData from '../data/operators.json';
 interface Props { preset?: { fromQ: string; toQ: string; a: number[]; b: number[] }; autorun?: boolean; }
 const { preset, autorun = false } = Astro.props;
-const models = modelsData.models;
+const models = (modelsData.models as any[]).filter((m) => m.dcMax > 0);
 const brands = [...new Set(models.map((m) => m.brand))];
 const defaultCar = models.find((m) => m.slug.includes('t10x-v2-rwd-uzun'))?.slug ?? models[0].slug;
 const gmKey = import.meta.env.PUBLIC_GOOGLE_MAPS_KEY || '';

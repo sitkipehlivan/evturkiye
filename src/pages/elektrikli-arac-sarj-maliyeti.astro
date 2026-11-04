@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
 import GuideLinks from '../components/GuideLinks.astro';
 import { tl } from '../lib/util';
-import { models, avgAc, avgDc, minDc, opsCount, opsUpdated, per100, chargeCost, CHARGE_EFF } from '../lib/ev';
+import { liveModels as models, avgAc, avgDc, minDc, opsCount, opsUpdated, per100, chargeCost, CHARGE_EFF } from '../lib/ev';
 
 const rows = [...models].sort((a, b) => a.highway - b.highway);
 const d100 = rows.map((m) => per100(m, avgDc));
