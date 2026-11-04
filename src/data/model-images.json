@@ -1,7 +1,17 @@
 {
+ "abarth/500e": {
+  "src": "/images/modeller/abarth-500e.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Abarth 500e IMG 7996.jpg"
+ },
  "alfa-romeo/junior-elettrica": {
   "src": "/images/modeller/alfa-romeo-junior-elettrica.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
+ },
+ "alpine/a290": {
+  "src": "/images/modeller/alpine-a290.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Alpine A290 MYLE Festival 2025 DSC 9755.jpg"
  },
  "audi/a6-avant-e-tron": {
   "src": "/images/modeller/audi-a6-avant-e-tron.jpg",
@@ -15,6 +25,16 @@
   "src": "/images/modeller/audi-e-tron-gt.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "audi/q4-e-tron": {
+  "src": "/images/modeller/audi-q4-e-tron.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Audi Q4 e-tron IAA 2021 1X7A0227.jpg"
+ },
+ "audi/q4-sportback-e-tron": {
+  "src": "/images/modeller/audi-q4-sportback-e-tron.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Audi Q4 Sportback e-tron DSC 7468.jpg"
+ },
  "audi/q6-e-tron": {
   "src": "/images/modeller/audi-q6-e-tron.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
@@ -22,6 +42,16 @@
  "audi/q6-sportback-e-tron": {
   "src": "/images/modeller/audi-q6-sportback-e-tron.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "audi/q8-e-tron": {
+  "src": "/images/modeller/audi-q8-e-tron.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Audi Q8 e-tron edition Dakar DSC 7487.jpg"
+ },
+ "bmw/i3": {
+  "src": "/images/modeller/bmw-i3.jpg",
+  "credit": "Wikimedia Commons / Dietmar Rabich, CC BY-SA 4.0",
+  "from": "Dülmen, Hausdülmen, Sandstraße, BMW i3 -- 2016 -- 1748-54.jpg"
  },
  "bmw/i4": {
   "src": "/images/modeller/bmw-i4.jpg",
@@ -35,6 +65,11 @@
   "src": "/images/modeller/bmw-i7.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
+ "bmw/ix": {
+  "src": "/images/modeller/bmw-ix.jpg",
+  "credit": "Wikimedia Commons / Mariordo (Mario Roberto Durán Ortiz), CC BY-SA 4.0",
+  "from": "BMW iX xDrive 40 CRI 12 2021 2742.jpg"
+ },
  "bmw/ix1": {
   "src": "/images/modeller/bmw-ix1.jpg",
   "credit": "Wikimedia Commons / Vauxford, CC BY-SA 4.0"
@@ -47,6 +82,11 @@
   "src": "/images/modeller/bmw-ix3.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
  },
+ "byd/atto-2": {
+  "src": "/images/modeller/byd-atto-2.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "BYD Atto 2 DSC 8763.jpg"
+ },
  "byd/atto-3": {
   "src": "/images/modeller/byd-atto-3.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
@@ -54,6 +94,11 @@
  "byd/dolphin": {
   "src": "/images/modeller/byd-dolphin.jpg",
   "credit": "Wikimedia Commons / User3204, CC BY-SA 4.0"
+ },
+ "byd/dolphin-surf": {
+  "src": "/images/modeller/byd-dolphin-surf.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "BYD Dolphin Surf IMG 3831.jpg"
  },
  "byd/han": {
   "src": "/images/modeller/byd-han.jpg",
@@ -96,6 +141,21 @@
   "src": "/images/modeller/citroen-e-c5-aircross.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
+ "cupra/born": {
+  "src": "/images/modeller/cupra-born.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Cupra Born IAA 2021 1X7A0212.jpg"
+ },
+ "cupra/tavascan": {
+  "src": "/images/modeller/cupra-tavascan.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Cupra Tavascan Leonberg 2024 IMG 0881.jpg"
+ },
+ "dacia/spring": {
+  "src": "/images/modeller/dacia-spring.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Dacia Spring IAA 2021 1X7A0215.jpg"
+ },
  "ds/n8": {
   "src": "/images/modeller/ds-n8.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
@@ -112,13 +172,38 @@
   "src": "/images/modeller/fiat-grande-panda.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
  },
+ "ford/capri": {
+  "src": "/images/modeller/ford-capri.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Ford Capri (2024) Auto Zuerich 2024 DSC 6382.jpg"
+ },
  "ford/explorer": {
   "src": "/images/modeller/ford-explorer.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
+ "ford/mustang-mach-e": {
+  "src": "/images/modeller/ford-mustang-mach-e.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Ford Mustang Mach-E GT IAA 2021 1X7A0176.jpg"
+ },
  "ford/puma-gen-e": {
   "src": "/images/modeller/ford-puma-gen-e.jpg",
   "credit": "Wikimedia Commons / Vauxford, CC BY-SA 4.0"
+ },
+ "honda/e-ny1": {
+  "src": "/images/modeller/honda-e-ny1.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Honda e-Ny1 IAA 2023 1X7A0562.jpg"
+ },
+ "honda/honda-e": {
+  "src": "/images/modeller/honda-honda-e.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Honda e 1X7A1562.jpg"
+ },
+ "hongqi/e-hs9": {
+  "src": "/images/modeller/hongqi-e-hs9.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Hongqi E-HS9 IMG 0753 (cropped).jpg"
  },
  "hyundai/inster": {
   "src": "/images/modeller/hyundai-inster.jpg",
@@ -143,6 +228,11 @@
  "hyundai/kona-electric": {
   "src": "/images/modeller/hyundai-kona-electric.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "jaguar/i-pace": {
+  "src": "/images/modeller/jaguar-i-pace.jpg",
+  "credit": "Wikimedia Commons / Vauxford, CC BY-SA 4.0",
+  "from": "2018 Jaguar I-Pace EV400 AWD Front.jpg"
  },
  "jeep/avenger": {
   "src": "/images/modeller/jeep-avenger.jpg",
@@ -178,6 +268,36 @@
   "src": "/images/modeller/kia-niro-ev.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "leapmotor/c10": {
+  "src": "/images/modeller/leapmotor-c10.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Leapmotor C10 EV DSC 8756.jpg"
+ },
+ "lexus/rz-450e": {
+  "src": "/images/modeller/lexus-rz-450e.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Lexus RZ 450e (XEBM15) 1X7A0836.jpg"
+ },
+ "lexus/ux-300e": {
+  "src": "/images/modeller/lexus-ux-300e.jpg",
+  "credit": "Wikimedia Commons / Dinkun Chen, CC BY-SA 4.0",
+  "from": "LEXUS UX 300e China.jpg"
+ },
+ "lotus/eletre": {
+  "src": "/images/modeller/lotus-eletre.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Lotus Eletre IAA 2023 1X7A0668.jpg"
+ },
+ "maserati/granturismo-folgore": {
+  "src": "/images/modeller/maserati-granturismo-folgore.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Maserati GranTurismo Folgore Auto Zuerich 2025 DSC 3319.jpg"
+ },
+ "maserati/grecale-folgore": {
+  "src": "/images/modeller/maserati-grecale-folgore.jpg",
+  "credit": "Wikimedia Commons / Charles from Port Chester, New York, CC BY 2.0",
+  "from": "Maserati Grecale Folgore (2024) (54094321270).jpg"
+ },
  "mercedes-benz/c-serisi": {
   "src": "/images/modeller/mercedes-benz-c-serisi.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
@@ -190,13 +310,33 @@
   "src": "/images/modeller/mercedes-benz-eqa.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "mercedes-benz/eqb": {
+  "src": "/images/modeller/mercedes-benz-eqb.jpg",
+  "credit": "Wikimedia Commons / Dinkun Chen, CC BY-SA 4.0",
+  "from": "MERCEDES-EQ EQB China.jpg"
+ },
+ "mercedes-benz/eqc": {
+  "src": "/images/modeller/mercedes-benz-eqc.jpg",
+  "credit": "Wikimedia Commons / Matti Blume, CC BY-SA 4.0",
+  "from": "Mercedes EQC, Rendsburg (P1100578).jpg"
+ },
  "mercedes-benz/eqe": {
   "src": "/images/modeller/mercedes-benz-eqe.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "mercedes-benz/eqe-suv": {
+  "src": "/images/modeller/mercedes-benz-eqe-suv.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Mercedes-AMG EQE SUV 43 (X294) IAA 2023 1X7A0449.jpg"
+ },
  "mercedes-benz/eqs": {
   "src": "/images/modeller/mercedes-benz-eqs.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "mercedes-benz/eqs-suv": {
+  "src": "/images/modeller/mercedes-benz-eqs-suv.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Mercedes-Benz X296 1X7A1725.jpg"
  },
  "mercedes-benz/g-serisi": {
   "src": "/images/modeller/mercedes-benz-g-serisi.jpg",
@@ -210,13 +350,58 @@
   "src": "/images/modeller/mercedes-benz-glc.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
  },
+ "mg/cyberster": {
+  "src": "/images/modeller/mg-cyberster.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "MG Cyberster IAA 2023 1X7A0265.jpg"
+ },
+ "mg/marvel-r": {
+  "src": "/images/modeller/mg-marvel-r.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "MG Marvel R 1X7A0397.jpg"
+ },
  "mg/mg4": {
   "src": "/images/modeller/mg-mg4.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
  },
+ "mg/zs-ev": {
+  "src": "/images/modeller/mg-zs-ev.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "MG ZS EV Facelift 1X7A5867.jpg"
+ },
+ "mini/aceman": {
+  "src": "/images/modeller/mini-aceman.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Mini Aceman DSC 7115.jpg"
+ },
+ "mini/cooper-e": {
+  "src": "/images/modeller/mini-cooper-e.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Mini Hatch (J01) Cooper S IAA 2023 1X7A0724.jpg"
+ },
+ "mini/cooper-se": {
+  "src": "/images/modeller/mini-cooper-se.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Mini Hatch (F56) Electric 1X7A1619.jpg"
+ },
  "mini/countryman": {
   "src": "/images/modeller/mini-countryman.jpg",
   "credit": "Wikimedia Commons / Vauxford, CC BY-SA 4.0"
+ },
+ "nissan/ariya": {
+  "src": "/images/modeller/nissan-ariya.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Nissan Ariya Automesse Ludwigsburg 2022 1X7A5877.jpg"
+ },
+ "nissan/leaf": {
+  "src": "/images/modeller/nissan-leaf.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Nissan Leaf (ZE1) DSC 7096.jpg"
+ },
+ "opel/astra-electric": {
+  "src": "/images/modeller/opel-astra-electric.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Opel Astra L Electric Automesse Ludwigsburg 2023 1X7A0049.jpg"
  },
  "opel/corsa-electric": {
   "src": "/images/modeller/opel-corsa-electric.jpg",
@@ -229,6 +414,11 @@
  "opel/grandland-electric": {
   "src": "/images/modeller/opel-grandland-electric.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "opel/mokka-e": {
+  "src": "/images/modeller/opel-mokka-e.jpg",
+  "credit": "Wikimedia Commons / JoachimKohler-HB, CC BY-SA 4.0",
+  "from": "Opel Mokka e im Emsland (2022).jpg"
  },
  "opel/mokka-gse": {
   "src": "/images/modeller/opel-mokka-gse.jpg",
@@ -246,9 +436,19 @@
   "src": "/images/modeller/peugeot-e-3008.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
+ "peugeot/e-308": {
+  "src": "/images/modeller/peugeot-e-308.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Peugeot e-308 IMG 9970.jpg"
+ },
  "peugeot/e-5008": {
   "src": "/images/modeller/peugeot-e-5008.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "polestar/polestar-2": {
+  "src": "/images/modeller/polestar-polestar-2.jpg",
+  "credit": "Wikimedia Commons / Matti Blume, CC BY-SA 4.0",
+  "from": "Polestar 2, GIMS 2019, Le Grand-Saconnex (GIMS0552).jpg"
  },
  "porsche/cayenne-electric": {
   "src": "/images/modeller/porsche-cayenne-electric.jpg",
@@ -274,6 +474,36 @@
   "src": "/images/modeller/renault-scenic-e-tech.jpg",
   "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de"
  },
+ "renault/twingo-e-tech": {
+  "src": "/images/modeller/renault-twingo-e-tech.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Renault Twingo Z.E. IMG 4003.jpg"
+ },
+ "renault/zoe": {
+  "src": "/images/modeller/renault-zoe.jpg",
+  "credit": "Wikimedia Commons / Vauxford, CC BY-SA 4.0",
+  "from": "2018 Renault ZOE.jpg"
+ },
+ "rolls-royce/spectre": {
+  "src": "/images/modeller/rolls-royce-spectre.jpg",
+  "credit": "Wikimedia Commons / Matti Blume, CC BY-SA 4.0",
+  "from": "Rolls-Royce Spectre, Monaco (20260620-IMG 3854).jpg"
+ },
+ "seat/mii-electric": {
+  "src": "/images/modeller/seat-mii-electric.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "SEAT Mii Electric 1X7A6117.jpg"
+ },
+ "seres/seres-3": {
+  "src": "/images/modeller/seres-seres-3.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Seres 3 IAA 2023 1X7A0354.jpg"
+ },
+ "seres/seres-5": {
+  "src": "/images/modeller/seres-seres-5.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Seres 5 IAA 2023 1X7A0327.jpg"
+ },
  "skoda/elroq": {
   "src": "/images/modeller/skoda-elroq.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
@@ -286,9 +516,44 @@
   "src": "/images/modeller/skoda-enyaq-coupe.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
  },
+ "skywell/et5": {
+  "src": "/images/modeller/skywell-et5.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Elaris Beo Classic-Gala 2021 1X7A0023.jpg"
+ },
+ "smart/1": {
+  "src": "/images/modeller/smart-1.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Smart Hashtag 1 IMG 7328.jpg"
+ },
+ "smart/3": {
+  "src": "/images/modeller/smart-3.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Smart Hashtag 3 Keith Haring Edition IAA 2025 DSC 1849.jpg"
+ },
+ "smart/eq-fortwo": {
+  "src": "/images/modeller/smart-eq-fortwo.jpg",
+  "credit": "Wikimedia Commons / Matti Blume, CC BY-SA 4.0",
+  "from": "Smart EQ Fortwo Cabrio, GIMS 2018, Le Grand-Saconnex (1X7A1099).jpg"
+ },
+ "subaru/solterra": {
+  "src": "/images/modeller/subaru-solterra.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Subaru Solterra ST-E Auto Zuerich 2023 1X7A1257.jpg"
+ },
  "tesla/model-3": {
   "src": "/images/modeller/tesla-model-3.jpg",
   "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0"
+ },
+ "tesla/model-s": {
+  "src": "/images/modeller/tesla-model-s.jpg",
+  "credit": "Wikimedia Commons / Granada, CC BY-SA 4.0",
+  "from": "20180630 Tesla Model S 70D 2015 midnight blue left front.jpg"
+ },
+ "tesla/model-x": {
+  "src": "/images/modeller/tesla-model-x.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Tesla Model X 100D 1X7A6736.jpg"
  },
  "tesla/model-y": {
   "src": "/images/modeller/tesla-model-y.jpg",
@@ -302,13 +567,43 @@
   "src": "/images/modeller/togg-t10x.jpg",
   "credit": "Wikimedia Commons / Metuboy, CC BY-SA 4.0"
  },
+ "toyota/bz4x": {
+  "src": "/images/modeller/toyota-bz4x.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Toyota bZ4X Automesse Ludwigsburg 2022 1X7A5895.jpg"
+ },
+ "volkswagen/e-golf": {
+  "src": "/images/modeller/volkswagen-e-golf.jpg",
+  "credit": "Wikimedia Commons / Zytonits, CC BY-SA 2.0",
+  "from": "Volkswagen e-Golf 1 (32329550580).jpg"
+ },
+ "volkswagen/e-up": {
+  "src": "/images/modeller/volkswagen-e-up.jpg",
+  "credit": "Wikimedia Commons / © M 93, CC BY-SA 3.0 de",
+  "from": "VW e-up! Style – h 08052021.jpg"
+ },
+ "volkswagen/id-3": {
+  "src": "/images/modeller/volkswagen-id-3.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Volkswagen ID.3 Neo IMG 7255.jpg"
+ },
  "volkswagen/id-4": {
   "src": "/images/modeller/volkswagen-id-4.jpg",
   "credit": "Wikimedia Commons / LuvsMG481, CC BY-SA 4.0"
  },
+ "volkswagen/id-5": {
+  "src": "/images/modeller/volkswagen-id-5.jpg",
+  "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0",
+  "from": "Volkswagen ID.5 Leonberg 2022 1X7A0459.jpg"
+ },
  "volkswagen/id-7": {
   "src": "/images/modeller/volkswagen-id-7.jpg",
   "credit": "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0"
+ },
+ "volkswagen/id-buzz": {
+  "src": "/images/modeller/volkswagen-id-buzz.jpg",
+  "credit": "Wikimedia Commons / Joost J. Bakker IJmuiden from The Netherlands, CC BY 2.0",
+  "from": "2022 Volkswagen ID Buzz Pro (52955037807).jpg"
  },
  "volvo/ec40": {
   "src": "/images/modeller/volvo-ec40.jpg",
@@ -329,5 +624,25 @@
  "volvo/ex40": {
   "src": "/images/modeller/volvo-ex40.jpg",
   "credit": "Wikimedia Commons / Elise240SX, CC BY-SA 4.0"
+ },
+ "volvo/ex90": {
+  "src": "/images/modeller/volvo-ex90.jpg",
+  "credit": "Wikimedia Commons / Autosdeprimera, CC BY 3.0",
+  "from": "2023 Volvo EX90 (China) front view.png"
+ },
+ "voyah/free": {
+  "src": "/images/modeller/voyah-free.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "Voyah Free Auto Zuerich 2023 1X7A1191.jpg"
+ },
+ "xpeng/g6": {
+  "src": "/images/modeller/xpeng-g6.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "XPeng G6 (2025) IAA 2025 DSC 2057.jpg"
+ },
+ "xpeng/g9": {
+  "src": "/images/modeller/xpeng-g9.jpg",
+  "credit": "Wikimedia Commons / Alexander-93, CC BY-SA 4.0",
+  "from": "XPeng G9 IAA 2023 1X7A0606.jpg"
  }
 }
