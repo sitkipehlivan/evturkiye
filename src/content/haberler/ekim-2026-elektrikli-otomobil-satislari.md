@@ -11,6 +11,7 @@ source: "ODMD verileri (Habertürk, Webtekno aracılığıyla)"
 sourceUrl: "https://www.haberturk.com/ekonomi/otomobil-satislarinda-sert-dusus-ekim-2026-verileri-aciklandi-3924510"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Metuboy, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Otomotiv Distribütörleri ve Mobilite Derneği (**ODMD**) Ekim 2026 verilerine göre Türkiye'de geçen ay **14.467 elektrikli otomobil** satıldı. Toplam pazar sert biçimde daralırken elektrikli otomobillerin binek satışları içindeki payı **yüzde 22,3**'e ulaştı. Bir yıl önceki Ekim ayında bu pay yaklaşık yüzde 16 seviyesindeydi.
