@@ -1,0 +1,62 @@
+---
+// "En hızlı şarj olan elektrikli araç" aramaları: DC %10→%80 tahmini süreye göre sıralama
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import GuideLinks from '../components/GuideLinks.astro';
+import { liveModels, dcMinutes, highwayRange } from '../lib/ev';
+
+const rows = liveModels.filter((m) => m.dcMax).sort((a, b) => dcMinutes(a) - dcMinutes(b));
+// 10 dakikada eklenen otoyol menzili
+const km10 = (m: (typeof rows)[number]) => Math.round(((m.dcMax * 0.68 * 10) / 60 / m.highway) * 100);
+const ilk = rows[0];
+const enCokKm = [...rows].sort((a, b) => km10(b) - km10(a))[0];
+const faq = [
+  { q: 'En hızlı şarj olan elektrikli araç hangisi?', a: `Tahminlerimize göre Türkiye'de satılan modellerden %10'dan %80'e en hızlı şarj olan ${ilk.brand} ${ilk.model} ${ilk.version} (~${dcMinutes(ilk)} dk, maks. ${ilk.dcMax} kW DC).` },
+  { q: '10 dakikalık şarjla en çok menzil kazandıran araç hangisi?', a: `${enCokKm.brand} ${enCokKm.model} ${enCokKm.version}, uygun bir hızlı şarj istasyonunda 10 dakikada yaklaşık ${km10(enCokKm)} km otoyol menzili ekler.` },
+  { q: 'Şarj süresi neden üreticinin açıkladığından farklı olabilir?', a: 'Maksimum şarj gücü yalnızca kısa bir aralıkta görülür; batarya sıcaklığı, istasyonun gücü ve doluluk oranı süreyi uzatır. Tablodaki süreler ortalama %68 güç kullanımıyla hesaplanmış tahminlerdir.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'ItemList', name: 'En hızlı şarj olan elektrikli araçlar', itemListElement: rows.slice(0, 15).map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })) },
+];
+---
+<Base title="En Hızlı Şarj Olan Elektrikli Araçlar: DC Şarj Süresi Sıralaması" description={`Türkiye'de satılan ${rows.length} elektrikli araç versiyonunun %10–80 DC şarj süresi, maksimum şarj gücü ve 10 dakikada kazandırdığı menzil. En hızlısı ${ilk.brand} ${ilk.model}.`} jsonLd={jsonLd} crumbs={[['Şarj rehberi', '/elektrikli-arac-sarj/'], ['En hızlı şarj olan araçlar', '/en-hizli-sarj-olan-elektrikli-araclar/']]}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/elektrikli-arac-sarj">Şarj Rehberi</a> / En hızlı şarj olan araçlar</nav>
+      <span class="eyebrow">Şarj süresi</span>
+      <h1>En hızlı şarj olan elektrikli araçlar</h1>
+      <p class="lede">Uzun yolda mola süresini batarya büyüklüğü değil, aracın DC şarj hızı belirler. Tablo, Türkiye'de satılan modelleri %10'dan %80'e tahmini DC şarj süresine göre sıralıyor.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Model</th><th class="num">Maks. DC</th><th class="num">%10 → %80</th><th class="num">10 dk'da eklenen menzil</th><th class="num">Otoyol menzili</th></tr></thead>
+          <tbody>{rows.map((m, i) => (
+            <tr>
+              <td class="muted">{i + 1}</td>
+              <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td>
+              <td class="num">{m.dcMax} kW</td><td class="num"><b>~{dcMinutes(m)} dk</b></td>
+              <td class="num">~{km10(m)} km</td><td class="num">~{highwayRange(m)} km</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      <p class="muted small">Süreler; batarya kapasitesi, maksimum DC gücü ve ortalama %68 güç kullanımıyla hesaplanmış tahminlerdir. Gerçek süre istasyon gücüne, batarya sıcaklığına ve aracın şarj eğrisine göre değişir.</p>
+      <div class="prose">
+        <h2>Hızlı şarjdan en iyi verimi almak için</h2>
+        <ul>
+          <li>Aracının maksimum gücünü karşılayan (150 kW ve üzeri) DC istasyonları seç; <a href="/yakindaki-sarj-istasyonlari">yakınındaki istasyonları</a> güce göre görebilirsin.</li>
+          <li>Kışın navigasyondan şarj istasyonunu hedef göstermek, bataryayı önceden ısıtarak süreyi kısaltır.</li>
+          <li>%80'den sonra şarj hızı belirgin düşer; uzun yolda iki kısa mola, bir uzun moladan genelde daha hızlıdır.</li>
+          <li>Hangi istasyonun ne kadar tutacağını <a href="/sarj-fiyatlari">operatör fiyatlarından</a> karşılaştır.</li>
+        </ul>
+      </div>
+      <Faq items={faq} />
+      <GuideLinks title="Diğer rehberler" />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt-ink); }
+  .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 760px; }
+  .table-wrap { margin-top: 18px; }
+</style>

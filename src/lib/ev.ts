@@ -70,6 +70,8 @@ export const GUIDES = [
   { href: '/elektrikli-arac-sarj', label: 'Elektrikli Araç Şarj Rehberi', short: 'Şarj rehberi', desc: 'AC/DC şarj, soket tipleri, şarj süreleri.' },
   { href: '/elektrikli-arac-menzil', label: 'Elektrikli Araç Menzil Sıralaması', short: 'Menzil sıralaması', desc: 'WLTP ve gerçekçi otoyol menzili.' },
   { href: '/elektrikli-arac-sarj-maliyeti', label: 'Elektrikli Araç Şarj Maliyeti', short: 'Şarj maliyeti', desc: '100 km ve tam şarj maliyeti, model model.' },
+  { href: '/en-ucuz-elektrikli-araclar', label: 'En Ucuz Elektrikli Arabalar', short: 'En ucuz elektrikli araçlar', desc: 'Türkiye liste fiyatına göre sıralama.' },
+  { href: '/en-hizli-sarj-olan-elektrikli-araclar', label: 'En Hızlı Şarj Olan Elektrikli Araçlar', short: 'En hızlı şarj', desc: '%10–80 DC şarj süresine göre sıralama.' },
 ];
 
 /** Karşılaştırma aracı için araç listesi (fotoğraflı). */

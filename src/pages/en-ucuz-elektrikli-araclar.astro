@@ -1,0 +1,66 @@
+---
+// "En ucuz elektrikli araba" aramaları: Türkiye liste fiyatına göre sıralama (veri: modeller veritabanı)
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import GuideLinks from '../components/GuideLinks.astro';
+import { liveModels, highwayRange, price, monthTr, per100, avgAc } from '../lib/ev';
+
+const rows = liveModels.filter((m) => m.priceTL).sort((a, b) => (a.priceTL ?? 0) - (b.priceTL ?? 0));
+const enYeni = rows.map((m) => m.priceDate).filter(Boolean).sort().at(-1);
+const ilk = rows[0];
+const alt2m = rows.filter((m) => 2000000 > (m.priceTL ?? 0));
+const kmBasi = [...rows].sort((a, b) => (a.priceTL ?? 0) / highwayRange(a) - (b.priceTL ?? 0) / highwayRange(b))[0];
+const yil = enYeni ? enYeni.slice(0, 4) : '';
+const faq = [
+  { q: `Türkiye'de en ucuz elektrikli araba hangisi?`, a: `Veritabanımızdaki güncel liste fiyatlarına göre Türkiye'de satılan en ucuz elektrikli otomobil ${ilk.brand} ${ilk.model} ${ilk.version} (${price(ilk.priceTL)}, ${monthTr(ilk.priceDate)}).` },
+  { q: '2 milyon TL altında elektrikli araç var mı?', a: alt2m.length ? `Evet, ${alt2m.length} versiyon 2 milyon TL'nin altında: ${alt2m.slice(0, 6).map((m) => `${m.brand} ${m.model}`).filter((x, i, l) => l.indexOf(x) === i).join(', ')}.` : 'Şu an veritabanımızda 2 milyon TL altında liste fiyatlı elektrikli otomobil bulunmuyor.' },
+  { q: 'Fiyatına göre en çok menzil veren elektrikli araç hangisi?', a: `Otoyol menzili başına liste fiyatı en düşük model ${kmBasi.brand} ${kmBasi.model} ${kmBasi.version}: yaklaşık ${Math.round((kmBasi.priceTL ?? 0) / highwayRange(kmBasi)).toLocaleString('tr-TR')} TL/km.` },
+  { q: 'Liste fiyatları ne kadar güncel?', a: `Fiyatlar markaların Türkiye fiyat listelerinden derlenir; her satırda fiyatın ait olduğu ay yazar. Kampanya ve bayi indirimleri dahil değildir; güncel kampanyalar için Fırsatlar sayfamıza bakın.` },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'ItemList', name: 'En ucuz elektrikli araçlar', itemListElement: rows.slice(0, 15).map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })) },
+];
+---
+<Base title={`En Ucuz Elektrikli Arabalar ${yil}: Türkiye Fiyat Sıralaması`} description={`Türkiye'de satılan en ucuz elektrikli otomobiller: ${rows.length} versiyonun liste fiyatı, otoyol menzili ve 100 km şarj maliyetiyle ucuzdan pahalıya sıralaması. En ucuzu ${ilk.brand} ${ilk.model}.`} jsonLd={jsonLd} crumbs={[['Elektrikli araç rehberi', '/elektrikli-arac/'], ['En ucuz elektrikli araçlar', '/en-ucuz-elektrikli-araclar/']]}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/elektrikli-arac">Elektrikli Araç Rehberi</a> / En ucuz elektrikli araçlar</nav>
+      <span class="eyebrow">Fiyat sıralaması</span>
+      <h1>En ucuz elektrikli arabalar</h1>
+      <p class="lede">Türkiye'de satılan elektrikli otomobillerin liste fiyatına göre ucuzdan pahalıya sıralaması. Fiyatın yanında otoyol menzilini ve 100 km'nin evde şarj maliyetini de görebilirsin; ucuz araç her zaman en ekonomik olan değildir.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Model</th><th class="num">Liste fiyatı</th><th class="num">Otoyol menzili</th><th class="num">TL / km menzil</th><th class="num">100 km (evde AC)</th></tr></thead>
+          <tbody>{rows.map((m, i) => (
+            <tr>
+              <td class="muted">{i + 1}</td>
+              <td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}><b>{m.brand} {m.model}</b> <span class="muted">{m.version}</span></a></td>
+              <td class="num"><b>{price(m.priceTL)}</b><br><span class="muted small">{monthTr(m.priceDate)}</span></td>
+              <td class="num">~{highwayRange(m)} km</td>
+              <td class="num">{Math.round((m.priceTL ?? 0) / highwayRange(m)).toLocaleString('tr-TR')} TL</td>
+              <td class="num">{Math.round(per100(m, avgAc)).toLocaleString('tr-TR')} ₺</td>
+            </tr>
+          ))}</tbody>
+        </table>
+      </div>
+      <p class="muted small">Liste fiyatları anahtar teslim, kampanyasız fiyatlardır. 100 km maliyeti otoyol tüketimi ve ortalama AC fiyatı ({avgAc.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ₺/kWh) ile hesaplanmıştır; evde şarjda elektrik tarifenize göre daha düşük olabilir.</p>
+      <div class="prose">
+        <h2>Ucuz elektrikli araç alırken nelere bakmalı?</h2>
+        <ul>
+          <li><b>Otoyol menzili:</b> Şehir içi için 250 km yeterli olsa da uzun yolda iki şarj arası mesafe menzilin yaklaşık %70'idir. <a href="/elektrikli-arac-menzil">Menzil sıralamasına</a> bak.</li>
+          <li><b>DC şarj gücü:</b> Uygun fiyatlı modellerde DC gücü 50–100 kW arasında kalabilir; uzun yolda mola süresini belirler. <a href="/en-hizli-sarj-olan-elektrikli-araclar">En hızlı şarj olan araçlar</a> listesine göz at.</li>
+          <li><b>Kampanyalar:</b> Liste fiyatı ile kampanyalı fiyat arasında yüz binlerce lira fark olabiliyor. <a href="/firsatlar/arac-kampanyalari">Güncel araç kampanyaları</a>nı kontrol et.</li>
+          <li><b>Karşılaştır:</b> Aday modelleri <a href="/karsilastir">karşılaştırma aracında</a> yan yana koy.</li>
+        </ul>
+      </div>
+      <Faq items={faq} />
+      <GuideLinks title="Diğer rehberler" />
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt-ink); }
+  .lede { font-size: 1.12rem; color: var(--ink-2); max-width: 760px; }
+  .table-wrap { margin-top: 18px; }
+</style>
