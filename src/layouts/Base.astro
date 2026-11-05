@@ -13,6 +13,8 @@ interface Props {
   type?: 'website' | 'article';
   jsonLd?: object;
   noindex?: boolean;
+  /** Konum çizgisi: [ad, yol] çiftleri; ana sayfa otomatik eklenir. BreadcrumbList JSON-LD üretir. */
+  crumbs?: [string, string][];
 }
 const {
   title,
@@ -21,12 +23,20 @@ const {
   type = 'website',
   jsonLd,
   noindex = false,
+  crumbs,
 } = Astro.props;
 // Google Search Console HTML etiketi doğrulaması: Netlify'da GSC_VERIFICATION ortam değişkeni (birden fazlaysa virgülle)
 const fbRaw = import.meta.env.PUBLIC_FIREBASE_CONFIG || process.env.PUBLIC_FIREBASE_CONFIG || '';
 const fbMeta = fbRaw ? Buffer.from(fbRaw, 'utf8').toString('base64') : '';
 const gsc = (process.env.GSC_VERIFICATION ?? '').split(',').map((x) => x.trim()).filter(Boolean);
-const fullTitle = title.includes('EV Türkiye') ? title : `${title} | EV Türkiye`;
+// Marka eki yalnızca başlık arama sonucunda kesilmeyecek uzunluktaysa eklenir (~60 karakter)
+const fullTitle = title.includes('EV Türkiye') || title.length > 47 ? title : `${title} | EV Türkiye`;
+// Açıklama ~160 karakteri aşarsa kelime sınırında kısaltılır
+const metaDesc = description.length <= 160 ? description : description.slice(0, 157).replace(/[\s,.;:]+\S*$/, '') + '…';
+const crumbLd = crumbs?.length ? {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [['Ana sayfa', '/'], ...crumbs].map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(path, Astro.site).toString() })),
+} : null;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 ---
@@ -52,7 +62,7 @@ const ogImage = new URL(image, Astro.site);
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S4Y5HKH1N"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5841017945537557" crossorigin="anonymous"></script>
     <title>{fullTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDesc} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
     {gsc.map((c) => <meta name="google-site-verification" content={c} />)}
@@ -60,7 +70,7 @@ const ogImage = new URL(image, Astro.site);
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="EV Türkiye" />
     <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDesc} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="tr_TR" />
@@ -79,6 +89,7 @@ const ogImage = new URL(image, Astro.site);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {crumbLd && <script type="application/ld+json" set:html={JSON.stringify(crumbLd)} />}
     <slot name="head" />
   </head>
   <body>

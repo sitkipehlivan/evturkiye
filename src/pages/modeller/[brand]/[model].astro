@@ -30,7 +30,7 @@ const jsonLd = {
 };
 const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'den başlıyor (${monthTr(g.priceDate)})` : ''}. ${range} WLTP menzil, ${Math.max(...versions.map((v) => v.dcMax)) ? `${Math.max(...versions.map((v) => v.dcMax))} kW DC şarj` : 'yalnızca AC şarj'}, şarj süresi ve 100 km maliyeti.`;
 ---
-<Base title={`${name} Fiyatı, Menzili ve Şarj Süresi${g.priceDate ? ` (${monthTr(g.priceDate)})` : ''}`} description={desc} jsonLd={jsonLd} image={g.image?.src}>
+<Base title={`${name} Fiyatı, Menzili ve Şarj Süresi${g.priceDate ? ` (${monthTr(g.priceDate)})` : ''}`} description={desc} jsonLd={jsonLd} image={g.image?.src} crumbs={[['Modeller', '/modeller/'], [v0.brand, `/modeller/${brand}/`], [name, Astro.url.pathname]]}>
   <section class="section-sm">
     <div class="container">
       <nav class="small muted crumbs"><a href="/modeller">Modeller</a> / <a href={`/modeller/${brand}`}>{v0.brand}</a> / {v0.model}</nav>

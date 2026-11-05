@@ -25,7 +25,7 @@ const faq = [
 ];
 const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
-<Base title={title} description={desc} jsonLd={jsonLd} image={A.img}>
+<Base title={title} description={desc} jsonLd={jsonLd} image={A.img} crumbs={[['Karşılaştır', '/karsilastir/'], [`${name(A)} vs ${name(B)}`, Astro.url.pathname]]}>
   <section class="section-sm">
     <div class="container">
       <nav class="small muted crumbs"><a href="/karsilastir">Karşılaştırma</a> / {name(A)} vs {name(B)}</nav>

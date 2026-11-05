@@ -37,7 +37,7 @@ const jsonLd = {
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
 };
 ---
-<Base title={d.title} description={d.description} type="article" image={img} jsonLd={jsonLd}>
+<Base title={d.title} description={d.description} type="article" image={img} jsonLd={jsonLd} crumbs={[['Haberler', '/haberler/'], [CATS[cat].label, `/haberler/${cat}/`], [d.title, Astro.url.pathname]]}>
   <article class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/haberler">Haberler</a> / <a href={`/haberler/${cat}`}>{CATS[cat].label}</a></nav>
