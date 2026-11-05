@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ops from '../data/operators.json';
 import iller from '../data/iller.json';
+import { ILLER, ilSlug } from '../lib/iller';
 ---
 <Base image="/images/araclar/istasyonlar.png" title="Elektrikli Araç Şarj İstasyonları Haritası" description="Türkiye genelindeki elektrikli araç şarj istasyonlarını harita üzerinde görün; DC hızlı şarj ve operatöre göre filtreleyin." crumbs={[['Şarj istasyonları haritası', '/istasyonlar/']]} jsonLd={{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Elektrikli araç şarj istasyonları haritası', url: new URL(Astro.url.pathname, Astro.site).toString(), inLanguage: 'tr', isPartOf: { '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site?.toString() } }}>
   <section class="section-sm">
@@ -16,6 +17,8 @@ import iller from '../data/iller.json';
         <a class="btn btn-ghost" href="/yakindaki-sarj-istasyonlari">📍 Konumuma göre</a>
       </div>
       <div class="card map-wrap"><iframe id="st-map" title="Şarj istasyonları haritası" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=elektrikli%20ara%C3%A7%20%C5%9Farj%20istasyonu%20T%C3%BCrkiye&hl=tr&z=6&output=embed" allowfullscreen></iframe></div>
+      <h2 class="iller-baslik">İllere göre şarj istasyonları</h2>
+      <p class="iller">{ILLER.map((x, i) => <>{i > 0 && ' · '}<a href={`/sarj-istasyonlari/${ilSlug(x.ad)}/`}>{x.ad}</a></>)}</p>
       <p class="muted small">Harita Google Haritalar'dan gelir. Fiyat karşılaştırması için <a href="/sarj-fiyatlari">Şarj Fiyatları</a>; soket tipi, güç ve fiyatla en yakın istasyonlar için <a href="/yakindaki-sarj-istasyonlari">Yakınımdaki Şarj İstasyonları</a>.</p>
     </div>
   </section>
@@ -33,6 +36,7 @@ import iller from '../data/iller.json';
 </script>
 <style>
   .intro { max-width: 760px; }
+  .iller-baslik { font-size: 1.15rem; margin: 18px 0 6px; } .iller { line-height: 2; }
   .filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 12px; margin: 16px 0 12px; }
   .filters select { width: auto; min-width: 200px; }
   .filters .btn { height: 46px; display: inline-flex; align-items: center; }

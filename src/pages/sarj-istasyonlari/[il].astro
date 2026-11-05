@@ -1,0 +1,85 @@
+---
+// İl bazında şarj istasyonu sayfaları ("İstanbul şarj istasyonları" gibi yerel aramalar).
+// Harita: ücretsiz Google Haritalar gömmesi. İçerik: o ilden geçen rotalar, ilgili haberler, operatör fiyatları.
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import ops from '../../data/operators.json';
+import routes from '../../data/routes.json';
+import { tl, getNews } from '../../lib/util';
+import { avgDc, models, chargeCost } from '../../lib/ev';
+import { ILLER, ilSlug } from '../../lib/iller';
+
+export function getStaticPaths() {
+  return ILLER.map((il) => ({ params: { il: ilSlug(il.ad) }, props: { il } }));
+}
+const { il } = Astro.props;
+const ad = il.ad;
+// Türkçe ek: İstanbul'da / Ankara'da / İzmir'de
+const de = (() => { const v = [...ad.toLocaleLowerCase('tr')].reverse().find((c) => 'aeıioöuü'.includes(c)) || 'a'; const kalin = 'aıou'.includes(v); const sert = /[çfhkpsşt]$/i.test(ad); return `${ad}'${sert ? 't' : 'd'}${kalin ? 'a' : 'e'}`; })();
+const ilRotalar = (routes as any[]).filter((r) => [r.from, r.to].some((x: string) => x === ad || il.ilceler?.includes(x)));
+const haberler = (await getNews()).filter((p) => (p.data.title + ' ' + (p.data.description || '') + ' ' + (p.body || '')).includes(ad)).slice(0, 6);
+const dcSirali = [...ops.operators].sort((a, b) => a.dc - b.dc);
+const togg = models.find((m) => m.slug === 't10x-v2-rwd-uzun-menzil');
+const komsu = ILLER.filter((x) => x.bolge === il.bolge && x.ad !== ad);
+const q = (ek: string) => `https://maps.google.com/maps?q=${encodeURIComponent(`${ek} ${ad}`)}&hl=tr&z=11&output=embed`;
+const sss = [
+  [`${de} en ucuz şarj istasyonu hangisi?`, `Standart tarifelere göre DC hızlı şarjda en uygun operatörler ${dcSirali.slice(0, 3).map((o) => `${o.name} (${tl(o.dc)}/kWh)`).join(', ')}. ${ad} içinde hangi operatörün istasyonu yakınında olduğunu yukarıdaki haritadan görebilirsin.`],
+  [`${de} hızlı şarj ne kadar sürer?`, `DC hızlı şarjda %10'dan %80'e şarj çoğu araçta 25–45 dakika sürer. Süre aracın şarj gücüne ve istasyonun kW değerine bağlıdır; araçlara göre süreler için "En hızlı şarj olan elektrikli araçlar" listemize bakabilirsin.`],
+  togg ? [`${de} Togg şarj etmek kaç TL?`, `Togg T10X'i %10'dan %80'e DC istasyonda şarj etmek ortalama fiyatla (${tl(avgDc)}/kWh) yaklaşık ${tl(Math.round(chargeCost(togg, avgDc)))} tutar. Evde AC şarj elektrik tarifene göre daha ucuzdur.`] : null,
+  ilRotalar.length ? [`${ad} çıkışlı uzun yolda nerede şarj olunur?`, `${ilRotalar.slice(0, 3).map((r) => `${r.from} – ${r.to} (${r.km} km)`).join(', ')} rotaları için şarj duraklarını ve yol maliyetini rota sayfalarımızda hazır hesapladık.`] : null,
+].filter(Boolean) as [string, string][];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: sss.map(([qq, a]) => ({ '@type': 'Question', name: qq, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+---
+<Base image="/images/araclar/istasyonlar.png" title={`${ad} Şarj İstasyonları: Elektrikli Araç Şarj Noktaları`} description={`${ad} elektrikli araç şarj istasyonları haritası: DC hızlı ve AC şarj noktaları, ZES, Trugo, Eşarj, Tesla ve diğer operatörlerin güncel kWh fiyatları${ilRotalar.length ? `, ${ad} çıkışlı rotalar` : ''}.`} jsonLd={jsonLd} crumbs={[['Şarj istasyonları', '/istasyonlar/'], [ad, Astro.url.pathname]]}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/istasyonlar/">Şarj istasyonları</a> / {ad}</nav>
+      <span class="eyebrow">{il.bolge}</span>
+      <h1>{ad} şarj istasyonları</h1>
+      <p class="muted intro">{de} elektrikli araç şarj istasyonlarını Google Haritalar üzerinde görebilir, hızlı şarj noktalarına geçebilirsin. Konumuna en yakın istasyonları soket tipi ve fiyatla görmek için <a href="/yakindaki-sarj-istasyonlari/"><b>Yakınımdaki Şarj İstasyonları</b></a>'nı kullan.</p>
+      <div class="sekme" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-src={q('elektrikli araç şarj istasyonu')}>Tüm istasyonlar</button>
+        <button type="button" role="tab" aria-selected="false" data-src={q('hızlı şarj istasyonu DC')}>DC hızlı şarj</button>
+        {['ZES', 'Trugo', 'Eşarj', 'Tesla Supercharger', 'Voltrun', 'Sharz'].map((o) => <button type="button" role="tab" aria-selected="false" data-src={q(`${o} şarj`)}>{o}</button>)}
+      </div>
+      <div class="card harita"><iframe id="il-harita" title={`${ad} şarj istasyonları haritası`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={q('elektrikli araç şarj istasyonu')} allowfullscreen></iframe></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container prose">
+      <h2>{ad} için şarj fiyatları</h2>
+      <p>Şarj ücreti istasyonun bulunduğu ile göre değil, operatöre göre değişir. {de} de aynı operatör aynı tarifeyi uygular. En uygun DC tarifeler:</p>
+      <ul>{dcSirali.slice(0, 6).map((o) => <li><a href={`/sarj-fiyatlari/${o.id}/`}>{o.name}</a>: DC <b>{tl(o.dc)}</b>/kWh{o.ac ? `, AC ${tl(o.ac)}/kWh` : ''}</li>)}</ul>
+      <p>Tüm operatörlerin karşılaştırması için <a href="/sarj-fiyatlari/">Şarj Fiyatları</a> sayfasına bak.</p>
+      {ilRotalar.length > 0 && <>
+        <h2>{ad} çıkışlı ve {ad} varışlı rotalar</h2>
+        <ul>{ilRotalar.map((r: any) => <li><a href={`/rota/${r.slug}/`}>{r.from} – {r.to}</a>{r.km ? ` · ${r.km} km` : ''}</li>)}</ul>
+      </>}
+      {haberler.length > 0 && <>
+        <h2>{ad} ile ilgili elektrikli araç haberleri</h2>
+        <ul>{haberler.map((p) => <li><a href={`/haberler/${p.data.category}/${p.id}/`}>{p.data.title}</a></li>)}</ul>
+      </>}
+      <Faq items={sss.map(([qq, a]) => ({ q: qq, a }))} />
+      <h3>{il.bolge} bölgesindeki diğer iller</h3>
+      <p>{komsu.map((x, i) => <>{i > 0 && ' · '}<a href={`/sarj-istasyonlari/${ilSlug(x.ad)}/`}>{x.ad} şarj istasyonları</a></>)}</p>
+    </div>
+  </section>
+</Base>
+<script>
+  const f = document.getElementById('il-harita') as HTMLIFrameElement;
+  document.querySelectorAll<HTMLButtonElement>('.sekme button').forEach((b) => b.addEventListener('click', () => {
+    document.querySelectorAll('.sekme button').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+    f.src = b.dataset.src!;
+  }));
+</script>
+<style>
+  .crumbs { margin-bottom: 10px; }
+  .intro { max-width: 760px; margin-bottom: 16px; }
+  .sekme { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .sekme button { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 7px 14px; font: 600 13.5px var(--font); cursor: pointer; color: var(--ink-2); }
+  .sekme button[aria-selected='true'] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .harita { padding: 0; overflow: hidden; }
+  .harita iframe { display: block; width: 100%; height: 560px; border: 0; }
+  @media (max-width: 640px) { .harita iframe { height: 420px; } }
+</style>

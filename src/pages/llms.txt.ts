@@ -3,6 +3,7 @@ import { getNews, CATS } from '../lib/util';
 import { GUIDES } from '../lib/ev';
 import routes from '../data/routes.json';
 import ops from '../data/operators.json';
+import { ILLER, ilSlug } from '../lib/iller';
 import company from '../data/company.json';
 
 // llms.txt: yapay zekâ arama motorları (ChatGPT, Gemini, Perplexity vb.) için sitenin özeti ve en önemli sayfaları.
@@ -29,6 +30,9 @@ export const GET: APIRoute = async ({ site }) => {
     '',
     `## Operatörlere göre şarj ücretleri (güncelleme: ${ops.updated})`,
     ...ops.operators.map((o: any) => `- [${o.name} şarj ücreti](${u(`/sarj-fiyatlari/${o.id}/`)}): DC ${o.dc} TL/kWh${o.ac ? `, AC ${o.ac} TL/kWh` : ''}`),
+    '',
+    '## İllere göre şarj istasyonları',
+    ...ILLER.map((x) => `- [${x.ad} şarj istasyonları](${u(`/sarj-istasyonlari/${ilSlug(x.ad)}/`)})`),
     '',
     '## Popüler rotalar (elektrikli araçla maliyet ve şarj durakları)',
     ...routes.map((r: any) => `- [${r.from} – ${r.to}](${u(`/rota/${r.slug}/`)})${r.km ? `: ${r.km} km` : ''}`),
