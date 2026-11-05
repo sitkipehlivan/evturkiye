@@ -6,6 +6,7 @@ const haberler = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/haberler' }),
   schema: z.object({
     title: z.string(),
+    seoTitle: z.string().optional(),
     description: z.string(),
     category: z.enum(['turkiye', 'dunya', 'hibrit', 'rehber']),
     date: z.coerce.date(),

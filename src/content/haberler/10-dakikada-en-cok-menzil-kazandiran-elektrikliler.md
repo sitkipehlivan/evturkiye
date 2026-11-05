@@ -1,5 +1,6 @@
 ---
 title: "10 dakikalık hızlı şarjda en çok menzil kazandıran elektrikli otomobiller"
+seoTitle: "10 dakikalık şarjda en çok menzil kazandıran elektrikliler"
 description: "Türkiye'de satılan 109 elektrikli versiyonu karşılaştırdık: 10 dakikalık DC şarj molasında hangi araç kaç kilometre kazanıyor, %10'dan %80'e kaç dakikada doluyor?"
 image: "/images/haberler/10-dakikada-en-cok-menzil-kazandiran-elektrikliler.jpg"
 imageMode: generate

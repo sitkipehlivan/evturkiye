@@ -36,8 +36,11 @@ const jsonLd = {
   },
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
 };
+// <title>: Google ~60 karakterden sonrasını keser. Uzun manşetlerde iki noktadan önceki kısım yeterince
+// açıklayıcıysa (25–60 karakter) onu kullan; sayfa içindeki başlık (H1) tam kalır.
+const baslikEtiketi = (() => { const t = (d as any).seoTitle || d.title; if (t.length <= 60) return t; const ok = (x: string) => x.length >= 25 && x.length <= 62 && x !== t; const soru = t.includes('?') ? t.slice(0, t.indexOf('?') + 1).trim() : ''; if (ok(soru)) return soru; const on = t.split(':')[0].trim(); return ok(on) ? on : t; })();
 ---
-<Base title={d.title} description={d.description} type="article" image={img} jsonLd={jsonLd} crumbs={[['Haberler', '/haberler/'], [CATS[cat].label, `/haberler/${cat}/`], [d.title, Astro.url.pathname]]}>
+<Base title={baslikEtiketi} description={d.description} type="article" image={img} jsonLd={jsonLd} crumbs={[['Haberler', '/haberler/'], [CATS[cat].label, `/haberler/${cat}/`], [d.title, Astro.url.pathname]]}>
   <article class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/haberler">Haberler</a> / <a href={`/haberler/${cat}`}>{CATS[cat].label}</a></nav>

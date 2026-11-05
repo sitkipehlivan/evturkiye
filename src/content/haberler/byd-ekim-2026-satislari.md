@@ -1,5 +1,6 @@
 ---
 title: "BYD Ekim 2026 satışları: Elektrikli otomobilde 305.743 adetle aylık rekor"
+seoTitle: "BYD Ekim 2026 satışları: 305.743 adetle rekor"
 description: "BYD Ekim 2026'da 490.168 araç sattı, satışlar %11 arttı. Tam elektrikli otomobil satışları ilk kez 300 bini aştı, yurt dışı satışlar 170.194 adede çıktı."
 image: "/images/haberler/byd-ekim-2026-satislari.jpg"
 imageMode: edit

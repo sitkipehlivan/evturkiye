@@ -1,5 +1,6 @@
 ---
 title: "Kuzey Marmara Otoyolu şarj istasyonları rakip operatörlere açılıyor: Rekabet Kurulu kararı"
+seoTitle: "Kuzey Marmara Otoyolu şarj istasyonları rakiplere açılıyor"
 description: "Rekabet Kurulu, Kuzey Marmara Otoyolu'nda elektrikli araç şarjındaki münhasırlığı taahhütle sonlandırdı. Başvuru süreci 2 ay, değerlendirme 4 ay içinde."
 image: "/images/haberler/kuzey-marmara-otoyolu-sarj-rekabet-kurulu.jpg"
 imageMode: generate

@@ -1,5 +1,6 @@
 ---
 title: "Türkiye'de elektrikli otomobil satışları 9 ayda geriledi, Avrupa'da yükseliş sürüyor"
+seoTitle: "Elektrikli otomobil satışları 9 ayda geriledi (2026)"
 description: "2026'nın ilk dokuz ayında Avrupa'da elektrikli otomobil satışları yüzde 40'ın üzerinde artarken Türkiye'de yüzde 9 düştü. Pazar payı Avrupa ortalamasının altına indi."
 image: "/images/haberler/turkiye-ev-satislari-9-ay-2026.jpg"
 category: turkiye

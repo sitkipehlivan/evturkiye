@@ -1,5 +1,6 @@
 ---
 title: "Plug-in hibrit satışları 8 ayda yüzde 90 düştü, mild hibrit yükselişte"
+seoTitle: "Plug-in hibrit satışları 8 ayda yüzde 90 düştü"
 description: "ODMD verilerine göre PHEV satışları Ocak–Ağustos 2026'da 31.976'dan 3.353 adede indi. Aynı dönemde mild hibrit satışları yüzde 38 arttı."
 image: "/images/haberler/phev-satislari-8-ayda-yuzde-90-dustu.jpg"
 imageMode: generate

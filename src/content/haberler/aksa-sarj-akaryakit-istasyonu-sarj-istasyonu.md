@@ -1,5 +1,6 @@
 ---
 title: "Aksa Şarj, Eskişehir–Ankara yolunda akaryakıt istasyonunu şarj istasyonuna dönüştürdü"
+seoTitle: "Aksa Şarj akaryakıt istasyonunu şarj istasyonuna dönüştürdü"
 description: "Aksa Şarj, Eskişehir–Ankara karayolundaki bir akaryakıt istasyonunu Mayıs 2026'da tamamen şarj istasyonuna çevirdi: 240 kW ve 160 kW ünite, aynı anda 4 araç."
 image: "/images/haberler/aksa-sarj-akaryakit-istasyonu-sarj-istasyonu.jpg"
 imageMode: generate
