@@ -56,6 +56,7 @@ const jsonLd = {
         <div class="art-main">
           <div class="prose"><Content /></div>
           {mentioned.length > 0 && <p class="brandlinks small">Bu haberdeki markalar: {mentioned.map((b) => <a class="tag" href={`/modeller/${b.slug}`}>{b.name}</a>)}</p>}
+          <div class="art-ad"><AdSlot id="article-end" size="728x90" mobile="300x250" /></div>
           {d.sourceUrl && <p class="source small">Kaynak: <a href={d.sourceUrl} target="_blank" rel="noopener nofollow">{d.source ?? new URL(d.sourceUrl).hostname} ↗</a></p>}
         </div>
         <aside class="art-side" aria-label="Rota planlayıcı ve son haberler">
@@ -101,6 +102,7 @@ const jsonLd = {
   .brandlinks { max-width: 720px; margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); }
   .source { max-width: 720px; padding-top: 18px; margin-top: 28px; border-top: 1px solid var(--line); color: var(--muted); }
   .source a { color: var(--volt-ink); }
+  .art-ad { max-width: 728px; margin: 28px 0 0; }
   .art-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
   .art-sticky { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 20px; }
   .side-box { border: 1px solid var(--line); padding: 16px 18px; }

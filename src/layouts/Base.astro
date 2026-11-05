@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import Interstitial from '../components/Interstitial.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import InstallApp from '../components/InstallApp.astro';
 import Header from '../components/Header.astro';
@@ -39,6 +38,8 @@ const crumbLd = crumbs?.length ? {
   itemListElement: [['Ana sayfa', '/'], ...crumbs].map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: new URL(path, Astro.site).toString() })),
 } : null;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// Advance reklam sunucusu adresi
+const ADV_URL = 'https://advance-reklam.netlify.app';
 const ogImage = new URL(image, Astro.site);
 ---
 <!doctype html>
@@ -152,7 +153,17 @@ const ogImage = new URL(image, Astro.site);
     </script>
     {fbMeta && <AuthDialog />}
     <CookieBanner />
-    <Interstitial />
+    <script is:inline define:vars={{ ADV: ADV_URL }}>
+      // Advance reklam sunucusu: masthead, banner alanları, raylar, pageskin ve geçiş reklamı (yönetim: ADV/panel)
+      window.advance = {
+        site: 'evturkiye', icerik: 1180, rayUst: 150,
+        interstitial: 'evturkiye-interstitial', pageskin: 'evturkiye-pageskin', raylar: ['evturkiye-rail-sol', 'evturkiye-rail-sag'],
+        haricYollar: '^/(hesabim|admin|reklam-rapor|offline)',
+        riza: function () { try { return localStorage.getItem('evt-cerez') === 'kabul'; } catch (e) { return false; } },
+      };
+      document.addEventListener('evt-cerez', function () { if (window.advance.yenile) window.advance.yenile(); });
+      var s = document.createElement('script'); s.async = true; s.src = ADV + '/a.js'; document.head.appendChild(s);
+    </script>
     <script is:inline>
       // Çerezsiz ziyaret sayacı: çerez, cihaz kimliği, IP saklamaz; yalnızca sayfa yolu ve reklam etiketi (utm) toplam olarak sayılır.
       (function () {
