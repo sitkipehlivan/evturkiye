@@ -254,7 +254,7 @@ function init(root: HTMLElement) {
     }
     // Ücretsiz hesaplama: rota Google gömme haritasında, şarj durakları ara nokta olarak
     const ll = (p: { lat: number; lon: number }) => `${p.lat.toFixed(5)},${p.lon.toFixed(5)}`;
-    gommeRota([ll(a), ...r.stops.slice(0, 8).map((x) => ll(x.station)), ll(b)]);
+    gommeRota([a.label || ll(a), ...r.stops.slice(0, 8).map((x) => ll(x.station)), b.label || ll(b)]);
     void coords; void stations;
   }
 
@@ -403,5 +403,5 @@ const quota = {
 
 function num(v: string | null) { if (v == null) return undefined; const n = Number(v); return Number.isFinite(n) ? n : undefined; }
 function tl(v: number) { return '₺' + v.toLocaleString('tr-TR', { minimumFractionDigits: v < 100 ? 2 : 0, maximumFractionDigits: v < 100 ? 2 : 0 }); }
-function dur(min: number) { const h = Math.floor(min / 60), m = Math.round(min % 60); return h ? `${h} sa ${m} dk` : `${m} dk`; }
+function dur(min: number) { const t = Math.round(min), h = Math.floor(t / 60), m = t % 60; return h ? `${h} sa ${m} dk` : `${m} dk`; }
 function esc(s: string) { return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!)); }
