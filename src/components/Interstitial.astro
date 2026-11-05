@@ -1,0 +1,116 @@
+---
+// Doğrudan satılan geçiş (interstitial) reklamı. Kampanyalar: src/data/reklamlar.json · Sayaç: /api/reklam · Rapor: /reklam-rapor
+// Kurallar: reklam çerezleri onaylıysa gösterilir; arama motorundan gelinen ilk sayfada gösterilmez (Google'ın
+// rahatsız edici geçiş reklamı yönergesi); kampanya başına sıklık sınırı; kapat butonu kapatSn saniye sonra gelir.
+import data from '../data/reklamlar.json';
+const bugun = new Date(Date.now() + 3 * 3600e3).toISOString().slice(0, 10);
+const aktif = (data.kampanyalar as any[]).filter(
+  (k) => k.aktif && k.format === 'interstitial' && (!k.baslangic || k.baslangic <= bugun) && (!k.bitis || k.bitis >= bugun),
+).map((k) => ({ id: k.id, siklik: k.siklik, gecikmeSn: k.gecikmeSn ?? 3, kapatSn: k.kapatSn ?? 5, baslangic: k.baslangic, bitis: k.bitis, etiketler: k.etiketler }));
+---
+{aktif.length > 0 && (
+  <div id="rk-veri" data-k={JSON.stringify(aktif)} hidden></div>
+  <script is:inline>
+    (function () {
+      var el = document.getElementById('rk-veri');
+      if (!el) return;
+      var K; try { K = JSON.parse(el.getAttribute('data-k')); } catch (e) { return; }
+      if (navigator.webdriver || /bot|crawl|spider|slurp|lighthouse|headless|preview/i.test(navigator.userAgent)) return;
+      if (/^\/(hesabim|admin|reklam-rapor|offline)/.test(location.pathname)) return;
+      if (new URLSearchParams(location.search).has('reklamsiz')) return;
+
+      // Arama motorundan gelinen ilk sayfada gösterme
+      var ilk = true;
+      try { ilk = !sessionStorage.getItem('evt-oturum'); sessionStorage.setItem('evt-oturum', '1'); } catch (e) {}
+      var test = new URLSearchParams(location.search).has('reklam-test');
+      if (!test && ilk && /\/\/([a-z0-9-]+\.)*(google|bing|yandex|duckduckgo|yahoo)\./i.test(document.referrer)) return;
+
+      var bugun = new Date(Date.now() + 3 * 3600e3).toISOString().slice(0, 10);
+      var gecmis = function (id) { try { return JSON.parse(localStorage.getItem('evt-rk-' + id) || '[]'); } catch (e) { return []; } };
+      var uygun = function (k) {
+        if ((k.baslangic && k.baslangic > bugun) || (k.bitis && k.bitis < bugun)) return false;
+        if (test) return true;
+        var sinir = Date.now() - (k.siklik && k.siklik.saat || 24) * 3600e3;
+        return gecmis(k.id).filter(function (t) { return t > sinir; }).length < (k.siklik && k.siklik.adet || 1);
+      };
+      var kamp = K.filter(uygun)[0];
+      if (!kamp) return;
+
+      var olay = function (e, s) {
+        if (test) return; // ?reklam-test ile yapılan kontroller sayaca yazılmaz
+        var b = JSON.stringify({ e: e, k: kamp.id, s: s, p: location.pathname });
+        try { if (navigator.sendBeacon && navigator.sendBeacon('/api/reklam', new Blob([b], { type: 'application/json' }))) return; } catch (x) {}
+        try { fetch('/api/reklam', { method: 'POST', body: b, keepalive: true, headers: { 'content-type': 'application/json' } }); } catch (x) {}
+      };
+
+      // Ekrana göre etiket: mobilde dikey/yatay küçük, masaüstünde büyük boy
+      var sec = function () {
+        var vw = window.innerWidth, vh = window.innerHeight, dik = vh > vw, m = vw < 768;
+        var bul = function (w, h) { return kamp.etiketler.filter(function (t) { return t.w === w && t.h === h; })[0]; };
+        var t = m ? (dik ? bul(320, 480) : bul(480, 320)) : (vh >= 860 && vw < 1100 ? bul(600, 800) : bul(800, 600));
+        return t || kamp.etiketler[0];
+      };
+
+      var acildi = false;
+      var goster = function () {
+        if (acildi) return; acildi = true;
+        var t = sec(), boyut = t.w + 'x' + t.h;
+        var vw = window.innerWidth, vh = window.innerHeight;
+        var olc = Math.min(1, (vw - 24) / t.w, (vh - 96) / t.h);
+        var ov = document.createElement('div');
+        ov.className = 'rk-ov';
+        ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Reklam');
+        ov.innerHTML = '<div class="rk-kutu" style="width:' + Math.round(t.w * olc) + 'px">' +
+          '<div class="rk-ust"><span class="rk-etiket">Reklam</span><button type="button" class="rk-kapat" disabled aria-label="Reklamı kapat"><span class="rk-sayac">' + kamp.kapatSn + '</span></button></div>' +
+          '<div class="rk-alan" style="width:' + Math.round(t.w * olc) + 'px;height:' + Math.round(t.h * olc) + 'px">' +
+          '<iframe title="Reklam" width="' + t.w + '" height="' + t.h + '" scrolling="no" style="transform:scale(' + olc + ');transform-origin:0 0" src="/reklam/kutu.html?bn=' + t.adform + '&k=' + encodeURIComponent(kamp.id) + '&s=' + boyut + '"></iframe>' +
+          '</div></div>';
+        document.body.appendChild(ov);
+        var tasma = document.documentElement.style.overflow;
+        document.documentElement.style.overflow = 'hidden';
+        var btn = ov.querySelector('.rk-kapat'), sayac = ov.querySelector('.rk-sayac'), serbest = false;
+        var kapat = function () {
+          if (!serbest) return;
+          ov.remove(); document.documentElement.style.overflow = tasma;
+          document.removeEventListener('keydown', tus);
+          olay('k', boyut);
+        };
+        var tus = function (e) { if (e.key === 'Escape') kapat(); };
+        document.addEventListener('keydown', tus);
+        btn.addEventListener('click', kapat);
+        ov.addEventListener('click', function (e) { if (e.target === ov) kapat(); });
+        var kalan = kamp.kapatSn;
+        var zam = setInterval(function () {
+          kalan--;
+          if (kalan > 0) { sayac.textContent = kalan; return; }
+          clearInterval(zam); serbest = true; btn.disabled = false;
+          btn.innerHTML = 'Kapat <span aria-hidden="true">✕</span>'; btn.classList.add('hazir');
+        }, 1000);
+        // Gösterim: reklam çerçevesi yüklenip ekranda açıldığında bir kez
+        var sayildi = false;
+        ov.querySelector('iframe').addEventListener('load', function () {
+          if (sayildi) return; sayildi = true;
+          if (!test) { var g = gecmis(kamp.id); g.push(Date.now()); try { localStorage.setItem('evt-rk-' + kamp.id, JSON.stringify(g.slice(-20))); } catch (e) {} }
+          olay('g', boyut);
+        });
+      };
+
+      var riza = function () { try { return localStorage.getItem('evt-cerez'); } catch (e) { return null; } };
+      var dene = function () { if (riza() === 'kabul') setTimeout(goster, (kamp.gecikmeSn || 3) * 1000); };
+      if (riza() === 'kabul') dene();
+      else document.addEventListener('evt-cerez', function (e) { if (e.detail === 'kabul') dene(); });
+    })();
+  </script>
+  <style is:global>
+    .rk-ov { position: fixed; inset: 0; z-index: 1000; background: rgba(8, 14, 26, .78); display: grid; place-items: center; padding: 12px; animation: rk-ac .25s ease-out; }
+    @keyframes rk-ac { from { opacity: 0; } to { opacity: 1; } }
+    .rk-kutu { display: flex; flex-direction: column; gap: 8px; }
+    .rk-ust { display: flex; justify-content: space-between; align-items: center; }
+    .rk-etiket { font: 700 .66rem var(--font, system-ui); letter-spacing: .14em; text-transform: uppercase; color: #cfd8e6; }
+    .rk-kapat { min-width: 34px; height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .5); background: rgba(255, 255, 255, .08); color: #fff; font: 700 .85rem var(--font, system-ui); cursor: default; }
+    .rk-kapat.hazir { background: #fff; color: #0e1726; border-color: #fff; cursor: pointer; }
+    .rk-alan { overflow: hidden; background: #fff; border-radius: 6px; box-shadow: 0 20px 60px rgba(0, 0, 0, .45); }
+    .rk-alan iframe { border: 0; display: block; }
+    @media (prefers-reduced-motion: reduce) { .rk-ov { animation: none; } }
+  </style>
+)}

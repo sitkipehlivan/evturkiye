@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Interstitial from '../components/Interstitial.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import InstallApp from '../components/InstallApp.astro';
 import Header from '../components/Header.astro';
@@ -151,6 +152,7 @@ const ogImage = new URL(image, Astro.site);
     </script>
     {fbMeta && <AuthDialog />}
     <CookieBanner />
+    <Interstitial />
     <script is:inline>
       // Çerezsiz ziyaret sayacı: çerez, cihaz kimliği, IP saklamaz; yalnızca sayfa yolu ve reklam etiketi (utm) toplam olarak sayılır.
       (function () {

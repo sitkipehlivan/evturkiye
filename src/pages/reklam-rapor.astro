@@ -1,0 +1,73 @@
+---
+// Doğrudan reklam kampanyaları raporu. Veriler /api/reklam?rapor=1 üzerinden, REKLAM_ANAHTAR ile okunur.
+import Base from '../layouts/Base.astro';
+import data from '../data/reklamlar.json';
+const kamp = (data.kampanyalar as any[]).map((k) => ({ id: k.id, ad: k.ad, reklamveren: k.reklamveren, baslangic: k.baslangic, bitis: k.bitis, aktif: k.aktif, kaynak: k.kaynak }));
+---
+<Base title="Reklam raporu" description="EV Türkiye doğrudan reklam kampanyaları raporu." noindex>
+  <section class="section-sm">
+    <div class="container rr">
+      <h1>Reklam raporu</h1>
+      <p class="muted small">Gösterim: reklam ekranda açıldığında · Click: reklama tıklandığında · Kapatma: kullanıcı reklamı kapattığında. Saatler İstanbul saatine göredir.</p>
+      <form id="rr-form" class="rr-form">
+        <label for="rr-a">Rapor anahtarı</label>
+        <input id="rr-a" type="password" autocomplete="off" required />
+        <label for="rr-g">Gün</label>
+        <select id="rr-g"><option value="7">Son 7 gün</option><option value="30" selected>Son 30 gün</option><option value="90">Son 90 gün</option></select>
+        <button class="btn btn-volt" type="submit">Raporu getir</button>
+      </form>
+      <p id="rr-durum" class="small muted" role="status"></p>
+      <div id="rr-sonuc"></div>
+    </div>
+  </section>
+  <script define:vars={{ kamp }}>
+    const f = document.getElementById('rr-form'), a = document.getElementById('rr-a'), g = document.getElementById('rr-g');
+    const durum = document.getElementById('rr-durum'), sonuc = document.getElementById('rr-sonuc');
+    try { a.value = localStorage.getItem('evt-rr') || ''; } catch (e) {}
+    const n = (x) => (x || 0).toLocaleString('tr-TR');
+    const ctr = (c, gg) => gg ? (100 * c / gg).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%' : '-';
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const getir = async () => {
+      durum.textContent = 'Yükleniyor…'; sonuc.innerHTML = '';
+      try {
+        const r = await fetch(`/api/reklam?rapor=1&gun=${g.value}&a=${encodeURIComponent(a.value)}`, { cache: 'no-store' });
+        if (r.status === 401) { durum.textContent = 'Anahtar hatalı.'; return; }
+        const j = await r.json();
+        try { localStorage.setItem('evt-rr', a.value); } catch (e) {}
+        durum.textContent = `Son ${j.gun} gün · ${new Date(j.olusturma).toLocaleString('tr-TR')}`;
+        const ids = [...new Set([...kamp.map((k) => k.id), ...Object.keys(j.kampanyalar)])];
+        sonuc.innerHTML = ids.map((id) => {
+          const m = kamp.find((k) => k.id === id) || { ad: id };
+          const v = j.kampanyalar[id] || { gunler: [], boyut: {}, toplam: { g: 0, c: 0, k: 0 } };
+          const t = v.toplam;
+          const gunler = [...v.gunler].sort((x, y) => y.gun.localeCompare(x.gun));
+          return `<article class="rr-k">
+            <header><h2>${esc(m.ad)}</h2><p class="small muted">${esc(m.reklamveren || '')}${m.kaynak ? ' · ' + esc(m.kaynak) : ''}${m.baslangic ? ' · ' + esc(m.baslangic) + ' → ' + esc(m.bitis || 'devam') : ''}${m.aktif === false ? ' · <b>pasif</b>' : ''}</p></header>
+            <div class="rr-kpi"><div><span>Gösterim</span><b>${n(t.g)}</b></div><div><span>Click</span><b>${n(t.c)}</b></div><div><span>CTR</span><b>${ctr(t.c, t.g)}</b></div><div><span>Kapatma</span><b>${n(t.k)}</b></div></div>
+            <div class="table-wrap"><table><thead><tr><th>Boyut</th><th>Gösterim</th><th>Click</th><th>CTR</th></tr></thead><tbody>
+              ${Object.entries(v.boyut).map(([s, b]) => `<tr><td>${esc(s)}</td><td>${n(b.g)}</td><td>${n(b.c)}</td><td>${ctr(b.c, b.g)}</td></tr>`).join('') || '<tr><td colspan="4">Henüz veri yok</td></tr>'}
+            </tbody></table></div>
+            <div class="table-wrap"><table><thead><tr><th>Gün</th><th>Gösterim</th><th>Click</th><th>CTR</th><th>Kapatma</th></tr></thead><tbody>
+              ${gunler.map((d) => `<tr><td>${esc(d.gun)}</td><td>${n(d.g)}</td><td>${n(d.c)}</td><td>${ctr(d.c, d.g)}</td><td>${n(d.k)}</td></tr>`).join('') || '<tr><td colspan="5">Henüz veri yok</td></tr>'}
+            </tbody></table></div>
+          </article>`;
+        }).join('');
+      } catch (e) { durum.textContent = 'Rapor alınamadı.'; }
+    };
+    f.addEventListener('submit', (e) => { e.preventDefault(); getir(); });
+    if (a.value) getir();
+  </script>
+</Base>
+<style>
+  .rr h1 { margin-bottom: 6px; }
+  .rr-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0 8px; }
+  .rr-form input, .rr-form select { height: 40px; min-width: 180px; }
+  .rr :global(.rr-k) { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; margin-top: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .rr :global(.rr-k h2) { margin: 0; font-size: 1.2rem; }
+  .rr :global(.rr-k header p) { margin: 4px 0 0; }
+  .rr :global(.rr-kpi) { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .rr :global(.rr-kpi div) { background: var(--soft); padding: 12px 14px; border-radius: 10px; display: flex; flex-direction: column; }
+  .rr :global(.rr-kpi span) { font-size: .76rem; color: var(--muted); font-weight: 600; }
+  .rr :global(.rr-kpi b) { font: 800 1.4rem var(--font-head); font-variant-numeric: tabular-nums; }
+  @media (max-width: 600px) { .rr :global(.rr-kpi) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

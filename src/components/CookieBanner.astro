@@ -25,6 +25,7 @@
           gtag('consent', 'update', { analytics_storage: an, ad_storage: ad, ad_user_data: ad, ad_personalization: ad });
         }
         box.hidden = true;
+        try { document.dispatchEvent(new CustomEvent('evt-cerez', { detail: v })); } catch (e) {}
       });
     });
     document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-cerez-ac]')) show(); });

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Reklam</title>
+<style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style>
+</head>
+<body>
+<script>
+// Reklamverenin üçüncü taraf etiketi (Adform) bu çerçevede, sayfa ayrıştırılırken çalışır (document.write gerektiren etiketler için).
+// Click izleme: Adform ';click=' makrosuna EV Türkiye sayaç adresi eklenir; sayaç click'i sayıp Adform'un click adresine yönlendirir.
+(function () {
+  var q = new URLSearchParams(location.search);
+  var bn = (q.get('bn') || '').replace(/\D/g, '');
+  var k = (q.get('k') || '').replace(/[^a-z0-9-]/gi, '');
+  var s = (q.get('s') || '').replace(/[^0-9x]/g, '');
+  if (!bn || !k) return;
+  var c = location.origin + '/api/reklam/c/' + k + '/' + s + '?u=';
+  document.write('<scr' + 'ipt src="https://track.adform.net/adfscript/?bn=' + bn + ';click=' + c + '"></scr' + 'ipt>');
+})();
+</script>
+</body>
+</html>

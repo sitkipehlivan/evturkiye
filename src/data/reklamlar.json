@@ -1,0 +1,24 @@
+{
+  "_aciklama": "EV Türkiye doğrudan reklam kampanyaları. Yeni kampanya için bir kayıt ekle; 'aktif: false' ya da 'bitis' tarihi geçince yayından kalkar. Rapor: /reklam-rapor",
+  "kampanyalar": [
+    {
+      "id": "qnb-miles-smiles-mil",
+      "reklamveren": "QNB Finansbank",
+      "ad": "QNB Miles & Smiles - Mil",
+      "kaynak": "Adform kampanya 4345421 / satır 15253294 (Advance - Interstitial)",
+      "aktif": true,
+      "baslangic": "2026-11-05",
+      "bitis": null,
+      "format": "interstitial",
+      "siklik": { "saat": 24, "adet": 1 },
+      "gecikmeSn": 3,
+      "kapatSn": 5,
+      "etiketler": [
+        { "w": 800, "h": 600, "adform": 91113706 },
+        { "w": 600, "h": 800, "adform": 91113707 },
+        { "w": 480, "h": 320, "adform": 91101325 },
+        { "w": 320, "h": 480, "adform": 91101326 }
+      ]
+    }
+  ]
+}
