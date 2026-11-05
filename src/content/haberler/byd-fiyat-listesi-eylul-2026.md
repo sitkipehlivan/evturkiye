@@ -39,3 +39,5 @@ Webtekno'nun 18 Eylül tarihli derlemesine göre Eylül'de bireysel alıcılara 
 Aynı ay Tesla Model Y'nin giriş versiyonu 2.474.985 TL, Long Range AWD versiyonu 4.410.000 TL'ydi. Yani Seal ve Sealion 7, Model Y'nin dört çeker versiyonlarıyla aynı fiyat bandında yer alıyor.
 
 BYD modellerinin teknik ayrıntıları için [BYD Seal](/modeller/byd/seal) ve [BYD marka sayfamıza](/modeller/byd), farklı modellerin gerçek menzillerini karşılaştırmak için [Menzil Sıralaması](/elektrikli-arac-menzil) sayfamıza bakabilirsiniz. Vergi dilimlerinin fiyatlara etkisi [ÖTV ve MTV rehberimizde](/haberler/rehber/elektrikli-arac-otv-mtv-2026) anlatılıyor.
+
+Güncel liste için: [BYD fiyat listesi Kasım 2026](/haberler/turkiye/byd-fiyat-listesi-kasim-2026)
