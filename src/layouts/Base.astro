@@ -87,9 +87,9 @@ const ogImage = new URL(image, Astro.site);
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <!-- Yazı tipleri kendi sunucumuzdan (Google Fonts'a istek yok: KVKK yurt dışı aktarım) -->
+    <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     {crumbLd && <script type="application/ld+json" set:html={JSON.stringify(crumbLd)} />}
     <slot name="head" />

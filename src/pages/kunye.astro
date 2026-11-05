@@ -32,6 +32,8 @@ const jsonLd = {
         {c.hosting && <><dt>Yer sağlayıcı</dt><dd>{c.hosting}</dd></>}
       </dl>
       <p>Yayın ilkelerimiz, kaynak kullanımı ve düzeltme politikamız için <a href="/yayin-ilkeleri">Yayın İlkeleri</a> sayfasına, sitenin amacı ve ekibi için <a href="/hakkimizda">Hakkımızda</a> sayfasına bakabilirsiniz.</p>
+      <h2>Telif hakkı ve içerik bildirimi</h2>
+      <p>Sitede hakkınızı ihlal ettiğini düşündüğünüz bir içerik (fotoğraf, metin, video) varsa, ilgili sayfanın adresini ve hak sahipliğinizi gösteren bilgiyle {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : 'iletişim adresimize'} yazın. 5651 sayılı Kanun ve 5846 sayılı Fikir ve Sanat Eserleri Kanunu kapsamındaki bildirimleri inceler, haklı bulunan içeriği en geç 24 saat içinde yayından kaldırırız.</p>
       <p class="muted small">Sitede yer alan fiyat, menzil ve maliyet bilgileri bilgilendirme amaçlıdır. Haberlerde hata fark ederseniz {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : 'iletişim adresimiz'} üzerinden bize ulaşın; doğrulanan düzeltmeler ilgili haberde belirtilerek yapılır.</p>
     </div>
   </section>
