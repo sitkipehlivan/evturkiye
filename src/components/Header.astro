@@ -80,6 +80,7 @@ const today = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'nu
 
 <style>
   .top-ad { background: #f6f8fa; }
+  :global(html.adv-skin-acik) .top-ad { display: none; } /* pageskin üst bandı masthead yerini alır */
   .top-ad :global(.ad-slot:not([hidden])) { margin: 0 auto; }
   .site-header { position: relative; z-index: 1000; background: #fff; }
   .utility { background: var(--ink); color: #cbd5e1; font-size: .78rem; }
