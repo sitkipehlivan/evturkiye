@@ -25,7 +25,8 @@ Eklemeden önce `src/content/haberler/` altındaki dosyaları kontrol et:
 ## 5. Yazım kuralları
 - Çeviri veya kopya yok: kaynağı oku, kendi cümlelerinle yaz. Kaynaktan en fazla tek, kısa alıntı.
 - Uzunluk 250–500 kelime. İlk paragraf haberin özü (kim, ne, ne zaman, rakam).
-- Ara başlıklar (`##`), gerektiğinde tablo. Rakamlar birimleriyle (TL, kWh, km, kW).
+- Ara başlıklar (`##`), gerektiğinde tablo. Tablolar en fazla 5 sütun; hücreler kısa (model adı + kısa versiyon, uzun açıklama tablo altına). Rakamlar birimleriyle (TL, kWh, km, kW).
+- Her push sonrası `Taşma kontrolü` iş akışı tüm sayfaları masaüstü ve mobilde açar; kırmızı olursa yazıdaki tablo/görsel sütuna sığmıyor demektir, düzelt.
 - Ses tonu: sade, tarafsız, abartısız, "sen/siz" yerine nötr haber dili. Başlıkta tıklama tuzağı yok.
 - Uygunsa sitenin araçlarına iç link ver: [Rota Planlayıcı](/rota-planlayici), [Şarj Fiyatları](/sarj-fiyatlari), [Modeller](/modeller), [Fırsatlar](/firsatlar).
 

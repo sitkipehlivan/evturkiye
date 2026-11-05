@@ -1,0 +1,29 @@
+name: Taşma kontrolü (yerleşim)
+
+# Her push'ta (haber botunun eklediği yeni haberler dahil) siteyi derler ve tüm sayfaları
+# masaüstü + mobil genişlikte açıp tablo/görsel taşması, yatay kayma gibi bozuklukları arar.
+# Sorun bulursa çalıştırma kırmızı olur ve GitHub depo sahibine e-posta gönderir.
+on:
+  push:
+    branches: [main]
+    paths: ['src/**', 'public/**', 'astro.config.*', 'package.json', 'scripts/tasma-kontrol.mjs']
+  workflow_dispatch:
+
+concurrency:
+  group: tasma-kontrol
+  cancel-in-progress: true
+
+jobs:
+  kontrol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build:fast
+      - run: npm i --no-save playwright@1 && npx playwright install --with-deps chromium
+      - run: node scripts/tasma-kontrol.mjs
