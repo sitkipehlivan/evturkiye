@@ -8,7 +8,7 @@
 - Marka sayfaları: `/modeller/<marka>` (modeller, kampanyalar, o markayı anan haberler otomatik).
 - İç linkler: üst menüde "EV Rehberi", alt bilgide "Rehberler" sütunu, her haber ve model sayfasının altında rehber kutusu, haberlerde geçen markalara otomatik link.
 - Haber botu SEO kuralları: `docs/haber-botu.md` bölüm 5a.
-- Google News / Discover güven sinyalleri: `/kunye` (yayın sahibi Advance Digital, genel yayın yönetmeni Sıtkı Pehlivan), `/hakkimizda`, `/yayin-ilkeleri` (düzeltme politikası dahil), yazar sayfası `/yazar/sitki-pehlivan`. Künye bilgileri `src/data/company.json`'dan gelir (unvan, adres, e-posta, telefon, MERSİS boş alanları doldurulunca sayfalar otomatik güncellenir).
+- Google News / Discover güven sinyalleri: `/kunye` (yayın sahibi Advance Digital, genel yayın yönetmeni Sıtkı Pehlivan), `/hakkimizda`, `/yayin-ilkeleri` (düzeltme politikası dahil), haber imzası "EV Türkiye Editör Ekibi" → `/yazar/editor-ekibi` (genel yayın yönetmeni orada adıyla geçer; eski `/yazar/sitki-pehlivan` 301 ile yönlenir). Künye bilgileri `src/data/company.json`'dan gelir (unvan, adres, e-posta, telefon, MERSİS boş alanları doldurulunca sayfalar otomatik güncellenir).
 - Haberlerde yazar satırı ve NewsArticle şemasında `author`, `image`, `dateModified`, yayıncı logosu.
 - `news-sitemap.xml`: son 48 saatin haberleri (rehber hariç); robots.txt'de bildirilir. Search Console'a ayrıca gönder.
 - Canonical/og adresleri şu an `evturkiye.online` (astro.config varsayılanı). .com.tr'ye geçişte aşağıdaki adımları izle.

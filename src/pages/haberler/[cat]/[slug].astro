@@ -29,7 +29,7 @@ const jsonLd = {
   '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
   headline: d.title, description: d.description, datePublished: d.date.toISOString(), dateModified: d.date.toISOString(), inLanguage: 'tr',
   ...(img ? { image: [new URL(img, Astro.site).toString()] } : {}),
-  author: [{ '@type': 'Person', name: company.editor, url: authorUrl }],
+  author: [{ '@type': 'Organization', name: company.byline, url: authorUrl }],
   publisher: {
     '@type': 'NewsMediaOrganization', name: 'EV Türkiye', url: Astro.site!.origin,
     logo: { '@type': 'ImageObject', url: new URL('/brand/ev-turkiye-amblem-96.png', Astro.site).toString() },
@@ -44,7 +44,7 @@ const jsonLd = {
       <header class="head">
         <h1>{d.title}</h1>
         <p class="lede">{d.description}</p>
-        <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time> · <a class="byline" href={`/yazar/${company.editorSlug}`} rel="author">{company.editor}</a></div>
+        <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time> · <a class="byline" href={`/yazar/${company.editorSlug}`} rel="author">{company.byline}</a></div>
       </header>
       {img && (
         <figure class="cover-fig">
