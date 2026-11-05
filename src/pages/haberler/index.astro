@@ -4,7 +4,7 @@ import NewsCard from '../../components/NewsCard.astro';
 import { getNews, CATS } from '../../lib/util';
 const news = await getNews();
 ---
-<Base title="Elektrikli Araç Haberleri" description="Türkiye ve dünyadan elektrikli araç haberleri, şarj altyapısı gelişmeleri ve EV rehberleri.">
+<Base title="Elektrikli Araç Haberleri" description="Türkiye ve dünyadan elektrikli araç haberleri, şarj altyapısı gelişmeleri ve EV rehberleri." crumbs={[['Haberler', '/haberler/']]} jsonLd={{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Elektrikli Araç Haberleri', url: new URL(Astro.url.pathname, Astro.site).toString(), inLanguage: 'tr', isPartOf: { '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site?.toString() } }}>
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">Haberler & rehber</span>

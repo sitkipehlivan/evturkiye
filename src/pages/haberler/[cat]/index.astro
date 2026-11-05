@@ -9,7 +9,7 @@ const cat = Astro.params.cat as Cat;
 const news = (await getNews()).filter((p) => p.data.category === cat);
 const meta = CATS[cat];
 ---
-<Base title={`${meta.label} – Elektrikli Araç ${cat === 'rehber' ? 'Rehberi' : 'Haberleri'}`} description={meta.desc}>
+<Base title={`${meta.label} – Elektrikli Araç ${cat === 'rehber' ? 'Rehberi' : 'Haberleri'}`} description={meta.desc} crumbs={[['Haberler', '/haberler/'], [meta.label, Astro.url.pathname]]} jsonLd={{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${meta.label} – Elektrikli Araç Haberleri`, url: new URL(Astro.url.pathname, Astro.site).toString(), inLanguage: 'tr', isPartOf: { '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site?.toString() } }}>
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">Haberler</span>

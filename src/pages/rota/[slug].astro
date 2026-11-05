@@ -4,21 +4,41 @@ import Planner from '../../components/Planner.astro';
 import routes from '../../data/routes.json';
 import ops from '../../data/operators.json';
 import { tl } from '../../lib/util';
+import { models, avgDc, dcMinutes, CHARGE_EFF, groupOf } from '../../lib/ev';
 
 export function getStaticPaths() {
   return routes.map((r) => ({ params: { slug: r.slug }, props: { r } }));
 }
 const { r } = Astro.props;
-const title = `${r.from} – ${r.to} Elektrikli Araç Şarj Noktaları ve Yol Maliyeti`;
-const desc = `${r.from} ${r.to} arası elektrikli araçla kaç şarj durağı gerekir, yol kaça mal olur? Güzergahtaki hızlı şarj istasyonlarını ve operatör fiyatlarını karşılaştırın.`;
 const dcs = ops.operators.map((o) => o.dc);
 const minDc = Math.min(...dcs), maxDc = Math.max(...dcs);
 const others = routes.filter((x) => x.slug !== r.slug);
+// Yol uzunluğu ve süre: OpenStreetMap (OSRM) yol ağına göre, trafik ve molalar hariç
+const km: number = (r as any).km, dk: number = (r as any).dk;
+const sure = dk ? `${Math.floor(dk / 60)} sa ${dk % 60} dk` : '';
+// Örnek araçlarla tahmin: %90 şarjla çıkış, varışta en az %10, duraklarda %10 → %80 DC şarj
+const ORNEK = ['t10x-v2-rwd-uzun-menzil', 'model-y-long-range-rwd', 'r5-e-tech-ev52', 'sealion-7-excellence-awd', 'id-4-pure'];
+const tahmin = km ? ORNEK.map((s) => models.find((m) => m.slug === s)).filter(Boolean).map((m: any) => {
+  const enerji = (km * m.highway) / 100;
+  const ilkEtap = m.battery * 0.8, durakBasi = m.battery * 0.7;
+  const durak = Math.max(0, Math.ceil((enerji - ilkEtap) / durakBasi));
+  const yoldaKwh = Math.max(0, enerji - ilkEtap);
+  return { m, g: groupOf(m.brandSlug, m.modelSlug), enerji, durak, sarjDk: durak * dcMinutes(m), yolMaliyet: (yoldaKwh / CHARGE_EFF) * avgDc, toplam: (enerji / CHARGE_EFF) * avgDc };
+}) : [];
+const togg = tahmin[0];
+const title = km ? `${r.from} – ${r.to} Elektrikli Araçla Kaç Şarj? (${km} km)` : `${r.from} – ${r.to} Elektrikli Araç Şarj Noktaları ve Yol Maliyeti`;
+const desc = km && togg
+  ? `${r.from} ${r.to} arası ${km} km. Togg T10X ile yaklaşık ${togg.durak === 0 ? 'şarj molası vermeden' : togg.durak + ' şarj durağıyla'} gidilir; enerji maliyeti ~${Math.round(togg.toplam).toLocaleString('tr-TR')} ₺. Güzergahtaki hızlı şarj istasyonları ve fiyatlar.`
+  : `${r.from} ${r.to} arası elektrikli araçla kaç şarj durağı gerekir, yol kaça mal olur? Güzergahtaki hızlı şarj istasyonlarını ve operatör fiyatlarını karşılaştırın.`;
 const faq = {
   '@context': 'https://schema.org', '@type': 'FAQPage',
   mainEntity: [
+    ...(km ? [{ '@type': 'Question', name: `${r.from} ${r.to} arası kaç km?`,
+      acceptedAnswer: { '@type': 'Answer', text: `${r.from} ile ${r.to} arası karayoluyla yaklaşık ${km} km'dir; trafik ve molalar hariç sürüş süresi yaklaşık ${sure}.` } }] : []),
     { '@type': 'Question', name: `${r.from} ${r.to} arası elektrikli araçla kaç kez şarj gerekir?`,
-      acceptedAnswer: { '@type': 'Answer', text: `Durak sayısı aracınızın batarya kapasitesine, tüketimine ve yola çıkış şarjınıza bağlıdır. Bu sayfadaki planlayıcı, seçtiğiniz araca göre gereken durakları otomatik hesaplar.` } },
+      acceptedAnswer: { '@type': 'Answer', text: togg ? `Yola %90 şarjla çıkıp varışta en az %10 bırakırsanız ${tahmin.map((t) => `${t.g?.brand ?? t.m.brand} ${t.m.model} ile ${t.durak === 0 ? 'mola vermeden' : t.durak + ' durak'}`).join(', ')} gerekir. Kış koşulları ve yüksek hız tüketimi artırır.` : `Durak sayısı aracınızın batarya kapasitesine, tüketimine ve yola çıkış şarjınıza bağlıdır. Bu sayfadaki planlayıcı, seçtiğiniz araca göre gereken durakları otomatik hesaplar.` } },
+    ...(togg ? [{ '@type': 'Question', name: `${r.from} ${r.to} elektrikli araçla kaç TL tutar?`,
+      acceptedAnswer: { '@type': 'Answer', text: `Ortalama DC fiyatıyla (${tl(avgDc)}/kWh) yolculuğun tüm enerjisi Togg T10X için yaklaşık ${Math.round(togg.toplam).toLocaleString('tr-TR')} ₺ tutar. Evde AC şarjla çıkarsanız yol üstünde ödeyeceğiniz tutar yaklaşık ${Math.round(togg.yolMaliyet).toLocaleString('tr-TR')} ₺'dir.` } }] : []),
     { '@type': 'Question', name: `${r.from} ${r.to} yolunda DC şarj kWh fiyatı ne kadar?`,
       acceptedAnswer: { '@type': 'Answer', text: `Operatöre göre DC şarj fiyatları yaklaşık ${tl(minDc)} ile ${tl(maxDc)} arasında değişiyor. Güncel tablo için Şarj Fiyatları sayfamıza bakın.` } },
   ],
@@ -30,9 +50,26 @@ const faq = {
       <nav class="crumbs small muted"><a href="/rota-planlayici">Rota Planlayıcı</a> / {r.from} – {r.to}</nav>
       <h1>{r.from} – {r.to} elektrikli araç şarj durakları</h1>
       <p class="muted intro">{r.from}'dan {r.to}'ya elektrikli araçla gidiyorsan, aşağıdaki planlayıcı güzergah üzerindeki hızlı şarj istasyonlarını gösterir, aracına göre durakları önerir ve toplam şarj maliyetini hesaplar. Aracını ve çıkış şarjını değiştirerek tekrar hesaplayabilirsin.</p>
+      {km ? <p class="ozet"><b>{km} km</b> · trafik ve molalar hariç yaklaşık <b>{sure}</b> sürüş</p> : null}
       <Planner preset={{ fromQ: r.fromQ, toQ: r.toQ, a: r.a, b: r.b }} autorun />
     </div>
   </section>
+  {tahmin.length ? (
+  <section class="section-sm">
+    <div class="container">
+      <h2>{r.from} – {r.to}: araca göre şarj durağı ve maliyet</h2>
+      <p class="muted">Otoyol tüketimiyle hesaplanmıştır: yola %90 şarjla çıkış, varışta en az %10, duraklarda %10'dan %80'e DC şarj, ortalama DC fiyatı {tl(avgDc)}/kWh.</p>
+      <div class="table-wrap"><table class="rt">
+        <thead><tr><th>Araç</th><th class="num">Enerji</th><th class="num">Şarj durağı</th><th class="num">Toplam şarj süresi</th><th class="num">Yolda ödenen</th><th class="num">Tüm enerji (DC)</th></tr></thead>
+        <tbody>{tahmin.map((t) => (
+          <tr><td><a href={`/modeller/${t.m.brandSlug}/${t.m.modelSlug}`}>{t.m.brand} {t.m.model}</a> <span class="muted small">{t.m.version}</span></td>
+          <td class="num">{Math.round(t.enerji)} kWh</td><td class="num"><b>{t.durak === 0 ? 'Molasız' : t.durak}</b></td>
+          <td class="num">{t.durak ? `~${Math.round(t.sarjDk)} dk` : '—'}</td><td class="num">{tl(Math.round(t.yolMaliyet))}</td><td class="num">{tl(Math.round(t.toplam))}</td></tr>
+        ))}</tbody>
+      </table></div>
+      <p class="muted small">Gerçek tüketim hıza, hava sıcaklığına, yüke ve klimaya göre değişir. Kendi aracınla kesin plan için yukarıdaki planlayıcıyı kullan.</p>
+    </div>
+  </section>) : null}
   <section class="section-sm">
     <div class="container prose">
       <h2>{r.from} – {r.to} yolculuğu için ipuçları</h2>
@@ -50,5 +87,12 @@ const faq = {
 </Base>
 <style>
   .crumbs { margin-bottom: 10px; } .crumbs a:hover { color: var(--volt-ink); }
-  .intro { max-width: 760px; margin-bottom: 24px; }
+  .intro { max-width: 760px; margin-bottom: 12px; }
+  .ozet { margin: 0 0 20px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin: 14px 0 10px; }
+  .rt { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .rt th, .rt td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+  .rt th { font-size: 12.5px; color: var(--muted); font-weight: 600; background: var(--soft); }
+  .rt .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .rt tbody tr:last-child td { border-bottom: 0; }
 </style>

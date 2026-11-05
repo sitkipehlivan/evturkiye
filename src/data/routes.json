@@ -1,14 +1,699 @@
 [
- {"slug":"istanbul-ankara","from":"İstanbul","to":"Ankara","fromQ":"Kadıköy, İstanbul","toQ":"Kızılay, Ankara","a":[40.9909,29.0303],"b":[39.9208,32.8541]},
- {"slug":"istanbul-izmir","from":"İstanbul","to":"İzmir","fromQ":"Kadıköy, İstanbul","toQ":"Konak, İzmir","a":[40.9909,29.0303],"b":[38.4189,27.1287]},
- {"slug":"istanbul-antalya","from":"İstanbul","to":"Antalya","fromQ":"Kadıköy, İstanbul","toQ":"Muratpaşa, Antalya","a":[40.9909,29.0303],"b":[36.8841,30.7056]},
- {"slug":"istanbul-bursa","from":"İstanbul","to":"Bursa","fromQ":"Kadıköy, İstanbul","toQ":"Osmangazi, Bursa","a":[40.9909,29.0303],"b":[40.1828,29.0665]},
- {"slug":"istanbul-cesme","from":"İstanbul","to":"Çeşme","fromQ":"Kadıköy, İstanbul","toQ":"Çeşme, İzmir","a":[40.9909,29.0303],"b":[38.3236,26.3029]},
- {"slug":"istanbul-bodrum","from":"İstanbul","to":"Bodrum","fromQ":"Kadıköy, İstanbul","toQ":"Bodrum, Muğla","a":[40.9909,29.0303],"b":[37.0344,27.4305]},
- {"slug":"ankara-izmir","from":"Ankara","to":"İzmir","fromQ":"Kızılay, Ankara","toQ":"Konak, İzmir","a":[39.9208,32.8541],"b":[38.4189,27.1287]},
- {"slug":"ankara-antalya","from":"Ankara","to":"Antalya","fromQ":"Kızılay, Ankara","toQ":"Muratpaşa, Antalya","a":[39.9208,32.8541],"b":[36.8841,30.7056]},
- {"slug":"istanbul-trabzon","from":"İstanbul","to":"Trabzon","fromQ":"Kadıköy, İstanbul","toQ":"Ortahisar, Trabzon","a":[40.9909,29.0303],"b":[41.0027,39.7168]},
- {"slug":"izmir-antalya","from":"İzmir","to":"Antalya","fromQ":"Konak, İzmir","toQ":"Muratpaşa, Antalya","a":[38.4189,27.1287],"b":[36.8841,30.7056]},
- {"slug":"ankara-kapadokya","from":"Ankara","to":"Kapadokya","fromQ":"Kızılay, Ankara","toQ":"Göreme, Nevşehir","a":[39.9208,32.8541],"b":[38.6431,34.8289]},
- {"slug":"istanbul-edirne","from":"İstanbul","to":"Edirne","fromQ":"Kadıköy, İstanbul","toQ":"Edirne Merkez","a":[40.9909,29.0303],"b":[41.6771,26.5557]}
+ {
+  "slug": "istanbul-ankara",
+  "from": "İstanbul",
+  "to": "Ankara",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Kızılay, Ankara",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   39.9208,
+   32.8541
+  ],
+  "km": 434,
+  "dk": 265
+ },
+ {
+  "slug": "istanbul-izmir",
+  "from": "İstanbul",
+  "to": "İzmir",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Konak, İzmir",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   38.4189,
+   27.1287
+  ],
+  "km": 468,
+  "dk": 269
+ },
+ {
+  "slug": "istanbul-antalya",
+  "from": "İstanbul",
+  "to": "Antalya",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Muratpaşa, Antalya",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   36.8841,
+   30.7056
+  ],
+  "km": 667,
+  "dk": 511
+ },
+ {
+  "slug": "istanbul-bursa",
+  "from": "İstanbul",
+  "to": "Bursa",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Osmangazi, Bursa",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   40.1828,
+   29.0665
+  ],
+  "km": 147,
+  "dk": 99
+ },
+ {
+  "slug": "istanbul-cesme",
+  "from": "İstanbul",
+  "to": "Çeşme",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Çeşme, İzmir",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   38.3236,
+   26.3029
+  ],
+  "km": 554,
+  "dk": 321
+ },
+ {
+  "slug": "istanbul-bodrum",
+  "from": "İstanbul",
+  "to": "Bodrum",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Bodrum, Muğla",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   37.0344,
+   27.4305
+  ],
+  "km": 667,
+  "dk": 431
+ },
+ {
+  "slug": "ankara-izmir",
+  "from": "Ankara",
+  "to": "İzmir",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Konak, İzmir",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   38.4189,
+   27.1287
+  ],
+  "km": 588,
+  "dk": 446
+ },
+ {
+  "slug": "ankara-antalya",
+  "from": "Ankara",
+  "to": "Antalya",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Muratpaşa, Antalya",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   36.8841,
+   30.7056
+  ],
+  "km": 535,
+  "dk": 390
+ },
+ {
+  "slug": "istanbul-trabzon",
+  "from": "İstanbul",
+  "to": "Trabzon",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Ortahisar, Trabzon",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   41.0027,
+   39.7168
+  ],
+  "km": 1049,
+  "dk": 704
+ },
+ {
+  "slug": "izmir-antalya",
+  "from": "İzmir",
+  "to": "Antalya",
+  "fromQ": "Konak, İzmir",
+  "toQ": "Muratpaşa, Antalya",
+  "a": [
+   38.4189,
+   27.1287
+  ],
+  "b": [
+   36.8841,
+   30.7056
+  ],
+  "km": 462,
+  "dk": 325
+ },
+ {
+  "slug": "ankara-kapadokya",
+  "from": "Ankara",
+  "to": "Kapadokya",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Göreme, Nevşehir",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   38.6431,
+   34.8289
+  ],
+  "km": 298,
+  "dk": 183
+ },
+ {
+  "slug": "istanbul-edirne",
+  "from": "İstanbul",
+  "to": "Edirne",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Edirne Merkez",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   41.6771,
+   26.5557
+  ],
+  "km": 247,
+  "dk": 160
+ },
+ {
+  "slug": "istanbul-eskisehir",
+  "from": "İstanbul",
+  "to": "Eskişehir",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Odunpazarı, Eskişehir",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   39.7767,
+   30.5206
+  ],
+  "km": 272,
+  "dk": 205
+ },
+ {
+  "slug": "istanbul-konya",
+  "from": "İstanbul",
+  "to": "Konya",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Selçuklu, Konya",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   37.8746,
+   32.4932
+  ],
+  "km": 689,
+  "dk": 420
+ },
+ {
+  "slug": "istanbul-samsun",
+  "from": "İstanbul",
+  "to": "Samsun",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "İlkadım, Samsun",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   41.2867,
+   36.33
+  ],
+  "km": 721,
+  "dk": 466
+ },
+ {
+  "slug": "istanbul-canakkale",
+  "from": "İstanbul",
+  "to": "Çanakkale",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Çanakkale Merkez",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   40.1553,
+   26.4142
+  ],
+  "km": 314,
+  "dk": 222
+ },
+ {
+  "slug": "istanbul-sapanca",
+  "from": "İstanbul",
+  "to": "Sapanca",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Sapanca, Sakarya",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   40.6917,
+   30.2672
+  ],
+  "km": 126,
+  "dk": 78
+ },
+ {
+  "slug": "istanbul-bolu",
+  "from": "İstanbul",
+  "to": "Bolu",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Bolu Merkez",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   40.735,
+   31.6061
+  ],
+  "km": 247,
+  "dk": 150
+ },
+ {
+  "slug": "istanbul-kusadasi",
+  "from": "İstanbul",
+  "to": "Kuşadası",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Kuşadası, Aydın",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   37.8579,
+   27.261
+  ],
+  "km": 527,
+  "dk": 315
+ },
+ {
+  "slug": "istanbul-marmaris",
+  "from": "İstanbul",
+  "to": "Marmaris",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Marmaris, Muğla",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   36.855,
+   28.2742
+  ],
+  "km": 696,
+  "dk": 452
+ },
+ {
+  "slug": "istanbul-fethiye",
+  "from": "İstanbul",
+  "to": "Fethiye",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Fethiye, Muğla",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   36.6214,
+   29.1164
+  ],
+  "km": 769,
+  "dk": 505
+ },
+ {
+  "slug": "istanbul-alanya",
+  "from": "İstanbul",
+  "to": "Alanya",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Alanya, Antalya",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   36.5444,
+   31.9954
+  ],
+  "km": 776,
+  "dk": 595
+ },
+ {
+  "slug": "istanbul-ayvalik",
+  "from": "İstanbul",
+  "to": "Ayvalık",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Ayvalık, Balıkesir",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   39.3172,
+   26.6936
+  ],
+  "km": 395,
+  "dk": 243
+ },
+ {
+  "slug": "istanbul-kapadokya",
+  "from": "İstanbul",
+  "to": "Kapadokya",
+  "fromQ": "Kadıköy, İstanbul",
+  "toQ": "Göreme, Nevşehir",
+  "a": [
+   40.9909,
+   29.0303
+  ],
+  "b": [
+   38.6431,
+   34.8289
+  ],
+  "km": 717,
+  "dk": 422
+ },
+ {
+  "slug": "ankara-konya",
+  "from": "Ankara",
+  "to": "Konya",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Selçuklu, Konya",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   37.8746,
+   32.4932
+  ],
+  "km": 270,
+  "dk": 181
+ },
+ {
+  "slug": "ankara-eskisehir",
+  "from": "Ankara",
+  "to": "Eskişehir",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Odunpazarı, Eskişehir",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   39.7767,
+   30.5206
+  ],
+  "km": 234,
+  "dk": 174
+ },
+ {
+  "slug": "ankara-samsun",
+  "from": "Ankara",
+  "to": "Samsun",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "İlkadım, Samsun",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   41.2867,
+   36.33
+  ],
+  "km": 404,
+  "dk": 291
+ },
+ {
+  "slug": "ankara-adana",
+  "from": "Ankara",
+  "to": "Adana",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Seyhan, Adana",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   36.9914,
+   35.3308
+  ],
+  "km": 498,
+  "dk": 288
+ },
+ {
+  "slug": "ankara-mersin",
+  "from": "Ankara",
+  "to": "Mersin",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Yenişehir, Mersin",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   36.8121,
+   34.6415
+  ],
+  "km": 501,
+  "dk": 292
+ },
+ {
+  "slug": "ankara-bodrum",
+  "from": "Ankara",
+  "to": "Bodrum",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Bodrum, Muğla",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   37.0344,
+   27.4305
+  ],
+  "km": 743,
+  "dk": 556
+ },
+ {
+  "slug": "ankara-trabzon",
+  "from": "Ankara",
+  "to": "Trabzon",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Ortahisar, Trabzon",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   41.0027,
+   39.7168
+  ],
+  "km": 732,
+  "dk": 529
+ },
+ {
+  "slug": "ankara-kayseri",
+  "from": "Ankara",
+  "to": "Kayseri",
+  "fromQ": "Kızılay, Ankara",
+  "toQ": "Kocasinan, Kayseri",
+  "a": [
+   39.9208,
+   32.8541
+  ],
+  "b": [
+   38.7205,
+   35.4826
+  ],
+  "km": 346,
+  "dk": 220
+ },
+ {
+  "slug": "izmir-bodrum",
+  "from": "İzmir",
+  "to": "Bodrum",
+  "fromQ": "Konak, İzmir",
+  "toQ": "Bodrum, Muğla",
+  "a": [
+   38.4189,
+   27.1287
+  ],
+  "b": [
+   37.0344,
+   27.4305
+  ],
+  "km": 234,
+  "dk": 185
+ },
+ {
+  "slug": "izmir-fethiye",
+  "from": "İzmir",
+  "to": "Fethiye",
+  "fromQ": "Konak, İzmir",
+  "toQ": "Fethiye, Muğla",
+  "a": [
+   38.4189,
+   27.1287
+  ],
+  "b": [
+   36.6214,
+   29.1164
+  ],
+  "km": 336,
+  "dk": 259
+ },
+ {
+  "slug": "izmir-pamukkale",
+  "from": "İzmir",
+  "to": "Pamukkale",
+  "fromQ": "Konak, İzmir",
+  "toQ": "Pamukkale, Denizli",
+  "a": [
+   38.4189,
+   27.1287
+  ],
+  "b": [
+   37.9204,
+   29.1206
+  ],
+  "km": 246,
+  "dk": 149
+ },
+ {
+  "slug": "izmir-canakkale",
+  "from": "İzmir",
+  "to": "Çanakkale",
+  "fromQ": "Konak, İzmir",
+  "toQ": "Çanakkale Merkez",
+  "a": [
+   38.4189,
+   27.1287
+  ],
+  "b": [
+   40.1553,
+   26.4142
+  ],
+  "km": 316,
+  "dk": 256
+ },
+ {
+  "slug": "izmir-bursa",
+  "from": "İzmir",
+  "to": "Bursa",
+  "fromQ": "Konak, İzmir",
+  "toQ": "Osmangazi, Bursa",
+  "a": [
+   38.4189,
+   27.1287
+  ],
+  "b": [
+   40.1828,
+   29.0665
+  ],
+  "km": 346,
+  "dk": 198
+ },
+ {
+  "slug": "antalya-kas",
+  "from": "Antalya",
+  "to": "Kaş",
+  "fromQ": "Muratpaşa, Antalya",
+  "toQ": "Kaş, Antalya",
+  "a": [
+   36.8841,
+   30.7056
+  ],
+  "b": [
+   36.2019,
+   29.6377
+  ],
+  "km": 188,
+  "dk": 155
+ },
+ {
+  "slug": "antalya-alanya",
+  "from": "Antalya",
+  "to": "Alanya",
+  "fromQ": "Muratpaşa, Antalya",
+  "toQ": "Alanya, Antalya",
+  "a": [
+   36.8841,
+   30.7056
+  ],
+  "b": [
+   36.5444,
+   31.9954
+  ],
+  "km": 135,
+  "dk": 106
+ },
+ {
+  "slug": "antalya-fethiye",
+  "from": "Antalya",
+  "to": "Fethiye",
+  "fromQ": "Muratpaşa, Antalya",
+  "toQ": "Fethiye, Muğla",
+  "a": [
+   36.8841,
+   30.7056
+  ],
+  "b": [
+   36.6214,
+   29.1164
+  ],
+  "km": 197,
+  "dk": 172
+ },
+ {
+  "slug": "adana-gaziantep",
+  "from": "Adana",
+  "to": "Gaziantep",
+  "fromQ": "Seyhan, Adana",
+  "toQ": "Şahinbey, Gaziantep",
+  "a": [
+   36.9914,
+   35.3308
+  ],
+  "b": [
+   37.0662,
+   37.3833
+  ],
+  "km": 224,
+  "dk": 140
+ }
 ]

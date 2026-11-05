@@ -4,7 +4,7 @@ import DealCard from '../../components/DealCard.astro';
 import { getDeals } from '../../lib/util';
 const deals = (await getDeals()).filter((d) => d.data.type === 'sarj');
 ---
-<Base title="Şarj Kampanyaları" description="Şarj operatörlerinin indirimli saatleri, kampanyalı tarifeleri ve sadakat fırsatları.">
+<Base title="Şarj Kampanyaları" description="Şarj operatörlerinin indirimli saatleri, kampanyalı tarifeleri ve sadakat fırsatları." crumbs={[['Fırsatlar', '/firsatlar/'], ['Şarj kampanyaları', '/firsatlar/sarj-kampanyalari/']]} jsonLd={{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Şarj kampanyaları', url: new URL(Astro.url.pathname, Astro.site).toString(), inLanguage: 'tr', isPartOf: { '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site?.toString() } }}>
   <section class="section-sm">
     <div class="container">
       <nav class="small muted" style="margin-bottom:10px"><a href="/firsatlar">Fırsatlar</a> / Şarj Kampanyaları</nav>

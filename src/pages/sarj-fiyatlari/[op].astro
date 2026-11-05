@@ -1,0 +1,113 @@
+---
+// Operatör bazında şarj fiyatı sayfaları: "ZES şarj ücreti", "Trugo kWh fiyatı" gibi aramalar için
+import Base from '../../layouts/Base.astro';
+import ops from '../../data/operators.json';
+import { fmtDate, tl } from '../../lib/util';
+import { models, avgDc, per100, chargeCost } from '../../lib/ev';
+
+export function getStaticPaths() {
+  return ops.operators.map((o) => ({ params: { op: o.id }, props: { o } }));
+}
+const { o } = Astro.props as { o: (typeof ops.operators)[number] & { dcMin?: number; note?: string } };
+const updated = fmtDate(new Date(ops.updated));
+const ay = new Date(ops.updated).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' });
+const dcSirali = [...ops.operators].sort((a, b) => a.dc - b.dc);
+const sira = dcSirali.findIndex((x) => x.id === o.id) + 1;
+const enUcuz = dcSirali[0];
+const fark = ((o.dc - avgDc) / avgDc) * 100;
+const digerleri = dcSirali.filter((x) => x.id !== o.id);
+const ORNEK = ['t10x-v2-rwd-uzun-menzil', 'model-y-long-range-rwd', 'r5-e-tech-ev52', 'sealion-7-excellence-awd', 'id-4-pure', 'ex30-extended-range'];
+const araclar = ORNEK.map((s) => models.find((m) => m.slug === s)).filter((m): m is NonNullable<typeof m> => !!m);
+const togg = araclar[0];
+const dcYazi = o.dcMin ? `${tl(o.dcMin)} – ${tl(o.dc)}` : tl(o.dc);
+const title = `${o.name} Şarj Ücreti ${new Date(ops.updated).getFullYear()}: DC ve AC kWh Fiyatı`;
+const description = `${o.name} güncel şarj fiyatları: DC ${dcYazi}/kWh${o.ac ? `, AC ${tl(o.ac)}/kWh` : ''}. ${o.name} ile 100 km kaç TL, Togg ve Tesla şarjı ne kadar tutar? Diğer operatörlerle karşılaştırma.`;
+const sss = [
+  [`${o.name} DC hızlı şarj ücreti ne kadar?`, `${o.name} DC hızlı şarj fiyatı ${dcYazi}/kWh'dir (${updated} itibarıyla, kampanyasız standart tarife). ${o.note ?? ''}`.trim()],
+  o.ac ? [`${o.name} AC şarj ücreti ne kadar?`, `${o.name} AC şarj fiyatı ${tl(o.ac)}/kWh'dir.`] : null,
+  togg ? [`${o.name} ile Togg şarjı kaç TL?`, `Togg T10X ${togg.version} bataryasını %10'dan %80'e ${o.name} DC istasyonunda şarj etmek yaklaşık ${tl(Math.round(chargeCost(togg, o.dc)))} tutar; 100 km otoyol yolculuğunun enerji maliyeti yaklaşık ${tl(Math.round(per100(togg, o.dc)))}.`] : null,
+  [`${o.name} pahalı mı?`, `${o.name}, DC fiyatına göre ${ops.operators.length} operatör arasında ${sira}. sırada. Ortalama DC fiyatının (${tl(avgDc)}) ${Math.abs(fark).toFixed(0)}% ${fark > 0 ? 'üzerinde' : 'altında'}. En uygun DC tarife şu an ${enUcuz.name} (${tl(enUcuz.dc)}).`],
+].filter(Boolean) as [string, string][];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: sss.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+---
+<Base image="/images/araclar/sarj-fiyatlari.png" title={title} description={description} jsonLd={jsonLd} crumbs={[['Şarj fiyatları', '/sarj-fiyatlari/'], [o.name, Astro.url.pathname]]}>
+  <section class="section-sm">
+    <div class="container">
+      <nav class="crumbs small muted"><a href="/sarj-fiyatlari">Şarj fiyatları</a> / {o.name}</nav>
+      <div class="bas">
+        <img src={`/images/operatorler/${o.id}.png`} alt={`${o.name} logosu`} width="56" height="56" />
+        <div><span class="eyebrow">{ay} tarifesi</span><h1>{o.name} şarj fiyatları</h1></div>
+      </div>
+      <p class="muted intro">{o.name} elektrikli araç şarj istasyonlarının standart (kampanyasız) kWh fiyatları, örnek araçlarla şarj maliyeti ve diğer operatörlerle karşılaştırma. <b>Son güncelleme: {updated}.</b></p>
+      <div class="stats">
+        <div class="card"><span>DC hızlı şarj</span><b class="v">{dcYazi}</b><em>kWh başına</em></div>
+        <div class="card"><span>AC şarj</span><b class="g">{tl(o.ac)}</b><em>{o.ac ? 'kWh başına' : 'AC hizmeti yok / bilinmiyor'}</em></div>
+        <div class="card"><span>DC fiyat sırası</span><b>{sira}. / {ops.operators.length}</b><em>ortalamanın {Math.abs(fark).toFixed(0)}% {fark > 0 ? 'üstünde' : 'altında'}</em></div>
+      </div>
+      {o.note ? <p class="not card">ℹ️ {o.note}</p> : null}
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <h2>{o.name} ile şarj kaç TL tutar?</h2>
+      <p class="muted">{o.name} DC fiyatıyla ({tl(o.dc)}/kWh): %10'dan %80'e şarj ve otoyolda 100 km'nin enerji maliyeti.</p>
+      <div class="table-wrap"><table class="ot">
+        <thead><tr><th>Araç</th><th class="num">Batarya</th><th class="num">%10 → %80 şarj</th><th class="num">100 km (otoyol)</th></tr></thead>
+        <tbody>{araclar.map((m) => (
+          <tr><td><a href={`/modeller/${m.brandSlug}/${m.modelSlug}`}>{m.brand} {m.model}</a> <span class="muted small">{m.version}</span></td>
+          <td class="num">{m.battery} kWh</td><td class="num"><b>{tl(Math.round(chargeCost(m, o.dc)))}</b></td><td class="num">{tl(Math.round(per100(m, o.dc)))}</td></tr>
+        ))}</tbody>
+      </table></div>
+      <p class="muted small">Şarj kayıpları (%7) dahildir. Gerçek tutar istasyonun gücüne, kampanyalara ve aracın şarj eğrisine göre değişebilir.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <h2>{o.name} ve diğer operatörler</h2>
+      <div class="table-wrap"><table class="ot">
+        <thead><tr><th>Operatör</th><th class="num">DC ₺/kWh</th><th class="num">AC ₺/kWh</th><th class="num">{o.name}'a göre (DC)</th></tr></thead>
+        <tbody>{dcSirali.map((x) => (
+          <tr class:list={{ ben: x.id === o.id }}><td>{x.id === o.id ? <b>{x.name}</b> : <a href={`/sarj-fiyatlari/${x.id}`}>{x.name}</a>}</td>
+          <td class="num">{tl(x.dc)}</td><td class="num">{tl(x.ac)}</td>
+          <td class="num">{x.id === o.id ? '—' : `${x.dc > o.dc ? '+' : ''}${(((x.dc - o.dc) / o.dc) * 100).toFixed(0)}%`}</td></tr>
+        ))}</tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container prose">
+      <h2>Sık sorulanlar</h2>
+      {sss.map(([q, a]) => <><h3>{q}</h3><p>{a}</p></>)}
+      <h2>{o.name} istasyonunu bul</h2>
+      <p>Yakınındaki {o.name} ve diğer operatörlerin hızlı şarj noktalarını <a href="/yakindaki-sarj-istasyonlari">Yakınımdaki Şarj İstasyonları</a> sayfasında konumuna göre görebilir, <a href="/istasyonlar">Şarj İstasyonları Haritası</a>'nda operatöre göre filtreleyebilirsin. Uzun yolda en ekonomik durakları <a href="/rota-planlayici">Rota Planlayıcı</a> seçer.</p>
+      <p class="muted small">{ops.sourceNote}</p>
+      <h3>Diğer operatörlerin fiyatları</h3>
+      <p>{digerleri.map((x, i) => <>{i > 0 && ' · '}<a href={`/sarj-fiyatlari/${x.id}`}>{x.name} şarj ücreti</a></>)}</p>
+    </div>
+  </section>
+</Base>
+<style>
+  .crumbs { margin-bottom: 10px; }
+  .bas { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .bas img { border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+  .bas h1 { margin: 2px 0 0; }
+  .intro { max-width: 760px; margin-bottom: 20px; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .stats .card { padding: 16px 18px; display: flex; flex-direction: column; gap: 2px; }
+  .stats span { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .stats b { font-size: 24px; font-variant-numeric: tabular-nums; }
+  .stats b.v { color: var(--volt-ink); } .stats b.g { color: var(--green-ink); }
+  .stats em { font-style: normal; font-size: 13px; color: var(--muted); }
+  .not { margin-top: 12px; padding: 12px 16px; font-size: 14.5px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin: 14px 0 10px; }
+  .ot { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .ot th, .ot td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+  .ot th { font-size: 12.5px; color: var(--muted); font-weight: 600; background: var(--soft); }
+  .ot .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .ot tbody tr:last-child td { border-bottom: 0; }
+  .ot tr.ben td { background: var(--volt-soft); }
+  @media (max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+</style>

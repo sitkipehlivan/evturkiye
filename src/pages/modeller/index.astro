@@ -8,7 +8,7 @@ const bodies = [...new Set(modelGroups.map((g) => g.body))];
 const cards = [...modelGroups].sort((a, b) => (Number(b.onSale) - Number(a.onSale)) || (a.fromPrice ?? 9e9) - (b.fromPrice ?? 9e9));
 const onSale = modelGroups.filter((g) => g.onSale);
 ---
-<Base title="Türkiye'de Satılan Elektrikli Araçlar: Fiyat Listesi, Menzil ve Şarj" description={`Türkiye'de satılan ${modelGroups.filter((g) => g.onSale).length} elektrikli otomobil modeli: güncel liste fiyatları, WLTP menzil, batarya, DC/AC şarj gücü ve otoyol tüketimi karşılaştırması.`}>
+<Base title="Türkiye'de Satılan Elektrikli Araçlar: Fiyat Listesi, Menzil ve Şarj" description={`Türkiye'de satılan ${modelGroups.filter((g) => g.onSale).length} elektrikli otomobil modeli: güncel liste fiyatları, WLTP menzil, batarya, DC/AC şarj gücü ve otoyol tüketimi karşılaştırması.`} crumbs={[['Modeller', '/modeller/']]} jsonLd={{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Türkiye\'de satılan elektrikli araçlar', url: new URL(Astro.url.pathname, Astro.site).toString(), inLanguage: 'tr' }}>
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">EV veritabanı</span>

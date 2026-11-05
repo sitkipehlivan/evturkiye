@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import ModelCard from '../../../components/ModelCard.astro';
 import NewsCard from '../../../components/NewsCard.astro';
 import { tl, getNews } from '../../../lib/util';
-import { modelGroups, groupOf, avgDc, price, monthTr } from '../../../lib/ev';
+import { modelGroups, groupOf, avgDc, price, monthTr, POPULAR_PAIRS, carBySlug, pairSlug } from '../../../lib/ev';
 import GuideLinks from '../../../components/GuideLinks.astro';
 export function getStaticPaths() {
   return modelGroups.map((g) => ({ params: { brand: g.brandSlug, model: g.modelSlug } }));
@@ -29,6 +29,8 @@ const jsonLd = {
   ...(g.fromPrice ? { offers: { '@type': 'Offer', priceCurrency: 'TRY', price: g.fromPrice, availability: 'https://schema.org/InStock' } } : {}),
 };
 const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'den başlıyor (${monthTr(g.priceDate)})` : ''}. ${range} WLTP menzil, ${Math.max(...versions.map((v) => v.dcMax)) ? `${Math.max(...versions.map((v) => v.dcMax))} kW DC şarj` : 'yalnızca AC şarj'}, şarj süresi ve 100 km maliyeti.`;
+// Bu modelin yer aldığı hazır karşılaştırmalar (iç link)
+const karsi = POPULAR_PAIRS.map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const).filter(([a, b]) => a && b && [a, b].some((c) => c.brandSlug === brand && c.modelSlug === model));
 ---
 <Base title={`${name} Fiyatı, Menzili ve Şarj Süresi${g.priceDate ? ` (${monthTr(g.priceDate)})` : ''}`} description={desc} jsonLd={jsonLd} image={g.image?.src} crumbs={[['Modeller', '/modeller/'], [v0.brand, `/modeller/${brand}/`], [name, Astro.url.pathname]]}>
   <section class="section-sm">
@@ -92,6 +94,8 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
   <section class="section-sm soft">
     <div class="container">
       {news.length > 0 && <><h2>{name} haberleri</h2><div class="grid grid-3 nws">{news.map((p) => <NewsCard post={p} />)}</div></>}
+      {karsi.length > 0 && <><h2>{name} karşılaştırmaları</h2>
+      <p class="kars">{karsi.map(([a, b], i) => <>{i > 0 && ' · '}<a href={`/karsilastir/${pairSlug(a, b)}`}>{a.brand} {a.model} vs {b.brand} {b.model}</a></>)}</p></>}
       <h2>Benzer modeller ve rakipler</h2>
       <p class="small"><a class="blink" href={`/modeller/${brand}`}>Tüm {v0.brand} elektrikli modelleri →</a></p>
       <div class="others">{others.map((x) => <ModelCard g={x} />)}</div>
@@ -100,6 +104,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
   </section>
 </Base>
 <style>
+  .kars { line-height: 1.9; margin-bottom: 24px; }
   .blink { color: var(--volt-ink); font-weight: 600; }
   .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt-ink); }
   .hero { display: grid; grid-template-columns: 1.25fr 1fr; gap: 28px; align-items: center; margin: 6px 0 10px; }

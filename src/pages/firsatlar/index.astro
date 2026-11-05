@@ -6,7 +6,7 @@ const deals = await getDeals();
 const car = deals.filter((d) => d.data.type === 'arac');
 const ch = deals.filter((d) => d.data.type === 'sarj');
 ---
-<Base title="Elektrikli Araç Kampanyaları ve Şarj Fırsatları" description="Sıfır elektrikli araçlarda faizsiz kredi ve nakit indirim kampanyaları, şarj operatörlerinin indirimli tarifeleri.">
+<Base title="Elektrikli Araç Kampanyaları ve Şarj Fırsatları" description="Sıfır elektrikli araçlarda faizsiz kredi ve nakit indirim kampanyaları, şarj operatörlerinin indirimli tarifeleri." crumbs={[['Fırsatlar', '/firsatlar/']]} jsonLd={{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Elektrikli araç kampanyaları ve şarj fırsatları', url: new URL(Astro.url.pathname, Astro.site).toString(), inLanguage: 'tr', isPartOf: { '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site?.toString() } }}>
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">Fırsatlar</span>

@@ -13,7 +13,7 @@ export function getStaticPaths() {
 }
 const A = carBySlug(Astro.props.a)!, B = carBySlug(Astro.props.b)!;
 const ctx = { avgDc, avgAc };
-const title = `${name(A)} vs ${name(B)}: Menzil, Şarj, Fiyat Karşılaştırması`;
+const title = `${name(A)} vs ${name(B)}: Menzil, Şarj ve Fiyat`;
 const desc = `${name(A)} ${A.version} ile ${name(B)} ${B.version} karşılaştırması: otoyol menzili ${hwRange(A)} / ${hwRange(B)} km, %10→80 şarj ${dcMin(A)} / ${dcMin(B)} dk${A.priceTL && B.priceTL ? `, fiyat ${price(A.priceTL)} / ${price(B.priceTL)}` : ''}.`;
 const others = POPULAR_PAIRS.filter(([a, b]) => !(a === Astro.props.a && b === Astro.props.b)).slice(0, 6).map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const);
 const tl0 = (v: number) => Math.round(v).toLocaleString('tr-TR') + ' TL';

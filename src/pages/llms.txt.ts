@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getNews, CATS } from '../lib/util';
 import { GUIDES } from '../lib/ev';
 import routes from '../data/routes.json';
+import ops from '../data/operators.json';
 import company from '../data/company.json';
 
 // llms.txt: yapay zekâ arama motorları (ChatGPT, Gemini, Perplexity vb.) için sitenin özeti ve en önemli sayfaları.
@@ -26,8 +27,11 @@ export const GET: APIRoute = async ({ site }) => {
     '## Rehberler',
     ...GUIDES.map((g) => `- [${g.label}](${u(g.href + '/')}): ${g.desc}`),
     '',
+    `## Operatörlere göre şarj ücretleri (güncelleme: ${ops.updated})`,
+    ...ops.operators.map((o: any) => `- [${o.name} şarj ücreti](${u(`/sarj-fiyatlari/${o.id}/`)}): DC ${o.dc} TL/kWh${o.ac ? `, AC ${o.ac} TL/kWh` : ''}`),
+    '',
     '## Popüler rotalar (elektrikli araçla maliyet ve şarj durakları)',
-    ...routes.map((r: any) => `- [${r.from} – ${r.to}](${u(`/rota/${r.slug}/`)})`),
+    ...routes.map((r: any) => `- [${r.from} – ${r.to}](${u(`/rota/${r.slug}/`)})${r.km ? `: ${r.km} km` : ''}`),
     '',
     '## Son haberler ve rehber yazıları',
     ...news.map((p) => `- [${p.data.title}](${u(`/haberler/${p.data.category}/${p.id}/`)}): ${p.data.description}`),

@@ -43,7 +43,7 @@ const jsonLd = {
           <tbody>
             {list.map((o) => (
               <tr data-name={o.name} data-dc={o.dc} data-ac={o.ac ?? 999}>
-                <td><span class="op"><img src={`/images/operatorler/${o.id}.png`} alt={`${o.name} logosu`} width="28" height="28" loading="lazy" /><b>{o.name}</b></span></td>
+                <td><span class="op"><img src={`/images/operatorler/${o.id}.png`} alt={`${o.name} logosu`} width="28" height="28" loading="lazy" /><a href={`/sarj-fiyatlari/${o.id}`}><b>{o.name}</b></a></span></td>
                 <td class:list={['num', { best: o.dc === minDc }]}>{o.dcMin ? <span class="muted small">{tl(o.dcMin)} – </span> : null}{tl(o.dc)}</td>
                 <td class:list={['num', { best: o.ac === minAc }]}>{tl(o.ac)}</td>
                 <td class="num cost" data-p={o.dc}>{tl(o.dc * 40)}</td>
@@ -60,6 +60,8 @@ const jsonLd = {
     <div class="container prose">
       <h2>Şarj fiyatları nasıl belirleniyor?</h2>
       <p>EPDK'nın 2026'da yaptığı düzenlemeyle operatörler, cihaz gücünden bağımsız olarak AC ve DC için tek fiyat ilan etmeye başladı. Yine de gece tarifeleri, lokasyona özel ve kampanyalı fiyatlar uygulanabiliyor. Detaylar için <a href="/haberler/turkiye/epdk-sarj-tek-tarife">tek tarife haberimize</a> bakabilirsin.</p>
+      <h2>Operatörlere göre şarj ücretleri</h2>
+      <p>{list.map((o, i) => <>{i > 0 && ' · '}<a href={`/sarj-fiyatlari/${o.id}`}>{o.name} şarj ücreti</a></>)}</p>
       <p>Yolculuğun toplam maliyetini görmek için <a href="/rota-planlayici">Rota Planlayıcı</a>'yı kullan: güzergahındaki istasyonları operatör fiyatlarıyla eşleştirip en ekonomik durakları önerir.</p>
     </div>
   </section>
