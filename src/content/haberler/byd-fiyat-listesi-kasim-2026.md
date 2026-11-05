@@ -11,6 +11,7 @@ source: "BYD Türkiye"
 sourceUrl: "https://www.bydauto.com.tr/fiyat-listesi"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / User3204, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **BYD Türkiye**'nin resmi sitesinde yayımlanan **Kasım 2026 fiyat listesinde** yalnızca iki elektrikli otomobil yer alıyor: **Seal** ve **Tang**. Liste, 5 Kasım 2026 tarihi için geçerli. Markanın en uygun fiyatlı modeli olan Seal 390 kW AWD Excellence, **4.077.000 TL** liste fiyatına karşılık **3.772.000 TL** kampanyalı fiyatla satılıyor. Eylül listesinde bulunan **Sealion 7** ise Kasım listesinde yer almıyor.
