@@ -1,89 +1,44 @@
 ---
 import Base from '../layouts/Base.astro';
 import ops from '../data/operators.json';
-const payload = JSON.stringify(ops.operators.map((o) => ({ id: o.id, name: o.name, dc: o.dc, ac: o.ac, match: o.match })));
+import iller from '../data/iller.json';
 ---
 <Base image="/images/araclar/istasyonlar.png" title="Elektrikli Araç Şarj İstasyonları Haritası" description="Türkiye genelindeki elektrikli araç şarj istasyonlarını harita üzerinde görün; DC hızlı şarj ve operatöre göre filtreleyin." crumbs={[['Şarj istasyonları haritası', '/istasyonlar/']]} jsonLd={{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Elektrikli araç şarj istasyonları haritası', url: new URL(Astro.url.pathname, Astro.site).toString(), inLanguage: 'tr', isPartOf: { '@type': 'WebSite', name: 'EV Türkiye', url: Astro.site?.toString() } }}>
   <section class="section-sm">
     <div class="container">
       <span class="eyebrow">Harita</span>
       <h1>Şarj istasyonları</h1>
-      <p class="muted intro"><a href="/yakindaki-sarj-istasyonlari" class="link-arrow"><b>En yakın şarj istasyonunu bul →</b></a><br>Haritada bir bölgeye yakınlaştır, o bölgedeki şarj istasyonları yüklensin. Operatör ve DC filtresiyle daralt; uzun yol için <a href="/rota-planlayici" class="link-arrow">Rota Planlayıcı</a></p>
+      <p class="muted intro"><a href="/yakindaki-sarj-istasyonlari" class="link-arrow"><b>Konumuna en yakın şarj istasyonunu bul →</b></a><br>Haritada il ve operatör seçerek Türkiye'deki elektrikli araç şarj istasyonlarını Google Haritalar üzerinde gör. Uzun yol için <a href="/rota-planlayici" class="link-arrow">Rota Planlayıcı</a></p>
       <div class="filters card">
-        <label class="chk"><input type="checkbox" id="f-dc" checked /> Sadece DC hızlı şarj</label>
-        <select id="f-op"><option value="">Tüm operatörler</option>{ops.operators.map((o) => <option value={o.id}>{o.name}</option>)}</select>
-        <button class="btn btn-ghost" id="f-me">📍 Konumum</button>
-        <span id="f-status" class="muted small"></span>
+        <select id="f-il" aria-label="İl"><option value="">Tüm Türkiye</option>{iller.map((il: string) => <option value={il}>{il}</option>)}</select>
+        <select id="f-op" aria-label="Operatör"><option value="">Tüm operatörler</option>{ops.operators.map((o) => <option value={o.name}>{o.name}</option>)}</select>
+        <label class="chk"><input type="checkbox" id="f-dc" /> Sadece DC hızlı şarj</label>
+        <a class="btn btn-ghost" href="/yakindaki-sarj-istasyonlari">📍 Konumuma göre</a>
       </div>
-      <div class="card map-wrap"><div id="st-map"></div></div>
-      <p class="muted small">İstasyon verisi © OpenStreetMap katkıcıları. Eksik veya hatalı bilgi görürsen OpenStreetMap üzerinden düzeltebilir ya da bize bildirebilirsin.</p>
-      <script type="application/json" id="st-ops" set:html={payload} />
+      <div class="card map-wrap"><iframe id="st-map" title="Şarj istasyonları haritası" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=elektrikli%20ara%C3%A7%20%C5%9Farj%20istasyonu%20T%C3%BCrkiye&hl=tr&z=6&output=embed" allowfullscreen></iframe></div>
+      <p class="muted small">Harita Google Haritalar'dan gelir. Fiyat karşılaştırması için <a href="/sarj-fiyatlari">Şarj Fiyatları</a>; soket tipi, güç ve fiyatla en yakın istasyonlar için <a href="/yakindaki-sarj-istasyonlari">Yakınımdaki Şarj İstasyonları</a>.</p>
     </div>
   </section>
 </Base>
 <script>
-  import L from 'leaflet';
-  import 'leaflet/dist/leaflet.css';
-  import { parseOsm, findOperator, type Operator } from '../scripts/planner-core';
-  import { stationsInBoxes, loadStatic } from '../scripts/stations';
-  const operators: Operator[] = JSON.parse(document.getElementById('st-ops')!.textContent!);
-  const status = document.getElementById('f-status')!;
-  const fDc = document.getElementById('f-dc') as HTMLInputElement;
-  const fOp = document.getElementById('f-op') as HTMLSelectElement;
-  const map = L.map('st-map', { scrollWheelZoom: true }).setView([39.3, 33.2], 6);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19, className: 'osm-tiles',
-  }).addTo(map);
-  const layer = L.layerGroup().addTo(map);
-  const cache = new Map<string, any>();
-  let timer: number | undefined;
-  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
-
-  function redraw() {
-    layer.clearLayers();
-    let n = 0;
-    for (const s of cache.values()) {
-      if (fDc.checked && s.dc !== true) continue;
-      if (fOp.value && s.op?.id !== fOp.value) continue;
-      if (!map.getBounds().contains([s.lat, s.lon])) continue;
-      n++;
-      const color = s.dc ? '#0a7cff' : '#12a150';
-      L.circleMarker([s.lat, s.lon], { radius: s.dc ? 7 : 5, color: '#fff', weight: 2, fillColor: color, fillOpacity: 1 })
-        .bindPopup(`<b>${esc(s.name)}</b><br>${esc(s.operator || 'Operatör bilinmiyor')}${s.powerKw ? ` · ${s.powerKw} kW` : ''}<br>${s.dc ? 'DC hızlı şarj' : s.dc === false ? 'AC' : 'Soket bilgisi yok'}${s.op ? `<br>DC ${s.op.dc.toLocaleString('tr-TR')} ₺/kWh` : ''}<br><a target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lon}">Yol tarifi →</a>`)
-        .addTo(layer);
-    }
-    return n;
+  const il = document.getElementById('f-il') as HTMLSelectElement;
+  const op = document.getElementById('f-op') as HTMLSelectElement;
+  const dc = document.getElementById('f-dc') as HTMLInputElement;
+  const map = document.getElementById('st-map') as HTMLIFrameElement;
+  function guncelle() {
+    const q = [op.value || 'elektrikli araç', dc.checked ? 'hızlı şarj istasyonu' : 'şarj istasyonu', il.value || 'Türkiye'].join(' ');
+    map.src = `https://maps.google.com/maps?q=${encodeURIComponent(q)}&hl=tr&z=${il.value ? 11 : 6}&output=embed`;
   }
-
-  async function load() {
-    if (map.getZoom() < 8) { layer.clearLayers(); status.textContent = 'İstasyonları görmek için haritada bir bölgeye yakınlaştır.'; return; }
-    const b = map.getBounds();
-    status.textContent = 'Yükleniyor…';
-    try {
-      const list = await stationsInBoxes([[b.getSouth(), b.getWest(), b.getNorth(), b.getEast()]]);
-      for (const s of list) {
-        if (s) cache.set(s.id, { ...s, op: findOperator(`${s.operator} ${s.name}`, operators) });
-      }
-      const n = redraw();
-      status.textContent = `${n} istasyon gösteriliyor`;
-    } catch { status.textContent = 'İstasyon verisine şu an ulaşılamıyor.'; }
-  }
-  map.on('moveend', () => { clearTimeout(timer); timer = window.setTimeout(load, 400); });
-  fDc.addEventListener('change', () => (status.textContent = `${redraw()} istasyon gösteriliyor`));
-  fOp.addEventListener('change', () => (status.textContent = `${redraw()} istasyon gösteriliyor`));
-  document.getElementById('f-me')!.addEventListener('click', () => {
-    navigator.geolocation?.getCurrentPosition((p) => map.setView([p.coords.latitude, p.coords.longitude], 12), () => (status.textContent = 'Konum alınamadı.'));
-  });
-  load();
+  [il, op, dc].forEach((el) => el.addEventListener('change', guncelle));
 </script>
 <style>
   .intro { max-width: 760px; }
   .filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 12px; margin: 16px 0 12px; }
   .filters select { width: auto; min-width: 200px; }
-  .filters .btn { height: 46px; }
+  .filters .btn { height: 46px; display: inline-flex; align-items: center; }
   .chk { display: flex; align-items: center; gap: 8px; margin: 0 8px; font-size: .92rem; }
   .chk input { width: 18px; height: 18px; accent-color: var(--volt); }
-  .map-wrap { overflow: hidden; margin-bottom: 10px; }
-  #st-map { height: 620px; }
+  .map-wrap { overflow: hidden; margin-bottom: 10px; padding: 0; }
+  #st-map { display: block; width: 100%; height: 620px; border: 0; }
   @media (max-width: 640px) { #st-map { height: 460px; } }
 </style>

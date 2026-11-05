@@ -1,5 +1,3 @@
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import {
   plan, cumulative, locate,
   type LatLon, type Operator, type Station, type PlanResult,
@@ -43,8 +41,10 @@ function init(root: HTMLElement) {
   // Oturum durumu (üyelik açıksa): ilk yanıt gelene kadar bekle
   const userReady: Promise<void> = new Promise((res) => { const off = onUser(() => { res(); }); void off; });
 
-  // --- Harita: başlangıçta ücretsiz OpenStreetMap (Leaflet). Google (harita + rota + istasyon) yalnızca
-  // giriş yapmış üyeler rota hesapladığında yüklenir; misafir ziyaretleri Google kotası harcamaz.
+  // --- Harita: başlangıçta ücretsiz Google Haritalar gömmesi (iframe, kota/ücret yok).
+  // Ücretli Google Maps JavaScript haritası yalnızca üye/hakkı olan kullanıcı rota hesapladığında yüklenir.
+  // Ücretsiz hesaplama (misafir hakkı dolunca, rota sayfaları) arka planda açık veriyle yapılır, sonuç yine
+  // Google gömme haritasında duraklarla birlikte gösterilir.
   const gmKey: string = data.gmKey || '';
   const gmAvailable = !!gmKey && authEnabled();
   let useGoogle = false;
@@ -52,27 +52,20 @@ function init(root: HTMLElement) {
   onUser((u) => { member = !!u; });
   let gview: GoogleMapView | null = null;
   const gac = new GoogleAutocomplete();
-  let map: L.Map | null = null;
-  let layer: L.LayerGroup | null = null;
-  const leaflet = () => {
-    if (map) return;
-    map = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false }).setView([39.2, 33.5], 6);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 19, className: 'osm-tiles',
-    }).addTo(map);
-    map.on('click', () => map!.scrollWheelZoom.enable());
-    layer = L.layerGroup().addTo(map);
+  const gomme = (src: string) => {
+    mapEl.className = 'pl-map';
+    mapEl.innerHTML = `<iframe title="Google Haritalar" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${src}" style="border:0;width:100%;height:100%;display:block" allowfullscreen></iframe>`;
   };
-  // Ana planlayıcı: Google haritası ile açılır (rota sayfaları/ön ayarlı sayfalar ücretsiz OSM'de kalır)
-  const googleFirst = gmAvailable && !data.preset;
-  if (!googleFirst) leaflet();
-  const ready: Promise<void> = googleFirst ? ensureGoogle().then((ok) => { if (!ok) leaflet(); }) : Promise.resolve();
+  const gommeArama = (q: string, z = 6) => gomme(`https://maps.google.com/maps?q=${encodeURIComponent(q)}&hl=tr&z=${z}&output=embed`);
+  const gommeRota = (noktalar: string[]) => gomme(`https://maps.google.com/maps?saddr=${encodeURIComponent(noktalar[0])}&daddr=${noktalar.slice(1).map(encodeURIComponent).join('+to:')}&hl=tr&output=embed`);
+  if (data.preset?.fromQ && data.preset?.toQ) gommeRota([data.preset.fromQ, data.preset.toQ]);
+  else gommeArama('elektrikli araç şarj istasyonu Türkiye');
+  const ready: Promise<void> = Promise.resolve();
   /** Üye rota hesaplarken haritayı Google'a geçirir (Google verisi Google haritasında gösterilmeli). */
   async function ensureGoogle(): Promise<boolean> {
     if (gview) return true;
     try {
       await loadGoogle(gmKey);
-      if (map) { map.remove(); map = null; layer = null; }
       mapEl.innerHTML = '';
       mapEl.className = 'pl-map';
       gview = await GoogleMapView.create(mapEl, data.gmMapId || 'DEMO_MAP_ID');
@@ -259,23 +252,10 @@ function init(root: HTMLElement) {
       gview.draw(coords, pins);
       return;
     }
-    if (!map || !layer) return;
-    layer.clearLayers();
-    L.polyline(coords, { color: '#ffffff', weight: 9, opacity: 1 }).addTo(layer);
-    const line = L.polyline(coords, { color: '#0a7cff', weight: 5, opacity: .9 }).addTo(layer);
-    const stopIds = new Set(r.stops.map((s) => s.station.id));
-    stations.filter((s) => !stopIds.has(s.id) && s.dc !== false).forEach((s) => {
-      L.circleMarker([s.lat, s.lon], { radius: 4, color: '#0a7cff', weight: 1.5, fillColor: '#fff', fillOpacity: 1 })
-        .bindPopup(`<b>${esc(s.name)}</b><br>${esc(s.operator || '')}${s.powerKw ? ` · ${s.powerKw} kW` : ''}`)
-        .addTo(layer);
-    });
-    const pin = (lat: number, lon: number, cls: string, html: string) =>
-      L.marker([lat, lon], { icon: L.divIcon({ className: '', html: `<div class="pl-pin ${cls}">${html}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] }) });
-    pin(a.lat, a.lon, 'start', 'A').bindPopup(esc(a.label)).addTo(layer);
-    pin(b.lat, b.lon, 'end', 'B').bindPopup(esc(b.label)).addTo(layer);
-    r.stops.forEach((s, i) => pin(s.station.lat, s.station.lon, 'stop', String(i + 1))
-      .bindPopup(`<b>${i + 1}. durak: ${esc(s.station.name)}</b><br>${esc(s.price.opName)} · ${tl(s.price.price)}/kWh`).addTo(layer));
-    map.fitBounds(line.getBounds(), { padding: [30, 30] });
+    // Ücretsiz hesaplama: rota Google gömme haritasında, şarj durakları ara nokta olarak
+    const ll = (p: { lat: number; lon: number }) => `${p.lat.toFixed(5)},${p.lon.toFixed(5)}`;
+    gommeRota([ll(a), ...r.stops.slice(0, 8).map((x) => ll(x.station)), ll(b)]);
+    void coords; void stations;
   }
 
   // --- Sonuç kartları
