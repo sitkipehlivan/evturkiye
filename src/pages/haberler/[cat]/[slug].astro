@@ -117,7 +117,7 @@ const baslikEtiketi = (() => { const t = (d as any).seoTitle || d.title; if (t.l
   .side-box ol span { display: block; font: 700 .66rem var(--font-head); letter-spacing: .12em; text-transform: uppercase; color: var(--green-ink, #0b7a3b); margin-bottom: 2px; }
   .routes li a span { color: var(--green-ink, #0b7a3b); }
   @media (max-width: 1080px) {
-    .art-grid { grid-template-columns: 1fr; gap: 32px; }
+    .art-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
     .art-sticky { position: static; align-items: center; }
     .side-box { width: 100%; max-width: 720px; box-sizing: border-box; }
   }
