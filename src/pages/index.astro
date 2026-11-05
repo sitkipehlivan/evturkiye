@@ -45,6 +45,7 @@ const jsonLd = {
 };
 ---
 <Base title="EV Türkiye: Elektrikli Araç Haberleri, Şarj Fiyatları ve Rota Planlayıcı" jsonLd={jsonLd}>
+  <h1 class="visually-hidden">EV Türkiye: elektrikli araç haberleri, şarj fiyatları ve rota planlayıcı</h1>
   <!-- 1. Manşet + rota widget -->
   <section class="top">
     <div class="container top-grid">
@@ -184,10 +185,10 @@ const jsonLd = {
   .prices-mini { height: 250px; box-sizing: border-box; border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; }
   .pm-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
   .pm-head span { font: 800 .95rem var(--font-head); }
-  .pm-head a { font-size: .78rem; font-weight: 600; color: var(--volt); }
+  .pm-head a { font-size: .78rem; font-weight: 600; color: var(--volt-ink); }
   .prices-mini ol { list-style: none; margin: 0; padding: 0; flex: 1; }
   .prices-mini li { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
-  .prices-mini li:first-child b { color: var(--green); }
+  .prices-mini li:first-child b { color: var(--green-ink); }
   .prices-mini b { font-variant-numeric: tabular-nums; }
   .prices-mini p { margin: 8px 0 0; font-size: .72rem; color: var(--muted); }
 
@@ -197,20 +198,20 @@ const jsonLd = {
   .block-head h2 { margin: 0; font-size: .95rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
   .block-head::after { content: ''; order: 2; flex: 1; height: 1px; background: var(--line); }
   .block-head a { order: 3; font-size: .82rem; font-weight: 600; color: var(--ink-2); }
-  .block-head a:hover { color: var(--volt); }
+  .block-head a:hover { color: var(--volt-ink); }
 
   .nc { display: flex; flex-direction: column; gap: 8px; color: var(--ink); }
-  .nc:hover h3, .fe-lead:hover h3, .fe-list a:hover h4 { color: var(--volt); }
+  .nc:hover h3, .fe-lead:hover h3, .fe-list a:hover h4 { color: var(--volt-ink); }
   .nc-img { aspect-ratio: 16 / 10; overflow: hidden; display: grid; place-items: center; background: var(--soft-2); }
   .nc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
   .nc:hover .nc-img img, .fe-lead:hover .nc-img img { transform: scale(1.04); }
   .nc-img svg { width: 30%; }
-  .nc-img.turkiye { background: #eaf3ff; color: var(--volt); }
+  .nc-img.turkiye { background: #eaf3ff; color: var(--volt-ink); }
   .nc-img.dunya { background: #eef1ff; color: #3b5bfd; }
   .nc-img.hibrit { background: #e6f6f7; color: #0e8c99; }
-  .nc-img.rehber { background: var(--green-soft); color: var(--green); }
-  .nc-cat { font: 700 .7rem var(--font-head); letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-top: 4px; }
-  .nc-cat.turkiye { color: var(--volt); } .nc-cat.dunya { color: #3b5bfd; } .nc-cat.hibrit { color: #0e8c99; }
+  .nc-img.rehber { background: var(--green-soft); color: var(--green-ink); }
+  .nc-cat { font: 700 .7rem var(--font-head); letter-spacing: .14em; text-transform: uppercase; color: var(--green-ink); margin-top: 4px; }
+  .nc-cat.turkiye { color: var(--volt-ink); } .nc-cat.dunya { color: #3b5bfd; } .nc-cat.hibrit { color: #0e8c99; }
   .nc h3 { margin: 0; font-size: 1.05rem; line-height: 1.35; transition: color .15s; }
   .nc time { font-size: .78rem; color: var(--muted); }
   .cards-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
@@ -239,7 +240,7 @@ const jsonLd = {
   .side-box h3 { margin: 0 0 8px; font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; }
   .side-box ul { list-style: none; margin: 0; padding: 0; }
   .side-box li a { display: block; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .92rem; font-weight: 600; }
-  .side-box li a span { color: var(--green); }
+  .side-box li a span { color: var(--green-ink); }
   .side-cta { display: block; margin-top: 14px; text-align: center; padding: 10px; background: var(--ink); color: #fff; font-weight: 700; font-size: .88rem; }
   .side-cta:hover { color: #fff; background: #1e293b; }
 

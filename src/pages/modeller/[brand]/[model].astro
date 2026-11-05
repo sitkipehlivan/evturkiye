@@ -100,8 +100,8 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
   </section>
 </Base>
 <style>
-  .blink { color: var(--volt); font-weight: 600; }
-  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt); }
+  .blink { color: var(--volt-ink); font-weight: 600; }
+  .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt-ink); }
   .hero { display: grid; grid-template-columns: 1.25fr 1fr; gap: 28px; align-items: center; margin: 6px 0 10px; }
   .hero-img { margin: 0; }
   .hero-img img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; display: block; background: var(--soft-2); }
@@ -112,7 +112,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
   h1 { margin: 6px 0 10px; }
   .from { margin: 0 0 16px; }
   .from em { display: block; font-style: normal; font-size: .76rem; font-weight: 600; color: var(--muted); }
-  .from b { font: 800 1.9rem/1.15 var(--font-head); color: var(--green); }
+  .from b { font: 800 1.9rem/1.15 var(--font-head); color: var(--green-ink); }
   .from span { font-weight: 600; color: var(--ink-2); }
   .from.none { color: var(--muted); }
   .facts { list-style: none; padding: 0; margin: 0 0 18px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -121,7 +121,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
   .facts span { font-size: .74rem; color: var(--muted); font-weight: 600; }
   .vh { margin-top: 30px; font-size: 1.25rem; }
   .ver h3 .off { margin-left: 8px; vertical-align: middle; font-size: .68rem; font-weight: 700; background: #0f172a; color: #fff; border-radius: 999px; padding: 3px 9px; }
-  .vprice { margin: -6px 0 0; font-weight: 800; color: var(--green); }
+  .vprice { margin: -6px 0 0; font-weight: 800; color: var(--green-ink); }
   .vprice small { color: var(--muted); font-weight: 600; }
   .nws { margin-bottom: 30px; }
   .versions { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 20px 0 14px; }
@@ -133,7 +133,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
   .calc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .calc div { background: var(--soft); border-radius: 10px; padding: 10px; }
   .calc span { display: block; font-size: .72rem; color: var(--muted); font-weight: 600; }
-  .calc b { font-size: .98rem; color: var(--green); }
+  .calc b { font-size: .98rem; color: var(--green-ink); }
   .others { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
   @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 16px; } .others { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 480px) { .others { grid-template-columns: 1fr; } .from b { font-size: 1.6rem; } }

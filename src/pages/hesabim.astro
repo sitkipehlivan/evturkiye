@@ -243,13 +243,13 @@ const STATUS = [['ev', 'Elektrikli aracÄ±m var'], ['phev', 'Plug-in hibrit aracÄ
   .btn-ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
   .who { display: flex; gap: 14px; align-items: center; }
   .who b { display: block; font-size: 1.1rem; }
-  .avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: grid; place-items: center; font: 800 1.2rem var(--font-head); }
+  .avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--green-soft); color: var(--green-ink); display: grid; place-items: center; font: 800 1.2rem var(--font-head); }
   .acc-form { display: grid; gap: 14px; }
   .acc-form label { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; }
   .acc-form input:not([type='checkbox']), .acc-form select { height: 44px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; font: inherit; font-weight: 400; }
   .chk { display: flex !important; grid-template-columns: none; gap: 9px; align-items: flex-start; font-weight: 400 !important; color: var(--ink-2); }
   .chk input { margin-top: 3px; accent-color: var(--green); }
-  .saved { color: var(--green); font-weight: 600; }
+  .saved { color: var(--green-ink); font-weight: 600; }
   .fs { border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 0; display: grid; gap: 14px; }
   .fs legend { font-weight: 800; padding: 0 6px; }
   .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -270,9 +270,9 @@ const STATUS = [['ev', 'Elektrikli aracÄ±m var'], ['phev', 'Plug-in hibrit aracÄ
   .chip input:focus-visible + span { box-shadow: 0 0 0 3px var(--volt-soft); }
   @media (max-width: 560px) { .grid2, .seg { grid-template-columns: minmax(0, 1fr); } }
   .acc-foot { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--line); padding-top: 16px; }
-  .link { border: 0; background: none; color: var(--volt); font: 600 .88rem var(--font); cursor: pointer; padding: 0; }
+  .link { border: 0; background: none; color: var(--volt-ink); font: 600 .88rem var(--font); cursor: pointer; padding: 0; }
   .link.danger { color: var(--red); margin-left: auto; }
   .verify { margin: 0; padding: 10px 12px; border-radius: 10px; background: #fff8eb; color: #92400e; }
   .acc-msg { margin: 0; }
-  .legal { margin-top: 18px; } .legal a { color: var(--volt); }
+  .legal { margin-top: 18px; } .legal a { color: var(--volt-ink); }
 </style>

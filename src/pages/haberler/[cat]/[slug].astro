@@ -6,6 +6,9 @@ import GuideLinks from '../../../components/GuideLinks.astro';
 import { brands } from '../../../lib/ev';
 import { getNews, CATS, fmtDate, newsImg, type Cat } from '../../../lib/util';
 import company from '../../../data/company.json';
+import RouteWidget from '../../../components/RouteWidget.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import routes from '../../../data/routes.json';
 export async function getStaticPaths() {
   const news = await getNews();
   return news.map((post) => ({ params: { cat: post.data.category, slug: post.id }, props: { post, news } }));
@@ -19,6 +22,8 @@ const lc = (x: string) => x.toLocaleLowerCase('tr');
 const text = lc(`${d.title} ${d.description} ${post.body ?? ''}`);
 const mentioned = brands.filter((b) => new RegExp(`(^|[^\\p{L}])${lc(b.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^\\p{L}]|$)`, 'u').test(text));
 const related = news.filter((p: any) => p.id !== post.id).slice(0, 3);
+const relIds = new Set(related.map((p: any) => p.id));
+const sideNews = news.filter((p: any) => p.id !== post.id && !relIds.has(p.id)).slice(0, 5);
 const authorUrl = new URL(`/yazar/${company.editorSlug}`, Astro.site).toString();
 const jsonLd = {
   '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
@@ -47,9 +52,33 @@ const jsonLd = {
           {d.imageCredit && img.startsWith('/images/haberler/') && <figcaption>Görsel: {d.imageCredit}</figcaption>}
         </figure>
       )}
-      <div class="prose"><Content /></div>
-      {mentioned.length > 0 && <p class="brandlinks small">Bu haberdeki markalar: {mentioned.map((b) => <a class="tag" href={`/modeller/${b.slug}`}>{b.name}</a>)}</p>}
-      {d.sourceUrl && <p class="source small">Kaynak: <a href={d.sourceUrl} target="_blank" rel="noopener nofollow">{d.source ?? new URL(d.sourceUrl).hostname} ↗</a></p>}
+      <div class="art-grid">
+        <div class="art-main">
+          <div class="prose"><Content /></div>
+          {mentioned.length > 0 && <p class="brandlinks small">Bu haberdeki markalar: {mentioned.map((b) => <a class="tag" href={`/modeller/${b.slug}`}>{b.name}</a>)}</p>}
+          {d.sourceUrl && <p class="source small">Kaynak: <a href={d.sourceUrl} target="_blank" rel="noopener nofollow">{d.source ?? new URL(d.sourceUrl).hostname} ↗</a></p>}
+        </div>
+        <aside class="art-side" aria-label="Rota planlayıcı ve son haberler">
+          <div class="art-sticky">
+            <RouteWidget />
+            <AdSlot id="article-halfpage" size="300x600" />
+            <div class="side-box">
+              <h2>Son haberler</h2>
+              <ol>
+                {sideNews.map((p: any) => (
+                  <li><a href={`/haberler/${p.data.category}/${p.id}`}><span>{CATS[p.data.category as Cat].label}</span>{p.data.title}</a></li>
+                ))}
+              </ol>
+            </div>
+            <div class="side-box">
+              <h2>Popüler rotalar</h2>
+              <ul class="routes">
+                {routes.slice(0, 5).map((r: any) => <li><a href={`/rota/${r.slug}`}>{r.from} <span aria-hidden="true">→</span> {r.to}</a></li>)}
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   </article>
   <section class="section-sm soft">
@@ -61,15 +90,30 @@ const jsonLd = {
   </section>
 </Base>
 <style>
-  .crumbs { margin-bottom: 14px; } .crumbs a:hover { color: var(--volt); }
+  .crumbs { margin-bottom: 14px; } .crumbs a:hover { color: var(--volt-ink); }
   .head { max-width: 780px; margin-bottom: 28px; }
   .lede { font-size: 1.15rem; color: var(--ink-2); }
   .meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .byline { color: var(--ink-2); font-weight: 600; } .byline:hover { color: var(--volt); }
+  .byline { color: var(--ink-2); font-weight: 600; } .byline:hover { color: var(--volt-ink); }
   .cover-fig { margin: 0 0 28px; }
   .cover-fig figcaption { font-size: .78rem; color: var(--muted); margin-top: 8px; }
   .cover { border-radius: var(--radius); max-height: 460px; width: 100%; object-fit: cover; }
   .brandlinks { max-width: 720px; margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); }
   .source { max-width: 720px; padding-top: 18px; margin-top: 28px; border-top: 1px solid var(--line); color: var(--muted); }
-  .source a { color: var(--volt); }
+  .source a { color: var(--volt-ink); }
+  .art-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
+  .art-sticky { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 20px; }
+  .side-box { border: 1px solid var(--line); padding: 16px 18px; }
+  .side-box h2 { margin: 0 0 6px; font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
+  .side-box ol, .side-box ul { list-style: none; margin: 0; padding: 0; }
+  .side-box li a { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .9rem; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .side-box li:last-child a { border-bottom: 0; padding-bottom: 2px; }
+  .side-box li a:hover { color: var(--volt-ink); }
+  .side-box ol span { display: block; font: 700 .66rem var(--font-head); letter-spacing: .12em; text-transform: uppercase; color: var(--green-ink, #0b7a3b); margin-bottom: 2px; }
+  .routes li a span { color: var(--green-ink, #0b7a3b); }
+  @media (max-width: 1080px) {
+    .art-grid { grid-template-columns: 1fr; gap: 32px; }
+    .art-sticky { position: static; align-items: center; }
+    .side-box { width: 100%; max-width: 720px; box-sizing: border-box; }
+  }
 </style>
