@@ -14,8 +14,21 @@ const ALAN: Record<string, string> = {
   'article-end': 'evturkiye-haber-alt',
 };
 ---
-<div class:list={['ad-slot', cls]} data-ad-slot={id} data-size={size} data-mobile={mobile} data-adv-alan={ALAN[id]}></div>
+{id === 'masthead'
+  ? <div class:list={['ad-slot', 'mh-slot', cls]} data-ad-slot={id} data-size={size} data-mobile={mobile} data-adv-alan={ALAN[id]}><a class="mh-tanitim" href="/sarj-fiyatlari"><b>Şarj etmeden önce <em>fiyatları karşılaştır</em></b><span>19 operatörün güncel kWh fiyatları ve şarj duraklı rota planlayıcı</span><i>Fiyatları gör →</i></a></div>
+  : <div class:list={['ad-slot', cls]} data-ad-slot={id} data-size={size} data-mobile={mobile} data-adv-alan={ALAN[id]}></div>}
+{id === 'masthead' && <template id="evt-mh-tanitim"><a class="mh-tanitim" href="/sarj-fiyatlari"><b>Şarj etmeden önce <em>fiyatları karşılaştır</em></b><span>19 operatörün güncel kWh fiyatları ve şarj duraklı rota planlayıcı</span><i>Fiyatları gör →</i></a></template>}
 <style>
   .ad-slot { width: 100%; }
   .ad-slot:empty { display: none; }
+  /* Masthead: yeri ilk boyamada sabit (CLS yok); reklam yoksa EV Türkiye tanıtımı kalır. Anasayfada masaüstünde masthead yok. */
+  .mh-slot { height: 124px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  @media (min-width: 768px) { :global(html[data-sayfa='ana']) .mh-slot { display: none; } }
+  @media (min-width: 1000px) { .mh-slot { height: 274px; } }
+  .mh-slot :global(.adv-mh) { padding: 4px 0; }
+  .mh-tanitim { box-sizing: border-box; width: 320px; max-width: 100%; height: 100px; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 10px 14px; border-radius: 12px; background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+  .mh-tanitim b { font-size: 16px; line-height: 1.15; } .mh-tanitim em { font-style: normal; color: var(--green-ink); }
+  .mh-tanitim span { font-size: 11.5px; color: var(--muted); }
+  .mh-tanitim i { font-style: normal; font-weight: 700; font-size: 12.5px; color: var(--volt-ink); }
+  @media (min-width: 1000px) { .mh-tanitim { width: 970px; height: 250px; padding: 32px 44px; gap: 10px; border-radius: 16px; } .mh-tanitim b { font-size: 40px; letter-spacing: -.02em; } .mh-tanitim span { font-size: 17px; } .mh-tanitim i { font-size: 16px; } }
 </style>

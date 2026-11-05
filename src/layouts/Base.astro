@@ -43,7 +43,7 @@ const ADV_URL = 'https://advance-reklam.netlify.app';
 const ogImage = new URL(image, Astro.site);
 ---
 <!doctype html>
-<html lang="tr">
+<html lang="tr" data-sayfa={Astro.url.pathname === '/' ? 'ana' : 'alt'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -162,6 +162,12 @@ const ogImage = new URL(image, Astro.site);
         riza: function () { try { return localStorage.getItem('evt-cerez') === 'kabul'; } catch (e) { return false; } },
       };
       document.addEventListener('evt-cerez', function () { if (window.advance.yenile) window.advance.yenile(); });
+      // Masthead boş kalırsa yeri kapanmaz, EV Türkiye tanıtımı gösterilir (CLS olmasın)
+      document.addEventListener('adv-bos', function (e) {
+        var s = e.target; if (!s || s.getAttribute('data-adv-alan') !== 'evturkiye-masthead') return;
+        var t = document.getElementById('evt-mh-tanitim'); if (!t) return;
+        s.style.display = ''; s.innerHTML = t.innerHTML;
+      });
       var s = document.createElement('script'); s.async = true; s.src = ADV + '/a.js'; document.head.appendChild(s);
     </script>
     <script is:inline>
