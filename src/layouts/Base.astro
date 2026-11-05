@@ -162,10 +162,10 @@ const ogImage = new URL(image, Astro.site);
         riza: function () { try { return localStorage.getItem('evt-cerez') === 'kabul'; } catch (e) { return false; } },
       };
       document.addEventListener('evt-cerez', function () { if (window.advance.yenile) window.advance.yenile(); });
-      // Masthead boş kalırsa yeri kapanmaz, EV Türkiye tanıtımı gösterilir (CLS olmasın)
+      // Masthead ve ilk ekrandaki 300x250 boş kalırsa yeri kapanmaz, EV Türkiye tanıtımı gösterilir (CLS olmasın)
       document.addEventListener('adv-bos', function (e) {
-        var s = e.target; if (!s || s.getAttribute('data-adv-alan') !== 'evturkiye-masthead') return;
-        var t = document.getElementById('evt-mh-tanitim'); if (!t) return;
+        var s = e.target, id = s && s.getAttribute && s.getAttribute('data-tanitim'); if (!id) return;
+        var t = document.getElementById(id); if (!t) return;
         s.style.display = ''; s.innerHTML = t.innerHTML;
       });
       var s = document.createElement('script'); s.async = true; s.src = ADV + '/a.js'; document.head.appendChild(s);

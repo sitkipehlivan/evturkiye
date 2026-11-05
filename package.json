@@ -4,10 +4,10 @@
   "description": "",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run stations && npm run covers && astro build",
+    "build": "npm run stations && npm run covers && astro build && node scripts/slash.mjs",
     "preview": "astro preview",
     "stations": "node --experimental-strip-types --no-warnings scripts/fetch-stations.ts",
-    "build:fast": "npm run covers && astro build",
+    "build:fast": "npm run covers && astro build && node scripts/slash.mjs",
     "covers": "node scripts/covers.mjs && node scripts/tool-covers.mjs"
   },
   "author": "",

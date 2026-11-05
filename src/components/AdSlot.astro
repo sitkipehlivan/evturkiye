@@ -13,11 +13,16 @@ const ALAN: Record<string, string> = {
   'article-halfpage': 'evturkiye-haber-halfpage',
   'article-end': 'evturkiye-haber-alt',
 };
+const TANITIM: Record<string, string> = {
+  masthead: '<a class="mh-tanitim" href="/sarj-fiyatlari/"><b>Şarj etmeden önce <em>fiyatları karşılaştır</em></b><span>19 operatörün güncel kWh fiyatları ve şarj duraklı rota planlayıcı</span><i>Fiyatları gör →</i></a>',
+  'home-mpu-1': '<a class="mpu-tanitim" href="/yakindaki-sarj-istasyonlari/"><span class="ik" aria-hidden="true">📍</span><b>Yakınındaki <em>şarj istasyonları</em></b><span>Konumuna en yakın istasyonlar; soket tipi, güç ve kWh fiyatıyla.</span><i>Haritada gör →</i></a>',
+};
 ---
-{id === 'masthead'
-  ? <div class:list={['ad-slot', 'mh-slot', cls]} data-ad-slot={id} data-size={size} data-mobile={mobile} data-adv-alan={ALAN[id]}><a class="mh-tanitim" href="/sarj-fiyatlari"><b>Şarj etmeden önce <em>fiyatları karşılaştır</em></b><span>19 operatörün güncel kWh fiyatları ve şarj duraklı rota planlayıcı</span><i>Fiyatları gör →</i></a></div>
+{/* İlk ekrandaki alanların yeri baştan ayrılır (CLS yok); reklam gelmezse EV Türkiye tanıtımı kalır */}
+{TANITIM[id]
+  ? <div class:list={['ad-slot', id === 'masthead' ? 'mh-slot' : 'mpu-slot', cls]} data-ad-slot={id} data-size={size} data-mobile={mobile} data-adv-alan={ALAN[id]} data-tanitim={`evt-tanitim-${id}`} set:html={TANITIM[id]} />
   : <div class:list={['ad-slot', cls]} data-ad-slot={id} data-size={size} data-mobile={mobile} data-adv-alan={ALAN[id]}></div>}
-{id === 'masthead' && <template id="evt-mh-tanitim"><a class="mh-tanitim" href="/sarj-fiyatlari"><b>Şarj etmeden önce <em>fiyatları karşılaştır</em></b><span>19 operatörün güncel kWh fiyatları ve şarj duraklı rota planlayıcı</span><i>Fiyatları gör →</i></a></template>}
+{TANITIM[id] && <template id={`evt-tanitim-${id}`} set:html={TANITIM[id]} />}
 <style>
   .ad-slot { width: 100%; }
   .ad-slot:empty { display: none; }
@@ -26,9 +31,16 @@ const ALAN: Record<string, string> = {
   @media (min-width: 768px) { :global(html[data-sayfa='ana']) .mh-slot { display: none; } }
   @media (min-width: 1000px) { .mh-slot { height: 274px; } }
   .mh-slot :global(.adv-mh) { padding: 4px 0; }
-  .mh-tanitim { box-sizing: border-box; width: 320px; max-width: 100%; height: 100px; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 10px 14px; border-radius: 12px; background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none; }
-  .mh-tanitim b { font-size: 16px; line-height: 1.15; } .mh-tanitim em { font-style: normal; color: var(--green-ink); }
-  .mh-tanitim span { font-size: 11.5px; color: var(--muted); }
-  .mh-tanitim i { font-style: normal; font-weight: 700; font-size: 12.5px; color: var(--volt-ink); }
-  @media (min-width: 1000px) { .mh-tanitim { width: 970px; height: 250px; padding: 32px 44px; gap: 10px; border-radius: 16px; } .mh-tanitim b { font-size: 40px; letter-spacing: -.02em; } .mh-tanitim span { font-size: 17px; } .mh-tanitim i { font-size: 16px; } }
+  .mpu-slot { height: 270px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .mpu-slot :global(.adv-kutu) { margin: 0 auto; }
+  :global(.mpu-tanitim) { box-sizing: border-box; width: 300px; height: 250px; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 22px; border-radius: 14px; background: linear-gradient(160deg, var(--green-soft), var(--volt-soft)); border: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+  :global(.mpu-tanitim .ik) { font-size: 26px; }
+  :global(.mpu-tanitim b) { font-size: 22px; line-height: 1.15; } :global(.mpu-tanitim em) { font-style: normal; color: var(--green-ink); }
+  :global(.mpu-tanitim span) { font-size: 14px; color: var(--ink-2); }
+  :global(.mpu-tanitim i) { font-style: normal; font-weight: 700; color: var(--volt-ink); }
+  :global(.mh-tanitim) { box-sizing: border-box; width: 320px; max-width: 100%; height: 100px; display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 10px 14px; border-radius: 12px; background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+  :global(.mh-tanitim b) { font-size: 16px; line-height: 1.15; } :global(.mh-tanitim em) { font-style: normal; color: var(--green-ink); }
+  :global(.mh-tanitim span) { font-size: 11.5px; color: var(--muted); }
+  :global(.mh-tanitim i) { font-style: normal; font-weight: 700; font-size: 12.5px; color: var(--volt-ink); }
+  @media (min-width: 1000px) { :global(.mh-tanitim) { width: 970px; height: 250px; padding: 32px 44px; gap: 10px; border-radius: 16px; } :global(.mh-tanitim b) { font-size: 40px; letter-spacing: -.02em; } :global(.mh-tanitim span) { font-size: 17px; } :global(.mh-tanitim i) { font-size: 16px; } }
 </style>
