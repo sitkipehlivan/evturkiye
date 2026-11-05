@@ -39,7 +39,7 @@ const karsi = POPULAR_PAIRS.map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as co
       <div class="hero">
         <figure class="hero-img">
           {g.image
-            ? <><img src={g.image.src} alt={`${name} elektrikli ${v0.body.toLocaleLowerCase('tr')}`} width="1200" height="675" /><figcaption>Fotoğraf: {g.image.credit}</figcaption></>
+            ? <><img src={g.image.src} alt={`${name} elektrikli ${v0.body.toLocaleLowerCase('tr')}`} width="1200" height="675" /><figcaption>Fotoğraf: {g.image.credit}{(() => { const m = g.image.credit.match(/CC BY-(SA )?(\d\.\d)( de)?/); return m ? <> · <a href={`https://creativecommons.org/licenses/by-${m[1] ? 'sa' : ''}/${m[2]}/${m[3] ? 'de/' : ''}deed.tr`.replace('by-/', 'by/')} target="_blank" rel="noopener license">Lisans</a></> : null; })()}</figcaption></>
             : <div class="ph" aria-hidden="true"><span>{v0.brand}</span><b>{v0.model}</b></div>}
         </figure>
         <div class="hero-txt">
