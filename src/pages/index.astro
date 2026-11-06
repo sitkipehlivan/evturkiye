@@ -17,8 +17,11 @@ const deals = (await getDeals()).slice(0, 3);
 const withImg = news.filter((p) => hasRealImg(p));
 const heroPosts = [...withImg, ...news.filter((p) => !hasRealImg(p))].slice(0, 6);
 const heroIds = new Set(heroPosts.map((p) => p.id));
-const latest = news.filter((p) => !heroIds.has(p.id)).slice(0, 4);
-const used = new Set([...heroIds, ...latest.map((p) => p.id)]);
+// Manşetin altındaki 2 haber (sağ sütun manşetten uzun olduğu için boşluğu doldurur)
+const leadNews = news.filter((p) => !heroIds.has(p.id) && hasRealImg(p)).slice(0, 2);
+const leadIds = new Set(leadNews.map((p) => p.id));
+const latest = news.filter((p) => !heroIds.has(p.id) && !leadIds.has(p.id)).slice(0, 4);
+const used = new Set([...heroIds, ...leadIds, ...latest.map((p) => p.id)]);
 const byCat = (c: Cat, n: number) => news.filter((p) => p.data.category === c && !used.has(p.id)).slice(0, n);
 const turkiye = news.filter((p) => !['rehber', 'hibrit'].includes(p.data.category) && !used.has(p.id)).slice(0, 4);
 const rehber = byCat('rehber', 4);
@@ -49,7 +52,19 @@ const jsonLd = {
   <!-- 1. Manşet + rota widget -->
   <section class="top">
     <div class="container top-grid">
-      <HeroSlider posts={heroPosts} />
+      <div class="lead">
+        <HeroSlider posts={heroPosts} />
+        <div class="lead-news">
+          {leadNews.map(card).map((c) => (
+            <a class="nc" href={c.url}>
+              <div class:list={['nc-img', c.cat]}>{c.img && <img src={c.img} alt="" loading="lazy" />}</div>
+              <span class:list={['nc-cat', c.cat]}>{CATS[c.cat].label}</span>
+              <h3>{c.p.data.title}</h3>
+              <time datetime={c.p.data.date.toISOString()}>{fmtDate(c.p.data.date)}</time>
+            </a>
+          ))}
+        </div>
+      </div>
       <aside class="side" aria-label="Rota planlayıcı, yakındaki şarj istasyonları ve şarj fiyatları">
         <ToolCards />
         <div class="mpu-ad"><AdSlot id="home-mpu-1" size="300x250" /></div>
@@ -178,7 +193,11 @@ const jsonLd = {
   .top-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
   .side { display: flex; flex-direction: column; gap: 12px; }
   .mpu-ad:has(:global(.ad-slot[hidden])) { display: none; }
-  @media (min-width: 901px) { .top-grid { align-items: stretch; } .top-grid > :global(.hs) { height: auto; min-height: 520px; } }
+  .lead { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+  .lead-news { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  /* Manşet sağ sütunun boyunu takip etmez: 520px'ten başlar, yalnızca altındaki 2 haberle sağ sütun arasında kalan boşluğu doldurur. */
+  @media (min-width: 901px) { .top-grid { align-items: stretch; } .lead > :global(.hs) { flex: 1 1 auto; height: auto; min-height: 520px; max-height: 640px; } }
+  @media (max-width: 900px) { .lead-news { display: none; } }
   .mpu { width: 300px; height: 250px; }
   :global(html.ads-on) .fallback { display: none; }
 
