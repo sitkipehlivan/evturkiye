@@ -43,3 +43,5 @@ Hyundai'nin Eylül 2026 fiyat listesinde elektrikli otomobil tarafındaki en bü
 Elektrikli otomobillerde ÖTV oranı vergisiz fiyata ve motor gücüne göre belirleniyor. Kampanyalı fiyatla alt dilime giren bir versiyon, kampanya bittiğinde üst dilime geçince fark çok büyüyebiliyor. Ioniq 6'daki 742 bin TL'lik artış bunun örneği. Dilimlerin nasıl işlediği [ÖTV ve MTV rehberimizde](/haberler/rehber/elektrikli-arac-otv-mtv-2026) anlatılıyor.
 
 Ağustos kampanyasının ayrıntıları için [Hyundai Ağustos 2026 indirim haberimize](/haberler/turkiye/hyundai-ioniq-6-ioniq-5-agustos-2026-indirim) bakabilirsiniz. Teknik özellikler için [Hyundai Ioniq 5](/modeller/hyundai/ioniq-5) ve [Kona Electric](/modeller/hyundai/kona-electric) sayfalarımıza, diğer modeller için [Hyundai marka sayfamıza](/modeller/hyundai) göz atabilirsiniz. Güncel kampanyalar [Fırsatlar](/firsatlar) sayfasında.
+
+Güncel liste için: [Hyundai elektrikli fiyat listesi Kasım 2026](/haberler/turkiye/hyundai-elektrikli-fiyat-listesi-kasim-2026)
