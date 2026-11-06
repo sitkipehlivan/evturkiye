@@ -10,6 +10,8 @@ const haberler = defineCollection({
     description: z.string(),
     category: z.enum(['turkiye', 'dunya', 'hibrit', 'rehber']),
     date: z.coerce.date(),
+    /** Rehber güncellendiğinde: dateModified ve sayfadaki "Güncellendi" satırı */
+    updated: z.coerce.date().optional(),
     image: z.string().optional(),
     imageMode: z.enum(['edit', 'generate']).optional(),
     imageSource: z.string().optional(),

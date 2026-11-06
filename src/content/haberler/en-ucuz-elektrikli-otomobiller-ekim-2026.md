@@ -1,5 +1,6 @@
 ---
 title: "Türkiye'de satılan en ucuz 10 elektrikli otomobil (Ekim 2026)"
+seoTitle: "En ucuz 10 elektrikli otomobil (Ekim 2026)"
 description: "2 milyon TL'nin altında elektrikli otomobil mümkün mü? Ekim 2026 fiyatlarıyla Türkiye'deki en uygun 10 elektrikli modeli, menzilleri ve kampanyalı fiyatlarıyla sıraladık."
 image: "/images/haberler/en-ucuz-elektrikli-otomobiller-ekim-2026.jpg"
 category: turkiye

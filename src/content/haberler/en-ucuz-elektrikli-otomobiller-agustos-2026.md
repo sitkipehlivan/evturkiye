@@ -1,5 +1,6 @@
 ---
 title: "Türkiye'de satılan en ucuz 10 elektrikli otomobil (Ağustos 2026)"
+seoTitle: "En ucuz 10 elektrikli otomobil (Ağustos 2026)"
 description: "Ağustos 2026'da en ucuz elektrikli otomobil 1.400.000 TL kampanya fiyatıyla Hyundai Inster. Citroën ë-C3 ve Fiat Grande Panda ilk üçte yer alıyor."
 image: "/images/haberler/en-ucuz-elektrikli-otomobiller-agustos-2026.jpg"
 imageMode: edit

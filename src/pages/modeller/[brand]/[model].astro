@@ -2,7 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import ModelCard from '../../../components/ModelCard.astro';
 import NewsCard from '../../../components/NewsCard.astro';
-import { tl, getNews } from '../../../lib/util';
+import { tl, getNews, fitTitle } from '../../../lib/util';
 import { modelGroups, groupOf, avgDc, price, monthTr, POPULAR_PAIRS, carBySlug, pairSlug } from '../../../lib/ev';
 import GuideLinks from '../../../components/GuideLinks.astro';
 export function getStaticPaths() {
@@ -32,7 +32,7 @@ const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'de
 // Bu modelin yer aldığı hazır karşılaştırmalar (iç link)
 const karsi = POPULAR_PAIRS.map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const).filter(([a, b]) => a && b && [a, b].some((c) => c.brandSlug === brand && c.modelSlug === model));
 ---
-<Base title={`${name} Fiyatı, Menzili ve Şarj Süresi${g.priceDate ? ` (${monthTr(g.priceDate)})` : ''}`} description={desc} jsonLd={jsonLd} image={g.image?.src} crumbs={[['Modeller', '/modeller/'], [v0.brand, `/modeller/${brand}/`], [name, Astro.url.pathname]]}>
+<Base title={fitTitle(...(g.priceDate ? [`${name} Fiyatı, Menzili ve Şarj Süresi (${monthTr(g.priceDate)})`, `${name} Fiyatı ve Menzili (${monthTr(g.priceDate)})`] : []), `${name} Fiyatı, Menzili ve Şarj Süresi`, `${name} Fiyatı ve Menzili`)} description={desc} jsonLd={jsonLd} image={g.image?.src} crumbs={[['Modeller', '/modeller/'], [v0.brand, `/modeller/${brand}/`], [name, Astro.url.pathname]]}>
   <section class="section-sm">
     <div class="container">
       <nav class="small muted crumbs"><a href="/modeller">Modeller</a> / <a href={`/modeller/${brand}`}>{v0.brand}</a> / {v0.model}</nav>

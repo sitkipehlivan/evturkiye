@@ -28,9 +28,14 @@ const related = news.filter((p: any) => p.id !== post.id).slice(0, 3);
 const relIds = new Set(related.map((p: any) => p.id));
 const sideNews = news.filter((p: any) => p.id !== post.id && !relIds.has(p.id)).slice(0, 5);
 const authorUrl = new URL(`/yazar/${company.editorSlug}`, Astro.site).toString();
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
-  headline: d.title, description: d.description, datePublished: d.date.toISOString(), dateModified: d.date.toISOString(), inLanguage: 'tr',
+// "## Sık sorulan sorular" bölümündeki "### Soru" + cevap paragrafları FAQPage şemasına dönüşür
+const sssBolum = (post.body ?? '').split(/^## Sık sorulan sorular\s*$/m)[1]?.split(/^## /m)[0] ?? '';
+const duz = (x: string) => x.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`]/g, '').replace(/\s+/g, ' ').trim();
+const sss = sssBolum.split(/^### /m).slice(1).map((b) => { const [q, ...rest] = b.split('\n'); return [duz(q), duz(rest.join('\n'))]; }).filter(([q, a]) => q && a);
+const faqLd = sss.length ? { '@type': 'FAQPage', mainEntity: sss.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) } : null;
+const articleLd = {
+  '@type': cat === 'rehber' ? 'Article' : 'NewsArticle',
+  headline: d.title, description: d.description, datePublished: d.date.toISOString(), dateModified: ((d as any).updated ?? d.date).toISOString(), inLanguage: 'tr',
   ...(img ? { image: [new URL(img, Astro.site).toString()] } : {}),
   author: [{ '@type': 'Organization', name: company.byline, url: authorUrl }],
   publisher: {
@@ -39,6 +44,7 @@ const jsonLd = {
   },
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
 };
+const jsonLd = { '@context': 'https://schema.org', '@graph': faqLd ? [articleLd, faqLd] : [articleLd] };
 // <title>: Google ~60 karakterden sonrasını keser. Uzun manşetlerde iki noktadan önceki kısım yeterince
 // açıklayıcıysa (25–60 karakter) onu kullan; sayfa içindeki başlık (H1) tam kalır.
 const baslikEtiketi = (() => { const t = (d as any).seoTitle || d.title; if (t.length <= 60) return t; const ok = (x: string) => x.length >= 25 && x.length <= 62 && x !== t; const soru = t.includes('?') ? t.slice(0, t.indexOf('?') + 1).trim() : ''; if (ok(soru)) return soru; const on = t.split(':')[0].trim(); return ok(on) ? on : t; })();
@@ -50,7 +56,7 @@ const baslikEtiketi = (() => { const t = (d as any).seoTitle || d.title; if (t.l
       <header class="head">
         <h1>{d.title}</h1>
         <p class="lede">{d.description}</p>
-        <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time> · <a class="byline" href={`/yazar/${company.editorSlug}`} rel="author">{company.byline}</a></div>
+        <div class="meta small muted"><span class:list={['tag', cat === 'rehber' ? 'green' : 'volt']}>{CATS[cat].label}</span> <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time>{(d as any).updated && <> · Güncellendi: <time datetime={(d as any).updated.toISOString()}>{fmtDate((d as any).updated)}</time></>} · <a class="byline" href={`/yazar/${company.editorSlug}`} rel="author">{company.byline}</a></div>
       </header>
       {img && (
         <figure class="cover-fig">

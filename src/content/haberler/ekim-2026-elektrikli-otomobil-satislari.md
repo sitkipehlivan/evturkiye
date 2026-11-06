@@ -35,7 +35,7 @@ Otomobil ve hafif ticari araç pazarı Ekim'de bir önceki yılın aynı ayına 
 | 9 | [BMW iX3](/modeller/bmw/ix3) | 273 |
 | 10 | [Mercedes-Benz GLB (elektrikli)](/modeller/mercedes-benz/glb) | 252 |
 
-İki Togg modeli birlikte **6.761** adede ulaştı; bu, ayın elektrikli satışlarının yaklaşık yüzde 47'si demek. KG Mobility Torres EVX üçüncü sıraya yükselirken, yeni **Hyundai Ioniq 3** 1.077 adetle dördüncü oldu. Eylül'de üçüncü olan Tesla Model Y ise Ekim'de ilk 10'da yer almadı.
+İki Togg modeli birlikte **6.761** adede ulaştı; bu, ayın elektrikli satışlarının yaklaşık yüzde 47'si demek. KG Mobility Torres EVX üçüncü sıraya yükselirken, yeni **Hyundai Ioniq 3** 1.077 adetle dördüncü oldu. Eylül'de üçüncü olan [Tesla Model Y](/modeller/tesla/model-y/) ise Ekim'de ilk 10'da yer almadı.
 
 ## Yılın ilk 10 ayında tablo ne?
 

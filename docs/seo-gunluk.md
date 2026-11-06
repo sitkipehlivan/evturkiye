@@ -33,20 +33,23 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 
 ## İş listesi (sırayla; tamamlananı [x] yap)
 
-### İl sayfaları (81 ile tamamla; şu an 30 il var)
+### İl sayfaları (81 ile tamamla; şu an 40 il var)
 - [ ] `src/lib/iller.ts` listesine kalan illeri ekle, her gün en fazla 10 il. Öncelik nüfus ve otoyol
-      güzergâhı: Şanlıurfa, Kahramanmaraş, Malatya, Van, Elazığ, Sivas, Kütahya, Uşak, Isparta, Zonguldak,
-      Ordu, Tokat, Çorum, Kırıkkale, Aksaray, Karaman, Osmaniye, Batman, Mardin, Adıyaman, sonra diğerleri.
+      güzergâhı: Ordu, Tokat, Çorum, Kırıkkale, Aksaray, Karaman, Osmaniye, Batman, Mardin, Adıyaman, sonra diğerleri.
       Var olanlar: İstanbul, Kocaeli, Bursa, Sakarya, Tekirdağ, Balıkesir, Çanakkale, Edirne, İzmir, Muğla, Aydın,
       Denizli, Manisa, Afyonkarahisar, Antalya, Adana, Mersin, Hatay, Ankara, Konya, Eskişehir, Kayseri, Nevşehir,
-      Bolu, Samsun, Trabzon, Düzce, Gaziantep, Diyarbakır, Erzurum.
+      Bolu, Samsun, Trabzon, Düzce, Gaziantep, Diyarbakır, Erzurum, Şanlıurfa, Kahramanmaraş, Malatya, Van, Elazığ, Sivas, Kütahya,
+      Uşak, Isparta, Zonguldak.
 
 ### Rota sayfaları (41 → 100)
 - [ ] `src/data/routes.json` listesine popüler şehirlerarası rotalar ekle (her gün en fazla 5).
       km ve süre değerlerini OSRM ya da güvenilir kaynaktan al; tahmin yazma.
 
 ### Rehber sayfaları (her biri ayrı gün)
-- [ ] Evde şarj istasyonu (wallbox) kurulumu: maliyet, başvuru, apartmanda kurulum (KMK izni)
+<!-- Not: ÖTV/MTV (elektrikli-arac-otv-mtv-2026), kış menzili, batarya ömrü, ikinci el batarya sağlığı ve uzun yol
+     ipuçları için rehber zaten var (src/content/haberler/). Bu maddelerde yeni sayfa açma, var olanı güçlendir.
+     Rehberlerde "## Sık sorulan sorular" + "### Soru" başlıkları otomatik FAQPage şemasına dönüşür; `updated:` alanı dateModified olur. -->
+- [x] Evde şarj istasyonu (wallbox) kurulumu: maliyet, başvuru, apartmanda kurulum (KMK izni)
 - [ ] Elektrikli araç ÖTV oranları (güncel, resmi kaynaklı)
 - [ ] Elektrikli araç kasko ve trafik sigortası farkları
 - [ ] Kışın elektrikli araç menzili: ne kadar düşer, nasıl korunur (models.json verisiyle)
@@ -65,3 +68,4 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 
 ## Yapılanlar günlüğü
 <!-- Görev her gün buraya tek satır ekler: - YYYY-MM-DD: yapılanlar (kısa) -->
+- 2026-11-06: Teknik: 60 karakteri aşan 40 <title> kısaltıldı (fitTitle şablon yardımcısı, 6 habere seoTitle), rehberlerde SSS→FAQPage ve updated→dateModified; kırık link/JSON-LD/canonical sorunu yok. İçerik: 10 il eklendi (40/81), wallbox rehberi güçlendirildi (KMK, EPDK, şarj süresi, SSS). İç link: 5 habere model/rota bağlantısı. Rota maddesi atlandı (OSRM bu ortamdan erişilemiyor).

@@ -31,7 +31,7 @@ Kurum açıklamasında, "Nihai metindeki taahhütlerin, şirket bakımından ba�
 
 ## İstanbul–İzmir Otoyolu'nda ne olmuştu?
 
-Kurum, benzer bir sürecin daha önce İstanbul–İzmir Otoyolu'nda yaşandığını hatırlattı. Yaklaşık dört yıl boyunca tek şarj markasının hizmet verdiği bu otoyolda Haziran 2024 itibarıyla 6 marka ve 90 soket bulunuyordu. Ekim 2026 itibarıyla marka sayısı **16**'ya, soket sayısı **750**'ye çıktı; soket sayısı sekiz kattan fazla arttı.
+Kurum, benzer bir sürecin daha önce [İstanbul–İzmir](/rota/istanbul-izmir/) Otoyolu'nda yaşandığını hatırlattı. Yaklaşık dört yıl boyunca tek şarj markasının hizmet verdiği bu otoyolda Haziran 2024 itibarıyla 6 marka ve 90 soket bulunuyordu. Ekim 2026 itibarıyla marka sayısı **16**'ya, soket sayısı **750**'ye çıktı; soket sayısı sekiz kattan fazla arttı.
 
 ## Sürücüler için ne değişecek?
 

@@ -46,7 +46,7 @@ Listenin üst sıraları ağırlıkla premium modellerden oluşuyor. Bütçesi 2
 
 ## Ne anlama geliyor?
 
-- **Listenin başındaki araçlar** 10 dakikalık bir kahve molasında 200 km'nin üzerinde menzil kazanabiliyor; İstanbul–Ankara gibi bir yolda tek kısa mola çoğu zaman yetiyor.
+- **Listenin başındaki araçlar** 10 dakikalık bir kahve molasında 200 km'nin üzerinde menzil kazanabiliyor; [İstanbul–Ankara](/rota/istanbul-ankara/) gibi bir yolda tek kısa mola çoğu zaman yetiyor.
 - **Şarj gücü tek başına yetmiyor:** Aynı güçte şarj olan iki araçtan daha az tüketen, aynı sürede daha fazla yol kazanıyor.
 - **İstasyon da önemli:** Aracınızın maksimum gücünü ancak o gücü verebilen bir ünitede görürsünüz. Tek tarife düzenlemesiyle operatörler artık yüksek güçlü üniteye daha fazla ücret alamıyor; uzun yolda yüksek güçlü istasyonları seçmek avantajlı. Güzergahınızdaki istasyonları [Rota Planlayıcı](/rota-planlayici/) gösteriyor.
 - **Soğuk havada** batarya daha yavaş şarj olur; kışın bu süreler uzayabilir. Ayrıntılar için [kışın menzil rehberimize](/haberler/rehber/kisin-elektrikli-arac-menzili) bakın.

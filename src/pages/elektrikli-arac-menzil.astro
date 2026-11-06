@@ -21,7 +21,7 @@ const jsonLd = [
   { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Elektrikli araç menzil sıralaması', itemListElement: rows.slice(0, 10).map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })) },
 ];
 ---
-<Base title="Elektrikli Araç Menzil Sıralaması: WLTP ve Gerçek Otoyol Menzili" description={`Türkiye'de satılan ${models.length} elektrikli otomobilin WLTP menzili ve 110–120 km/s otoyolda tahmini gerçek menzili. En uzun menzilli elektrikli araçlar listesi.`} jsonLd={jsonLd}>
+<Base title="Elektrikli Araç Menzil Sıralaması: WLTP ve Otoyol Menzili" description={`Türkiye'de satılan ${models.length} elektrikli otomobilin WLTP menzili ve 110–120 km/s otoyolda tahmini gerçek menzili. En uzun menzilli elektrikli araçlar listesi.`} jsonLd={jsonLd}>
   <section class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/elektrikli-arac">Elektrikli Araç Rehberi</a> / Menzil</nav>

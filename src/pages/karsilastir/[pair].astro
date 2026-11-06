@@ -4,6 +4,7 @@ import GuideLinks from '../../components/GuideLinks.astro';
 import '../../styles/compare.css';
 import { avgDc, avgAc, POPULAR_PAIRS, carBySlug, pairSlug, price, monthTr } from '../../lib/ev';
 import { renderCompare, name, hwRange, dcMin, cost100 } from '../../lib/compare';
+import { fitTitle } from '../../lib/util';
 
 export function getStaticPaths() {
   return POPULAR_PAIRS.map(([a, b]) => {
@@ -13,7 +14,7 @@ export function getStaticPaths() {
 }
 const A = carBySlug(Astro.props.a)!, B = carBySlug(Astro.props.b)!;
 const ctx = { avgDc, avgAc };
-const title = `${name(A)} vs ${name(B)}: Menzil, Şarj ve Fiyat`;
+const title = fitTitle(`${name(A)} vs ${name(B)}: Menzil, Şarj ve Fiyat`, `${name(A)} vs ${name(B)}: Menzil ve Fiyat`, `${name(A)} vs ${name(B)} Karşılaştırması`, `${name(A)} vs ${name(B)}`);
 const desc = `${name(A)} ${A.version} ile ${name(B)} ${B.version} karşılaştırması: otoyol menzili ${hwRange(A)} / ${hwRange(B)} km, %10→80 şarj ${dcMin(A)} / ${dcMin(B)} dk${A.priceTL && B.priceTL ? `, fiyat ${price(A.priceTL)} / ${price(B.priceTL)}` : ''}.`;
 const others = POPULAR_PAIRS.filter(([a, b]) => !(a === Astro.props.a && b === Astro.props.b)).slice(0, 6).map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const);
 const tl0 = (v: number) => Math.round(v).toLocaleString('tr-TR') + ' TL';

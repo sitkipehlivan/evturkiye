@@ -20,7 +20,7 @@ const jsonLd = [
   { '@context': 'https://schema.org', '@type': 'ItemList', name: 'En hızlı şarj olan elektrikli araçlar', itemListElement: rows.slice(0, 15).map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })) },
 ];
 ---
-<Base title="En Hızlı Şarj Olan Elektrikli Araçlar: DC Şarj Süresi Sıralaması" description={`Türkiye'de satılan ${rows.length} elektrikli araç versiyonunun %10–80 DC şarj süresi, maksimum şarj gücü ve 10 dakikada kazandırdığı menzil. En hızlısı ${ilk.brand} ${ilk.model}.`} jsonLd={jsonLd} crumbs={[['Şarj rehberi', '/elektrikli-arac-sarj/'], ['En hızlı şarj olan araçlar', '/en-hizli-sarj-olan-elektrikli-araclar/']]}>
+<Base title="En Hızlı Şarj Olan Elektrikli Araçlar: DC Şarj Sıralaması" description={`Türkiye'de satılan ${rows.length} elektrikli araç versiyonunun %10–80 DC şarj süresi, maksimum şarj gücü ve 10 dakikada kazandırdığı menzil. En hızlısı ${ilk.brand} ${ilk.model}.`} jsonLd={jsonLd} crumbs={[['Şarj rehberi', '/elektrikli-arac-sarj/'], ['En hızlı şarj olan araçlar', '/en-hizli-sarj-olan-elektrikli-araclar/']]}>
   <section class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/elektrikli-arac-sarj">Şarj Rehberi</a> / En hızlı şarj olan araçlar</nav>

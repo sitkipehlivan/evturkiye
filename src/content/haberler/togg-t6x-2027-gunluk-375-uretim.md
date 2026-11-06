@@ -1,5 +1,6 @@
 ---
 title: "Bakan Kacır: Togg T6X gelecek yıl satışta, günlük üretim 375 adet"
+seoTitle: "Bakan Kacır: Togg T6X 2027'de satışta, günde 375 üretim"
 description: "Sanayi ve Teknoloji Bakanı Kacır, Togg'un yeni modeli T6X'in 2027'de satışa çıkacağını ve fabrikada günlük üretimin 375 adede ulaştığını açıkladı."
 image: "/images/haberler/togg-t6x-2027-gunluk-375-uretim.jpg"
 imageMode: edit

@@ -1,5 +1,6 @@
 ---
 title: "Türkiye'de satılan plug-in hibrit modeller ve fiyatları (2026)"
+seoTitle: "Türkiye'de satılan plug-in hibrit modeller ve fiyatları"
 description: "Türkiye'de şu an satılan şarj edilebilir hibrit (PHEV) otomobiller: BMW, Volvo, Land Rover ve Mercedes modellerinin fiyatı, sistem gücü, batarya ve elektrikli menzili."
 image: "/images/haberler/turkiyede-satilan-plug-in-hibrit-modeller-2026.jpg"
 imageMode: generate

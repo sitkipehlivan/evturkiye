@@ -24,7 +24,7 @@ Avrupa'nın en köklü otomobil ödülü **Car of the Year (Yılın Otomobili) 2
 | Cupra Raval | Model listemizde henüz yok |
 | [Hyundai IONIQ 3](/modeller/hyundai/ioniq-3) | Evet, İzmit'te üretiliyor |
 | [Kia EV2](/modeller/kia/ev2) | Evet |
-| Renault Twingo E-Tech | Model listemizde henüz yok |
+| [Renault Twingo E-Tech](/modeller/renault/twingo-e-tech/) | Türkiye fiyatı henüz yok |
 | Volkswagen ID. Polo | Model listemizde henüz yok |
 | Volvo EX60 | Model listemizde henüz yok |
 

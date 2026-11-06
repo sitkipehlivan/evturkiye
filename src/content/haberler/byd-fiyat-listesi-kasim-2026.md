@@ -21,7 +21,7 @@ imageCredit: "Wikimedia Commons / User3204, CC BY-SA 4.0 (arka plan yapay zekâ 
 | Model | Versiyon | ÖTV | Liste fiyatı | Kampanyalı fiyat |
 |---|---|---|---|---|
 | BYD Seal 390 kW AWD | Excellence | %75 | 4.077.000 TL | 3.772.000 TL |
-| BYD Tang 380 kW AWD | Flagship | %75 | 5.418.000 TL | — |
+| [BYD Tang](/modeller/byd/tang/) 380 kW AWD | Flagship | %75 | 5.418.000 TL | — |
 
 Fiyatlar 2025 model yılı araçlar için tavsiye edilen anahtar teslim fiyatlardır. İki modelin liste fiyatı Eylül 2026'daki seviyesinde kaldı; değişen, Seal'e uygulanan **305.000 TL**'lik kampanya farkı oldu.
 

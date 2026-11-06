@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import NewsCard from '../../../components/NewsCard.astro';
 import DealCard from '../../../components/DealCard.astro';
 import GuideLinks from '../../../components/GuideLinks.astro';
-import { getNews, getDeals, tl } from '../../../lib/util';
+import { getNews, getDeals, tl, fitTitle } from '../../../lib/util';
 import ModelCard from '../../../components/ModelCard.astro';
 import { models, brands, avgDc, highwayRange, dcMinutes, dcText, per100, modelGroups, price, monthTr } from '../../../lib/ev';
 
@@ -28,7 +28,7 @@ const jsonLd = {
   itemListElement: list.map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })),
 };
 ---
-<Base title={`${name} Elektrikli Araç Modelleri${pd ? ` ve Fiyat Listesi ${monthTr(pd)}` : ': Menzil, Şarj ve Maliyet'}`} image={groups.find((g) => g.image)?.image?.src} description={desc} jsonLd={jsonLd} crumbs={[['Modeller', '/modeller/'], [name, Astro.url.pathname]]}>
+<Base title={fitTitle(...(pd ? [`${name} Elektrikli Araç Modelleri ve Fiyat Listesi ${monthTr(pd)}`, `${name} Elektrikli Araç Fiyat Listesi ${monthTr(pd)}`] : [`${name} Elektrikli Araç Modelleri: Menzil, Şarj ve Maliyet`, `${name} Elektrikli Araç Modelleri: Menzil ve Şarj`]))} image={groups.find((g) => g.image)?.image?.src} description={desc} jsonLd={jsonLd} crumbs={[['Modeller', '/modeller/'], [name, Astro.url.pathname]]}>
   <section class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/modeller">Modeller</a> / {name}</nav>

@@ -36,3 +36,6 @@ export function newsImg(post: { id: string; data: { image?: string } }) {
   return imgIfExists(post.data.image) ?? imgIfExists(`/images/otomatik/${post.id}.png`);
 }
 export const hasRealImg = (post: { data: { image?: string } }) => !!imgIfExists(post.data.image);
+
+/** <title> için: Google ~60 karakterden sonrasını keser; adaylardan 60 karakteri aşmayan ilkini döndürür. */
+export const fitTitle = (...c: string[]) => c.find((t) => t.length <= 60) ?? c[c.length - 1];

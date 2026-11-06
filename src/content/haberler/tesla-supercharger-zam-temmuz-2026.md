@@ -1,5 +1,6 @@
 ---
 title: "Tesla Supercharger'a zam: Tesla dışı araçlar için kWh 13 TL oldu"
+seoTitle: "Tesla Supercharger'a zam: Tesla dışı araçlara kWh 13 TL"
 description: "Tesla, Supercharger şarj ücretlerini Temmuz 2026'da artırdı. Eşarj ise seçili DC istasyonlarda AC fiyatı uygulamaya başladı. Operatör operatör güncel tarifeler."
 image: "/images/haberler/tesla-supercharger-zam-temmuz-2026.jpg"
 imageMode: generate
