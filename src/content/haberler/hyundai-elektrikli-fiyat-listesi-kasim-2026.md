@@ -11,6 +11,7 @@ source: "Webtekno (Hyundai Türkiye)"
 sourceUrl: "https://www.webtekno.com/hyundai-kasim-2026-fiyat-listesi-h228271.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **Hyundai Türkiye**'nin **Kasım 2026 fiyat listesi** yayımlandı. Listede yedi elektrikli model yer alıyor ve kampanya indirimi bu ay yalnızca küçük modellerde uygulanıyor: **Inster** kampanyalı fiyatla **1.520.000 TL**'den, İzmit'te üretilen **IONIQ 3** ise **1.799.000 TL**'den başlıyor. Kona Elektrik'te 130.000 TL, Inster'ın tüm versiyonlarında 150.000 TL indirim var.
