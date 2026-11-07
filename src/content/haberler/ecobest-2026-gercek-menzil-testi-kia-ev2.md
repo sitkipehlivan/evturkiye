@@ -11,6 +11,7 @@ source: "ShiftDelete.Net"
 sourceUrl: "https://shiftdelete.net/elektrikli-otomobil-gercek-menzil-testi-ecobest-2026"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / Alexander Migl, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Otomobil gazetecilerinden oluşan bağımsız uluslararası kuruluş AUTOBEST'in düzenlediği **ECOBEST Challenge 2026 gerçek menzil testinde** 15 markanın 15 elektrikli otomobilinden hiçbiri resmi WLTP menziline ulaşamadı. Eylül sonunda İtalya'nın Vairano kentinde, gerçek trafikte ve aynı koşullarda yapılan sürüşlerde WLTP değerine en çok yaklaşan model, Türkiye'de de satılan **Kia EV2** oldu: 418 km'lik resmi menzile karşı 397 km gidebildi.

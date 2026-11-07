@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/tesla-kasim-2026-fiyat-listesi-h228466.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **Tesla Model Y fiyat listesi Kasım 2026** itibarıyla değişmedi. Tesla Türkiye'nin güncel listesine göre elektrikli SUV'un giriş versiyonu **Arkadan Çekiş** 2.474.985 TL'den, en üst versiyon **Performance Dört Çeker** ise 4.966.500 TL'den satılıyor. Ekim ayında üst versiyonlara 210–223 bin TL zam yapılmıştı; Kasım'da yeni bir artış ya da indirim yok.
