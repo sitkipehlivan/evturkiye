@@ -10,6 +10,22 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Güvenlik başlıkları (tüm sayfalar)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Kamera/mikrofon kapalı. KONUM AÇIK (self): rota ve "yakın şarj istasyonu" özellikleri geolocation kullanıyor.
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(self)"
+    # Hemen zorunlu, hiçbir şeyi kırmayan yapısal CSP korumaları
+    Content-Security-Policy = "base-uri 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests"
+    # Tam CSP önce RAPOR MODUNDA — AdSense, Google Maps embed, photon.komoot.io, Sveltia CMS yığını için
+    # enforce'a geçmeden birkaç gün konsol ihlallerini izleyeceğiz.
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://securepubads.g.doubleclick.net https://pubads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagmanager.com https://adservice.google.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://photon.komoot.io https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.doubleclick.net https://*.googlesyndication.com https://api.github.com https://evturkiye.b-cdn.net; frame-src 'self' https://maps.google.com https://www.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://securepubads.g.doubleclick.net https://www.youtube-nocookie.com; media-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
+
 [[redirects]]
   from = "https://www.evturkiye.com.tr/*"
   to = "https://evturkiye.com.tr/:splat"
