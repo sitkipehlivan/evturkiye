@@ -38,3 +38,5 @@ Webtekno'nun 15 Ekim tarihli derlemesine göre Ekim 2026 itibarıyla Tesla Türk
 ## Model Y'yi şarj etmek kaça mal olur?
 
 Satın alma fiyatının yanında kullanım maliyeti de karar sürecinde belirleyici. Ev ve istasyon şarjı arasındaki farkı [Şarj Maliyeti](/elektrikli-arac-sarj-maliyeti) hesaplayıcısıyla, operatörlerin güncel kWh fiyatlarını ise [Şarj Fiyatları](/sarj-fiyatlari) sayfasında karşılaştırabilirsiniz. Modelin teknik özellikleri ve menzil bilgileri [Tesla Model Y](/modeller/tesla/model-y) sayfasında yer alıyor.
+
+Güncel liste için: [Tesla Model Y fiyat listesi Kasım 2026](/haberler/turkiye/tesla-model-y-fiyat-listesi-kasim-2026)
