@@ -33,13 +33,13 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 
 ## İş listesi (sırayla; tamamlananı [x] yap)
 
-### İl sayfaları (81 ile tamamla; şu an 40 il var)
+### İl sayfaları (81 ile tamamla; şu an 50 il var)
 - [ ] `src/lib/iller.ts` listesine kalan illeri ekle, her gün en fazla 10 il. Öncelik nüfus ve otoyol
-      güzergâhı: Ordu, Tokat, Çorum, Kırıkkale, Aksaray, Karaman, Osmaniye, Batman, Mardin, Adıyaman, sonra diğerleri.
+      güzergâhı: kalan 31 il (Bilecik, Kırşehir, Yozgat, Amasya, Giresun, Rize, Kastamonu, Karabük, Bartın, Sinop, Niğde, Kırklareli, Yalova, Burdur, Siirt, Şırnak, Kilis, Bitlis, Muş, Bingöl, Tunceli, Erzincan, Gümüşhane, Bayburt, Artvin, Ağrı, Iğdır, Kars, Ardahan, Hakkari, Çankırı).
       Var olanlar: İstanbul, Kocaeli, Bursa, Sakarya, Tekirdağ, Balıkesir, Çanakkale, Edirne, İzmir, Muğla, Aydın,
       Denizli, Manisa, Afyonkarahisar, Antalya, Adana, Mersin, Hatay, Ankara, Konya, Eskişehir, Kayseri, Nevşehir,
       Bolu, Samsun, Trabzon, Düzce, Gaziantep, Diyarbakır, Erzurum, Şanlıurfa, Kahramanmaraş, Malatya, Van, Elazığ, Sivas, Kütahya,
-      Uşak, Isparta, Zonguldak.
+      Uşak, Isparta, Zonguldak, Ordu, Tokat, Çorum, Kırıkkale, Aksaray, Karaman, Osmaniye, Batman, Mardin, Adıyaman.
 
 ### Rota sayfaları (41 → 100)
 - [ ] `src/data/routes.json` listesine popüler şehirlerarası rotalar ekle (her gün en fazla 5).
@@ -50,7 +50,7 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
      ipuçları için rehber zaten var (src/content/haberler/). Bu maddelerde yeni sayfa açma, var olanı güçlendir.
      Rehberlerde "## Sık sorulan sorular" + "### Soru" başlıkları otomatik FAQPage şemasına dönüşür; `updated:` alanı dateModified olur. -->
 - [x] Evde şarj istasyonu (wallbox) kurulumu: maliyet, başvuru, apartmanda kurulum (KMK izni)
-- [ ] Elektrikli araç ÖTV oranları (güncel, resmi kaynaklı)
+- [x] Elektrikli araç ÖTV oranları (güncel, resmi kaynaklı)
 - [ ] Elektrikli araç kasko ve trafik sigortası farkları
 - [ ] Kışın elektrikli araç menzili: ne kadar düşer, nasıl korunur (models.json verisiyle)
 - [ ] Elektrikli araç batarya ömrü ve garanti süreleri (marka marka, models.json verisiyle)
@@ -69,3 +69,4 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 ## Yapılanlar günlüğü
 <!-- Görev her gün buraya tek satır ekler: - YYYY-MM-DD: yapılanlar (kısa) -->
 - 2026-11-06: Teknik: 60 karakteri aşan 40 <title> kısaltıldı (fitTitle şablon yardımcısı, 6 habere seoTitle), rehberlerde SSS→FAQPage ve updated→dateModified; kırık link/JSON-LD/canonical sorunu yok. İçerik: 10 il eklendi (40/81), wallbox rehberi güçlendirildi (KMK, EPDK, şarj süresi, SSS). İç link: 5 habere model/rota bağlantısı. Rota maddesi atlandı (OSRM bu ortamdan erişilemiyor).
+- 2026-11-07: Teknik: kırık link, title/description, canonical, noindex, JSON-LD, sitemap sorunu yok. İçerik: 10 il eklendi (50/81), ÖTV rehberi güçlendirildi (10115 sayılı Karar, asgari ÖTV, örnek hesap, PHEV dilimleri, 5 SSS, kaynaklar). İç link: 4 habere model/il bağlantısı. Rota maddesi atlandı (OSRM yine erişilemiyor).

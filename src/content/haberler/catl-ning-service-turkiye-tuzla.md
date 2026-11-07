@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-Dünyanın en büyük elektrikli araç bataryası üreticisi **CATL**'nin küresel satış sonrası markası **NING Service**, Türkiye'deki servis merkezini **19 Kasım 2026**'da İstanbul **Tuzla**'da açmaya hazırlanıyor. Merkezi, CATL'nin Türkiye'deki resmi servis sağlayıcısı olan **Ascendum**, Green.Shift adlı iş modeli kapsamında işletecek. Açılış tarihi 29 Ekim'de basına yansıdı; Ascendum Türkiye de merkezin Kasım ayında açılacağını kendi sitesinde duyurmuştu.
+Dünyanın en büyük elektrikli araç bataryası üreticisi **CATL**'nin küresel satış sonrası markası **NING Service**, Türkiye'deki servis merkezini **19 Kasım 2026**'da [İstanbul](/sarj-istasyonlari/istanbul/) **Tuzla**'da açmaya hazırlanıyor. Merkezi, CATL'nin Türkiye'deki resmi servis sağlayıcısı olan **Ascendum**, Green.Shift adlı iş modeli kapsamında işletecek. Açılış tarihi 29 Ekim'de basına yansıdı; Ascendum Türkiye de merkezin Kasım ayında açılacağını kendi sitesinde duyurmuştu.
 
 ## Merkezde hangi hizmetler verilecek?
 
@@ -36,6 +36,6 @@ Batarya yıpranması ve garanti şartları hakkında ayrıntılı bilgi için [E
 
 ## Togg ile bağlantısı ne?
 
-Togg, Mayıs ayında CATL'nin iştiraki **CAIT** ile yeni bir B segmenti model ailesi için anlaşma imzalamıştı. Bu anlaşmaya göre CAIT platform teknolojisini sağlıyor; ilk modellerin 2027'nin ortasından itibaren kademeli olarak satışa sunulması hedefleniyor. Togg kullanıcılarının NING Service'ten yararlanıp yararlanmayacağı ise henüz netleşmedi.
+[Togg](/modeller/togg), Mayıs ayında CATL'nin iştiraki **CAIT** ile yeni bir B segmenti model ailesi için anlaşma imzalamıştı. Bu anlaşmaya göre CAIT platform teknolojisini sağlıyor; ilk modellerin 2027'nin ortasından itibaren kademeli olarak satışa sunulması hedefleniyor. Togg kullanıcılarının NING Service'ten yararlanıp yararlanmayacağı ise henüz netleşmedi.
 
 Türkiye'de satılan elektrikli modellerin batarya kapasitelerini ve menzillerini [Modeller](/modeller) ve [Menzil Sıralaması](/elektrikli-arac-menzil) sayfalarımızda karşılaştırabilirsiniz.

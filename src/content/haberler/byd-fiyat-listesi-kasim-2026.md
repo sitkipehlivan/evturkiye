@@ -14,7 +14,7 @@ draft: false
 imageCredit: "Wikimedia Commons / User3204, CC BY-SA 4.0 (arka plan yapay zekâ ile düzenlendi)"
 ---
 
-**BYD Türkiye**'nin resmi sitesinde yayımlanan **Kasım 2026 fiyat listesinde** yalnızca iki elektrikli otomobil yer alıyor: **Seal** ve **Tang**. Liste, 5 Kasım 2026 tarihi için geçerli. Markanın en uygun fiyatlı modeli olan Seal 390 kW AWD Excellence, **4.077.000 TL** liste fiyatına karşılık **3.772.000 TL** kampanyalı fiyatla satılıyor. Eylül listesinde bulunan **Sealion 7** ise Kasım listesinde yer almıyor.
+**BYD Türkiye**'nin resmi sitesinde yayımlanan **Kasım 2026 fiyat listesinde** yalnızca iki elektrikli otomobil yer alıyor: **Seal** ve **Tang**. Liste, 5 Kasım 2026 tarihi için geçerli. Markanın en uygun fiyatlı modeli olan Seal 390 kW AWD Excellence, **4.077.000 TL** liste fiyatına karşılık **3.772.000 TL** kampanyalı fiyatla satılıyor. Eylül listesinde bulunan **[Sealion 7](/modeller/byd/sealion-7)** ise Kasım listesinde yer almıyor.
 
 ## BYD Kasım 2026 fiyatları ne kadar?
 
@@ -27,7 +27,7 @@ Fiyatlar 2025 model yılı araçlar için tavsiye edilen anahtar teslim fiyatlar
 
 ## Hangi modeller listeden çıktı?
 
-BYD'nin Türkiye gamı 2026 boyunca kademeli olarak daraldı. Eylül listesinde Seal, Sealion 7 ve Tang olmak üzere üç model vardı. Kasım listesinde ise Sealion 7'ye fiyat verilmiyor. Markanın sitesinde Atto 2, Dolphin, Atto 3, Seal U ve Han için model sayfaları bulunsa da bu modellerin hiçbiri fiyat listesinde yer almıyor. Böylece BYD'nin Türkiye'de fiyatı açıklanan tüm elektrikli otomobilleri yüzde 75 ÖTV dilimindeki yüksek güçlü, dört tekerlekten çekişli versiyonlardan oluşuyor.
+BYD'nin Türkiye gamı 2026 boyunca kademeli olarak daraldı. Eylül listesinde Seal, Sealion 7 ve Tang olmak üzere üç model vardı. Kasım listesinde ise Sealion 7'ye fiyat verilmiyor. Markanın sitesinde [Atto 2](/modeller/byd/atto-2), [Dolphin](/modeller/byd/dolphin), [Atto 3](/modeller/byd/atto-3), [Seal U](/modeller/byd/seal-u) ve [Han](/modeller/byd/han) için model sayfaları bulunsa da bu modellerin hiçbiri fiyat listesinde yer almıyor. Böylece BYD'nin Türkiye'de fiyatı açıklanan tüm elektrikli otomobilleri yüzde 75 ÖTV dilimindeki yüksek güçlü, dört tekerlekten çekişli versiyonlardan oluşuyor.
 
 ## Tang için kredi kampanyası var mı?
 

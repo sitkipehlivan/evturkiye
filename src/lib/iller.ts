@@ -15,6 +15,10 @@ export const ILLER: Il[] = [
   { ad: 'Şanlıurfa', bolge: 'Güneydoğu Anadolu' }, { ad: 'Kahramanmaraş', bolge: 'Akdeniz' }, { ad: 'Malatya', bolge: 'Doğu Anadolu' },
   { ad: 'Van', bolge: 'Doğu Anadolu' }, { ad: 'Elazığ', bolge: 'Doğu Anadolu' }, { ad: 'Sivas', bolge: 'İç Anadolu' },
   { ad: 'Kütahya', bolge: 'Ege' }, { ad: 'Uşak', bolge: 'Ege' }, { ad: 'Isparta', bolge: 'Akdeniz' }, { ad: 'Zonguldak', bolge: 'Karadeniz' },
+  { ad: 'Ordu', bolge: 'Karadeniz' }, { ad: 'Tokat', bolge: 'Karadeniz' }, { ad: 'Çorum', bolge: 'Karadeniz' },
+  { ad: 'Kırıkkale', bolge: 'İç Anadolu' }, { ad: 'Aksaray', bolge: 'İç Anadolu' }, { ad: 'Karaman', bolge: 'İç Anadolu' },
+  { ad: 'Osmaniye', bolge: 'Akdeniz' }, { ad: 'Batman', bolge: 'Güneydoğu Anadolu' }, { ad: 'Mardin', bolge: 'Güneydoğu Anadolu' },
+  { ad: 'Adıyaman', bolge: 'Güneydoğu Anadolu' },
 ];
 const TR: Record<string, string> = { ç: 'c', ğ: 'g', ı: 'i', i: 'i', ö: 'o', ş: 's', ü: 'u' };
 export const ilSlug = (ad: string) => ad.toLocaleLowerCase('tr').replace(/[çğıiöşü]/g, (c) => TR[c]).replace(/[^a-z0-9]+/g, '-');
