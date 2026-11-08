@@ -7,3 +7,7 @@
 - Kullanıcıyla canlı çalışırken kullanıcının hemen görmesi gereken bir değişiklikte, oturumdaki **son** commit mesajının sonuna `[deploy]` ekle (bekleyen her şey birlikte çıkar). Ara commit'lere ekleme; her `[deploy]` bir yayın = 15 kredi.
 - Zamanlanmış görevler, haber/görsel botları ve GitHub iş akışları `[deploy]` **eklemez**; değişiklikleri bir sonraki toplu yayında çıkar. Raporda "canlıda" yerine "bir sonraki toplu yayında (12:53) canlıya çıkacak" de.
 - Hemen yayın gerekirse: `git commit --allow-empty -m "Yayın [deploy]" && git push`.
+
+## Instagram Reels
+- Üretim kuralları ve spesifikasyon biçimi: `docs/reels.md`. Günlük kayıt: `docs/reels-gunluk.md`.
+- Videolar `social/reels/` altına yazılır ve depoya girmez; yalnızca spesifikasyon JSON'ları ve günlük commit edilir.

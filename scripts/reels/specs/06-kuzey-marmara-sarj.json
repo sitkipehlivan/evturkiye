@@ -1,0 +1,76 @@
+{
+ "haber": "/haberler/turkiye/kuzey-marmara-otoyolu-sarj-rekabet-kurulu",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.4,
+   "kicker": "REKABET KURULU · 4 KASIM 2026",
+   "h1": "Kuzey Marmara Otoyolu",
+   "h2": "tüm şarj markalarına açılıyor.",
+   "foto": "/public/images/haberler/kuzey-marmara-otoyolu-sarj-rekabet-kurulu.jpg",
+   "altyazi": [
+    "Kuzey Marmara Otoyolu'ndaki şarj hizmetleri rakip operatörlere açılıyor."
+   ]
+  },
+  {
+   "tur": "adimlar",
+   "sure": 5.6,
+   "kicker": "KABUL EDİLEN TAAHHÜTLER",
+   "h1": "Ne değişiyor?",
+   "h2": "3 madde.",
+   "satirlar": [
+    {
+     "baslik": "Münhasırlık yok",
+     "alt": "Hiçbir operatörle tekel sözleşmesi yapılmayacak"
+    },
+    {
+     "baslik": "Eşit koşullar",
+     "alt": "Tüm operatörlere aynı ticari şartlar"
+    },
+    {
+     "baslik": "Takvim",
+     "alt": "Başvurular 2 ayda açılacak, 4 ayda bitecek"
+    }
+   ],
+   "altyazi": [
+    "Otoyoldaki şarj hizmeti işletmeciyle aynı gruptaki iki markayla sınırlıydı.",
+    "Artık her operatör eşit şartlarla başvurabilecek."
+   ]
+  },
+  {
+   "tur": "cubuklar",
+   "sure": 5.4,
+   "kicker": "İSTANBUL–İZMİR OTOYOLU",
+   "h1": "Örnek ortada:",
+   "h2": "soket 8 kat arttı.",
+   "kaynak": "Kaynak: Rekabet Kurumu",
+   "satirlar": [
+    {
+     "etiket": "HAZİRAN 2024 · SOKET SAYISI",
+     "alt": "6 marka",
+     "deger": "90",
+     "oran": 0.12,
+     "renk": "gri"
+    },
+    {
+     "etiket": "EKİM 2026 · SOKET SAYISI",
+     "alt": "16 marka",
+     "deger": "750",
+     "oran": 1.0,
+     "renk": "yesil"
+    }
+   ],
+   "altyazi": [
+    "Aynı süreçten sonra İstanbul–İzmir Otoyolu'nda soket sayısı 90'dan 750'ye çıktı.",
+    "Marka sayısı 6'dan 16'ya yükseldi."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Haberin tamamı: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

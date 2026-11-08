@@ -1,0 +1,109 @@
+{
+ "haber": "/haberler/turkiye/togg-4-yil-126-bin-satis",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "ODMD · 2023–EYLÜL 2026",
+   "h1": "Togg 4 yılda",
+   "h2": "126 bini aştı.",
+   "foto": "/public/images/haberler/togg-4-yil-126-bin-satis.jpg",
+   "sayi": {
+    "etiket": "KULLANICIYA ULAŞAN TOGG",
+    "deger": 126122
+   },
+   "altyazi": [
+    "Seri üretimin başladığı 2023'ten bu yana 126.122 Togg satıldı."
+   ]
+  },
+  {
+   "tur": "cubuklar",
+   "sure": 5.6,
+   "kicker": "YILLARA GÖRE SATIŞ",
+   "h1": "Her yıl",
+   "h2": "daha fazla.",
+   "kaynak": "Kaynak: ODMD verileri (AA)",
+   "satirlar": [
+    {
+     "etiket": "2023",
+     "deger": "19.583",
+     "oran": 0.502,
+     "renk": "gri"
+    },
+    {
+     "etiket": "2024",
+     "deger": "30.093",
+     "oran": 0.771,
+     "renk": "mavi"
+    },
+    {
+     "etiket": "2025",
+     "deger": "39.020",
+     "oran": 1.0,
+     "renk": "mavi"
+    },
+    {
+     "etiket": "2026 · OCAK–EYLÜL",
+     "deger": "37.426",
+     "oran": 0.959,
+     "renk": "yesil"
+    }
+   ],
+   "altyazi": [
+    "2026'nın ilk 9 ayı, 2025'in tamamına şimdiden yaklaştı.",
+    "Aradaki fark yalnızca 1.594 adet."
+   ]
+  },
+  {
+   "tur": "sayi",
+   "sure": 4.6,
+   "kicker": "2026 · İLK 9 AY",
+   "h1": "Her 3 elektrikliden",
+   "h2": "biri Togg.",
+   "kaynak": "Kaynak: ODMD",
+   "etiket": "ELEKTRİKLİ PAZARDAKİ PAYI",
+   "deger": 31,
+   "on": "%",
+   "altyazi": [
+    "2026'nın ilk 9 ayında Türkiye'deki elektrikli satışlarının yüzde 31'i Togg'un."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.0,
+   "kicker": "ÜÇÜNCÜ MODEL",
+   "h1": "Sırada",
+   "h2": "T6X var.",
+   "kaynak": "Fuat Tosyalı, AA Finans",
+   "satirlar": [
+    {
+     "sol": "Satış tarihi",
+     "sag": "Haziran 2027 (plan)",
+     "renk": "mavi"
+    },
+    {
+     "sol": "Fiyat",
+     "alt": "\"Çok çok daha hesaplı\"",
+     "sag": "Açıklanmadı",
+     "renk": "gri"
+    },
+    {
+     "sol": "Batarya ve menzil",
+     "sag": "Açıklanmadı",
+     "renk": "gri"
+    }
+   ],
+   "altyazi": [
+    "Üçüncü model T6X'in Haziran 2027'de satışa çıkması planlanıyor.",
+    "Fiyat, batarya ve menzil henüz açıklanmadı."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Haberin tamamı: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

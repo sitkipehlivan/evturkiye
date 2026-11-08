@@ -1,0 +1,85 @@
+{
+ "haber": "/haberler/turkiye/hyundai-elektrikli-fiyat-listesi-kasim-2026",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "HYUNDAI · KASIM 2026",
+   "h1": "Inster'da",
+   "h2": "150 bin TL indirim.",
+   "arac": "hyundai-inster",
+   "sayi": {
+    "etiket": "TÜM INSTER VERSİYONLARINDA",
+    "deger": 150000,
+    "son": " TL"
+   },
+   "altyazi": [
+    "Hyundai'nin Kasım listesinde Inster'ın tüm versiyonlarında 150 bin TL indirim var."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.6,
+   "kicker": "KAMPANYALI FİYATLAR",
+   "h1": "Inster",
+   "h2": "1,52 milyon TL'den.",
+   "kaynak": "Kaynak: Hyundai Türkiye · Kasım 2026",
+   "satirlar": [
+    {
+     "sol": "Inster Dynamic",
+     "alt": "71,1 kW",
+     "sag": "1.520.000 TL",
+     "eski": "1.670.000 TL",
+     "vurgu": true
+    },
+    {
+     "sol": "Inster Advance",
+     "alt": "84,5 kW",
+     "sag": "1.770.000 TL",
+     "eski": "1.920.000 TL"
+    },
+    {
+     "sol": "Inster Cross Advance",
+     "alt": "84,5 kW",
+     "sag": "1.820.000 TL",
+     "eski": "1.970.000 TL"
+    },
+    {
+     "sol": "Kona Elektrik Advance",
+     "alt": "99 kW",
+     "sag": "2.349.000 TL",
+     "eski": "2.479.000 TL"
+    }
+   ],
+   "altyazi": [
+    "Inster kampanyalı fiyatla 1.520.000 TL'den başlıyor.",
+    "Kona Elektrik'te de 130 bin TL indirim var."
+   ]
+  },
+  {
+   "tur": "hero",
+   "sure": 4.8,
+   "kicker": "YENİ · İZMİT ÜRETİMİ",
+   "h1": "IONIQ 3",
+   "h2": "listeye girdi.",
+   "arac": "hyundai-ioniq-3",
+   "sayi": {
+    "etiket": "IONIQ 3 SELECT · BAŞLANGIÇ",
+    "deger": 1799000,
+    "son": " TL",
+    "renk": "mavi"
+   },
+   "altyazi": [
+    "Ekim'de satışa çıkan IONIQ 3, 1.799.000 TL'den başlıyor.",
+    "Bu ay IONIQ 3'te kampanya yok."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Haberin tamamı: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

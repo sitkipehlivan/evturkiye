@@ -1,0 +1,29 @@
+{
+  "haber": "/haberler/turkiye/ekim-2026-elektrikli-otomobil-satislari",
+  "sahneler": [
+    {"tur": "hero", "sure": 4.4, "kicker": "ODMD · EKİM 2026 · TÜRKİYE", "h1": "Pazar küçüldü,", "h2": "elektrikli büyüdü.",
+     "arac": "togg-t10x", "sayi": {"etiket": "ELEKTRİKLİNİN PAYI", "deger": 22.3, "ondalik": 1, "on": "%"},
+     "altyazi": ["Ekim'de satılan her 100 yeni otomobilden 22'si elektrikliydi."]},
+    {"tur": "sayi", "sure": 4.6, "kicker": "ADET · EKİM 2026", "h1": "Tek ayda", "h2": "14.467 elektrikli.", "kaynak": "Kaynak: ODMD",
+     "etiket": "SATILAN ELEKTRİKLİ OTOMOBİL", "deger": 14467,
+     "cubuk": {"oran": 0.1064, "sol": "OCAK–EKİM TOPLAMI", "sag": "135.979"},
+     "altyazi": ["Ekim'de 14.467 elektrikli otomobil satıldı.", "Yılın toplamı 136 bine yaklaştı."]},
+    {"tur": "cubuklar", "sure": 6.0, "kicker": "BİNEK PAZARI · EKİM", "h1": "Pazar düşerken", "h2": "pay arttı.", "kaynak": "Kaynak: ODMD · Ekim 2025 payı ~%16",
+     "satirlar": [
+       {"etiket": "BİNEK SATIŞI (YILLIK)", "alt": "64.939 adet", "deger": "-%28,4", "oran": 0.716, "renk": "kirmizi"},
+       {"etiket": "ELEKTRİKLİ PAYI · EKİM 2025", "alt": "Geçen yıl", "deger": "~%16", "oran": 0.533, "renk": "gri"},
+       {"etiket": "ELEKTRİKLİ PAYI · EKİM 2026", "alt": "Bu yıl", "deger": "%22,3", "oran": 0.743, "renk": "yesil"}],
+     "altyazi": ["Toplam binek satışı yüzde 28 düştü.", "Elektriklinin payı ise yüzde 16'dan 22,3'e çıktı."]},
+    {"tur": "siralama", "sure": 6.4, "kicker": "EN ÇOK SATAN · EKİM 2026", "h1": "Zirve yine", "h2": "Togg'un.", "kaynak": "Kaynak: ODMD",
+     "satirlar": [
+       {"arac": "togg-t10x", "ad": "Togg T10X", "deger": "4.059", "oran": 4059, "renk": "yesil"},
+       {"arac": "togg-t10f", "ad": "Togg T10F", "deger": "2.702", "oran": 2702, "renk": "yesil"},
+       {"arac": "kgm-torres-evx", "ad": "KGM Torres EVX", "deger": "1.705", "oran": 1705, "renk": "mavi"},
+       {"arac": "hyundai-ioniq-3", "ad": "Hyundai IONIQ 3", "deger": "1.077", "oran": 1077, "renk": "mavi"}],
+     "altyazi": ["İlk iki sıra Togg'un: toplam 6.761 adet.", "Torres EVX üçüncü, yeni IONIQ 3 dördüncü."]},
+    {"tur": "etiket", "sure": 4.6, "kicker": "İLK 10 · EKİM 2026", "h1": "Sürpriz:", "h2": "Model Y listede yok.", "kaynak": "Eylül 2026: 3. sıra",
+     "arac": "tesla-model-y", "gri": true, "etiket": "İLK 10 DIŞI",
+     "altyazi": ["Eylül'de üçüncü olan Tesla Model Y, Ekim'de ilk 10'a giremedi."]},
+    {"tur": "kapanis", "sure": 3.2, "link": "Haberin tamamı: evturkiye.online"}
+  ]
+}

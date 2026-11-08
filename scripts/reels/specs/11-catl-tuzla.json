@@ -1,0 +1,77 @@
+{
+ "haber": "/haberler/turkiye/catl-ning-service-turkiye-tuzla",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "CATL · NING SERVICE · 19 KASIM",
+   "h1": "Batarya servisi",
+   "h2": "Tuzla'da açılıyor.",
+   "foto": "/public/images/haberler/catl-ning-service-turkiye-tuzla.jpg",
+   "altyazi": [
+    "Dünyanın en büyük batarya üreticisi CATL, Türkiye servis merkezini 19 Kasım'da Tuzla'da açıyor."
+   ]
+  },
+  {
+   "tur": "adimlar",
+   "sure": 5.4,
+   "kicker": "HİZMETLER",
+   "h1": "Merkezde",
+   "h2": "neler yapılacak?",
+   "satirlar": [
+    {
+     "baslik": "Arıza tespiti ve onarım",
+     "alt": "CATL bataryalı araçlar ve enerji depolama"
+    },
+    {
+     "baslik": "Garanti ve izleme",
+     "alt": "Bataryanın dijital olarak izlenmesi"
+    },
+    {
+     "baslik": "Hücre düzeyinde onarım",
+     "alt": "İlerleyen dönemde eklenecek"
+    }
+   ],
+   "altyazi": [
+    "Arıza tespiti, bakım, garanti yönetimi ve batarya izleme hizmeti verilecek."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.4,
+   "kicker": "ARAÇ SAHİPLERİ İÇİN",
+   "h1": "Senin için",
+   "h2": "ne değişir?",
+   "kaynak": "Kaynak: Ascendum Türkiye",
+   "satirlar": [
+    {
+     "sol": "Aracı Tuzla'ya götürmek",
+     "sag": "Gerekmiyor",
+     "renk": "mavi"
+    },
+    {
+     "sol": "Garanti ve servis",
+     "sag": "Marka serviste",
+     "renk": "mavi"
+    },
+    {
+     "sol": "Zor batarya arızaları",
+     "alt": "Yurt dışına gitmeden",
+     "sag": "Tuzla'da çözülebilir",
+     "vurgu": true
+    }
+   ],
+   "altyazi": [
+    "Garanti ve servis süreçleri marka servislerinde kalıyor.",
+    "Servisin çözemediği batarya işleri bu merkeze yönlendirilebilecek."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Haberin tamamı: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

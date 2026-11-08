@@ -1,0 +1,97 @@
+{
+ "haber": "/rota-planlayici",
+ "site": true,
+ "sahneler": [
+  {
+   "tur": "rota",
+   "sure": 5.4,
+   "kicker": "ROTA PLANLAYICI · ÜCRETSİZ",
+   "h1": "İstanbul–Ankara:",
+   "h2": "kaç şarj, kaç TL?",
+   "kaynak": "Togg T10X RWD Uzun Menzil · tahmini",
+   "nereden": "İstanbul",
+   "nereye": "Ankara",
+   "duraklar": [
+    0.62
+   ],
+   "istatistik": [
+    [
+     "MESAFE",
+     "434 km"
+    ],
+    [
+     "SÜRÜŞ",
+     "~4 sa 25 dk"
+    ],
+    [
+     "ŞARJ MOLASI",
+     "1"
+    ]
+   ],
+   "altyazi": [
+    "Togg T10X ile İstanbul'dan Ankara'ya gidiyorsun.",
+    "Yolda tek bir şarj molası yetiyor."
+   ]
+  },
+  {
+   "tur": "adimlar",
+   "sure": 5.2,
+   "kicker": "NASIL ÇALIŞIR?",
+   "h1": "3 adımda",
+   "h2": "rotanı planla.",
+   "satirlar": [
+    {
+     "baslik": "Nereden, nereye?",
+     "alt": "Adresi yaz, öneriler anında gelsin"
+    },
+    {
+     "baslik": "Aracını seç",
+     "alt": "Gerçek otoyol tüketimiyle hesaplanır"
+    },
+    {
+     "baslik": "Durakları ve maliyeti gör",
+     "alt": "Şarj durakları, süre ve yol maliyeti"
+    }
+   ],
+   "altyazi": [
+    "Başlangıç ve varış noktanı yaz, aracını seç.",
+    "Şarj duraklarını, süreyi ve maliyeti anında gör."
+   ]
+  },
+  {
+   "tur": "cubuklar",
+   "sure": 5.2,
+   "kicker": "İSTANBUL–ANKARA · ENERJİ",
+   "h1": "Yol maliyeti",
+   "h2": "~1.360 TL.",
+   "kaynak": "Ekim 2026 operatör fiyatları · tahmini",
+   "satirlar": [
+    {
+     "etiket": "ORTALAMA HIZLI ŞARJ FİYATIYLA",
+     "alt": "13,69 TL/kWh",
+     "deger": "~1.360 TL",
+     "oran": 1.0,
+     "renk": "mavi"
+    },
+    {
+     "etiket": "EN UCUZ OPERATÖRLE",
+     "alt": "9,73 TL/kWh",
+     "deger": "~970 TL",
+     "oran": 0.71,
+     "renk": "yesil"
+    }
+   ],
+   "altyazi": [
+    "Yolun tüm enerjisini hızlı şarjdan alsan bile maliyet ~1.360 TL.",
+    "En ucuz operatörü seçersen ~970 TL'ye iniyor."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "evturkiye.online/rota-planlayici",
+   "alt": "Rotanı ücretsiz planla",
+   "buton": "Hemen dene"
+  }
+ ]
+}

@@ -1,0 +1,120 @@
+{
+ "haber": "/haberler/dunya/ecobest-2026-gercek-menzil-testi-kia-ev2",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "ECOBEST 2026 · GERÇEK MENZİL",
+   "h1": "15 elektrikli test edildi:",
+   "h2": "hiçbiri WLTP'yi tutmadı.",
+   "foto": "/public/images/haberler/ecobest-2026-gercek-menzil-testi-kia-ev2.jpg",
+   "sayi": {
+    "etiket": "KIA EV2 · RESMİ MENZİLE YAKINLIK",
+    "deger": 95,
+    "on": "%"
+   },
+   "altyazi": [
+    "Bağımsız testte 15 elektrikli otomobilin hiçbiri resmi menziline ulaşamadı."
+   ]
+  },
+  {
+   "tur": "cubuklar",
+   "sure": 4.8,
+   "kicker": "TEST BİRİNCİSİ",
+   "h1": "Birinci:",
+   "h2": "Kia EV2.",
+   "kaynak": "Kaynak: AUTOBEST / ECOBEST Challenge 2026",
+   "satirlar": [
+    {
+     "etiket": "RESMİ (WLTP) MENZİL",
+     "alt": "Kağıt üstünde",
+     "deger": "418 km",
+     "oran": 1.0,
+     "renk": "gri"
+    },
+    {
+     "etiket": "GERÇEK TRAFİKTE ÖLÇÜLEN",
+     "alt": "Yüzde 95",
+     "deger": "397 km",
+     "oran": 0.95,
+     "renk": "yesil"
+    }
+   ],
+   "altyazi": [
+    "418 km'lik resmi menzile karşı 397 km gitti.",
+    "Oran yüzde 95: testin en iyisi."
+   ]
+  },
+  {
+   "tur": "siralama",
+   "sure": 6.2,
+   "kicker": "ÖLÇÜLEN / WLTP",
+   "h1": "Kim ne kadar",
+   "h2": "gidebildi?",
+   "kaynak": "Kaynak: AUTOBEST / ECOBEST Challenge 2026",
+   "satirlar": [
+    {
+     "ad": "Kia EV2",
+     "alt": "WLTP 418 · 397 km",
+     "deger": "%95,0",
+     "oran": 95.0,
+     "renk": "yesil"
+    },
+    {
+     "ad": "Audi Q4 e-tron",
+     "alt": "511 · 473 km",
+     "deger": "%92,6",
+     "oran": 92.6,
+     "renk": "mavi"
+    },
+    {
+     "ad": "Tesla Model Y",
+     "alt": "525 · 466 km",
+     "deger": "%88,8",
+     "oran": 88.8,
+     "renk": "mavi"
+    },
+    {
+     "ad": "BMW iX3",
+     "alt": "737 · 640 km",
+     "deger": "%86,8",
+     "oran": 86.8,
+     "renk": "mavi"
+    },
+    {
+     "ad": "Mercedes-Benz CLA 250+",
+     "alt": "772 · 613 km",
+     "deger": "%79,4",
+     "oran": 79.4,
+     "renk": "kirmizi"
+    }
+   ],
+   "altyazi": [
+    "Çoğu model resmi değerin yüzde 80–90'ında kaldı.",
+    "En uzun gerçek menzil BMW iX3'te: 640 km."
+   ]
+  },
+  {
+   "tur": "sayi",
+   "sure": 4.6,
+   "kicker": "SATIN ALMADAN ÖNCE",
+   "h1": "Kendi hesabın için",
+   "h2": "WLTP'den düş.",
+   "etiket": "GERÇEK KULLANIMDA OLASI KAYIP",
+   "deger": 20,
+   "on": "-%",
+   "renk": "kirmizi",
+   "alt": "Genelde %10–20, kışın daha fazla",
+   "altyazi": [
+    "Satın alırken WLTP menzilinin yüzde 10–20 düşük çıkabileceğini hesaba kat."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Haberin tamamı: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

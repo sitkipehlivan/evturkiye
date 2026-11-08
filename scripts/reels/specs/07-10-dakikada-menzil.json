@@ -1,0 +1,111 @@
+{
+ "haber": "/haberler/rehber/10-dakikada-en-cok-menzil-kazandiran-elektrikliler",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "REHBER · HIZLI ŞARJ",
+   "h1": "10 dakika şarj,",
+   "h2": "255 km yol.",
+   "arac": "bmw-ix3",
+   "kaynak": "EV Türkiye hesabı · ortalama DC gücüyle",
+   "sayi": {
+    "etiket": "BMW iX3 · 10 DK DC ŞARJDA KAZANILAN",
+    "deger": 255,
+    "on": "~",
+    "son": " km"
+   },
+   "altyazi": [
+    "Uzun yolda önemli olan şarj gücü değil, mola başına kazandığın menzil."
+   ]
+  },
+  {
+   "tur": "siralama",
+   "sure": 5.8,
+   "kicker": "10 DAKİKADA KAZANILAN MENZİL",
+   "h1": "Kahve molasında",
+   "h2": "200 km+.",
+   "kaynak": "EV Türkiye hesabı · otoyol tüketimiyle",
+   "satirlar": [
+    {
+     "ad": "BMW iX3 50 xDrive",
+     "deger": "~255 km",
+     "oran": 255,
+     "renk": "yesil"
+    },
+    {
+     "ad": "Mercedes-Benz CLA 200+",
+     "deger": "~237 km",
+     "oran": 237,
+     "renk": "yesil"
+    },
+    {
+     "ad": "Mercedes-Benz C 400 4MATIC",
+     "deger": "~229 km",
+     "oran": 229,
+     "renk": "mavi"
+    },
+    {
+     "ad": "Porsche Cayenne Electric",
+     "deger": "~216 km",
+     "oran": 216,
+     "renk": "mavi"
+    },
+    {
+     "ad": "Mercedes-Benz GLC 400 4MATIC",
+     "deger": "~215 km",
+     "oran": 215,
+     "renk": "mavi"
+    }
+   ],
+   "altyazi": [
+    "Listenin başındaki modeller 10 dakikada 200 km'nin üzerinde menzil kazanıyor."
+   ]
+  },
+  {
+   "tur": "siralama",
+   "sure": 5.4,
+   "kicker": "2,5 MİLYON TL ALTI",
+   "h1": "Bütçe dostu",
+   "h2": "en hızlılar.",
+   "kaynak": "EV Türkiye hesabı · Ekim 2026 liste fiyatları",
+   "satirlar": [
+    {
+     "arac": "tesla-model-y",
+     "ad": "Tesla Model Y RWD",
+     "alt": "2.474.985 TL",
+     "deger": "~126 km",
+     "oran": 126,
+     "renk": "yesil"
+    },
+    {
+     "arac": "togg-t10f",
+     "ad": "Togg T10F Uzun Menzil",
+     "alt": "2.195.600 TL",
+     "deger": "~110 km",
+     "oran": 110,
+     "renk": "mavi"
+    },
+    {
+     "arac": "togg-t10f",
+     "ad": "Togg T10F Standart Menzil",
+     "alt": "1.884.980 TL",
+     "deger": "~104 km",
+     "oran": 104,
+     "renk": "mavi"
+    }
+   ],
+   "altyazi": [
+    "2,5 milyon TL altında Tesla Model Y RWD öne çıkıyor: ~126 km.",
+    "Togg T10F 104–110 km ile onu izliyor."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Haberin tamamı: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

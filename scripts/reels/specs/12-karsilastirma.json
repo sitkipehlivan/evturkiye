@@ -1,0 +1,116 @@
+{
+ "haber": "/karsilastir",
+ "site": true,
+ "sahneler": [
+  {
+   "tur": "kiyas",
+   "sure": 5.6,
+   "kicker": "KARŞILAŞTIRMA ARACI",
+   "h1": "Togg T10X mı,",
+   "h2": "Tesla Model Y mi?",
+   "kaynak": "Ekim 2026 liste fiyatları",
+   "a": {
+    "arac": "togg-t10x",
+    "ad": "T10X Uzun Menzil"
+   },
+   "b": {
+    "arac": "tesla-model-y",
+    "ad": "Model Y RWD"
+   },
+   "satirlar": [
+    {
+     "etiket": "LİSTE FİYATI",
+     "a": "2.219.668 TL",
+     "b": "2.474.985 TL",
+     "iyi": "a"
+    },
+    {
+     "etiket": "WLTP MENZİL",
+     "a": "523 km",
+     "b": "500 km",
+     "iyi": "a"
+    },
+    {
+     "etiket": "OTOYOL MENZİLİ (TAHMİNİ)",
+     "a": "~399 km",
+     "b": "~380 km",
+     "iyi": "a"
+    }
+   ],
+   "altyazi": [
+    "İki popüler SUV'u yan yana koyduk.",
+    "Togg daha ucuz, menzili de daha uzun."
+   ]
+  },
+  {
+   "tur": "kiyas",
+   "sure": 5.6,
+   "kicker": "ŞARJ VE MALİYET",
+   "h1": "Şarjda ve maliyette",
+   "h2": "Model Y önde.",
+   "kaynak": "Ortalama DC fiyatı 13,69 TL/kWh",
+   "a": {
+    "arac": "togg-t10x",
+    "ad": "T10X Uzun Menzil"
+   },
+   "b": {
+    "arac": "tesla-model-y",
+    "ad": "Model Y RWD"
+   },
+   "satirlar": [
+    {
+     "etiket": "%10 → %80 HIZLI ŞARJ",
+     "a": "~29 dk",
+     "b": "~21 dk",
+     "iyi": "b"
+    },
+    {
+     "etiket": "10 DAKİKADA KAZANILAN MENZİL",
+     "a": "~96 km",
+     "b": "~126 km",
+     "iyi": "b"
+    },
+    {
+     "etiket": "100 KM (HIZLI ŞARJ)",
+     "a": "~314 TL",
+     "b": "~233 TL",
+     "iyi": "b"
+    }
+   ],
+   "altyazi": [
+    "Model Y daha verimli: daha hızlı şarj oluyor, 100 km'de daha az tutuyor."
+   ]
+  },
+  {
+   "tur": "adimlar",
+   "sure": 5.0,
+   "kicker": "KENDİN DENE",
+   "h1": "İstediğin 3 aracı",
+   "h2": "yan yana koy.",
+   "satirlar": [
+    {
+     "baslik": "Fiyat ve menzil",
+     "alt": "WLTP, otoyol ve kış menzili"
+    },
+    {
+     "baslik": "Şarj süresi ve maliyet",
+     "alt": "100 km ve yıllık şarj masrafı"
+    },
+    {
+     "baslik": "Artı ve eksiler",
+     "alt": "Seçtiğin araçlara göre otomatik"
+    }
+   ],
+   "altyazi": [
+    "Karşılaştırma aracında 3 aracı seç, farkları anında gör."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "evturkiye.online/karsilastir",
+   "alt": "Elektrikli araçları karşılaştır",
+   "buton": "Karşılaştır"
+  }
+ ]
+}

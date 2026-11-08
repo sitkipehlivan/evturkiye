@@ -1,0 +1,67 @@
+{
+ "haber": "/yakindaki-sarj-istasyonlari",
+ "site": true,
+ "sahneler": [
+  {
+   "tur": "harita",
+   "sure": 5.2,
+   "kicker": "YAKINIMDAKİ ŞARJ · CANLI",
+   "h1": "Şarjın azaldı,",
+   "h2": "en yakın istasyon?",
+   "not": "TEMSİLİ GÖRÜNÜM",
+   "pinler": [
+    {
+     "x": 520,
+     "y": 170,
+     "etiket": "DC 180 kW · Müsait"
+    },
+    {
+     "x": 150,
+     "y": 400,
+     "etiket": "AC 22 kW · Müsait"
+    },
+    {
+     "x": 760,
+     "y": 330,
+     "etiket": "DC 120 kW · Dolu",
+     "musait": false
+    }
+   ],
+   "altyazi": [
+    "Konumunu ver, en yakın şarj istasyonları anında gelsin."
+   ]
+  },
+  {
+   "tur": "adimlar",
+   "sure": 5.6,
+   "kicker": "TEK EKRANDA",
+   "h1": "Gitmeden önce",
+   "h2": "her şeyi gör.",
+   "satirlar": [
+    {
+     "baslik": "Anlık müsait soket",
+     "alt": "Hangi soket boş, hemen gör"
+    },
+    {
+     "baslik": "Güç, soket ve fiyat",
+     "alt": "kW, soket tipi ve kWh fiyatı"
+    },
+    {
+     "baslik": "Yol tarifi",
+     "alt": "Google ya da Apple Haritalar ile"
+    }
+   ],
+   "altyazi": [
+    "Müsait soket, güç, soket tipi ve fiyat tek ekranda.",
+    "Yol tarifini Google ya da Apple Haritalar'la başlat."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "evturkiye.online/yakindaki-sarj-istasyonlari",
+   "alt": "Yakınındaki şarjı bul",
+   "buton": "Hemen bak"
+  }
+ ]
+}

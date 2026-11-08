@@ -1,0 +1,129 @@
+{
+ "haber": "/haberler/turkiye/en-ucuz-elektrikli-otomobiller-ekim-2026",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.4,
+   "kicker": "EKİM 2026 · TÜRKİYE",
+   "h1": "En ucuz elektrikli",
+   "h2": "1,52 milyon TL.",
+   "arac": "hyundai-inster",
+   "sayi": {
+    "etiket": "HYUNDAI INSTER · KAMPANYALI",
+    "deger": 1520000,
+    "son": " TL"
+   },
+   "altyazi": [
+    "Türkiye'nin en ucuz elektriklisi, kampanyalı fiyatıyla Hyundai INSTER."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.6,
+   "kicker": "EN UCUZ 10 · 1–5",
+   "h1": "2 milyon TL altında",
+   "h2": "9 model var.",
+   "kaynak": "Kaynak: marka fiyat listeleri · Ekim 2026",
+   "satirlar": [
+    {
+     "sol": "Hyundai INSTER",
+     "alt": "42 kWh · 327 km",
+     "sag": "1.520.000 TL",
+     "eski": "1.670.000 TL",
+     "vurgu": true
+    },
+    {
+     "sol": "Fiat Grande Panda Elektrikli",
+     "alt": "44 kWh · 320 km",
+     "sag": "1.584.900 TL"
+    },
+    {
+     "sol": "Citroën ë-C3",
+     "alt": "44 kWh · 320 km",
+     "sag": "1.605.000 TL",
+     "eski": "1.645.000 TL"
+    },
+    {
+     "sol": "Fiat 600e",
+     "alt": "54 kWh · 406 km",
+     "sag": "1.854.900 TL",
+     "eski": "1.989.900 TL"
+    },
+    {
+     "sol": "Citroën ë-C3 Aircross",
+     "alt": "44 / 54 kWh",
+     "sag": "1.875.000 TL"
+    }
+   ],
+   "altyazi": [
+    "Ekim 2026'da 2 milyon TL'nin altında dokuz elektrikli model vardı.",
+    "İlk üçte INSTER, Grande Panda ve ë-C3 var."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.0,
+   "kicker": "EN UCUZ 10 · 6–10",
+   "h1": "Togg da",
+   "h2": "ilk 10'da.",
+   "kaynak": "Kaynak: marka fiyat listeleri · Ekim 2026",
+   "satirlar": [
+    {
+     "sol": "Togg T10F V1 RWD",
+     "alt": "52,4 kWh · 335 km",
+     "sag": "1.884.980 TL",
+     "vurgu": true
+    },
+    {
+     "sol": "Opel Corsa Elektrik",
+     "alt": "50 kWh · ~357 km",
+     "sag": "1.890.000 TL"
+    },
+    {
+     "sol": "Opel Frontera Elektrik",
+     "alt": "44 / 54 kWh",
+     "sag": "1.895.000 TL"
+    },
+    {
+     "sol": "Togg T10X V1 RWD",
+     "alt": "52,4 kWh · 314 km",
+     "sag": "1.909.048 TL",
+     "vurgu": true
+    },
+    {
+     "sol": "Peugeot e-208",
+     "alt": "50 kWh · ~363 km",
+     "sag": "2.080.000 TL"
+    }
+   ],
+   "altyazi": [
+    "Togg T10F altıncı, T10X dokuzuncu sırada."
+   ]
+  },
+  {
+   "tur": "hero",
+   "sure": 4.8,
+   "kicker": "LİSTEDE EN UZUN MENZİL",
+   "h1": "Menzil arıyorsan",
+   "h2": "T10F öne çıkıyor.",
+   "arac": "togg-t10f",
+   "sayi": {
+    "etiket": "TOGG T10F UZUN MENZİL · WLTP",
+    "deger": 623,
+    "son": " km",
+    "renk": "mavi"
+   },
+   "altyazi": [
+    "Listede en uzun menzil 88,5 kWh bataryalı Togg T10F'de: 623 km.",
+    "Uzun menzilli versiyon 2,19 milyon TL'den başlıyor."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Tam liste: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

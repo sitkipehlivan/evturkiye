@@ -1,0 +1,85 @@
+{
+ "haber": "/haberler/turkiye/byd-fiyat-listesi-kasim-2026",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "BYD · KASIM 2026",
+   "h1": "BYD'nin listesinde",
+   "h2": "sadece 2 model kaldı.",
+   "arac": "byd-seal",
+   "sayi": {
+    "etiket": "SEAL AWD · KAMPANYA FARKI",
+    "deger": 305000,
+    "son": " TL"
+   },
+   "altyazi": [
+    "BYD Türkiye'nin Kasım fiyat listesinde yalnızca Seal ve Tang var."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.2,
+   "kicker": "KASIM FİYATLARI",
+   "h1": "Seal ve Tang",
+   "h2": "ne kadar?",
+   "kaynak": "Kaynak: BYD Türkiye · 5 Kasım 2026",
+   "satirlar": [
+    {
+     "sol": "BYD Seal AWD Excellence",
+     "alt": "390 kW · 520 km",
+     "sag": "3.772.000 TL",
+     "eski": "4.077.000 TL",
+     "vurgu": true
+    },
+    {
+     "sol": "BYD Tang Flagship",
+     "alt": "7 koltuk · 530 km",
+     "sag": "5.418.000 TL",
+     "renk": "mavi"
+    }
+   ],
+   "altyazi": [
+    "Seal 4.077.000 TL yerine kampanyalı 3.772.000 TL.",
+    "Yedi koltuklu Tang 5.418.000 TL."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.0,
+   "kicker": "LİSTEDEN ÇIKANLAR",
+   "h1": "Gam",
+   "h2": "daraldı.",
+   "kaynak": "Kaynak: BYD Türkiye",
+   "satirlar": [
+    {
+     "sol": "Sealion 7",
+     "alt": "Eylül'de listedeydi",
+     "sag": "Fiyat yok",
+     "renk": "kirmizi"
+    },
+    {
+     "sol": "Atto 2, Dolphin, Atto 3",
+     "sag": "Fiyat yok",
+     "renk": "kirmizi"
+    },
+    {
+     "sol": "Kalan iki model",
+     "sag": "%75 ÖTV",
+     "renk": "turuncu"
+    }
+   ],
+   "altyazi": [
+    "Eylül'de listede olan Sealion 7'ye artık fiyat verilmiyor.",
+    "Kalan iki model de yüzde 75 ÖTV diliminde."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Haberin tamamı: evturkiye.online",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

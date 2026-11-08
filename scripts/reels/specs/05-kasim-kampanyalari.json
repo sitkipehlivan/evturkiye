@@ -1,0 +1,112 @@
+{
+ "haber": "/haberler/turkiye/kasim-2026-elektrikli-arac-kampanyalari",
+ "sahneler": [
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "KASIM 2026 · KAMPANYALAR",
+   "h1": "Kasım'ın en büyük",
+   "h2": "indirimi: 305 bin TL.",
+   "arac": "byd-seal",
+   "sayi": {
+    "etiket": "BYD SEAL AWD EXCELLENCE · İNDİRİM",
+    "deger": 305000,
+    "son": " TL"
+   },
+   "altyazi": [
+    "Kasım'da elektrikli otomobil alanlara sıfır faiz, indirim ve takas desteği var."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.8,
+   "kicker": "NAKİT İNDİRİM · SIFIR FAİZ",
+   "h1": "Hangi modelde",
+   "h2": "ne kampanya var?",
+   "kaynak": "Kaynak: marka kampanyaları · çoğu 30 Kasım'a kadar",
+   "satirlar": [
+    {
+     "sol": "BYD Seal AWD",
+     "alt": "Nakit indirim",
+     "sag": "305.000 TL",
+     "vurgu": true
+    },
+    {
+     "sol": "Kia EV9",
+     "alt": "Prestige / GT-Line",
+     "sag": "150.000 TL"
+    },
+    {
+     "sol": "Kia EV2",
+     "alt": "Versiyona göre",
+     "sag": "70–100 bin TL"
+    },
+    {
+     "sol": "Fiat Grande Panda",
+     "alt": "200.000 TL, 12 ay",
+     "sag": "%0 faiz",
+     "renk": "mavi"
+    },
+    {
+     "sol": "Togg T10X / T10F V2",
+     "alt": "Sınırlı sayıda araç",
+     "sag": "%0 faiz",
+     "renk": "mavi"
+    }
+   ],
+   "altyazi": [
+    "BYD Seal'de 305 bin, Kia EV9'da 150 bin TL indirim var.",
+    "Grande Panda ve Togg'da sıfır faiz seçeneği var."
+   ]
+  },
+  {
+   "tur": "hero",
+   "sure": 4.6,
+   "kicker": "TAKAS DESTEĞİ",
+   "h1": "Takas desteğinde",
+   "h2": "zirve BMW i5.",
+   "arac": "bmw-i5",
+   "sayi": {
+    "etiket": "BMW i5 eDRIVE40 · TAKAS DESTEĞİ",
+    "deger": 1800000,
+    "son": " TL",
+    "renk": "mavi"
+   },
+   "altyazi": [
+    "BMW i5'te 1,8 milyon TL takas desteği var.",
+    "iX'te 1,2 milyon, i4'te 800 bin TL."
+   ]
+  },
+  {
+   "tur": "adimlar",
+   "sure": 5.0,
+   "kicker": "DİKKAT",
+   "h1": "Almadan önce",
+   "h2": "bunları sor.",
+   "satirlar": [
+    {
+     "baslik": "Kampanyalar birleşiyor mu?",
+     "alt": "BMW'de takas desteği krediyle birleşmiyor"
+    },
+    {
+     "baslik": "Son tarih ne zaman?",
+     "alt": "Çoğu kampanya 30 Kasım'da bitiyor"
+    },
+    {
+     "baslik": "Ek masraf var mı?",
+     "alt": "Tahsis ücreti ve kasko şartını sor"
+    }
+   ],
+   "altyazi": [
+    "Koşullar bayiye göre değişebilir, almadan önce mutlaka teyit al."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "Tüm kampanyalar: evturkiye.online/firsatlar",
+   "alt": "Her gün elektrikli araç gündemi",
+   "buton": "Takip et"
+  }
+ ]
+}

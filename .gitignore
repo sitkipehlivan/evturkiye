@@ -4,3 +4,8 @@ dist/
 .env
 .DS_Store
 public/images/otomatik/
+
+# Reels çıktıları (depoya girmez)
+social/
+scripts/reels/.cache/
+__pycache__/

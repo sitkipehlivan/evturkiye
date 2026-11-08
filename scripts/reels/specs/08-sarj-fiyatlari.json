@@ -1,0 +1,93 @@
+{
+ "haber": "/sarj-fiyatlari",
+ "site": true,
+ "sahneler": [
+  {
+   "tur": "cubuklar",
+   "sure": 5.2,
+   "kicker": "HIZLI ŞARJ (DC) · TL/kWh",
+   "h1": "Aynı şarj,",
+   "h2": "%69 fiyat farkı.",
+   "kaynak": "19 operatör · Ekim 2026 fiyatları",
+   "satirlar": [
+    {
+     "etiket": "EN UCUZ · OTOPRİZ",
+     "deger": "9,73 TL",
+     "oran": 0.59,
+     "renk": "yesil"
+    },
+    {
+     "etiket": "19 OPERATÖR ORTALAMASI",
+     "deger": "13,69 TL",
+     "oran": 0.83,
+     "renk": "mavi"
+    },
+    {
+     "etiket": "EN PAHALI · ZES",
+     "deger": "16,49 TL",
+     "oran": 1.0,
+     "renk": "kirmizi"
+    }
+   ],
+   "altyazi": [
+    "Hızlı şarjda en ucuz operatörle en pahalısı arasında yüzde 69 fark var."
+   ]
+  },
+  {
+   "tur": "sayi",
+   "sure": 4.8,
+   "kicker": "60 kWh HIZLI ŞARJ",
+   "h1": "Tek şarjda",
+   "h2": "406 TL fark.",
+   "kaynak": "Ekim 2026 fiyatları",
+   "etiket": "EN UCUZ İLE EN PAHALI ARASINDAKİ FARK",
+   "deger": 406,
+   "son": " TL",
+   "alt": "~584 TL yerine ~989 TL",
+   "altyazi": [
+    "60 kWh'lik bir hızlı şarj en ucuz operatörde ~584 TL, en pahalıda ~989 TL."
+   ]
+  },
+  {
+   "tur": "liste",
+   "sure": 5.2,
+   "kicker": "EN UCUZ HIZLI ŞARJ",
+   "h1": "İlk 5",
+   "h2": "operatör.",
+   "kaynak": "DC fiyatları · Ekim 2026",
+   "satirlar": [
+    {
+     "sol": "Otopriz",
+     "sag": "9,73 TL/kWh",
+     "vurgu": true
+    },
+    {
+     "sol": "Elaris",
+     "sag": "10,00 TL/kWh"
+    },
+    {
+     "sol": "Sharz",
+     "sag": "11,99 TL/kWh"
+    },
+    {
+     "sol": "Voltrun",
+     "sag": "12,90 TL/kWh"
+    },
+    {
+     "sol": "Volti",
+     "sag": "12,99 TL/kWh"
+    }
+   ],
+   "altyazi": [
+    "19 operatörün güncel fiyatlarını tek sayfada karşılaştır."
+   ]
+  },
+  {
+   "tur": "kapanis",
+   "sure": 3.2,
+   "link": "evturkiye.online/sarj-fiyatlari",
+   "alt": "Şarj etmeden önce karşılaştır",
+   "buton": "Fiyatları gör"
+  }
+ ]
+}
