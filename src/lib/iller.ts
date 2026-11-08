@@ -19,6 +19,10 @@ export const ILLER: Il[] = [
   { ad: 'Kırıkkale', bolge: 'İç Anadolu' }, { ad: 'Aksaray', bolge: 'İç Anadolu' }, { ad: 'Karaman', bolge: 'İç Anadolu' },
   { ad: 'Osmaniye', bolge: 'Akdeniz' }, { ad: 'Batman', bolge: 'Güneydoğu Anadolu' }, { ad: 'Mardin', bolge: 'Güneydoğu Anadolu' },
   { ad: 'Adıyaman', bolge: 'Güneydoğu Anadolu' },
+  { ad: 'Bilecik', bolge: 'Marmara' }, { ad: 'Kırşehir', bolge: 'İç Anadolu' }, { ad: 'Yozgat', bolge: 'İç Anadolu' },
+  { ad: 'Amasya', bolge: 'Karadeniz' }, { ad: 'Giresun', bolge: 'Karadeniz' }, { ad: 'Rize', bolge: 'Karadeniz' },
+  { ad: 'Kastamonu', bolge: 'Karadeniz' }, { ad: 'Karabük', bolge: 'Karadeniz' }, { ad: 'Bartın', bolge: 'Karadeniz' },
+  { ad: 'Sinop', bolge: 'Karadeniz' },
 ];
 const TR: Record<string, string> = { ç: 'c', ğ: 'g', ı: 'i', i: 'i', ö: 'o', ş: 's', ü: 'u' };
 export const ilSlug = (ad: string) => ad.toLocaleLowerCase('tr').replace(/[çğıiöşü]/g, (c) => TR[c]).replace(/[^a-z0-9]+/g, '-');
