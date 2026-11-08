@@ -31,8 +31,8 @@ COLORS = {'yesil': GREEN, 'mavi': BLUE, 'kirmizi': PINK, 'gri': (150, 166, 188),
 # Instagram Reels güvenli alanı: üst %14 ve alt %35 arayüzle kaplanır, yanlarda ~%6 pay.
 SAFE_TOP, SAFE_BOTTOM = 250, 1250
 X0, X1 = 70, 960
-Y_LOGO, Y_KICK, Y_H1, Y_H2, Y_LINE = 258, 316, 352, 446, 548
-Y_C0, Y_C1 = 586, 1060          # içerik alanı
+Y_LOGO, Y_KICK, Y_H1, Y_H2, Y_LINE = 254, 308, 340, 430, 560
+Y_C0, Y_C1 = 600, 1060          # içerik alanı
 Y_SRC, Y_CAP = 1072, 1112       # kaynak satırı, altyazı (en fazla 2 satır → 1246)
 
 
