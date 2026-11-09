@@ -33,14 +33,15 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 
 ## İş listesi (sırayla; tamamlananı [x] yap)
 
-### İl sayfaları (81 ile tamamla; şu an 60 il var)
+### İl sayfaları (81 ile tamamla; şu an 70 il var)
 - [ ] `src/lib/iller.ts` listesine kalan illeri ekle, her gün en fazla 10 il. Öncelik nüfus ve otoyol
-      güzergâhı: kalan 21 il (Niğde, Kırklareli, Yalova, Burdur, Siirt, Şırnak, Kilis, Bitlis, Muş, Bingöl, Tunceli, Erzincan, Gümüşhane, Bayburt, Artvin, Ağrı, Iğdır, Kars, Ardahan, Hakkari, Çankırı).
+      güzergâhı: kalan 11 il (Tunceli, Erzincan, Gümüşhane, Bayburt, Artvin, Ağrı, Iğdır, Kars, Ardahan, Hakkari, Çankırı).
       Var olanlar: İstanbul, Kocaeli, Bursa, Sakarya, Tekirdağ, Balıkesir, Çanakkale, Edirne, İzmir, Muğla, Aydın,
       Denizli, Manisa, Afyonkarahisar, Antalya, Adana, Mersin, Hatay, Ankara, Konya, Eskişehir, Kayseri, Nevşehir,
       Bolu, Samsun, Trabzon, Düzce, Gaziantep, Diyarbakır, Erzurum, Şanlıurfa, Kahramanmaraş, Malatya, Van, Elazığ, Sivas, Kütahya,
       Uşak, Isparta, Zonguldak, Ordu, Tokat, Çorum, Kırıkkale, Aksaray, Karaman, Osmaniye, Batman, Mardin, Adıyaman,
-      Bilecik, Kırşehir, Yozgat, Amasya, Giresun, Rize, Kastamonu, Karabük, Bartın, Sinop.
+      Bilecik, Kırşehir, Yozgat, Amasya, Giresun, Rize, Kastamonu, Karabük, Bartın, Sinop, Niğde, Kırklareli,
+      Yalova, Burdur, Siirt, Şırnak, Kilis, Bitlis, Muş, Bingöl.
 
 ### Rota sayfaları (41 → 100)
 - [ ] `src/data/routes.json` listesine popüler şehirlerarası rotalar ekle (her gün en fazla 5).
@@ -53,7 +54,7 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 - [x] Evde şarj istasyonu (wallbox) kurulumu: maliyet, başvuru, apartmanda kurulum (KMK izni)
 - [x] Elektrikli araç ÖTV oranları (güncel, resmi kaynaklı)
 - [x] Elektrikli araç kasko ve trafik sigortası farkları
-- [ ] Kışın elektrikli araç menzili: ne kadar düşer, nasıl korunur (models.json verisiyle)
+- [x] Kışın elektrikli araç menzili: ne kadar düşer, nasıl korunur (models.json verisiyle)
 - [ ] Elektrikli araç batarya ömrü ve garanti süreleri (marka marka, models.json verisiyle)
 - [ ] Şarj soketi tipleri: Type 2, CCS2, CHAdeMO (Türkiye'deki istasyon dağılımıyla)
 - [ ] Elektrikli araç MTV (motorlu taşıtlar vergisi) 2026
@@ -72,3 +73,4 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 - 2026-11-06: Teknik: 60 karakteri aşan 40 <title> kısaltıldı (fitTitle şablon yardımcısı, 6 habere seoTitle), rehberlerde SSS→FAQPage ve updated→dateModified; kırık link/JSON-LD/canonical sorunu yok. İçerik: 10 il eklendi (40/81), wallbox rehberi güçlendirildi (KMK, EPDK, şarj süresi, SSS). İç link: 5 habere model/rota bağlantısı. Rota maddesi atlandı (OSRM bu ortamdan erişilemiyor).
 - 2026-11-07: Teknik: kırık link, title/description, canonical, noindex, JSON-LD, sitemap sorunu yok. İçerik: 10 il eklendi (50/81), ÖTV rehberi güçlendirildi (10115 sayılı Karar, asgari ÖTV, örnek hesap, PHEV dilimleri, 5 SSS, kaynaklar). İç link: 4 habere model/il bağlantısı. Rota maddesi atlandı (OSRM yine erişilemiyor).
 - 2026-11-08: Teknik: kırık link, title/description, canonical, noindex, JSON-LD, sitemap sorunu yok. İçerik: 10 il eklendi (60/81), yeni rehber: elektrikli araç kasko ve trafik sigortası farkları (SEDDK 2026 limitleri, EV kasko teminatları, 5 SSS, kaynaklar). İç link: 1 habere 4 model bağlantısı. Rota maddesi atlandı (OSRM yine erişilemiyor).
+- 2026-11-09: Teknik: kırık link, title/description, canonical, JSON-LD, sitemap sorunu yok (163 noindex sayfa 9 Kasım AdSense kararıyla bilinçli). İçerik: 10 il eklendi (70/81), kış menzili rehberi güçlendirildi (models.json ile doğrulanan tablo, 5 SSS, kaynaklar, updated). İç link: 1 habere model bağlantısı (BMW iX3). Rota maddesi atlandı (OSRM yine erişilemiyor).

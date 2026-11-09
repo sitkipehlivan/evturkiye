@@ -35,7 +35,7 @@ Togg'un Kasım ayı kredi koşullarının ayrıntısı için [Togg fiyat listesi
 
 | Marka / model | Kampanya | Kimler için |
 |---|---|---|
-| BMW i5 / iX / i4 / iX1 / iX3 | 6 ay %0 faiz: 7.000.000 / 4.000.000 / 3.000.000 / 2.250.000 / 1.000.000 TL | Kurumsal |
+| BMW i5 / iX / i4 / iX1 / [iX3](/modeller/bmw/ix3) | 6 ay %0 faiz: 7.000.000 / 4.000.000 / 3.000.000 / 2.250.000 / 1.000.000 TL | Kurumsal |
 | [Peugeot e-2008](/modeller/peugeot/e-2008) | 800.000 TL'ye 6 ay %1,99 faiz | Ticari |
 | [Peugeot e-3008](/modeller/peugeot/e-3008) Allure | 1.000.000 TL'ye 6 ay %1,99 faiz | Ticari |
 | [Peugeot e-5008](/modeller/peugeot/e-5008) Allure | 1.000.000 TL'ye 12 ay %0,99 faiz | Ticari |

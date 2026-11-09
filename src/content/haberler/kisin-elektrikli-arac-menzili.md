@@ -7,6 +7,7 @@ imageScene: "close-up of a modern outdoor DC charging post covered with light sn
 imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-25
+updated: 2026-11-09
 source: "Recurrent araştırması (DonanımHaber aracılığıyla)"
 sourceUrl: "https://www.donanimhaber.com/elektrikli-araclar-kisin-ne-kadar-menzil-kaybediyor-iste-sonuc--186630"
 ---
@@ -68,3 +69,27 @@ Soğuk batarya yüksek akımı güvenli şekilde kabul edemez; araç bataryayı 
 ## Uzun yolda planlama
 
 Kış aylarında yola çıkmadan önce [Rota Planlayıcı](/rota-planlayici)'da **"Mevsim: Kış"** seçeneğini işaretleyin. Planlayıcı tüketimi buna göre artırarak durakları daha erken önerir ve maliyeti yeniden hesaplar. Güzergahta hangi istasyonun müsait olduğunu yolda görmek için [Yakınımdaki Şarj](/yakindaki-sarj-istasyonlari/) sayfasını telefonunuzun ana ekranına ekleyebilirsiniz.
+
+Batarya soğuktan kalıcı olarak zarar görür mü, garanti neyi kapsar gibi sorular için [batarya ömrü rehberimize](/haberler/rehber/elektrikli-arac-batarya-omru), kışın evde şarjın maliyeti için [evde şarj maliyeti rehberimize](/haberler/rehber/evde-sarj-maliyeti-2026) bakın.
+
+## Sık sorulan sorular
+
+### Kışın elektrikli araç menzili yüzde kaç düşer?
+Recurrent'in 18 binden fazla aracı kapsayan verisine göre dondurucu havada ısı pompalı araçlar menzilinin ortalama %17'sini, ısı pompası olmayanlar %25'e kadarını kaybediyor. En dayanıklı model menzilinin yaklaşık %89'unu korurken en çok etkilenen model %63'te kaldı.
+
+### Togg T10X kışın kaç km gider?
+Togg T10X V1 RWD Uzun Menzil (85 kWh, WLTP 523 km) için 110–120 km/s otoyol hızında ılıman havada yaklaşık 399 km öngörüyoruz. Bu değere ortalama kış kayıpları uygulandığında kışın yaklaşık 299–331 km çıkıyor. Ayrıntılar için [Togg T10X sayfasına](/modeller/togg/t10x) bakın.
+
+### Isı pompası kışın ne kadar fark eder?
+Recurrent verisinde ısı pompalı araçlar menzilin ortalama %83'ünü, ısı pompası olmayanlar %75'ini korudu; yani fark yaklaşık 8 puan. 400 km otoyol menzilli bir araçta bu yaklaşık 32 km demek.
+
+### Kışın şarj neden daha uzun sürüyor?
+Soğuk batarya yüksek akımı güvenle kabul edemediği için araç DC şarj gücünü kısar. İstasyonu navigasyona hedef olarak girip bataryayı ön ısıtmak bu yavaşlamayı büyük ölçüde azaltır.
+
+### Kış menzil kaybı kalıcı mı?
+Hayır. Soğuğa bağlı kayıp geçicidir; hava ısındığında ve batarya çalışma sıcaklığına geldiğinde menzil eski seviyesine döner. Kalıcı kapasite kaybı (degradasyon) ayrı bir konudur ve yaş, şarj alışkanlığı ve kullanımla ilgilidir.
+
+## Kaynaklar
+
+- [DonanımHaber: Elektrikli araçlar kışın ne kadar menzil kaybediyor? (Recurrent araştırması)](https://www.donanimhaber.com/elektrikli-araclar-kisin-ne-kadar-menzil-kaybediyor-iste-sonuc--186630)
+- Model batarya, WLTP ve otoyol tüketimi değerleri: EV Türkiye [model veritabanı](/modeller/) (üretici verileri ve ev-database.org)
