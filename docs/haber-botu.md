@@ -15,7 +15,7 @@ Web araması ile (son 24 saat, öncelik son 2 saat):
 ## 3. Haber değeri filtresi
 Seç: fiyat/vergi değişikliği, yeni model Türkiye lansmanı veya fiyatı, şarj tarifesi değişikliği, resmi veri açıklaması (satış, soket sayısı), düzenleme, büyük yatırım, kampanya.
 Seçme: söylenti, tekrar eden analiz yazıları, reklam/advertorial, Türkiye ile ilgisi zayıf dünya haberleri, 48 saatten eski olaylar.
-Görev **günde bir kez** çalışır ve son 24 saati tarar. Bir çalıştırmada en fazla **5** haber eklenir. Yeni bir şey yoksa hiçbir şey eklenmez ve commit yapılmaz.
+Görev **günde bir kez** çalışır ve son 24 saati tarar. Bir çalıştırmada en fazla **3** haber eklenir; bunların en fazla **1** tanesi dünya haberi olabilir ve yalnızca Türkiye pazarını etkileyecekse (Türkiye'ye gelecek model, fiyatları etkileyen karar, büyük üreticinin rekor/kriz verisi). Az ama dolu haber, çok ama kısa haberden iyidir (AdSense "düşük değerli içerik" kuralı). Yeni bir şey yoksa hiçbir şey eklenmez ve commit yapılmaz.
 
 ## 4. Tekrarı önleme
 Eklemeden önce `src/content/haberler/` altındaki dosyaları kontrol et:
@@ -24,7 +24,9 @@ Eklemeden önce `src/content/haberler/` altındaki dosyaları kontrol et:
 
 ## 5. Yazım kuralları
 - Çeviri veya kopya yok: kaynağı oku, kendi cümlelerinle yaz. Kaynaktan en fazla tek, kısa alıntı.
-- Uzunluk 250–500 kelime. İlk paragraf haberin özü (kim, ne, ne zaman, rakam).
+- Uzunluk **en az 350**, ideal 450–700 kelime. İlk paragraf haberin özü (kim, ne, ne zaman, rakam). 200 kelimenin altındaki haberler otomatik olarak arama dışı (noindex) kalır; bu yüzden kısa haber yazma.
+- **Her haberde zorunlu özgün bölüm:** `## Türkiye'deki alıcı için ne anlama geliyor?` başlığıyla 80–150 kelime. Kaynakta olmayan, sitenin kendi verisiyle yapılan yorum: fiyatın rakiplerle kıyası (`src/data/models.json`), 100 km maliyeti veya şarj süresi (models.json'daki `highway`, `dcMax` ve `src/data/operators.json` ortalaması), rotada kaç şarj (ör. İstanbul–Ankara 434 km), kampanyanın gerçek etkisi (aylık taksit/indirim oranı), ilgili rehber sayfasına iç link. Spekülasyon ve tavsiye yok; hesap ve kıyas var. Hesapladığın her rakamın yanında "yaklaşık" ya da `~` kullan.
+- Haber sayfasının altında, haberde geçen satıştaki modeller için otomatik "Türkiye'deki alıcı için rakamlar" tablosu çıkar; marka ve model adını (ör. "Togg T10X", "Tesla Model Y") metinde tam yaz ki eşleşsin.
 - Ara başlıklar (`##`), gerektiğinde tablo. Tablolar en fazla 5 sütun; hücreler kısa (model adı + kısa versiyon, uzun açıklama tablo altına). Rakamlar birimleriyle (TL, kWh, km, kW).
 - Her push sonrası `Taşma kontrolü` iş akışı tüm sayfaları masaüstü ve mobilde açar; kırmızı olursa yazıdaki tablo/görsel sütuna sığmıyor demektir, düzelt.
 - Ses tonu: sade, tarafsız, abartısız, "sen/siz" yerine nötr haber dili. Başlıkta tıklama tuzağı yok.

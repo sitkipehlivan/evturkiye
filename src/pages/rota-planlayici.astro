@@ -2,11 +2,23 @@
 import Base from '../layouts/Base.astro';
 import Planner from '../components/Planner.astro';
 import routes from '../data/routes.json';
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'WebApplication', name: 'EV Türkiye Rota & Şarj Planlayıcı',
+import Faq from '../components/Faq.astro';
+import ops from '../data/operators.json';
+import { liveModels, avgDc } from '../lib/ev';
+const dcModelSay = liveModels.filter((m) => m.dcMax > 0).length;
+const faq = [
+  { q: 'Rota planlayıcı hangi araçları destekliyor?', a: `Türkiye'de satılan ve DC hızlı şarj girişi olan ${dcModelSay} elektrikli otomobil versiyonu listede. Her araç için batarya kapasitesi, en yüksek DC şarj gücü ve gerçekçi otoyol tüketimi ayrı ayrı tanımlıdır; hesap bu değerlerle yapılır.` },
+  { q: 'Şarj durakları nasıl seçiliyor?', a: 'Güzergah üzerindeki ve yola birkaç kilometre mesafedeki hızlı şarj istasyonları taranır. Batarya %15\'in altına düşmeden durak önerilir; "En hızlı" seçeneği güçlü istasyonları, "En ekonomik" seçeneği kWh fiyatı düşük operatörleri öne alır.' },
+  { q: 'Maliyet hesabı neye göre yapılıyor?', a: `Her durakta, istasyonun operatörünün standart kWh tarifesi ve şarj sırasındaki kayıplar (yaklaşık %7) hesaba katılır. ${ops.operators.length} operatörün fiyatları her ay güncellenir; şu an DC ortalaması ${avgDc.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} TL/kWh.` },
+  { q: 'Kışın ya da yüksek hızda sonuç değişir mi?', a: 'Evet. Planlayıcıda mevsim ve hız ayarı var: kışın ısıtma ve soğuk batarya, yüksek hızda da hava direnci tüketimi artırır. Bu ayarları değiştirince duraklar ve maliyet yeniden hesaplanır.' },
+  { q: 'Ücretli mi?', a: 'Hayır. Misafir olarak günde 2, ücretsiz üye olarak günde 5 rota hesaplayabilirsin.' },
+];
+const jsonLd = { '@context': 'https://schema.org', '@graph': [{
+  '@type': 'WebApplication', name: 'EV Türkiye Rota & Şarj Planlayıcı', inLanguage: 'tr-TR', isAccessibleForFree: true,
   applicationCategory: 'TravelApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
   url: new URL('/rota-planlayici', Astro.site).toString(),
-};
+  description: 'Elektrikli araçla uzun yolda güzergahtaki hızlı şarj istasyonlarını tarar, araca göre şarj durağı önerir ve operatör fiyatlarıyla yol maliyetini hesaplar.',
+}, { '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }] };
 ---
 <Base image="/images/araclar/rota-planlayici.png" title="Elektrikli Araç Rota ve Şarj Maliyeti Planlayıcı" description="Elektrikli aracınızla uzun yolda hangi istasyonda ne kadar şarj etmeniz gerektiğini ve toplam şarj maliyetini hesaplayın. Trugo, ZES, Eşarj ve diğer operatörlerin fiyatlarını karşılaştırın." jsonLd={jsonLd}>
   <section class="section-sm">
@@ -22,10 +34,11 @@ const jsonLd = {
       <h2>Popüler rotalar</h2>
       <div class="chips">{routes.map((r) => <a class="tag" href={`/rota/${r.slug}`}>{r.from} → {r.to}</a>)}</div>
       <div class="how grid grid-3">
-        <div><h3>1. Rota ve istasyonlar</h3><p class="muted">Güzergah hesaplanır, yol üzerindeki ve 3 km yakınındaki şarj istasyonları OpenStreetMap verisinden taranır.</p></div>
+        <div><h3>1. Rota ve istasyonlar</h3><p class="muted">Güzergah hesaplanır, yol üzerindeki ve yakınındaki hızlı şarj istasyonları Google Haritalar verisinden taranır (hazır rota sayfalarında OpenStreetMap).</p></div>
         <div><h3>2. Akıllı durak seçimi</h3><p class="muted">Aracın otoyol tüketimine göre, şarj %15'in altına düşmeden durak önerilir. "En hızlı" güçlü istasyonları, "En ekonomik" ucuz operatörleri öne alır.</p></div>
         <div><h3>3. Maliyet karşılaştırma</h3><p class="muted">Her durakta operatörün güncel kWh fiyatıyla tutar hesaplanır, yakındaki daha ucuz alternatifler gösterilir.</p></div>
       </div>
+      <Faq items={faq} />
     </div>
   </section>
 </Base>

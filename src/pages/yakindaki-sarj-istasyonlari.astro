@@ -10,8 +10,18 @@ const faq = [
   { q: 'En yakın elektrikli araç şarj istasyonunu nasıl bulurum?', a: 'Bu sayfada "Konumumu kullan" düğmesine basın. Çevrenizdeki şarj istasyonları yakından uzağa sıralanır; her istasyon için güç, soket tipi ve tahmini kWh fiyatı görünür. Tek dokunuşla Google Haritalar veya Apple Haritalar üzerinden yol tarifi alabilirsiniz.' },
   { q: 'Konum bilgim saklanıyor mu?', a: 'Hayır. Konumunuz yalnızca çevrenizdeki istasyonları aramak için kullanılır ve kaydedilmez.' },
   { q: 'İstasyonun boş olup olmadığını görebilir miyim?', a: 'Operatör bu bilgiyi paylaşıyorsa, istasyon kartında müsait soket sayısı gösterilir. Bilgi her istasyon için mevcut değildir; yola çıkmadan önce operatör uygulamasından teyit etmenizi öneririz.' },
+  { q: 'Hangi soket tipi aracıma uyar?', a: 'Türkiye\'de satılan elektrikli otomobillerin neredeyse tamamı AC şarjda Type 2, DC hızlı şarjda CCS2 soket kullanır. Bazı eski Nissan Leaf ve Mitsubishi modelleri DC\'de CHAdeMO kullanır; Renault Twingo E-Tech ve smart fortwo gibi bazı küçük modellerde ise DC girişi yoktur.' },
+  { q: 'Hızlı şarj (DC) ile normal şarj (AC) arasındaki fark nedir?', a: 'AC istasyonlar genelde 7–22 kW verir ve aracı birkaç saatte doldurur; alışveriş, iş ya da otelde uzun beklemeler için uygundur. DC istasyonlar 50–400 kW verir; çoğu araç %10\'dan %80\'e 20–45 dakikada gelir. DC\'nin kWh fiyatı AC\'ye göre genelde daha yüksektir.' },
+  { q: 'Şarj ücreti nasıl hesaplanır?', a: 'Operatörler çoğunlukla aktarılan enerji (kWh) üzerinden ücret alır. Örneğin 50 kWh\'lik bir şarj, kWh fiyatı 12 TL olan bir istasyonda yaklaşık 600 TL tutar. Bazı operatörler park süresi aşımı için ek ücret uygulayabilir; ayrıntıyı operatörün uygulamasından kontrol edin.' },
 ];
-const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+const dcSirali = [...ops.operators].sort((a, b) => a.dc - b.dc);
+const ortDc = ops.operators.reduce((s, o) => s + o.dc, 0) / ops.operators.length;
+const tlf = (v: number) => v.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TL';
+const guncel = new Date(ops.updated).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' });
+const jsonLd = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'WebApplication', name: 'EV Türkiye Yakınımdaki Şarj İstasyonları', applicationCategory: 'TravelApplication', operatingSystem: 'Web', inLanguage: 'tr-TR', isAccessibleForFree: true, offers: { '@type': 'Offer', price: 0, priceCurrency: 'TRY' }, description: 'Konuma göre en yakın elektrikli araç şarj istasyonlarını güç, soket tipi, müsaitlik ve tahmini kWh fiyatıyla listeler; Google veya Apple Haritalar ile yol tarifi verir.' },
+  { '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+] };
 ---
 <Base image="/images/araclar/yakindaki-sarj.png" title="Yakınımdaki Elektrikli Araç Şarj İstasyonları (Harita)" description="Konumunuza en yakın elektrikli araç şarj istasyonlarını bulun: DC hızlı şarj, soket tipi, güç, kWh fiyatı ve tek dokunuşla Google Haritalar / Apple Haritalar yol tarifi." jsonLd={jsonLd}>
   <section class="section-sm">
@@ -38,11 +48,55 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
       </div>
       <p class="muted small">İstasyon bilgileri Google Haritalar'dan alınır; fiyatlar operatörlerin standart tarifelerine göre tahminidir. Konumunuz kaydedilmez.</p>
 
+      <div class="nr-info">
+        <h2>Nasıl çalışır?</h2>
+        <ol class="nr-steps">
+          <li><b>Konumunu ver ya da bir adres yaz.</b> Konum yalnızca o anki arama için kullanılır, kaydedilmez.</li>
+          <li><b>İstasyonlar yakından uzağa sıralanır.</b> Her istasyonda mesafe, operatör, en yüksek şarj gücü (kW), soket tipleri ve operatör paylaşıyorsa o an müsait soket sayısı görünür.</li>
+          <li><b>Tahmini fiyatı gör.</b> İstasyonun operatörünü tanırsak, aşağıdaki fiyat tablosundaki standart kWh tarifesini kartta gösteririz.</li>
+          <li><b>Yola çık.</b> Tek dokunuşla Google Haritalar ya da Apple Haritalar'da yol tarifini başlat.</li>
+        </ol>
+
+        <h2>Operatörlere göre hızlı şarj fiyatı ({guncel})</h2>
+        <p>Türkiye'deki {ops.operators.length} operatörün standart DC hızlı şarj fiyatlarının ortalaması <b>{tlf(ortDc)}/kWh</b>. En ucuz ile en pahalı arasında kWh başına {tlf(dcSirali.at(-1)!.dc - dcSirali[0].dc)} fark var; 60 kWh'lik bir şarjda bu yaklaşık {Math.round((dcSirali.at(-1)!.dc - dcSirali[0].dc) * 60).toLocaleString('tr-TR')} TL demek. Yakındaki iki istasyondan birini seçerken operatöre bakmak bu yüzden önemli.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Operatör</th><th>DC (hızlı)</th><th>AC (normal)</th><th>60 kWh DC şarj</th></tr></thead>
+          <tbody>{dcSirali.map((o) => <tr><td><a href={`/sarj-fiyatlari/${o.id}/`}>{o.name}</a></td><td>{tlf(o.dc)}</td><td>{o.ac ? tlf(o.ac) : '—'}</td><td>{Math.round(o.dc * 60).toLocaleString('tr-TR')} TL</td></tr>)}</tbody>
+        </table></div>
+        <p class="muted small">Kampanyasız standart tarifeler; üyelik, abonelik ve dönemsel indirimler hariç. Tüm ayrıntılar: <a href="/sarj-fiyatlari/">Şarj fiyatları karşılaştırması</a>.</p>
+
+        <h2>Soket tipleri</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Soket</th><th>Akım</th><th>Tipik güç</th><th>Kullanan araçlar</th></tr></thead>
+          <tbody>
+            <tr><td>Type 2</td><td>AC</td><td>7–22 kW</td><td>Türkiye'deki hemen tüm elektrikliler (normal şarj)</td></tr>
+            <tr><td>CCS2 (Combo 2)</td><td>DC</td><td>50–400 kW</td><td>Togg, Tesla, Hyundai, Kia, BYD, Volkswagen ve çoğu güncel model (hızlı şarj)</td></tr>
+            <tr><td>CHAdeMO</td><td>DC</td><td>50 kW civarı</td><td>Eski Nissan Leaf, Mitsubishi gibi bazı Japon modelleri</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2>İstasyonda dikkat edilecekler</h2>
+        <ul>
+          <li><b>Müsaitliği teyit et:</b> Müsait soket bilgisi her istasyonda yok. Uzun yolda yola çıkmadan önce operatörün uygulamasından kontrol et.</li>
+          <li><b>Aracının gücüne uygun istasyonu seç:</b> 50 kW'a kadar şarj olan bir araç için 300 kW'lık istasyona gitmek süreyi kısaltmaz; daha ucuz bir istasyon aynı işi görür.</li>
+          <li><b>%80'de bırak:</b> Çoğu araçta %80'den sonra şarj hızı belirgin düşer. Uzun yolda %10–%80 arası şarj en hızlısıdır.</li>
+          <li><b>Park süresine dikkat:</b> Bazı operatörler şarj bittikten sonra bekleyen araçlardan ek ücret alabilir.</li>
+        </ul>
+        <p>Uzun yol için durakları önceden görmek istersen <a href="/rota-planlayici/">Rota Planlayıcı</a> aracını seç ve yolu planla; hangi istasyonda ne kadar şarj edeceğini ve toplam maliyeti hesaplar.</p>
+      </div>
+
       <Faq items={faq} />
       <GuideLinks />
     </div>
   </section>
 </Base>
+<style>
+  .nr-info { max-width: 860px; margin: 36px 0 8px; }
+  .nr-info h2 { margin: 32px 0 12px; }
+  .nr-steps { padding-left: 1.2em; display: grid; gap: 8px; }
+  .table-wrap { overflow-x: auto; }
+  .nr-info td, .nr-info th { white-space: normal; }
+</style>
 
 <script>
   import { loadGoogle, GoogleAutocomplete, GoogleMapView, type Pin } from '../scripts/google';
