@@ -30,7 +30,7 @@ const sss = [
 ].filter(Boolean) as [string, string][];
 const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: sss.map(([qq, a]) => ({ '@type': 'Question', name: qq, acceptedAnswer: { '@type': 'Answer', text: a } })) };
 ---
-<Base image="/images/araclar/istasyonlar.png" title={fitTitle(`${ad} Şarj İstasyonları: Elektrikli Araç Şarj Noktaları`, `${ad} Elektrikli Araç Şarj İstasyonları ve Fiyatları`, `${ad} Elektrikli Araç Şarj İstasyonları`)} description={`${ad} elektrikli araç şarj istasyonları haritası: DC hızlı ve AC şarj noktaları, ZES, Trugo, Eşarj, Tesla ve diğer operatörlerin güncel kWh fiyatları${ilRotalar.length ? `, ${ad} çıkışlı rotalar` : ''}.`} jsonLd={jsonLd} crumbs={[['Şarj istasyonları', '/istasyonlar/'], [ad, Astro.url.pathname]]}>
+<Base image="/images/araclar/istasyonlar.png" title={fitTitle(`${ad} Şarj İstasyonları: Elektrikli Araç Şarj Noktaları`, `${ad} Elektrikli Araç Şarj İstasyonları ve Fiyatları`, `${ad} Elektrikli Araç Şarj İstasyonları`)} description={`${ad} elektrikli araç şarj istasyonları haritası: DC hızlı ve AC şarj noktaları, ZES, Trugo, Eşarj, Tesla ve diğer operatörlerin güncel kWh fiyatları${ilRotalar.length ? `, ${ad} çıkışlı rotalar` : ''}.`} jsonLd={jsonLd} noindex crumbs={[['Şarj istasyonları', '/istasyonlar/'], [ad, Astro.url.pathname]]}>
   <section class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/istasyonlar/">Şarj istasyonları</a> / {ad}</nav>

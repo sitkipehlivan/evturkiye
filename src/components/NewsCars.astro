@@ -1,0 +1,63 @@
+---
+// Haberde geçen ve Türkiye'de satışta olan modeller için EV Türkiye hesapları:
+// başlangıç fiyatı, WLTP ve gerçekçi otoyol menzili, 10 dakikada kazanılan menzil, 100 km hızlı şarj maliyeti.
+// Haberi Türkiye'deki alıcı açısından somutlaştıran, sitenin kendi verisinden gelen bölüm.
+import ops from '../data/operators.json';
+import { modelGroups, avgDc, CHARGE_EFF, price, monthTr } from '../lib/ev';
+interface Props { title: string; body: string }
+const { title, body } = Astro.props;
+const norm = (s: string) => ' ' + s.toLocaleLowerCase('tr').replace(/[^\p{L}\d]+/gu, ' ') + ' ';
+const T = norm(title), B = norm(body);
+const has = (txt: string, w: string) => txt.includes(norm(w));
+const found = modelGroups
+  .filter((g) => g.onSale && g.versions.some((v) => !v.discontinued && v.dcMax > 0))
+  .map((g) => {
+    const brandHit = (t: string) => has(t, g.brand) || (g.brand === 'Mercedes-Benz' && has(t, 'Mercedes'));
+    const inTitle = brandHit(T + B) && has(T, g.model);
+    const inBody = brandHit(T + B) && has(B, g.model);
+    const n = B.split(norm(g.model)).length - 1;
+    return { g, score: inTitle ? 2 : inBody ? 1 : 0, n };
+  })
+  .filter((x) => x.score > 0 && x.g.model.length > 1)
+  .sort((a, b) => b.score - a.score || b.n - a.n || (a.g.fromPrice ?? 9e9) - (b.g.fromPrice ?? 9e9))
+  .slice(0, 4)
+  .map(({ g }) => {
+    const live = g.versions.filter((v) => !v.discontinued && v.dcMax > 0);
+    const v = [...live].sort((a, b) => (a.priceTL ?? 9e9) - (b.priceTL ?? 9e9))[0];
+    return {
+      g, v,
+      hw: Math.round((v.battery / v.highway) * 100),
+      km10: Math.round(((v.dcMax * 0.68 * 10) / 60 / v.highway) * 100),
+      c100: Math.round((v.highway / CHARGE_EFF) * avgDc),
+    };
+  });
+const tr = (n: number) => n.toLocaleString('tr-TR');
+---
+{found.length > 0 && (
+  <aside class="ncars card">
+    <h2>Türkiye'deki alıcı için rakamlar</h2>
+    <p class="muted small">Haberde geçen ve Türkiye'de satışta olan modeller, EV Türkiye hesaplarıyla. Otoyol menzili ve maliyet gerçekçi otoyol tüketimine göre; hızlı şarj fiyatı {ops.operators.length} operatörün ortalaması ({avgDc.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} TL/kWh).</p>
+    <div class="ncars-wrap"><table>
+      <thead><tr><th>Model (versiyon)</th><th>Başlangıç fiyatı</th><th>WLTP / otoyol menzili</th><th>10 dk hızlı şarjda</th><th>100 km (hızlı şarj)</th></tr></thead>
+      <tbody>
+        {found.map(({ g, v, hw, km10, c100 }) => (
+          <tr>
+            <td><a href={`/modeller/${g.brandSlug}/${g.modelSlug}/`}><b>{g.brand} {g.model}</b></a><br /><span class="muted small">{v.version}</span></td>
+            <td>{v.priceTL ? <>{price(v.priceTL)}<br /><span class="muted small">{monthTr(v.priceDate)}</span></> : 'Açıklanmadı'}</td>
+            <td>{tr(v.wltp)} / ~{tr(hw)} km</td>
+            <td>~{tr(km10)} km</td>
+            <td>~{tr(c100)} TL</td>
+          </tr>
+        ))}
+      </tbody>
+    </table></div>
+    <p class="small">Kendi rotanda kaç şarj gerektiğini <a href="/rota-planlayici/">Rota Planlayıcı</a>'da, modelleri yan yana <a href={`/karsilastir/?a=${found[0].v.slug}${found[1] ? `&b=${found[1].v.slug}` : ''}`}>Karşılaştır</a>'da görebilirsin.</p>
+  </aside>
+)}
+<style>
+  .ncars { margin: 28px 0; padding: 18px 20px; }
+  .ncars h2 { font-size: 1.15rem; margin: 0 0 6px; }
+  .ncars-wrap { overflow-x: auto; margin: 10px 0; }
+  .ncars table { width: 100%; font-size: .9rem; }
+  .ncars td, .ncars th { white-space: normal; }
+</style>

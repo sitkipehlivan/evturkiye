@@ -28,7 +28,7 @@ const jsonLd = {
   itemListElement: list.map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: `${m.brand} ${m.model} ${m.version}`, url: new URL(`/modeller/${m.brandSlug}/${m.modelSlug}`, Astro.site).toString() })),
 };
 ---
-<Base title={fitTitle(...(pd ? [`${name} Elektrikli Araç Modelleri ve Fiyat Listesi ${monthTr(pd)}`, `${name} Elektrikli Araç Fiyat Listesi ${monthTr(pd)}`] : [`${name} Elektrikli Araç Modelleri: Menzil, Şarj ve Maliyet`, `${name} Elektrikli Araç Modelleri: Menzil ve Şarj`]))} image={groups.find((g) => g.image)?.image?.src} description={desc} jsonLd={jsonLd} crumbs={[['Modeller', '/modeller/'], [name, Astro.url.pathname]]}>
+<Base title={fitTitle(...(pd ? [`${name} Elektrikli Araç Modelleri ve Fiyat Listesi ${monthTr(pd)}`, `${name} Elektrikli Araç Fiyat Listesi ${monthTr(pd)}`] : [`${name} Elektrikli Araç Modelleri: Menzil, Şarj ve Maliyet`, `${name} Elektrikli Araç Modelleri: Menzil ve Şarj`]))} image={groups.find((g) => g.image)?.image?.src} description={desc} jsonLd={jsonLd} noindex={!groups.some((g) => g.onSale)} crumbs={[['Modeller', '/modeller/'], [name, Astro.url.pathname]]}>
   <section class="section-sm">
     <div class="container">
       <nav class="crumbs small muted"><a href="/modeller">Modeller</a> / {name}</nav>
