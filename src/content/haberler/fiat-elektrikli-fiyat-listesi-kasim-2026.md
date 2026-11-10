@@ -11,6 +11,7 @@ source: "Webtekno"
 sourceUrl: "https://www.webtekno.com/fiat-kasim-2026-fiyat-indirim-kampanya-kredi-h228580.html"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 **Fiat**'ın **Kasım 2026 fiyat listesi**nde elektrikli modellerdeki en büyük değişiklik **Fiat 600e**'de. 2025 model yılı **600 BEV La Prima**, 1.989.900 TL olan güncel fiyatı yerine Kasım ayında **1.854.900 TL** kampanyalı fiyatla satılıyor; fark **135.000 TL**. Markanın en uygun fiyatlı elektrikli otomobili **Fiat Grande Panda** Elektrikli ise **1.609.900 TL**'den başlayan fiyatla ya da 200.000 TL'lik **12 ay vadeli %0 faizli** krediyle sunuluyor. Listeyi 9 Kasım'da Webtekno yayımladı.
