@@ -40,6 +40,8 @@ const crumbLd = crumbs?.length ? {
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // Advance reklam sunucusu adresi
 const ADV_URL = 'https://advance-reklam.netlify.app';
+// Advance Adserver yayıncı modülü (CDN). Boş bırakılırsa eski reklam sunucusu (ADV_URL/a.js) kullanılır — anında geri dönüş.
+const AA_SITE = '';
 const ogImage = new URL(image, Astro.site);
 ---
 <!doctype html>
@@ -62,7 +64,9 @@ const ogImage = new URL(image, Astro.site);
       gtag('config', 'G-6S4Y5HKH1N');
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S4Y5HKH1N"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5841017945537557" crossorigin="anonymous"></script>
+    <!-- AdSense: doğrulama etiketi her zaman; betik yalnız reklam çerezleri kabul edilince (KVKK) -->
+    <meta name="google-adsense-account" content="ca-pub-5841017945537557" />
+    <script is:inline>(function(){var y=0;function ac(){if(y)return;var c=null;try{c=localStorage.getItem('evt-cerez')}catch(e){}if(c!=='kabul')return;y=1;var s=document.createElement('script');s.async=1;s.crossOrigin='anonymous';s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5841017945537557';document.head.appendChild(s)}ac();document.addEventListener('evt-cerez',ac)})();</script>
     <title>{fullTitle}</title>
     <meta name="description" content={metaDesc} />
     <link rel="canonical" href={canonical} />
@@ -153,7 +157,7 @@ const ogImage = new URL(image, Astro.site);
     </script>
     {fbMeta && <AuthDialog />}
     <CookieBanner />
-    <script is:inline define:vars={{ ADV: ADV_URL }}>
+    <script is:inline define:vars={{ ADV: ADV_URL, AA: AA_SITE }}>
       // Advance reklam sunucusu: masthead, banner alanları, raylar, pageskin ve geçiş reklamı (yönetim: ADV/panel)
       window.advance = {
         site: 'evturkiye', icerik: 1180, rayUst: 150,
@@ -168,7 +172,10 @@ const ogImage = new URL(image, Astro.site);
         var t = document.getElementById(id); if (!t) return;
         s.style.display = ''; s.innerHTML = t.innerHTML;
       });
-      var s = document.createElement('script'); s.async = true; s.src = ADV + '/a.js'; document.head.appendChild(s);
+      var s = document.createElement('script'); s.async = true;
+      if (AA) { s.src = 'https://ads.advancedigital.media/aa/yl.js?v=' + Math.floor(Date.now() / 36e5); s.setAttribute('data-site', AA); }
+      else s.src = ADV + '/a.js';
+      document.head.appendChild(s);
     </script>
     <script is:inline>
       // Çerezsiz ziyaret sayacı: çerez, cihaz kimliği, IP saklamaz; yalnızca sayfa yolu ve reklam etiketi (utm) toplam olarak sayılır.
