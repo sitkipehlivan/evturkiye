@@ -66,7 +66,7 @@ const ogImage = new URL(image, Astro.site);
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6S4Y5HKH1N"></script>
     <!-- AdSense: doğrulama etiketi her zaman; betik yalnız reklam çerezleri kabul edilince (KVKK) -->
     <meta name="google-adsense-account" content="ca-pub-5841017945537557" />
-    <script is:inline>(function(){var y=0;function ac(){if(y)return;var c=null;try{c=localStorage.getItem('evt-cerez')}catch(e){}if(c!=='kabul')return;y=1;var s=document.createElement('script');s.async=1;s.crossOrigin='anonymous';s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5841017945537557';document.head.appendChild(s)}ac();document.addEventListener('evt-cerez',ac)})();</script>
+    <script is:inline>(function(){if(/[?&]demo=/.test(location.search))return;var y=0;function ac(){if(y)return;var c=null;try{c=localStorage.getItem('evt-cerez')}catch(e){}if(c!=='kabul')return;y=1;var s=document.createElement('script');s.async=1;s.crossOrigin='anonymous';s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5841017945537557';document.head.appendChild(s)}ac();document.addEventListener('evt-cerez',ac)})();</script>
     <title>{fullTitle}</title>
     <meta name="description" content={metaDesc} />
     <link rel="canonical" href={canonical} />
@@ -159,6 +159,8 @@ const ogImage = new URL(image, Astro.site);
     <CookieBanner />
     <script is:inline define:vars={{ ADV: ADV_URL, AA: AA_SITE }}>
       // Advance reklam sunucusu: masthead, banner alanları, raylar, pageskin ve geçiş reklamı (yönetim: ADV/panel)
+      // Marka demo sayfalarında (?demo=...) sitenin kendi reklamları yüklenmez; yalnızca demo kreatifi görünür.
+      if (/[?&]demo=/.test(location.search)) { document.documentElement.setAttribute('data-demo', ''); } else {
       window.advance = {
         site: 'evturkiye', icerik: 1180, rayUst: 150,
         interstitial: 'evturkiye-interstitial', pageskin: 'evturkiye-pageskin', raylar: ['evturkiye-rail-sol', 'evturkiye-rail-sag'],
@@ -176,7 +178,9 @@ const ogImage = new URL(image, Astro.site);
       if (AA) { s.src = 'https://ads.advancedigital.media/aa/yl.js?v=' + Math.floor(Date.now() / 36e5); s.setAttribute('data-site', AA); }
       else s.src = ADV + '/a.js';
       document.head.appendChild(s);
+      }
     </script>
+    <style is:global>html[data-demo] .ad-slot { display: none !important; }</style>
     <script is:inline>
       // Çerezsiz ziyaret sayacı: çerez, cihaz kimliği, IP saklamaz; yalnızca sayfa yolu ve reklam etiketi (utm) toplam olarak sayılır.
       (function () {

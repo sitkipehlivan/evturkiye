@@ -64,25 +64,11 @@ const payload = JSON.stringify({ models, operators: opsData.operators, preset, a
     <p class="pl-status" hidden role="status"></p>
   </form>
   <div class="pl-map-wrap card"><div class="pl-map"></div></div>
-  <div class="pl-ad" data-pl-demo hidden></div>
   <div class="pl-results" aria-live="polite"></div>
 </section>
 
 <script>
   import '../scripts/planner';
-</script>
-<script is:inline>
-  // Marka sunumları için reklam demosu: ?demo=turkcell gibi bir parametreyle açılan sayfada 300x600 kreatif formun altında gösterilir.
-  // Parametre yoksa hiçbir şey olmaz (normal ziyaretçiler görmez).
-  (function () {
-    var DEMOS = { turkcell: '/reklam-demo/turkcell/creatives/interactive-skyscraper/' };
-    var key = new URLSearchParams(location.search).get('demo');
-    var src = key && DEMOS[key]; if (!src) return;
-    var box = document.querySelector('[data-pl-demo]'); if (!box) return;
-    box.innerHTML = '<div class="pl-ad-label">Reklam</div><iframe src="' + src + '" width="300" height="600" scrolling="no" title="Reklam" loading="eager"></iframe>';
-    box.hidden = false;
-    box.closest('.planner').classList.add('has-ad');
-  })();
 </script>
 
 <style is:global>
@@ -112,11 +98,6 @@ const payload = JSON.stringify({ models, operators: opsData.operators, preset, a
   .pl-map-wrap { overflow: hidden; padding: 0; }
   .pl-map { height: 560px; }
   .pl-results { grid-column: 1 / -1; scroll-margin-top: 90px; }
-  .pl-ad { grid-column: 1; display: flex; flex-direction: column; align-items: center; }
-  .pl-ad[hidden] { display: none; }
-  .pl-ad iframe { display: block; border: 0; width: 300px; height: 600px; }
-  .pl-ad-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .planner.has-ad .pl-map-wrap { grid-row: span 2; }
   .pl-results:empty { display: none; }
   .pl-pin { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 800 13px var(--font); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
   .pl-pin.start { background: var(--ink); }

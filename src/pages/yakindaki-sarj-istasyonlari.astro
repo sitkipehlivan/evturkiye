@@ -41,6 +41,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [
         <label class="nr-dc"><input type="checkbox" data-dc checked /> Yalnızca hızlı şarj (DC)</label>
       </div>
       <p class="nr-status" data-status hidden role="status"></p>
+      <aside class="nr-demo" data-demo-slot hidden></aside>
 
       <div class="nr-grid" data-grid hidden>
         <div class="card nr-map-wrap"><div class="nr-map" data-map></div></div>
@@ -89,6 +90,17 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [
       <GuideLinks />
     </div>
   </section>
+  <script is:inline>
+    // Marka sunumları için reklam demosu: ?demo=turkcell ile açılınca 300x600 kreatif sağda (mobilde arama çubuğunun altında) görünür.
+    // Parametre yoksa hiçbir şey olmaz; demo sayfasında sitenin kendi reklamları da yüklenmez (Base.astro).
+    (function () {
+      var DEMOS = { turkcell: '/reklam-demo/turkcell/creatives/interactive-skyscraper/' };
+      var key = new URLSearchParams(location.search).get('demo'), src = key && DEMOS[key]; if (!src) return;
+      var box = document.querySelector('[data-demo-slot]'); if (!box) return;
+      box.innerHTML = '<div class="nr-demo-in"><div class="nr-demo-label">Reklam</div><iframe src="' + src + '" width="300" height="600" scrolling="no" title="Reklam"></iframe></div>';
+      box.hidden = false; box.parentElement.classList.add('has-demo');
+    })();
+  </script>
 </Base>
 <style>
   .nr-info { max-width: 860px; margin: 36px 0 8px; }
@@ -303,5 +315,15 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [
     .nr-map-wrap { position: static; }
     .nr-map { height: 340px; }
     .nr-list { max-height: none; }
+  }
+  .nr-demo[hidden] { display: none; }
+  .nr-demo { display: flex; justify-content: center; margin: 18px 0; }
+  .nr-demo iframe { display: block; border: 0; width: 300px; height: 600px; }
+  .nr-demo-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 6px; }
+  @media (min-width: 1000px) {
+    .has-demo { display: grid; grid-template-columns: minmax(0, 1fr) 300px; column-gap: 32px; align-items: start; }
+    .has-demo > * { grid-column: 1; }
+    .has-demo > .nr-demo { grid-column: 2; grid-row: 1 / span 60; margin: 0; align-self: stretch; display: block; }
+    .has-demo .nr-demo-in { position: sticky; top: 96px; }
   }
 </style>
