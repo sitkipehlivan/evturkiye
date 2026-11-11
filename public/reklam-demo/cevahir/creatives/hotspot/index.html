@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="ad.size" content="width=320,height=480">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>İstanbul Cevahir · Video + Hotspot + Endcard</title>
+<script>var clickTag = "https://www.istanbulcevahir.com/";</script>
+<style>
+:root{--blue:#009fe4;--boomer:#1f8fd0;--x:#a1197e;--y:#e4202a;--z:#f7c600;--alfa:#c6dc2b}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:"Plus Jakarta Sans","Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
+#ad{position:relative;width:100%;height:100%;overflow:hidden;cursor:pointer}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.25);z-index:5}
+.prog i{display:block;height:100%;width:0;background:#fff}
+.snd{position:absolute;right:10px;top:10px;z-index:5;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:15px;line-height:32px;text-align:center;cursor:pointer}
+.hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:700;padding:6px 11px;border-radius:999px;white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none}
+.hint.on{opacity:1}
+.hs{position:absolute;z-index:4;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:0;background:#fff;color:var(--k,#0077c8);font:800 24px/34px Arial,sans-serif;text-align:center;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.35);opacity:0;transform:scale(.4);transition:opacity .25s,transform .25s;pointer-events:none}
+.hs.on{opacity:1;transform:scale(1);pointer-events:auto}
+.hs.on:before{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid #fff;animation:p 1.4s infinite}
+@keyframes p{from{opacity:.9;transform:scale(.8)}to{opacity:0;transform:scale(1.5)}}
+.sheet{position:absolute;left:8px;right:8px;bottom:10px;z-index:7;background:#fff;border-radius:14px;overflow:hidden;display:flex;box-shadow:0 10px 30px rgba(0,0,0,.4);transform:translateY(120%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.sheet.on{transform:none}
+.sheet img{width:96px;object-fit:cover;flex:none}
+.sheet .tx{padding:11px 12px 12px;flex:1;min-width:0}
+.sheet .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--k);padding:3px 7px;border-radius:5px}
+.sheet .tag.dark{color:#141414}
+.sheet h3{font-size:15px;line-height:1.2;margin:6px 0 3px;color:#141414}
+.sheet p{font-size:12px;line-height:1.3;color:#4b5563}
+.sheet .go{margin-top:8px;display:inline-block;font-size:12px;font-weight:800;color:#0077c8;border-bottom:2px solid currentColor}
+.sheet .x{position:absolute;right:6px;top:6px;width:26px;height:26px;border-radius:50%;border:0;background:#f3f4f6;color:#374151;font:700 15px/26px Arial;cursor:pointer}
+.end{position:absolute;inset:0;z-index:6;background:var(--blue);color:#fff;display:flex;flex-direction:column;align-items:center;padding:18px 0 14px;opacity:0;pointer-events:none;transition:opacity .45s;overflow:hidden}
+.end.on{opacity:1;pointer-events:auto}
+.end:before{content:"";position:absolute;width:520px;height:520px;left:50%;top:52%;transform:translate(-50%,-50%);background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 6 61 39h35L68 60l11 34-29-21-29 21 11-34L4 39h35z' fill='none' stroke='%23fff' stroke-opacity='.12' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E");pointer-events:none}
+.end img.lg{width:88px;position:relative}
+.end h2{position:relative;font-size:22px;font-weight:800;letter-spacing:-.02em;margin:8px 0 2px}
+.end .sub{position:relative;font-size:12px;opacity:.9}
+.gal{position:relative;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 16px;width:100%;scrollbar-width:none;flex:1;min-height:0}
+.gal::-webkit-scrollbar{display:none}
+.card{position:relative;flex:none;width:118px;height:100%;max-height:200px;border-radius:12px;overflow:hidden;scroll-snap-align:center;background:#000;border:0;cursor:pointer;padding:0}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.card em{position:absolute;left:8px;bottom:8px;font-style:normal;font-size:11px;font-weight:800;color:#fff;background:var(--k);padding:3px 7px;border-radius:5px}
+.card em.dark{color:#141414}
+.card i{position:absolute;right:7px;top:7px;width:24px;height:24px;border-radius:50%;background:#fff;color:#0077c8;font:800 18px/24px Arial;font-style:normal;text-align:center}
+.btns{position:relative;display:flex;gap:8px;width:100%;padding:0 16px}
+.btn{flex:1;height:40px;border-radius:999px;border:0;font:800 13px/40px inherit;font-family:inherit;text-align:center;cursor:pointer;background:#fff;color:#0077c8}
+.re{position:relative;margin-top:9px;background:none;border:0;color:#fff;font:700 12px inherit;font-family:inherit;opacity:.9;cursor:pointer;text-decoration:underline}
+@media (min-height:560px){.end{padding-top:26px}.end img.lg{width:100px}.end h2{font-size:24px}.card{width:126px;max-height:250px}}
+</style>
+</head>
+<body>
+<div id="ad">
+  <video id="v" src="../assets/cevahir.mp4" poster="../assets/poster.jpg" muted playsinline webkit-playsinline preload="auto"></video>
+  <button class="snd" id="snd" aria-label="Ses">🔇</button>
+  <div class="hint" id="hint">＋ işaretlerine dokun, detayları gör</div>
+
+  <button class="hs" data-i="0" style="--k:var(--boomer)">+</button>
+  <button class="hs" data-i="1" style="--k:var(--x)">+</button>
+  <button class="hs" data-i="2" style="--k:var(--z)">+</button>
+  <button class="hs" data-i="3" style="--k:var(--y)">+</button>
+  <button class="hs" data-i="4" style="--k:var(--blue)">+</button>
+  <button class="hs" data-i="5" style="--k:var(--alfa)">+</button>
+
+  <div class="prog"><i id="bar"></i></div>
+
+  <div class="sheet" id="sheet">
+    <img id="s-img" src="../assets/boomer.jpg" alt="">
+    <div class="tx"><span class="tag" id="s-tag">Baby Boomer</span><h3 id="s-h">—</h3><p id="s-p">—</p><span class="go" id="s-go">İncele →</span></div>
+    <button class="x" id="s-x" aria-label="Kapat">✕</button>
+  </div>
+
+  <div class="end" id="end">
+    <img class="lg" src="../assets/cevahir-logo-white.png" alt="İstanbul Cevahir">
+    <h2>Yani kısaca C Kuşağı!</h2>
+    <div class="sub">Her kuşak Cevahir'de. Sen hangisisin?</div>
+    <div class="gal" id="gal">
+      <button class="card" data-i="0"><img src="../assets/boomer.jpg" alt=""><i>+</i><em style="background:var(--boomer)">Boomer</em></button>
+      <button class="card" data-i="1"><img src="../assets/genx.jpg" alt=""><i>+</i><em style="background:var(--x)">Gen X</em></button>
+      <button class="card" data-i="3"><img src="../assets/geny.jpg" alt=""><i>+</i><em style="background:var(--y)">Gen Y</em></button>
+      <button class="card" data-i="2"><img src="../assets/genz.jpg" alt=""><i>+</i><em class="dark" style="background:var(--z)">Gen Z</em></button>
+      <button class="card" data-i="5"><img src="../assets/alfa.jpg" alt=""><i>+</i><em class="dark" style="background:var(--alfa)">Alfa</em></button>
+    </div>
+    <div class="btns"><button class="btn" data-exit>Mağazaları keşfet</button></div>
+    <button class="re" id="replay">↻ Tekrar izle</button>
+  </div>
+</div>
+<script>
+(function(){
+  function exit(){window.open(window.clickTag,"_blank")}
+  // Hotspot verisi: videoda görünme aralığı (sn) ve video karesindeki konum (oran, 0–1)
+  var H=[
+    {a:3.0,b:4.9,x:.47,y:.56,k:"--boomer",tag:"Baby Boomer",h:"Klasik şıklık",p:"Ceket, gömlek, sevdiği markalar: zamansız stil Cevahir'de.",img:"boomer"},
+    {a:5.0,b:6.7,x:.56,y:.45,k:"--x",tag:"Gen X",h:"Aksesuar tutkusu",p:"Fulardan çantaya, kombini tamamlayan her şey.",img:"genx"},
+    {a:6.85,b:7.85,x:.70,y:.24,k:"--z",tag:"Gen Z",h:"Kulaklık takılı",p:"Teknoloji, oyun ve yeni çıkanlar ilk Gen Z'nin elinde.",img:"genz",dark:1},
+    {a:8.0,b:9.2,x:.47,y:.78,k:"--y",tag:"Gen Y",h:"Kahve molası",p:"Elinde kahvesi, gününü kafede planlayan Gen Y.",img:"geny"},
+    {a:13.9,b:15.0,x:.60,y:.32,k:"--blue",tag:"C Kuşağı",h:"Anı yakala",p:"Fotoğraf, elektronik ve her kuşaktan paylaşım.",img:"grup-foto"},
+    {a:9.3,b:11.6,x:.50,y:.62,k:"--alfa",tag:"Alfa",h:"Küçük kaşifler",p:"Oyuncak, eğlence ve keşif: Alfa kuşağı da Cevahir'de.",img:"alfa",dark:1}
+  ];
+  var ad=document.getElementById("ad"),v=document.getElementById("v"),bar=document.getElementById("bar"),snd=document.getElementById("snd"),end=document.getElementById("end"),hint=document.getElementById("hint");
+  var hs=[].slice.call(document.querySelectorAll(".hs")),sheet=document.getElementById("sheet"),open=false,hinted=0;
+  var VW=540,VH=960;
+  function place(){var w=ad.clientWidth,h=ad.clientHeight,s=Math.max(w/VW,h/VH),ox=(w-VW*s)/2,oy=(h-VH*s)/2;
+    hs.forEach(function(el){var d=H[+el.dataset.i];el.style.left=(ox+d.x*VW*s)+"px";el.style.top=(oy+d.y*VH*s)+"px"})}
+  place();window.addEventListener("resize",place);
+  function play(){var p=v.play();if(p&&p.catch)p.catch(function(){})}
+  function tick(){var t=v.currentTime,any=false;
+    hs.forEach(function(el){var d=H[+el.dataset.i],on=!open&&t>=d.a&&t<=d.b;el.classList.toggle("on",on);if(on)any=true});
+    hint.classList.toggle("on",any&&hinted<2&&!open);
+    bar.style.width=(t/(v.duration||28)*100)+"%"}
+  v.addEventListener("timeupdate",tick);
+  v.addEventListener("ended",function(){hs.forEach(function(el){el.classList.remove("on")});closeSheet(true);end.classList.add("on")});
+  function openSheet(i){var d=H[i];open=true;hinted=9;v.pause();
+    document.getElementById("s-img").src="../assets/"+d.img+".jpg";
+    var tag=document.getElementById("s-tag");tag.textContent=d.tag;tag.style.setProperty("--k","var("+d.k+")");tag.classList.toggle("dark",!!d.dark);
+    document.getElementById("s-h").textContent=d.h;document.getElementById("s-p").textContent=d.p;
+    sheet.classList.add("on");tick()}
+  function closeSheet(noPlay){if(!open)return;open=false;sheet.classList.remove("on");if(!noPlay&&!end.classList.contains("on"))play()}
+  hs.forEach(function(el){el.addEventListener("click",function(e){e.stopPropagation();openSheet(+el.dataset.i)})});
+  [].forEach.call(document.querySelectorAll(".card"),function(c){c.addEventListener("click",function(e){e.stopPropagation();openSheet(+c.dataset.i)})});
+  document.getElementById("s-x").addEventListener("click",function(e){e.stopPropagation();closeSheet()});
+  sheet.addEventListener("click",function(e){e.stopPropagation();exit()});
+  [].forEach.call(document.querySelectorAll("[data-exit]"),function(b){b.addEventListener("click",function(e){e.stopPropagation();exit()})});
+  document.getElementById("replay").addEventListener("click",function(e){e.stopPropagation();closeSheet(true);end.classList.remove("on");v.currentTime=0;play()});
+  document.getElementById("gal").addEventListener("click",function(e){e.stopPropagation()});
+  end.addEventListener("click",function(e){e.stopPropagation()});
+  snd.addEventListener("click",function(e){e.stopPropagation();v.muted=!v.muted;snd.textContent=v.muted?"🔇":"🔊";if(v.paused&&!v.ended&&!open)play()});
+  ad.addEventListener("click",exit);
+  setTimeout(function(){hinted=2},12000);
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.intersectionRatio>=.5){if(!v.ended&&!open)play()}else v.pause()})},{threshold:[0,.5]}).observe(ad);
+  } else play();
+})();
+</script>
+</body>
+</html>

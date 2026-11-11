@@ -1,0 +1,32 @@
+/* Advance Rich Media demo — ortak yayıncı sayfası iskeleti */
+@import url(/fonts/fonts.css);
+:root{
+  --cv-blue:#009fe4; --cv-blue-d:#0077c8;
+  --g-boomer:#1f8fd0; --g-x:#a1197e; --g-y:#e4202a; --g-z:#f7c600; --g-alfa:#c6dc2b;
+  --ink:#16181d; --muted:#6b7280; --line:#e8eaee;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;color:var(--ink);background:#f3f4f6;line-height:1.55}
+.page{max-width:430px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 0 1px var(--line)}
+.pub-head{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 16px;background:#fff;border-bottom:1px solid var(--line)}
+.pub-logo{font-weight:800;letter-spacing:-.02em;font-size:18px}
+.pub-logo span{color:#9ca3af;font-weight:600}
+.pub-burger{width:22px;height:14px;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);position:relative}
+.pub-burger:after{content:"";position:absolute;left:0;right:0;top:4px;border-top:2px solid var(--ink)}
+.demo-bar{background:#0d1117;color:#fff;font-size:12px;padding:8px 16px;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.demo-bar a{color:#7dd3fc;text-decoration:none;font-weight:600}
+article{padding:18px 16px 40px}
+.kicker{font-size:12px;font-weight:700;color:var(--cv-blue-d);text-transform:uppercase;letter-spacing:.04em}
+h1{font-size:24px;line-height:1.2;letter-spacing:-.02em;margin:6px 0 10px}
+.meta{font-size:12px;color:var(--muted);margin-bottom:14px}
+.hero-ph{aspect-ratio:16/10;border-radius:10px;background:linear-gradient(135deg,#e5e7eb,#f3f4f6);margin-bottom:16px}
+article p{font-size:16px;margin:0 0 14px;color:#2b2f36}
+.ad-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9ca3af;text-align:center;margin:22px 0 6px}
+.ad-slot{margin:0 -16px}
+.pub-foot{padding:24px 16px 60px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+.slot{display:flex;justify-content:center;margin:0 -16px;padding:4px 0 8px;background:#f7f7f8}
+.slot iframe{display:block;border:0;background:#000}
+.sizes{display:flex;gap:6px;justify-content:center;margin:10px 0 0}
+.sizes a{font-size:11px;font-weight:700;color:#374151;text-decoration:none;padding:5px 10px;border-radius:999px;background:#eef0f3}
+.sizes a.on{background:#111827;color:#fff}
