@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="ad.size" content="width=300,height=600">
+<meta name="robots" content="noindex,nofollow">
+<title>Turkcell · Interactive Skyscraper 300×600</title>
+<script>var clickTag = "https://www.turkcell.com.tr/";</script>
+<style>
+@font-face{font-family:Barlow;font-weight:800;src:url(../assets/fonts/barlow-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+2000-206F}
+@font-face{font-family:Barlow;font-weight:800;src:url(../assets/fonts/barlow-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-02AF}
+@font-face{font-family:Barlow;font-weight:900;src:url(../assets/fonts/barlow-latin-900-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+2000-206F}
+@font-face{font-family:Barlow;font-weight:900;src:url(../assets/fonts/barlow-latin-ext-900-normal.woff2) format('woff2');unicode-range:U+0100-02AF}
+@font-face{font-family:Barlow;font-weight:900;font-style:italic;src:url(../assets/fonts/barlow-latin-900-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+2000-206F}
+@font-face{font-family:Barlow;font-weight:900;font-style:italic;src:url(../assets/fonts/barlow-latin-ext-900-italic.woff2) format('woff2');unicode-range:U+0100-02AF}
+@font-face{font-family:'Nunito Sans';font-weight:700;src:url(../assets/fonts/nunito-sans-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+2000-206F}
+@font-face{font-family:'Nunito Sans';font-weight:700;src:url(../assets/fonts/nunito-sans-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02AF}
+@font-face{font-family:'Nunito Sans';font-weight:800;src:url(../assets/fonts/nunito-sans-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+2000-206F}
+@font-face{font-family:'Nunito Sans';font-weight:800;src:url(../assets/fonts/nunito-sans-latin-ext-800-normal.woff2) format('woff2');unicode-range:U+0100-02AF}
+:root{--navy:#0A1A5C;--navy2:#06103F;--blue:#1E46D2;--blue2:#2F6BFF;--y:#FFC900}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:300px;height:600px;overflow:hidden;background:transparent}
+#ad{position:relative;width:300px;height:600px;overflow:hidden;font-family:'Nunito Sans',Arial,sans-serif;color:#fff;
+ background:linear-gradient(170deg,var(--blue) 0%,var(--navy) 45%,var(--navy2) 100%);user-select:none;cursor:default}
+#ad svg.bg{position:absolute;left:0;top:0}
+.logo{position:absolute;left:18px;top:18px;height:26px}
+.rk{position:absolute;right:8px;top:6px;font-size:8px;letter-spacing:1px;color:#9fb0e8}
+.ttl{position:absolute;left:18px;top:58px;width:270px;font:italic 900 28px/1 Barlow,Arial,sans-serif}
+.ttl span{color:var(--y)}
+.hint{position:absolute;left:18px;top:122px;font-size:12px;font-weight:800;color:#c8d3ff;letter-spacing:.5px;transition:opacity .3s;animation:hb 1.2s ease-in-out infinite}
+@keyframes hb{50%{opacity:.55}}
+.tile{position:absolute;border:0;border-radius:16px;overflow:hidden;cursor:pointer;text-align:left;color:#fff;
+ background:linear-gradient(150deg,var(--blue2),var(--blue));box-shadow:0 8px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3);
+ transition:left .45s cubic-bezier(.2,.8,.2,1),top .45s cubic-bezier(.2,.8,.2,1),width .45s cubic-bezier(.2,.8,.2,1),height .45s cubic-bezier(.2,.8,.2,1),transform .2s,box-shadow .2s;
+ outline:3px solid transparent;outline-offset:2px}
+.tile.gem{background:linear-gradient(150deg,var(--y),#FFB000);color:var(--navy)}
+.tile:hover{transform:translateY(-2px)}
+.tile.on{outline-color:var(--y);transform:translateY(-3px)}
+.tile .ic{position:absolute;left:14px;top:14px;width:48px;height:48px;border-radius:50%;background:rgba(6,16,63,.45);display:flex;align-items:center;justify-content:center;transition:left .45s,top .45s}
+.tile.gem .ic{background:rgba(10,26,92,.12)}
+.tile .tx{position:absolute;left:14px;top:70px;width:110px;font:900 15px/1.05 Barlow,Arial,sans-serif;transition:opacity .25s}
+.tile .ck{position:absolute;right:6px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--y);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.tile.gem .ck{background:var(--navy)}
+.tile.seen .ck{opacity:1}
+#ad.tabs .tile .tx{opacity:0}
+#ad.tabs .tile .ic{left:6px;top:2px}
+.tile.pulse{animation:pl 1.6s ease-in-out infinite}
+@keyframes pl{50%{transform:scale(1.04)}}
+.det{position:absolute;left:18px;top:216px;width:264px;height:300px;opacity:0;transform:translateX(30px);pointer-events:none;transition:opacity .35s,transform .35s}
+.det.on{opacity:1;transform:none;pointer-events:auto}
+.det .vis{position:absolute;left:0;top:0;width:264px;height:132px;border-radius:14px;object-fit:cover;object-position:50% 40%;background:#0e1650;overflow:hidden}
+.det img.vis.fit{object-fit:contain}
+.det h3{position:absolute;left:0;top:146px;width:264px;font:900 24px/1 Barlow,Arial,sans-serif}
+.det p{position:absolute;left:0;top:178px;width:264px;font-size:15px;line-height:1.35;font-weight:700;color:#dfe6ff}
+.det .chip{position:absolute;left:0;top:246px;background:var(--y);color:var(--navy);font:900 14px Barlow,Arial,sans-serif;letter-spacing:1px;padding:5px 12px;border-radius:12px;cursor:pointer;border:0}
+#d3 h3{color:var(--y)}
+.gift{position:absolute;left:84px;top:150px;width:96px;transition:top .6s cubic-bezier(.3,1.6,.5,1)}
+#d3.on .gift{top:26px}
+.gift .box{position:absolute;left:0;top:24px;width:96px;height:79px;border-radius:6px;background:linear-gradient(160deg,#FFD84A,var(--y) 50%,#E9A800);box-shadow:0 8px 18px rgba(0,0,0,.5)}
+.gift .box:before,.gift .lid:before{content:"";position:absolute;left:40px;top:0;bottom:0;width:16px;background:var(--blue)}
+.gift .box b{position:absolute;left:0;right:0;top:26px;text-align:center;font:900 24px Barlow,Arial,sans-serif;color:var(--navy)}
+.gift .box b i{font-style:normal;background:var(--y);padding:0 3px;border-radius:3px;position:relative}
+.gift .lid{position:absolute;left:-5px;top:4px;width:106px;height:23px;border-radius:5px;background:linear-gradient(160deg,#FFE27A,var(--y));transform-origin:10% 100%;transition:transform .45s .55s}
+#d3.on .gift .lid{transform:translateY(-6px) rotate(-20deg)}
+.sp{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--y);box-shadow:0 0 10px var(--y);opacity:0}
+#d3.on .sp{animation:sp 1.1s .9s ease-out forwards}
+@keyframes sp{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--x),var(--yy))}}
+.sum{position:absolute;left:18px;top:420px;width:264px;font-size:14px;line-height:1.35;font-weight:700;color:#dfe6ff;transition:opacity .25s}
+.sum b{color:var(--y)}
+#ad.tabs .sum{opacity:0;pointer-events:none}#ad.tabs .hint{visibility:hidden;animation:none}
+.cta{position:absolute;left:18px;top:538px;width:264px;height:44px;border-radius:22px;border:0;background:var(--y);color:var(--navy);font:900 17px Barlow,Arial,sans-serif;letter-spacing:1px;cursor:pointer;transition:transform .15s}
+.cta:hover{transform:scale(1.03)}
+.cta.wig{animation:pl 1.4s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div id="ad">
+ <svg class="bg" width="300" height="600"><circle cx="300" cy="600" r="210" fill="none" stroke="#FFC900" stroke-opacity=".12" stroke-width="30"/><circle cx="300" cy="600" r="130" fill="none" stroke="#FFC900" stroke-opacity=".08" stroke-width="14"/></svg>
+ <img class="logo" src="../assets/turkcell-logo-white.png" alt="Turkcell">
+ <div class="rk">REKLAM</div>
+ <div class="ttl">PEKİ, SEN<br><span>TURKCELL’Lİ MİSİN?</span></div>
+ <div class="hint">Avantajlara dokun, keşfet ↓</div>
+
+ <button class="tile" data-i="0" aria-label="Akıllı Fatura"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFC900" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h12v19l-3-1.8-3 1.8-3-1.8-3 1.8z"/><path d="M9 11.5l2.2 2.2L15.5 9"/></svg></span><span class="tx">AKILLI<br>FATURA</span><span class="ck"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0A1A5C" stroke-width="4" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></span></button>
+ <button class="tile" data-i="1" aria-label="Tumbara"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFC900" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5h8v2.5a6 6 0 0 1 3 5.2V18a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-6.8A6 6 0 0 1 8 6z"/><path d="M10 11h4M12 9v4"/></svg></span><span class="tx">TUMBARA</span><span class="ck"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0A1A5C" stroke-width="4" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></span></button>
+ <button class="tile" data-i="2" aria-label="Turkcell Ailem"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFC900" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-8-4.8-8-10.6A4.4 4.4 0 0 1 12 7.4a4.4 4.4 0 0 1 8 2.5c0 5.8-8 10.6-8 10.6z"/></svg></span><span class="tx">TURKCELL<br>AİLEM</span><span class="ck"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0A1A5C" stroke-width="4" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></span></button>
+ <button class="tile gem" data-i="3" aria-label="Gemini Plus"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0A1A5C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5h16V21H4z"/><path d="M2.5 7h19v3.5h-19z"/><path d="M12 7v14"/><path d="M12 7C10.5 3.5 6.5 3.5 6.8 5.6 7 7.2 12 7 12 7zM12 7c1.5-3.5 5.5-3.5 5.2-1.4C17 7.2 12 7 12 7z"/></svg></span><span class="tx">GEMINI PLUS</span><span class="ck"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FFC900" stroke-width="4" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></span></button>
+
+ <div class="det" id="d0"><img class="vis" src="../assets/akilli-fatura.jpg" alt=""><h3>AKILLI FATURA</h3><p>Paket aşımını engeller; faturan sözünden çıkmaz.</p><button class="chip">ÜCRETSİZ</button></div>
+ <div class="det" id="d1"><img class="vis" src="../assets/tumbara.jpg" alt=""><h3>TUMBARA</h3><p>Paketinden artan faydalar birikir, puana dönüşür.</p><button class="chip">ÜCRETSİZ</button></div>
+ <div class="det" id="d2"><img class="vis fit" src="../assets/turkcell-ailem.jpg" alt=""><h3>TURKCELL AİLEM</h3><p>Ailecek GB paylaş; Ailem Ortak paketleriyle birlikte kazan.</p><button class="chip">ÜCRETSİZ</button></div>
+ <div class="det" id="d3"><div class="vis" style="background:radial-gradient(circle at 50% 70%,#2F6BFF,#0A1A5C 75%)"><div class="gift"><div class="box"><b><i>6 AY</i></b></div><div class="lid"></div></div></div><h3>GEMINI PLUS</h3><p>Tüm Turkcell’lilere 6 ay boyunca ücretsiz.</p><button class="chip">6 AY ÜCRETSİZ</button></div>
+
+ <div class="sum">Turkcell’liysen hepsi <b>tamamen ücretsiz.</b></div>
+ <button class="cta" id="cta">HEMEN KEŞFET →</button>
+</div>
+<script>
+(function(){
+  var ad=document.getElementById('ad'), tiles=[].slice.call(ad.querySelectorAll('.tile')), dets=[0,1,2,3].map(function(i){return document.getElementById('d'+i)});
+  var GRID=[[18,150,126,120],[156,150,126,120],[18,282,126,120],[156,282,126,120]], TABS=[[18,150,60,52],[86,150,60,52],[154,150,60,52],[222,150,60,52]];
+  var act=-1, user=false, tour=null, seen=0;
+  function place(){tiles.forEach(function(t,i){var r=(act<0?GRID:TABS)[i];t.style.left=r[0]+'px';t.style.top=r[1]+'px';t.style.width=r[2]+'px';t.style.height=r[3]+'px';});}
+  // gift sparks
+  var gv=document.querySelector('#d3 .vis');
+  for(var k=0;k<14;k++){var s=document.createElement('i');s.className='sp';var a=k/14*Math.PI*2,d=60+(k*37)%50;s.style.left='130px';s.style.top='60px';s.style.setProperty('--x',Math.cos(a)*d+'px');s.style.setProperty('--yy',Math.sin(a)*d*.7+'px');gv.appendChild(s);}
+  function show(i){
+    act=i; ad.classList.add('tabs'); place();
+    tiles.forEach(function(t,j){t.classList.toggle('on',j===i);t.classList.remove('pulse')});
+    tiles[i].classList.add('seen'); seen|=1<<i; if(seen===15)document.getElementById('cta').classList.add('wig');
+    dets.forEach(function(d,j){ if(j===i){d.classList.remove('on');void d.offsetWidth;d.classList.add('on')} else d.classList.remove('on')});
+  }
+  function exit(){window.open(window.clickTag,'_blank')}
+  function stopTour(){user=true;if(tour){clearTimeout(tour);tour=null}tiles.forEach(function(t){t.classList.remove('pulse')})}
+  tiles.forEach(function(t,i){t.addEventListener('click',function(){stopTour();show(i)})});
+  ad.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',exit)});
+  document.getElementById('cta').addEventListener('click',exit);
+  ad.addEventListener('pointerdown',function(){if(!user)stopTour()},true);
+  place();
+  // attract: tiles pulse; if nobody interacts, a short auto tour shows each benefit once
+  setTimeout(function(){if(!user)tiles.forEach(function(t,i){setTimeout(function(){if(!user)t.classList.add('pulse')},i*150)})},900);
+  var step=0;
+  function next(){ if(user)return; if(step<4){show(step++);tour=setTimeout(next,2600)} else {act=-1;ad.classList.remove('tabs');place();tiles.forEach(function(t){t.classList.remove('on')});dets.forEach(function(d){d.classList.remove('on')});} }
+  tour=setTimeout(next,4500);
+})();
+</script>
+</body>
+</html>
