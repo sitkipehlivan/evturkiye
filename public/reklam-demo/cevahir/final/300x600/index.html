@@ -91,12 +91,15 @@ video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:
   window.aaPx=px;
   var v=document.getElementById("v"),ad=document.getElementById("ad");
   function yukle(){if(v.getAttribute("src"))return;v.setAttribute("src",v.getAttribute("data-src"));try{v.load()}catch(e){}}
+  // görünürken video hazır olunca oynat (oynatma komutu dosya yüklenmeden gelmiş olabilir)
+  var oran=0;function hazir(){if(oran>=.5&&v.paused&&!v.ended&&!document.hidden){var p=v.play();if(p&&p.catch)p.catch(function(){})}}
+  v.addEventListener("canplay",hazir);v.addEventListener("loadeddata",hazir);
   px("i",1);
   // video yalnız reklam ekrana girince yüklenir
   if("IntersectionObserver" in window){
     px("m",1);var zam=null;
     new IntersectionObserver(function(es){es.forEach(function(e){var r=e.isIntersecting?e.intersectionRatio:0;
-      if(r>0)yukle();
+      oran=r;if(r>0)yukle();
       if(r>=.5&&!document.hidden){if(!zam&&!bir.v)zam=setTimeout(function(){px("v",1)},1000)}else if(zam){clearTimeout(zam);zam=null}
     })},{threshold:[0,.01,.25,.5,.75,1]}).observe(ad);
   } else yukle();
