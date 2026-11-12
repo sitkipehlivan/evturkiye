@@ -63,7 +63,7 @@ EPDK'nın Şarj Hizmeti Piyasası Aylık İstatistikleri'ne göre:
 
 Nisan 2026 itibarıyla soketlerin yaklaşık yüzde 57'si AC (Type 2), yüzde 43'ü DC'dir. Haberlere yansıyan EPDK istatistikleri soketleri AC ve DC olarak ayırır; DC soketlerin ne kadarının CCS2, ne kadarının CHAdeMO olduğu bu tabloda yer almaz. Nisan 2026'da en çok sokete sahip işletmeci 5.438 soketle (3.079 AC, 2.359 DC) ZES'ti.
 
-İlinizdeki istasyonları [şarj istasyonları](/sarj-istasyonlari/) sayfamızdan, operatörlerin kWh fiyatlarını [şarj fiyatları](/sarj-fiyatlari/) sayfasından karşılaştırabilirsiniz.
+İlinizdeki istasyonları [şarj istasyonları](/istasyonlar/) sayfamızdan, operatörlerin kWh fiyatlarını [şarj fiyatları](/sarj-fiyatlari/) sayfasından karşılaştırabilirsiniz.
 
 ## Sık sorulan sorular
 

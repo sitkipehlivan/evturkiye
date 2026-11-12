@@ -60,7 +60,8 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
       <!-- 2026-11-10: tabloda yalnızca BYD ve Hyundai var (TR kaynağı okunabildi). Togg, Tesla, Kia, Renault, Mercedes, Volvo
            TR resmi sayfaları bu ortamdan açılamadı; doğrulandıkça tabloya ekle. -->
 - [x] Şarj soketi tipleri: Type 2, CCS2, CHAdeMO (Türkiye'deki istasyon dağılımıyla)
-- [ ] Elektrikli araç MTV (motorlu taşıtlar vergisi) 2026
+- [x] Elektrikli araç MTV (motorlu taşıtlar vergisi) 2026
+      <!-- 2026-11-12: elektrikli-arac-otv-mtv-2026 güçlendirildi. Yalnızca 1-3 yaş EV tablosu var; 2027 tebliği (Aralık sonu) çıkınca güncelle. -->
 - [ ] İkinci el elektrikli araç alırken dikkat edilecekler (batarya sağlığı kontrolü)
 - [ ] Elektrikli araçla uzun yol: şarj molası planlama (rota planlayıcıya bağlantı)
 - [ ] Hibrit, plug-in hibrit ve tam elektrikli farkı
@@ -79,3 +80,4 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 - 2026-11-09: Teknik: kırık link, title/description, canonical, JSON-LD, sitemap sorunu yok (163 noindex sayfa 9 Kasım AdSense kararıyla bilinçli). İçerik: 10 il eklendi (70/81), kış menzili rehberi güçlendirildi (models.json ile doğrulanan tablo, 5 SSS, kaynaklar, updated). İç link: 1 habere model bağlantısı (BMW iX3). Rota maddesi atlandı (OSRM yine erişilemiyor).
 - 2026-11-10: Teknik: kırık link, title/description, canonical, JSON-LD, sitemap sorunu yok (noindex sayfalar bilinçli: kısa haber, satışta olmayan model, il istasyon sayfaları). İçerik: 10 il eklendi (80/81), batarya ömrü rehberi güçlendirildi (BYD/Hyundai TR garanti tablosu, models.json ile garanti km/döngü tablosu, 5 SSS, kaynaklar, updated). İç link: Fiat habere 3 model + 1 rota bağlantısı. Rota maddesi atlandı (OSRM yine erişilemiyor).
 - 2026-11-11: Teknik: kırık link, title/description, canonical, JSON-LD, sitemap sorunu yok (noindex sayfalar bilinçli). İçerik: Hakkari eklendi (81/81, il maddesi tamam), yeni rehber: şarj soketi tipleri (Type 2/CCS2/CHAdeMO, EPDK Nisan/Eylül 2026 AC/DC soket sayıları, models.json AC/DC güç dağılımı, 5 SSS, kaynaklar), şarj rehberinden yeni rehbere link. İç link: son 7 günün haberlerinde eksik model/il/operatör/rota bağlantısı yok. Rota maddesi atlandı (OSRM yine erişilemiyor).
+- 2026-11-12: Teknik: 1 kırık iç link düzeltildi (şarj soketi rehberi /sarj-istasyonlari/ → /istasyonlar/); title/description, canonical, JSON-LD, sitemap sorunu yok (reklam-demo ve diğer noindex sayfalar bilinçli). İçerik: ÖTV/MTV rehberi MTV için güçlendirildi (Seri No: 58 Tebliği, %18,95 artış, kW × taşıt değeri 1-3 yaş MTV tablosu, model örnekleri, taksit tarihleri, 3 yeni SSS, kaynaklar, seoTitle/description). İç link: son 7 günün haberlerinde eksik bağlantı yok. Rota maddesi atlandı (OSRM yine erişilemiyor).
