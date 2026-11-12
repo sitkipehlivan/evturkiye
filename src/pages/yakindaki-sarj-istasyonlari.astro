@@ -94,7 +94,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [
     // Marka sunumları için reklam demosu: ?demo=turkcell ile açılınca 300x600 kreatif sağda (mobilde arama çubuğunun altında) görünür.
     // Parametre yoksa hiçbir şey olmaz; demo sayfasında sitenin kendi reklamları da yüklenmez (Base.astro).
     (function () {
-      var DEMOS = { turkcell: '/reklam-demo/turkcell/creatives/interactive-skyscraper/' };
+      var DEMOS = { turkcell: '/reklam-demo/turkcell/creatives/interactive-skyscraper/', penti: '/reklam-demo/penti/creatives/interactive-skyscraper/' };
       var key = new URLSearchParams(location.search).get('demo'), src = key && DEMOS[key]; if (!src) return;
       var box = document.querySelector('[data-demo-slot]'); if (!box) return;
       box.innerHTML = '<div class="nr-demo-in"><div class="nr-demo-label">Reklam</div><iframe src="' + src + '" width="300" height="600" scrolling="no" title="Reklam"></iframe></div>';
