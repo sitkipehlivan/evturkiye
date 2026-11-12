@@ -182,7 +182,44 @@ const ogImage = new URL(image, Astro.site);
       document.head.appendChild(s);
       }
     </script>
-    <style is:global>html[data-demo] .ad-slot { display: none !important; }</style>
+    <style is:global>html[data-demo] .ad-slot, html[data-demo] #ck { display: none !important; }</style>
+    <script is:inline>
+      // Marka onayı için canlı sayfa demosu: ?demo=<anahtar>. Kreatif ?adv-test=1 ile açılır (Advance Adserver'da sayılmaz).
+      // gecis: 320x480 geçiş reklamı (kapat düğmesi 5. saniyede) · yarim: 300x600 (masaüstünde yan sütun, mobilde içerikte)
+      (function () {
+        var D = {
+          'cevahir-interstitial': { t: 'gecis', src: '/reklam-demo/cevahir/final/320x480/', w: 320, h: 480 },
+          'cevahir-300x600': { t: 'yarim', src: '/reklam-demo/cevahir/final/300x600/', w: 300, h: 600 }
+        };
+        var c = D[new URLSearchParams(location.search).get('demo') || '']; if (!c) return;
+        var ifr = '<iframe src="' + c.src + '?adv-test=1" width="' + c.w + '" height="' + c.h + '" scrolling="no" title="Reklam" style="border:0;display:block;background:#000"></iframe>';
+        var lbl = '<div style="font:600 10px/1.6 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8a94a3;text-align:center">Reklam</div>';
+        function gecis() {
+          var o = document.createElement('div');
+          o.style.cssText = 'position:fixed;inset:0;z-index:2147483000;background:rgba(8,14,26,.6);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:grid;place-items:center;padding:12px';
+          o.innerHTML = '<div style="position:relative">' + lbl.replace('#8a94a3', '#e5e7eb') + ifr +
+            '<button type="button" aria-label="Reklamı kapat" style="position:absolute;top:4px;right:-6px;transform:translateY(-100%);min-width:30px;height:30px;padding:0 9px;border-radius:15px;border:0;background:#fff;color:#111;font:700 13px/30px system-ui,sans-serif;cursor:default;box-shadow:0 2px 8px rgba(0,0,0,.3)">5</button></div>';
+          document.body.appendChild(o);
+          var ov = document.documentElement.style.overflow; document.documentElement.style.overflow = 'hidden';
+          var b = o.querySelector('button'), n = 5, z = setInterval(function () {
+            n--; if (n > 0) { b.textContent = n; return; }
+            clearInterval(z); b.textContent = '✕'; b.style.cursor = 'pointer';
+            b.onclick = function () { o.remove(); document.documentElement.style.overflow = ov; };
+          }, 1000);
+        }
+        function yarim() {
+          var k = document.createElement('div'); k.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2px;margin:20px auto';
+          k.innerHTML = lbl + ifr;
+          var slot = document.querySelector('[data-ad-slot$="halfpage"]');
+          var p = document.querySelectorAll('.prose > p');
+          if (window.innerWidth < 1000 && p.length > 1) p[1].after(k);
+          else if (slot) slot.before(k);
+          else { var m = document.querySelector('main section, main') || document.body; m.prepend(k); }
+        }
+        function bas() { if (c.t === 'gecis') setTimeout(gecis, 800); else yarim(); }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bas); else bas();
+      })();
+    </script>
     <script is:inline>
       // Çerezsiz ziyaret sayacı: çerez, cihaz kimliği, IP saklamaz; yalnızca sayfa yolu ve reklam etiketi (utm) toplam olarak sayılır.
       (function () {

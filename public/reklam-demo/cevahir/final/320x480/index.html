@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="ad.size" content="width=320,height=480">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>İstanbul Cevahir · Kuşağını Seç</title>
+<script>var clickTag = "https://istanbulcevahir.com/?utm_source=advance&utm_medium=cpm&utm_campaign=c_kusagi_video";</script>
+<style>
+@font-face{font-family:"Plus Jakarta Sans";font-weight:200 800;font-display:swap;src:url(pjs-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:200 800;font-display:swap;src:url(pjs-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{--blue:#009fe4;--boomer:#1f8fd0;--x:#a1197e;--y:#e4202a;--z:#f7c600;--alfa:#c6dc2b}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:320px;height:480px;overflow:hidden;background:#000;font-family:"Plus Jakarta Sans","Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
+#ad{position:relative;width:100%;height:100%;overflow:hidden;cursor:pointer}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.logo{transition:opacity .35s;position:absolute;right:10px;top:9px;width:58px;z-index:3;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35));pointer-events:none}
+.snd{position:absolute;right:12px;top:70px;z-index:4;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:15px;line-height:32px;text-align:center;cursor:pointer}
+.shade{position:absolute;left:0;right:0;bottom:0;height:58%;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.55) 45%,rgba(0,0,0,.8));pointer-events:none;z-index:1}
+.prog{position:absolute;left:0;right:0;top:0;height:3px;background:rgba(255,255,255,.25);z-index:5}
+.prog i{display:block;height:100%;width:0;background:#fff}
+.ui{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 10px 10px}
+.msgs{position:relative;height:86px;margin-bottom:9px}
+.msg{position:absolute;inset:0;border-radius:12px;padding:10px 12px;background:var(--k);color:#fff;display:flex;flex-direction:column;justify-content:space-between;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.msg.on{opacity:1;transform:none;pointer-events:auto}
+.msg.dark{color:#141414}
+.msg h3{font-size:15px;line-height:1.15;font-weight:800;letter-spacing:-.01em}
+.msg p{font-size:11.5px;line-height:1.3;margin-top:2px;opacity:.92}
+.msg b{align-self:flex-start;font-size:11.5px;font-weight:800;border-bottom:2px solid currentColor}
+.chips{display:flex;justify-content:space-between}
+.chip{background:none;border:0;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;width:16%}
+.av{display:block;width:42px;height:42px;border-radius:50%;padding:2px;background:rgba(255,255,255,.35);transition:transform .25s,background .25s}
+.av img,.av span{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:2px solid #fff}
+.av span{background:var(--blue);color:#fff;font-weight:800;font-size:19px;line-height:34px;text-align:center}
+.chip em{font-style:normal;font-size:10px;font-weight:700;color:rgba(255,255,255,.8);white-space:nowrap}
+.chip.on .av{transform:scale(1.12);background:var(--k)}
+.chip.on em{color:#fff}
+.end{position:absolute;inset:0;z-index:6;background:var(--blue) no-repeat center 58%/150% url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cGF0aCBkPSdNNTAgNiA2MSAzOWgzNUw2OCA2MGwxMSAzNC0yOS0yMS0yOSAyMSAxMS0zNEw0IDM5aDM1eicgZmlsbD0nbm9uZScgc3Ryb2tlPScjZmZmJyBzdHJva2Utb3BhY2l0eT0nLjEyJyBzdHJva2Utd2lkdGg9JzMnIHN0cm9rZS1saW5lam9pbj0ncm91bmQnLz48L3N2Zz4=");color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;text-align:center;opacity:0;pointer-events:none;transition:opacity .4s}
+.end.on{opacity:1;pointer-events:auto}
+.end img{width:110px}
+.end h2{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.end p{font-size:13px;opacity:.9;max-width:240px}
+.btn{display:block;width:220px;height:42px;border-radius:999px;border:0;font-weight:800;font-size:14px;line-height:42px;font-family:inherit;text-align:center;cursor:pointer;background:#fff;color:#0077c8}
+.btn.o{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px #fff}
+@media (min-height:560px){.msgs{height:96px}.msg h3{font-size:16px}.msg p{font-size:12.5px}.av{width:44px;height:44px}.logo{width:66px}.snd{top:80px}}
+@media (max-width:305px){.av{width:39px;height:39px}.chip em{font-size:9.5px}}
+</style>
+</head>
+<body>
+<div id="ad">
+  <video id="v" data-src="https://advancedigital.b-cdn.net/2026_kasim/cevahir_320x480_clicktag/cevahir.mp4" poster="poster.jpg" muted playsinline webkit-playsinline preload="none"></video>
+  <div class="prog"><i id="bar"></i></div>
+  <img class="logo" src="cevahir-logo-white.png" alt="İstanbul Cevahir">
+  <button class="snd" id="snd" aria-label="Ses">🔇</button>
+  <div class="shade"></div>
+  <div class="ui">
+    <div class="msgs">
+      <div class="msg on" data-k="intro" style="--k:var(--blue)"><div><h3>Sen hangi kuşaksın?</h3><p>Kuşağına dokun, videoda seni bulalım.</p></div><b>Her kuşak Cevahir'de</b></div>
+      <div class="msg" data-k="boomer" style="--k:var(--boomer)"><div><h3>Baby Boomer'lar Cevahir'de</h3><p>Gazete, kahve molası ve yılların vazgeçilmez markaları.</p></div><b>Kafe &amp; restoranlar →</b></div>
+      <div class="msg" data-k="x" style="--k:var(--x)"><div><h3>Gen X Cevahir'de</h3><p>Liste hazır, poşetler dolu: alışverişin ustaları burada.</p></div><b>Moda mağazaları →</b></div>
+      <div class="msg" data-k="y" style="--k:var(--y)"><div><h3>Gen Y Cevahir'de</h3><p>Kahvesi elinde, kombini hazır, buluşmaya geç kalmıyor.</p></div><b>Yeni sezon →</b></div>
+      <div class="msg dark" data-k="z" style="--k:var(--z)"><div><h3>Gen Z Cevahir'de</h3><p>Kulaklık takılı, çanta sırtta: yeni çıkanlar ilk onda.</p></div><b>Teknoloji &amp; sneaker →</b></div>
+      <div class="msg dark" data-k="alfa" style="--k:var(--alfa)"><div><h3>Alfa kuşağı Cevahir'de</h3><p>Haritası elinde, keşfe çıkmaya hazır en küçük kaşif.</p></div><b>Eğlence &amp; oyuncak →</b></div>
+      <div class="msg" data-k="c" style="--k:var(--blue)"><div><h3>Ama Cevahir'deysen C Kuşağısın!</h3><p>Her kuşak aynı asansörde, aynı keyifte buluşuyor.</p></div><b>Cevahir'i keşfet →</b></div>
+    </div>
+    <div class="chips">
+      <button data-ev="ch" class="chip" data-k="boomer" data-t="3.05" style="--k:var(--boomer)"><span class="av"><img src="boomer.jpg" alt=""></span><em>Boomer</em></button>
+      <button data-ev="ch" class="chip" data-k="x" data-t="3.95" style="--k:var(--x)"><span class="av"><img src="genx.jpg" alt=""></span><em>Gen X</em></button>
+      <button data-ev="ch" class="chip" data-k="y" data-t="7.42" style="--k:var(--y)"><span class="av"><img src="geny.jpg" alt=""></span><em>Gen Y</em></button>
+      <button data-ev="ch" class="chip" data-k="z" data-t="5.98" style="--k:var(--z)"><span class="av"><img src="genz.jpg" alt=""></span><em>Gen Z</em></button>
+      <button data-ev="ch" class="chip" data-k="alfa" data-t="9.46" style="--k:var(--alfa)"><span class="av"><img src="alfa.jpg" alt=""></span><em>Alfa</em></button>
+      <button data-ev="ch" class="chip" data-k="c" data-t="10.5" style="--k:var(--blue)"><span class="av"><span>C</span></span><em>C Kuşağı</em></button>
+    </div>
+  </div>
+  <div class="end" id="end">
+    <img src="cevahir-logo-white.png" alt="İstanbul Cevahir">
+    <h2>Yani kısaca<br>C Kuşağı!</h2>
+    <p>Her kuşak Cevahir'de. Ama Cevahir'deysen C Kuşağısın.</p>
+    <button class="btn" data-exit>Cevahir'i keşfet</button>
+    <button class="btn o" id="replay" data-ev="re">↻ Tekrar izle</button>
+  </div>
+</div>
+<script>
+/* Advance Adserver ölçümü · kreatif: cevahir-ck-kusagini-sec-320x480-cxvih
+   i gösterim · m ölçülebilir · v görünür (%50, 1 sn) · s/q1/q2/q3/c video · um ses açıldı · it etkileşim
+   ch avatar · hs hotspot · gk galeri kartı · do kapı açıldı · re tekrar izle · ec endcard · ck click */
+(function(){
+  var K="cevahir-ck-kusagini-sec-320x480-cxvih",CDN="https://ads.advancedigital.media",T=/[?&](adv-test|aa-test)=?/.test(location.search)||K.indexOf("__")===0,bir={};
+  function cb(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+  function px(e,tek){if(tek){if(bir[e])return;bir[e]=1}if(T)return;var i=new Image();i.src=CDN+"/aa/p.gif?k="+K+"&e="+e+"&cb="+cb()}
+  window.aaPx=px;
+  var v=document.getElementById("v"),ad=document.getElementById("ad");
+  function yukle(){if(v.getAttribute("src"))return;v.setAttribute("src",v.getAttribute("data-src"));try{v.load()}catch(e){}}
+  px("i",1);
+  // video yalnız reklam ekrana girince yüklenir
+  if("IntersectionObserver" in window){
+    px("m",1);var zam=null;
+    new IntersectionObserver(function(es){es.forEach(function(e){var r=e.isIntersecting?e.intersectionRatio:0;
+      if(r>0)yukle();
+      if(r>=.5&&!document.hidden){if(!zam&&!bir.v)zam=setTimeout(function(){px("v",1)},1000)}else if(zam){clearTimeout(zam);zam=null}
+    })},{threshold:[0,.01,.25,.5,.75,1]}).observe(ad);
+  } else yukle();
+  v.addEventListener("timeupdate",function(){var d=v.duration||28,t=v.currentTime;
+    if(t>0)px("s",1);if(t>=d*.25)px("q1",1);if(t>=d*.5)px("q2",1);if(t>=d*.75)px("q3",1)});
+  v.addEventListener("ended",function(){px("c",1)});
+  v.addEventListener("volumechange",function(){if(!v.muted)px("um",1)});
+  document.addEventListener("click",function(e){var x=e.target.closest&&e.target.closest("[data-ev]");if(x){px("it");px(x.getAttribute("data-ev"))}},true);
+  var oa=window.open;window.open=function(){px("ck");return oa.apply(window,arguments)};
+  var end=document.getElementById("end");
+  if(end&&"MutationObserver" in window)new MutationObserver(function(){if(end.classList.contains("on"))px("ec",1)}).observe(end,{attributes:true,attributeFilter:["class"]});
+})();
+</script>
+<script>
+(function(){
+  function exit(){window.open(window.clickTag,"_blank")}
+  var v=document.getElementById("v"),bar=document.getElementById("bar"),snd=document.getElementById("snd"),end=document.getElementById("end");
+  var chips=[].slice.call(document.querySelectorAll(".chip")),msgs=[].slice.call(document.querySelectorAll(".msg"));
+  var segs=[["intro",0],["boomer",3.04],["x",3.92],["z",5.96],["y",7.4],["alfa",9.44],["c",10.48]],cur="";
+  function state(t){var k="intro";for(var i=0;i<segs.length;i++)if(t>=segs[i][1])k=segs[i][0];return k}
+  function show(k){if(k===cur)return;cur=k;var lg=document.querySelector(".logo");if(lg)lg.style.opacity=(k==="intro"||k==="c")?1:0;
+    chips.forEach(function(c){c.classList.toggle("on",c.dataset.k===k)});
+    msgs.forEach(function(m){m.classList.toggle("on",m.dataset.k===k)})}
+  function play(){var p=v.play();if(p&&p.catch)p.catch(function(){})}
+  v.addEventListener("timeupdate",function(){bar.style.width=(v.currentTime/(v.duration||28)*100)+"%";show(state(v.currentTime))});
+  v.addEventListener("ended",function(){end.classList.add("on")});
+  chips.forEach(function(c){c.addEventListener("click",function(e){e.stopPropagation();end.classList.remove("on");v.currentTime=+c.dataset.t;show(c.dataset.k);play()})});
+  msgs.forEach(function(m){m.addEventListener("click",function(e){e.stopPropagation();exit()})});
+  [].forEach.call(document.querySelectorAll("[data-exit]"),function(b){b.addEventListener("click",function(e){e.stopPropagation();exit()})});
+  document.getElementById("replay").addEventListener("click",function(e){e.stopPropagation();end.classList.remove("on");v.currentTime=0;play()});
+  snd.addEventListener("click",function(e){e.stopPropagation();v.muted=!v.muted;snd.textContent=v.muted?"🔇":"🔊";if(v.paused&&!v.ended)play()});
+  document.getElementById("ad").addEventListener("click",exit);
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.intersectionRatio>=.5){if(!v.ended)play()}else v.pause()})},{threshold:[0,.5]}).observe(document.getElementById("ad"));
+  } else play();
+})();
+</script>
+</body>
+</html>
