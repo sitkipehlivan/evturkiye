@@ -189,7 +189,8 @@ const ogImage = new URL(image, Astro.site);
       (function () {
         var D = {
           'cevahir-interstitial': { t: 'gecis', src: '/reklam-demo/cevahir/final/320x480/', w: 320, h: 480 },
-          'cevahir-300x600': { t: 'yarim', src: '/reklam-demo/cevahir/final/300x600/', w: 300, h: 600 }
+          'cevahir-300x600': { t: 'yarim', src: '/reklam-demo/cevahir/final/300x600/', w: 300, h: 600 },
+          'truniagen': { t: 'icerik', src: '/reklam-demo/truniagen/creatives/artilar/', w: 320, h: 480 }
         };
         var c = D[new URLSearchParams(location.search).get('demo') || '']; if (!c) return;
         var ifr = '<iframe src="' + c.src + '?adv-test=1" width="' + c.w + '" height="' + c.h + '" scrolling="no" title="Reklam" style="border:0;display:block;background:#000"></iframe>';
@@ -216,7 +217,14 @@ const ogImage = new URL(image, Astro.site);
           else if (slot) slot.before(k);
           else { var m = document.querySelector('main section, main') || document.body; m.prepend(k); }
         }
-        function bas() { if (c.t === 'gecis') setTimeout(gecis, 800); else yarim(); }
+        // icerik: 320x480 kreatif haber metninin içinde (ikinci paragraftan sonra) görünür
+        function icerik() {
+          var k = document.createElement('div'); k.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2px;margin:24px auto';
+          k.innerHTML = lbl + ifr.replace('background:#000', 'background:#0A1F5C;border-radius:6px');
+          var p = document.querySelectorAll('.prose > p');
+          if (p.length) (p[1] || p[0]).after(k); else yarim();
+        }
+        function bas() { if (c.t === 'gecis') setTimeout(gecis, 800); else if (c.t === 'icerik') icerik(); else yarim(); }
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bas); else bas();
       })();
     </script>
