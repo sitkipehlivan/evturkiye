@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import c from '../data/company.json';
+---
+<Base title="Hesap ve veri silme" description="EV Türkiye hesabınızı ve hesabınıza bağlı verileri nasıl silebileceğiniz." noindex>
+  <section class="section-sm">
+    <div class="container prose">
+      <h1>Hesap ve veri silme</h1>
+      <p>EV Türkiye hesabınızı (web sitesi ve EV Türkiye uygulaması aynı hesabı kullanır) istediğiniz zaman kendiniz silebilirsiniz.</p>
+      <h2>Hesabınızı silmek için</h2>
+      <ol>
+        <li><a href="/hesabim/">Hesabım</a> sayfasını açın (uygulamada menüden <b>Hesabım</b>) ve giriş yapın.</li>
+        <li>Sayfanın altındaki <b>Hesabımı sil</b> bağlantısına dokunun.</li>
+        <li><b>Eminim, hesabımı ve verilerimi kalıcı olarak sil</b> ile onaylayın.</li>
+      </ol>
+      {c.email && <p>Giriş yapamıyorsanız kayıtlı e-posta adresinizden <a href={`mailto:${c.email}?subject=Hesap%20silme%20talebi`}>{c.email}</a> adresine "Hesap silme talebi" konulu bir e-posta gönderin; talebiniz 30 gün içinde işlenir.</p>}
+      <h2>Silinen veriler</h2>
+      <ul>
+        <li>Giriş hesabınız (e-posta adresi, ad, Google veya Apple ile giriş bağlantısı)</li>
+        <li>Profil bilgileriniz: şehir, araç bilgileri, şarj alışkanlıkları ve iletişim izinleriniz</li>
+      </ul>
+      <p>Silme işlemi anında ve kalıcıdır; bu veriler ayrıca saklanmaz. Konumunuz yalnızca yakındaki istasyonları göstermek için o anda kullanılır, hesabınıza kaydedilmez. Ayrıntılar için <a href="/kvkk-aydinlatma-metni/">KVKK aydınlatma metni</a>.</p>
+    </div>
+  </section>
+</Base>
