@@ -8,16 +8,20 @@ const config: CapacitorConfig = {
   appId: 'com.evturkiye.app',
   appName: 'EV Türkiye',
   webDir: 'www',
+  // Site, uygulama içinde açıldığını bu ekten anlar (AdSense uygulamada yüklenmez: Google politikası).
+  appendUserAgent: 'EVTurkiyeApp/1.0',
   server: {
     url: SITE,
     errorPath: 'index.html',
-    allowNavigation: ['evturkiye.online', '*.evturkiye.online', 'evturkiye.com.tr', '*.evturkiye.com.tr', 'evturkiye-uyelik.firebaseapp.com'],
+    allowNavigation: ['evturkiye.online', '*.evturkiye.online', 'evturkiye.com.tr', '*.evturkiye.com.tr', 'evturkiye-uyelik.firebaseapp.com', 'accounts.google.com', 'appleid.apple.com'],
   },
   ios: { contentInset: 'automatic', scheme: 'EV Türkiye' },
   android: { allowMixedContent: false },
   plugins: {
     SplashScreen: { launchShowDuration: 1200, backgroundColor: '#ffffff', showSpinner: false },
     PushNotifications: { presentationOptions: ['badge', 'sound', 'alert'] },
+    // Yerel Google / Apple girişi; kimlik web Firebase oturumuna aktarılır (src/scripts/auth.ts).
+    FirebaseAuthentication: { skipNativeAuth: true, providers: ['google.com', 'apple.com'] },
   },
 };
 

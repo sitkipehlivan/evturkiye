@@ -1,6 +1,6 @@
 // Üyelik penceresinin davranışı. openAuth() → kullanıcı giriş yaparsa User, kapatırsa null.
 import type { User } from 'firebase/auth';
-import { loginGoogle, loginEmail, registerEmail, resetPassword, authError, onUser } from './auth';
+import { loginGoogle, loginApple, isIosApp, loginEmail, registerEmail, resetPassword, authError, onUser } from './auth';
 
 let pending: ((u: User | null) => void) | null = null;
 let wired = false;
@@ -48,6 +48,14 @@ function wire(dlg: HTMLDialogElement) {
     if (needKvkk()) return;
     busy(() => loginGoogle(tab === 'register' ? consents() : undefined));
   });
+  const apple = dlg.querySelector<HTMLButtonElement>('[data-apple]');
+  if (apple && isIosApp()) {
+    apple.hidden = false;
+    apple.addEventListener('click', () => {
+      if (needKvkk()) return;
+      busy(() => loginApple(tab === 'register' ? consents() : undefined));
+    });
+  }
   $<HTMLFormElement>('[data-form="register"]').addEventListener('submit', (e) => {
     e.preventDefault();
     if (needKvkk()) return;

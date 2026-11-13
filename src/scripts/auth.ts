@@ -1,7 +1,7 @@
 // Firebase üyelik: Google veya e-posta/şifre ile giriş, Firestore'da üye profili (users/{uid}).
 import { initializeApp, type FirebaseApp } from 'firebase/app';
 import {
-  getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword,
+  getAuth, onAuthStateChanged, GoogleAuthProvider, OAuthProvider, signInWithPopup, signInWithCredential, signInWithEmailAndPassword,
   createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, updateProfile, signOut, deleteUser,
   type Auth, type User,
 } from 'firebase/auth';
@@ -46,11 +46,48 @@ export async function idToken(): Promise<string | null> {
   return u ? u.getIdToken() : null;
 }
 
+// Mobil uygulama (Capacitor) içinde web açılır pencereleri çalışmaz: giriş yerel eklentiyle
+// (@capacitor-firebase/authentication, skipNativeAuth) yapılır, dönen kimlik web Firebase oturumuna aktarılır.
+type NativeAuth = {
+  signInWithGoogle(): Promise<{ credential?: { idToken?: string; accessToken?: string } }>;
+  signInWithApple(): Promise<{ credential?: { idToken?: string; nonce?: string } }>;
+};
+const cap = () => (window as any).Capacitor;
+export const isNativeApp = () => !!cap()?.isNativePlatform?.();
+export const isIosApp = () => isNativeApp() && cap()?.getPlatform?.() === 'ios';
+const nativeAuth = (): NativeAuth | null => (isNativeApp() ? cap()?.Plugins?.FirebaseAuthentication ?? null : null);
+
 export async function loginGoogle(consents?: Consents) {
   const { auth } = init();
-  const res = await signInWithPopup(auth, new GoogleAuthProvider());
-  await ensureProfile(res.user, consents);
-  return res.user;
+  const na = nativeAuth();
+  let user: User;
+  if (na) {
+    const r = await na.signInWithGoogle();
+    if (!r.credential?.idToken) throw new Error('Google girişi tamamlanamadı.');
+    user = (await signInWithCredential(auth, GoogleAuthProvider.credential(r.credential.idToken, r.credential.accessToken))).user;
+  } else {
+    user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
+  }
+  await ensureProfile(user, consents);
+  return user;
+}
+
+/** Apple ile giriş: App Store kuralı gereği iOS uygulamasında Google girişinin yanında sunulur. */
+export async function loginApple(consents?: Consents) {
+  const { auth } = init();
+  const na = nativeAuth();
+  let user: User;
+  if (na) {
+    const r = await na.signInWithApple();
+    if (!r.credential?.idToken) throw new Error('Apple girişi tamamlanamadı.');
+    const cred = new OAuthProvider('apple.com').credential({ idToken: r.credential.idToken, rawNonce: r.credential.nonce });
+    user = (await signInWithCredential(auth, cred)).user;
+  } else {
+    const pr = new OAuthProvider('apple.com'); pr.addScope('email'); pr.addScope('name');
+    user = (await signInWithPopup(auth, pr)).user;
+  }
+  await ensureProfile(user, consents);
+  return user;
 }
 
 export async function loginEmail(email: string, password: string) {
