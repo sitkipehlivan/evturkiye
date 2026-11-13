@@ -1,14 +1,17 @@
 ---
-title: "İkinci el elektrikli araç alırken batarya sağlığı (SoH) nasıl kontrol edilir?"
-seoTitle: "İkinci el elektrikli araçta batarya sağlığı (SoH) kontrolü"
-description: "İkinci el elektrikli araç alırken batarya sağlığı (SoH) nasıl kontrol edilir? Kaç olmalı, servis raporu, OBD, hızlı şarj testi, garanti ve ikinci elde sık görülen modellerin batarya bilgileri."
+title: "İkinci el elektrikli araç alırken dikkat edilecekler: batarya sağlığı (SoH) kontrolü"
+seoTitle: "İkinci el elektrikli araç alırken dikkat edilecekler"
+description: "İkinci el elektrikli araç alırken dikkat edilecekler: batarya sağlığı (SoH) kaç olmalı, servis raporu, OBD, hızlı şarj testi, garanti devri, hasar kaydı ve güvenli ödeme."
 image: "/images/haberler/ikinci-el-elektrikli-arac-batarya-sagligi.jpg"
 imageMode: generate
 imageScene: "a technician's hand holding a tablet showing an abstract battery-health gauge graphic with no readable text, in a clean bright workshop, tools softly blurred in the background"
 imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-12
+updated: 2026-11-13
 ---
+
+İkinci el elektrikli araç alırken en önemli kontrol batarya sağlığıdır (SoH): yetkili servis raporuyla SoH'yi görün, DC hızlı şarj testiyle doğrulayın, batarya garantisinin kalan süresini ve devrini yazılı teyit edin, hasar kaydını sorgulayın ve ödemeyi Güvenli Ödeme Sistemi ile yapın.
 
 İkinci el elektrikli araçta değerin büyük kısmı bataryadadır; batarya sağlığı (SoH) %90 olan bir araçla %75 olan aynı modelin günlük kullanımı ve ikinci el değeri çok farklıdır. Alım öncesi SoH'yi belgeyle görmek, birkaç basit testle doğrulamak ve garantinin ne kadar kaldığını öğrenmek, sürprizlerin çoğunu önler. Bu rehberde adım adım kontrol listesini ve Türkiye'de ikinci elde sık görülen modellerin batarya bilgilerini bulacaksınız.
 
@@ -60,3 +63,39 @@ Aynı model ve kilometredeki iki araçtan SoH değeri düşük olanın fiyatı d
 ## Uzun yolda ikinci el elektrikli
 
 Batarya kapasitesi azalmış bir araçla uzun yolda kaç durak gerektiğini görmek için [Rota Planlayıcı](/rota-planlayici)'da aracınızı seçip çıkış şarjını gerçek değere göre ayarlayın. Kışın menzilin ayrıca %17–25 düşebileceğini [kış menzili rehberimizde](/haberler/rehber/kisin-elektrikli-arac-menzili) anlattık.
+
+## Batarya dışında kontrol edilecekler
+
+- **Batarya garantisi ve devri.** Markaların Türkiye'deki batarya garanti şartları (ör. BYD 8 yıl veya 250.000 km, Hyundai 8 yıl veya 160.000 km) [batarya ömrü rehberimizde](/haberler/rehber/elektrikli-arac-batarya-omru). Garantinin ikinci sahibe geçtiğini ve kalan süreyi yetkili servisten yazılı olarak teyit edin.
+- **Hasar kaydı.** Elektrikli araçta alt gövde darbesi bataryayı etkileyebilir. Aracın hasar geçmişini e-Devlet'teki araç hasar kaydı sorgulama hizmetiyle kontrol edin; alt gövdede batarya kasasına gelen darbe izlerine servis kaldırma lifti üzerinde baktırın.
+- **Bağımsız ekspertiz.** Kaporta, boya ve süspansiyon için ekspertiz yaptırın; ekspertiz firmasının elektrikli araç batarya testi yapıp yapmadığını önceden sorun. Batarya için asıl belge yine yetkili servis raporudur.
+- **Ödeme.** Ticaret Bakanlığı'nın Eylül 2024'te yürürlüğe giren düzenlemesiyle ikinci el taşıt satışlarında Güvenli Ödeme Sistemi'nin kullanılması herkes için zorunlu; ödemeyi noter satışında bu sistem üzerinden yapın.
+- **Şarj ekipmanı.** Ev şarj ünitesi (wallbox) satışa dahilse kurulum ve taşıma koşullarını [wallbox rehberimizden](/haberler/rehber/ev-tipi-sarj-unitesi-kurulumu) kontrol edin; aracın soket tipini [şarj soketi rehberinde](/haberler/rehber/elektrikli-arac-sarj-soketi-tipleri) görebilirsiniz.
+
+## Sık sorulan sorular
+
+### İkinci el elektrikli araçta batarya sağlığı kaç olmalı?
+
+Birkaç yaşındaki araçlarda %85–95 olağan aralıktır. %80'in altındaki araçlarda menzil kaybı belirgindir; garanti durumu ve fiyat pazarlığı belirleyici olur.
+
+### Batarya sağlığı nasıl öğrenilir?
+
+En güvenilir yol yetkili servisin batarya raporudur. Birçok modelde OBD-II adaptörü ve uyumlu bir uygulamayla SoH ikinci görüş olarak okunabilir; DC hızlı şarj testi de şarj gücünde kısıtlama olup olmadığını gösterir.
+
+### Batarya garantisi ikinci el araçta devam eder mi?
+
+Garanti genellikle araca bağlıdır ve ilk tescil tarihinden başlar; kalan süre ve kilometre ikinci sahipte devam eder. Şartlar markaya göre değiştiği için devri yetkili servisten yazılı olarak teyit edin.
+
+### İkinci el elektrikli araçta ödeme nasıl yapılmalı?
+
+İkinci el taşıt satışlarında Güvenli Ödeme Sistemi'nin kullanılması herkes için zorunludur; ödeme noterdeki satış işlemiyle birlikte bu sistem üzerinden yapılır.
+
+### Hızlı şarjla çok kullanılmış araç alınır mı?
+
+Alınabilir, ancak ağırlıklı DC hızlı şarj, sıcak iklim ve sürekli %100'de bekletme bataryayı daha hızlı yaşlandırabilir. Bu geçmişe sahip araçlarda (taksi, filo) SoH'yi mutlaka belgeyle görün ve fiyatı buna göre konuşun.
+
+## Kaynaklar
+
+- [T.C. Ticaret Bakanlığı: Motorlu kara taşıtlarının ticareti hakkında yeni kurallar (6 Eylül 2024)](https://ticaret.gov.tr/haberler/ticaret-bakanligi-motorlu-kara-tasitlarinin-ticareti-hakkinda-yeni-kurallar-getirdi)
+- Marka batarya garanti kaynakları: [batarya ömrü rehberi](/haberler/rehber/elektrikli-arac-batarya-omru)
+- Model batarya, WLTP ve DC şarj verileri: EV Türkiye model veritabanı

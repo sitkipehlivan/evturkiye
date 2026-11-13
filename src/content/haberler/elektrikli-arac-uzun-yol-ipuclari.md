@@ -1,4 +1,5 @@
 ---
+seoTitle: "Elektrikli araçla uzun yol: şarj molası planlama"
 title: "Elektrikli araçla uzun yol rehberi: popüler rotalarda kaç mola, kaç TL ve 7 ipucu"
 description: "Elektrikli araçla uzun yol rehberi: popüler rotalarda Togg T10X ve Tesla Model Y ile kaç şarj molası gerektiği ve maliyet, %10–80 kuralı, güvenlik payı, hız ve kış ipuçları."
 image: "/images/haberler/elektrikli-arac-uzun-yol-ipuclari.jpg"
@@ -7,6 +8,7 @@ imageScene: "an empty scenic Turkish Aegean coastal road at golden hour winding 
 imageCredit: "EV Türkiye / yapay zekâ ile üretildi"
 category: rehber
 date: 2026-10-15
+updated: 2026-11-13
 ---
 
 Elektrikli araçla uzun yol, birkaç kurala uyunca benzinli araçla yapılan yolculuktan pek farklı değil: rotayı önceden planlamak, %10–80 aralığında şarj etmek, istasyona güvenlik payıyla varmak ve hızı makul tutmak. Türkiye'nin popüler güzergahlarında iki yaygın modelle kaç şarj molası gerektiğini ve yolun kaça mal olduğunu da hesapladık.
@@ -26,6 +28,21 @@ Hesap: yola %90 şarjla çıkış, varışta en az %10, duraklarda %10'dan %80'e
 | [İstanbul – Trabzon](/rota/istanbul-trabzon) | 1.049 km | 3 mola · ~2.290 TL | 3 mola · ~1.730 TL |
 
 *EV Türkiye hesabı; hız, hava, yük ve yol eğimi sonucu değiştirir. Model Y daha verimli olduğu için daha ucuza gidiyor, T10X'in büyük bataryası ise Ankara–İzmir'de bir molayı ortadan kaldırıyor.* Kendi aracınız ve çıkış şarjınızla hesap için [Rota Planlayıcı](/rota-planlayici)'yı kullanın; planlayıcı güzergahtaki gerçek istasyonları da gösterir.
+
+## Şarj molası nasıl planlanır? Adım adım hesap
+
+Kaç mola gerektiğini kendiniz de hesaplayabilirsiniz. Gereken üç değer: net batarya kapasitesi (kWh), otoyol tüketimi (kWh/100 km) ve kullanacağınız şarj aralığı.
+
+1. **İlk etap:** Yola %90 ile çıkıp istasyona %10 ile varacaksanız bataryanın %80'ini kullanırsınız. Menzil = batarya × 0,80 ÷ otoyol tüketimi × 100.
+2. **Sonraki etaplar:** Her durakta %10'dan %80'e şarj ederseniz bataryanın %70'ini kullanırsınız. Etap menzili = batarya × 0,70 ÷ otoyol tüketimi × 100.
+3. **İstasyon eşleştirme:** Etap menzilinin biraz gerisinde kalan bir hızlı şarj istasyonu seçin ve yedeğini not edin.
+
+| Model | Net batarya | Otoyol tüketimi | İlk etap (%90→%10) | Durak sonrası etap (%10→%80→%10) | En yüksek DC |
+|---|---|---|---|---|---|
+| [Togg T10X Uzun Menzil](/modeller/togg/t10x) | 85 kWh | 21,3 kWh/100 km | ~319 km | ~279 km | 180 kW |
+| [Tesla Model Y RWD](/modeller/tesla/model-y) | 60 kWh | 15,8 kWh/100 km | ~304 km | ~266 km | 175 kW |
+
+*Değerler EV Türkiye model veritabanındaki otoyol tüketiminden hesaplandı; kış, yüksek hız ve yük bu mesafeleri kısaltır.* Örneğin 434 km'lik [İstanbul – Ankara](/rota/istanbul-ankara) rotasında iki model de ilk etapta yolun büyük kısmını tamamlar; tek bir ara şarj varışa yeter. Aracınızın değerleri model sayfasında; hesabı istasyonlarla birlikte otomatik yapmak için [Rota Planlayıcı](/rota-planlayici)'yı kullanın.
 
 ## 1. Rotayı önceden planlayın
 
@@ -62,3 +79,31 @@ Soğuk havada menzil %17–25 düşebilir, hızlı şarj da yavaşlar. Aracı ş
 - Araç %90–100 dolu, kışın ön ısıtma yapıldı
 - Type 2 şarj kablosu bagajda (AC istasyonlar ve otel şarjı için)
 - Lastik basınçları kontrol edildi
+
+## Sık sorulan sorular
+
+### Elektrikli araçla uzun yolda kaç kez şarj molası verilir?
+
+Aracın bataryasına ve otoyol tüketimine bağlıdır. Hesabımızda Togg T10X Uzun Menzil ve Tesla Model Y RWD, 434–535 km'lik rotalarda tek molayla, 1.049 km'lik İstanbul–Trabzon rotasında üç molayla gidiyor.
+
+### Şarj molası planlarken neden %10–80 aralığı kullanılır?
+
+Hızlı şarj çoğu araçta %80'den sonra belirgin şekilde yavaşlar. %10–80 aralığında şarj etmek molaları kısa tutar; %10'luk alt sınır da arızalı ya da dolu istasyona karşı güvenlik payı bırakır.
+
+### Elektrikli araçla uzun yol maliyeti nasıl hesaplanır?
+
+Yolda doldurulacak enerjiyi (kWh) kullanacağınız operatörün DC kWh fiyatıyla çarpın. Rota bazında hazır hesap yukarıdaki tabloda ve rota sayfalarında; güncel operatör fiyatları [şarj fiyatları](/sarj-fiyatlari/) sayfasında.
+
+### Kışın uzun yol planı nasıl değişir?
+
+Soğukta menzil %17–25 düşebileceği için etap mesafelerini kısaltın, istasyona %15–20 şarjla varmayı hedefleyin ve bataryayı ön ısıtmayla hızlı şarja hazırlayın.
+
+### Uzun yolda hangi şarj soketi gerekir?
+
+Türkiye'de hızlı şarjda yeni araçların neredeyse tamamı CCS2 kullanır; AC istasyon ve otel şarjı için aracın Type 2 kablosunu yanınıza alın. Ayrıntılar: [şarj soketi tipleri](/haberler/rehber/elektrikli-arac-sarj-soketi-tipleri).
+
+## Kaynaklar
+
+- Batarya, otoyol tüketimi ve DC şarj gücü: EV Türkiye model veritabanı
+- Rota mesafeleri: EV Türkiye rota sayfaları
+- Operatör DC fiyat ortalaması: EV Türkiye şarj fiyatları verisi (Ekim 2026)

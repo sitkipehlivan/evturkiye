@@ -10,6 +10,12 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Reklam demo/kreatif sayfaları arama dizinine girmesin (bazı statik kreatiflerde meta robots yok)
+[[headers]]
+  for = "/reklam-demo/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
 [[redirects]]
   from = "https://www.evturkiye.com.tr/*"
   to = "https://evturkiye.com.tr/:splat"
