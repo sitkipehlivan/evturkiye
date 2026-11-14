@@ -1,5 +1,5 @@
 /* EV Türkiye service worker: sayfalar önce ağdan, statik dosyalar önbellekten; internet yoksa çevrimdışı sayfası. */
-const V = '2026-10-29-1';
+const V = '2026-11-14-1';
 const SHELL = 'evt-shell-' + V, PAGES = 'evt-pages', IMGS = 'evt-imgs';
 const PRECACHE = ['/offline/', '/app/icon-192.png', '/favicon.svg', '/site.webmanifest'];
 
@@ -42,4 +42,29 @@ self.addEventListener('fetch', (e) => {
   if (url.pathname.startsWith('/images/')) {
     e.respondWith(caches.match(req).then((r) => r || fetch(req).then((res) => { put(IMGS, req, res.clone(), 200); return res; }).catch(() => new Response('', { status: 504 }))));
   }
+});
+
+// ---------- bildirimler (web push) ----------
+const pushOlay = (e, id) => id ? fetch('/api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ a: 'olay', e, id }) }).catch(() => {}) : Promise.resolve();
+self.addEventListener('push', (e) => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) {}
+  const secenek = { body: d.b || '', icon: d.i || '/app/icon-192.png', badge: '/app/icon-192.png', data: { u: d.u || '/', id: d.id || '' } };
+  if (d.g) secenek.image = d.g;
+  if (d.id) secenek.tag = d.id;
+  e.waitUntil(Promise.all([self.registration.showNotification(d.t || 'EV Türkiye', secenek), pushOlay('g', d.id)]));
+});
+self.addEventListener('notificationclick', (e) => {
+  const d = e.notification.data || {};
+  e.notification.close();
+  e.waitUntil(Promise.all([pushOlay('c', d.id), self.clients.openWindow(d.u || '/')]));
+});
+// Tarayıcı aboneliği yenilerse yeni adresi kaydet, eskisini sil
+self.addEventListener('pushsubscriptionchange', (e) => {
+  const eski = e.oldSubscription;
+  if (!eski || !eski.options) return;
+  e.waitUntil(self.registration.pushManager.subscribe(eski.options).then((yeni) => Promise.all([
+    fetch('/api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ a: 'abone', sub: yeni.toJSON() }) }),
+    fetch('/api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ a: 'iptal', endpoint: eski.endpoint }) }),
+  ])).catch(() => {}));
 });

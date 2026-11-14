@@ -1,0 +1,77 @@
+---
+// Bildirim daveti (web push): tarayıcının izin penceresi yalnızca ziyaretçi "Bildirimleri aç"a basınca açılır.
+// İzin verilince tarayıcının ürettiği bildirim adresi /api/push'a kaydedilir (bkz. netlify/functions/push.mjs).
+// Çerez bildirimi ve uygulama daveti açıkken gösterilmez; "×" ile kapatılırsa 14 gün sorulmaz.
+const VAPID = 'BKC3jurnzW4V0F2LWVF5pUrcXXu1MbrR0xHN-ORitkaJ9NhI58GJC4AuhMEKRrkn4_nHdC9lQ_c8zca_SAOLkGs';
+---
+<div class="pp-bar" id="ppBar" role="dialog" aria-label="Bildirimler" hidden>
+  <img src="/app/icon-192.png" alt="" width="44" height="44" />
+  <div class="pp-txt"><b>Önemli gelişmeleri kaçırma</b><span>Öne çıkan haberler ve kampanyalar için bildirim gönderelim mi?</span></div>
+  <button type="button" class="pp-ok" id="ppOk">Bildirimleri aç</button>
+  <button type="button" class="pp-x" aria-label="Kapat" id="ppClose">×</button>
+</div>
+<script is:inline define:vars={{ VAPID }}>
+  (function () {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return;
+    if (location.protocol !== 'https:' || /[?&]demo=/.test(location.search) || /EVTurkiyeApp/.test(navigator.userAgent)) return;
+    if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) return;
+    var bar = document.getElementById('ppBar');
+    var KAPAT = 'evt-bildirim-kapat', KAYIT = 'evt-bildirim';
+    var oku = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    var yaz = function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} };
+    var olay = function (ad, p) { if (window.gtag) gtag('event', ad, p || {}); };
+    var anahtar = function () {
+      var s = (VAPID + '='.repeat((4 - VAPID.length % 4) % 4)).replace(/-/g, '+').replace(/_/g, '/');
+      var ham = atob(s), dizi = new Uint8Array(ham.length);
+      for (var i = 0; i < ham.length; i++) dizi[i] = ham.charCodeAt(i);
+      return dizi;
+    };
+    function abone() {
+      return navigator.serviceWorker.ready.then(function (reg) {
+        return reg.pushManager.getSubscription().then(function (s) {
+          return s || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: anahtar() });
+        });
+      }).then(function (s) {
+        if (oku(KAYIT) === s.endpoint) return;
+        return fetch('/api/push', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ a: 'abone', sub: s.toJSON() }) })
+          .then(function (r) { if (r.ok) yaz(KAYIT, s.endpoint); });
+      });
+    }
+    if (Notification.permission === 'granted') { abone().catch(function () {}); return; }
+    if (Notification.permission === 'denied') return;
+    if (Number(oku(KAPAT) || 0) > Date.now()) return;
+
+    // İlk sayfada rahatsız etme: ikinci sayfa görüntülemede ya da 30 saniye sonra, başka bir bildirim kutusu açık değilken göster
+    var sayfa = 1;
+    try { sayfa = Number(sessionStorage.getItem('evt-sayfa') || 0) + 1; sessionStorage.setItem('evt-sayfa', String(sayfa)); } catch (e) {}
+    var bekle = sayfa > 1 ? 4000 : 30000;
+    setTimeout(function dene() {
+      var ck = document.getElementById('ck'), ia = document.getElementById('iaBar');
+      if ((ck && !ck.hidden) || (ia && !ia.hidden)) { setTimeout(dene, 5000); return; }
+      if (Notification.permission !== 'default') return;
+      bar.hidden = false; olay('push_davet_goster');
+    }, bekle);
+
+    document.getElementById('ppOk').onclick = function () {
+      bar.hidden = true;
+      Notification.requestPermission().then(function (izin) {
+        olay('push_izin', { outcome: izin });
+        if (izin === 'granted') return abone();
+        if (izin === 'default') yaz(KAPAT, String(Date.now() + 14 * 864e5));
+      }).catch(function () {});
+    };
+    document.getElementById('ppClose').onclick = function () { bar.hidden = true; yaz(KAPAT, String(Date.now() + 14 * 864e5)); olay('push_davet_kapat'); };
+  })();
+</script>
+<style>
+  .pp-bar { position: fixed; z-index: 79; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #fff; border-radius: 16px; box-shadow: 0 12px 40px rgba(15, 23, 42, .22); border: 1px solid var(--line); }
+  .pp-bar[hidden] { display: none; }
+  .pp-bar img { border-radius: 11px; flex: none; }
+  .pp-txt { flex: 1; display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+  .pp-txt b { font: 800 .92rem var(--font-head); }
+  .pp-txt span { font-size: .76rem; color: var(--muted); }
+  .pp-ok { flex: none; height: 36px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--grad); color: #fff; font: 700 .84rem var(--font); cursor: pointer; white-space: nowrap; }
+  .pp-x { flex: none; width: 30px; height: 30px; border: 0; background: none; font-size: 1.4rem; color: var(--muted); cursor: pointer; }
+  @media (max-width: 420px) { .pp-bar img { display: none; } }
+  @media (min-width: 761px) { .pp-bar { left: auto; right: 20px; bottom: 20px; width: 420px; } }
+</style>

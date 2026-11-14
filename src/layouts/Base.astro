@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import CookieBanner from '../components/CookieBanner.astro';
 import InstallApp from '../components/InstallApp.astro';
+import PushPrompt from '../components/PushPrompt.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import AuthDialog from '../components/AuthDialog.astro';
@@ -242,5 +243,6 @@ const ogImage = new URL(image, Astro.site);
       })();
     </script>
     <InstallApp />
+    <PushPrompt />
   </body>
 </html>
