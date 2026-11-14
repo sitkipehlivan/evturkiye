@@ -13,16 +13,17 @@ import { getNews, getDeals, fmtDate, tl, CATS, newsImg, hasRealImg, type Cat } f
 
 const news = await getNews();
 const deals = (await getDeals()).slice(0, 3);
-// En yeniler: haberler kategorisinin (rehber hariç) en yeni 4 haberi; yeni haber geldikçe en başa girer.
-const latest = news.filter((p) => p.data.category !== 'rehber').slice(0, 4);
-const latestIds = new Set(latest.map((p) => p.id));
-// Manşet: En yeniler'de olmayan, görseli olan en yeni haber ve rehberler (en fazla 6); aynı haber iki kez görünmez.
-const rest = news.filter((p) => !latestIds.has(p.id));
-const heroPosts = [...rest.filter((p) => hasRealImg(p)), ...rest.filter((p) => !hasRealImg(p))].slice(0, 6);
+// Manşet: en yeni haberler (rehber dahil, en fazla 6). Yeni haber geldikçe manşete girer; görseli olmayan
+// yeni haber manşeti bozmasın diye en yeni 10 haber içinden görseli olanlar öne alınır.
+const yeni10 = news.slice(0, 10);
+const heroPosts = [...yeni10.filter((p) => hasRealImg(p)), ...yeni10.filter((p) => !hasRealImg(p))].slice(0, 6);
 const heroIds = new Set(heroPosts.map((p) => p.id));
-// Manşetin altındaki 2 haber (sağ sütun manşetten uzun olduğu için boşluğu doldurur)
-const leadNews = rest.filter((p) => !heroIds.has(p.id) && hasRealImg(p)).slice(0, 2);
+const rest = news.filter((p) => !heroIds.has(p.id));
+// Manşetin altındaki 2 haber (sağ sütun manşetten uzun olduğu için boşluğu doldurur): manşetten sonraki en yeniler
+const leadNews = rest.filter((p) => hasRealImg(p)).slice(0, 2);
 const leadIds = new Set(leadNews.map((p) => p.id));
+// Son haberler: manşet ve altındakilerden sonra gelen en yeni 4 haber (rehber hariç); aynı haber iki kez görünmez.
+const latest = rest.filter((p) => !leadIds.has(p.id) && p.data.category !== 'rehber').slice(0, 4);
 const used = new Set([...heroIds, ...leadIds, ...latest.map((p) => p.id)]);
 const byCat = (c: Cat, n: number) => news.filter((p) => p.data.category === c && !used.has(p.id)).slice(0, n);
 const turkiye = news.filter((p) => !['rehber', 'hibrit'].includes(p.data.category) && !used.has(p.id)).slice(0, 4);
@@ -79,10 +80,10 @@ const jsonLd = {
 
   <CompareWidget />
 
-  <!-- 2. En yeniler -->
+  <!-- 2. Son haberler -->
   <section class="block">
     <div class="container">
-      <div class="block-head"><h2>En yeniler</h2><a href="/haberler">Tüm haberler</a></div>
+      <div class="block-head"><h2>Son haberler</h2><a href="/haberler">Tüm haberler</a></div>
       <div class="cards-4">
         {latest.map(card).map((c) => (
           <a class="nc" href={c.url}>

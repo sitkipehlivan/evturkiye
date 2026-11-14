@@ -14,8 +14,11 @@ Web araması ile (son 24 saat, öncelik son 2 saat):
 
 ## 3. Haber değeri filtresi
 Seç: fiyat/vergi değişikliği, yeni model Türkiye lansmanı veya fiyatı, şarj tarifesi değişikliği, resmi veri açıklaması (satış, soket sayısı), düzenleme, büyük yatırım, kampanya.
-Seçme: söylenti, tekrar eden analiz yazıları, reklam/advertorial, Türkiye ile ilgisi zayıf dünya haberleri, 48 saatten eski olaylar.
-Görev **günde bir kez** çalışır ve son 24 saati tarar. Bir çalıştırmada en fazla **3** haber eklenir; bunların en fazla **1** tanesi dünya haberi olabilir ve yalnızca Türkiye pazarını etkileyecekse (Türkiye'ye gelecek model, fiyatları etkileyen karar, büyük üreticinin rekor/kriz verisi). Az ama dolu haber, çok ama kısa haberden iyidir (AdSense "düşük değerli içerik" kuralı). Yeni bir şey yoksa hiçbir şey eklenmez ve commit yapılmaz.
+Seçme: söylenti, tekrar eden analiz yazıları, reklam/advertorial, Türkiye ile ilgisi zayıf dünya haberleri, 72 saatten eski olaylar.
+Görev **günde bir kez** çalışır ve son 24 saati tarar. Bir çalıştırmada en fazla **3** haber eklenir; bunların en fazla **1** tanesi dünya haberi olabilir ve yalnızca Türkiye pazarını etkileyecekse (Türkiye'ye gelecek model, fiyatları etkileyen karar, büyük üreticinin rekor/kriz verisi). Az ama dolu haber, çok ama kısa haberden iyidir (AdSense "düşük değerli içerik" kuralı). **Hedef: her gün en az 1 haber** (site güncel görünmeli; manşet en yeni haberlerle döner).
+- Son 24 saatte bu filtreyi geçen haber yoksa aramayı **son 72 saate** genişlet (hafta sonu ve tatillerde özellikle). Olayın kendisi 72 saatten eski olmamalı.
+- Yine yoksa Türkiye pazarına dair güncel bir **veri haberi** yaz: bu ay fiyatı değişen modeller (`src/data/models.json` ile marka fiyat listeleri), yeni başlayan kampanyalar, şarj fiyatı değişiklikleri, ODMD/TÜİK aylık verisi gibi. Rakamlar sitenin kendi verisinden ya da açıp okuduğun resmi kaynaktan gelir; mevcut bir haberi tekrar etme.
+- Bunların hiçbiri yoksa (gerçekten yeni bilgi yok) hiçbir şey eklenmez ve commit yapılmaz; rapora hangi aramaları yaptığını tek satırla yaz.
 
 ## 4. Tekrarı önleme
 Eklemeden önce `src/content/haberler/` altındaki dosyaları kontrol et:
