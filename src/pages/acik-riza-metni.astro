@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import c from '../data/company.json';
+const name = c.legalName || c.name || 'EV Türkiye';
+const GUNCELLEME = '14 Kasım 2026';
+---
+<Base title="Açık Rıza Metni" description="EV Türkiye'de ticari elektronik ileti, kişiselleştirilmiş duyuru, analitik ve reklam çerezleri için açık rıza metni.">
+  <section class="section-sm">
+    <div class="container prose">
+      <h1>Açık Rıza Metni</h1>
+      <p class="muted small">Son güncelleme: {GUNCELLEME}</p>
+      <p>Bu metin, <a href="/kvkk-aydinlatma-metni">KVKK Aydınlatma Metni</a>'nden ayrı olarak, yalnızca açık rızanıza dayanan kişisel veri işleme faaliyetleri için hazırlanmıştır. Açık rıza vermek isteğe bağlıdır; vermemeniz ya da sonradan geri almanız EV Türkiye web sitesi ve mobil uygulamasının temel hizmetlerini (rota planlayıcı, şarj fiyatları, yakındaki istasyonlar, üyelik) kullanmanızı engellemez. Veri sorumlusu {name}'dir.</p>
+
+      <h2>1. Ticari elektronik ileti ve kişiselleştirilmiş duyurular</h2>
+      <p>Üyelik formunda veya <a href="/hesabim">Hesabım</a> sayfasında "Kampanya, haber ve iş birliği duyurularını e-posta ve bildirim yoluyla almak istiyorum" kutusunu işaretlemeniz halinde:</p>
+      <ul>
+        <li>ad soyad, e-posta adresi ve bildirim adresinizin (token) elektrikli araç kampanyaları, EV Türkiye haberleri ve marka iş birliklerine ilişkin duyuruların e-posta ve bildirim yoluyla size gönderilmesi amacıyla işlenmesine,</li>
+        <li>profilinizdeki araç, şehir, şarj alışkanlıkları, satın alma planı, bütçe aralığı ve ilgilendiğiniz marka bilgilerinin, size gönderilecek duyuruların ilginize göre seçilmesi (kişiselleştirme) amacıyla değerlendirilmesine,</li>
+        <li>bu iletilerin gönderimi için bilgilerinizin e-posta ve bildirim altyapısını sağlayan hizmet sağlayıcılarına (Google Firebase, Apple Push Notification Service, tarayıcı bildirim servisleri) ve bu sağlayıcıların yurt dışındaki sunucularına aktarılmasına</li>
+      </ul>
+      <p>KVKK'nın 5/1. maddesi uyarınca açık rıza, 6563 sayılı Elektronik Ticaretin Düzenlenmesi Hakkında Kanun uyarınca ticari elektronik ileti onayı vermiş olursunuz. Bilgileriniz marka ve iş birliği ortaklarına kişisel olarak aktarılmaz veya satılmaz; ortaklarımıza yalnızca toplu ve anonim istatistikler (ör. "bu duyuru kaç kişiye ulaştı") paylaşılabilir.</p>
+
+      <h2>2. Analitik çerezler</h2>
+      <p>Çerez bandında "Tümünü kabul et" veya "Sadece istatistik" seçmeniz halinde; çevrim içi tanımlayıcılarınız, ziyaret ettiğiniz sayfalar ve sayfa içi etkileşimlerinizin, sitenin nasıl kullanıldığının ölçülmesi amacıyla Google Analytics aracılığıyla işlenmesine ve bu amaçla Google Ireland Limited / Google LLC'ye (ABD dahil yurt dışındaki sunuculara) aktarılmasına açık rıza vermiş olursunuz.</p>
+
+      <h2>3. Reklam çerezleri</h2>
+      <p>Çerez bandında "Tümünü kabul et" seçmeniz halinde; çevrim içi tanımlayıcılarınız ile bu sitedeki ve diğer sitelerdeki ziyaretlerinize ilişkin bilgilerin, size ilgi alanlarınıza göre reklam gösterilmesi, reklam sıklığının sınırlandırılması ve reklam performansının ölçülmesi amacıyla Google AdSense, Google Ads ve Google Tag Manager aracılığıyla işlenmesine ve Google Ireland Limited / Google LLC'ye (ABD dahil yurt dışındaki sunuculara) aktarılmasına açık rıza vermiş olursunuz. Ayrıntılı çerez listesi: <a href="/cerez-politikasi">Çerez Politikası</a>.</p>
+
+      <h2>4. Bildirimler</h2>
+      <p>Tarayıcınızda veya mobil uygulamada bildirimlere izin vermeniz halinde, cihazınızın ya da tarayıcınızın ürettiği bildirim adresinin (token) öne çıkan haberlerin, kampanya ve iş birliği duyurularının gönderilmesi amacıyla işlenmesine ve bildirim servislerine (Google, Apple, Mozilla veya Microsoft) aktarılmasına açık rıza vermiş olursunuz. Bildirimlerin bir kısmı reklam içerikli olabilir.</p>
+
+      <h2>Rızanızı geri alma</h2>
+      <ul>
+        <li>Ticari ileti onayı: <a href="/hesabim">Hesabım</a> sayfasındaki kutunun işaretini kaldırarak veya gönderilen e-postalardaki "abonelikten çık" bağlantısıyla.</li>
+        <li>Analitik ve reklam çerezleri: sayfanın en altındaki "Çerez tercihleri" bağlantısıyla.</li>
+        <li>Bildirimler: tarayıcınızın site ayarlarından veya cihazınızın bildirim ayarlarından.</li>
+        {c.email && <li>Her durumda <a href={`mailto:${c.email}?subject=A%C3%A7%C4%B1k%20r%C4%B1za%20geri%20alma`}>{c.email}</a> adresine yazarak.</li>}
+      </ul>
+      <p>Rızanızı geri almanız, geri alma tarihine kadar rızanıza dayanarak yapılan işlemlerin hukuka uygunluğunu etkilemez. Geri alma talebiniz en geç 3 iş günü içinde uygulanır.</p>
+    </div>
+  </section>
+</Base>

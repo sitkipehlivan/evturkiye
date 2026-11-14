@@ -2,48 +2,116 @@
 import Base from '../layouts/Base.astro';
 import c from '../data/company.json';
 const name = c.legalName || c.name || 'EV Türkiye';
+const GUNCELLEME = '14 Kasım 2026';
 ---
-<Base title="KVKK Aydınlatma Metni" description="EV Türkiye üyelik ve hizmetleri kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni.">
+<Base title="KVKK Aydınlatma Metni" description="EV Türkiye web sitesi ve mobil uygulaması kapsamında kişisel verilerin işlenmesine ilişkin aydınlatma metni.">
   <section class="section-sm">
     <div class="container prose">
       <h1>Kişisel Verilerin İşlenmesine İlişkin Aydınlatma Metni</h1>
-      <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, evturkiye.com.tr ve evturkiye.online alan adlarında yayın yapan EV Türkiye'nin ("Site") ziyaretçi ve üyelerine ait kişisel verilerin işlenmesi hakkında bilgi vermek amacıyla hazırlanmıştır.</p>
+      <p class="muted small">Son güncelleme: {GUNCELLEME}</p>
+      <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") ve Aydınlatma Yükümlülüğünün Yerine Getirilmesinde Uyulacak Usul ve Esaslar Hakkında Tebliğ uyarınca; evturkiye.online ve evturkiye.com.tr alan adlarında yayın yapan EV Türkiye web sitesi ("Site") ile EV Türkiye mobil uygulamasının ("Uygulama"; birlikte "Hizmetler") ziyaretçi, kullanıcı ve üyelerine ait kişisel verilerin işlenmesi hakkında bilgi vermek amacıyla hazırlanmıştır.</p>
 
       <h2>1. Veri sorumlusu</h2>
-      <p>Veri sorumlusu <b>{name}</b>'dir.{c.address && <> Adres: {c.address}.</>}{c.mersis && <> MERSİS: {c.mersis}.</>}{c.email && <> İletişim: <a href={`mailto:${c.email}`}>{c.email}</a>.</>}</p>
-
-      <h2>2. İşlenen kişisel veriler</h2>
+      <p>Kişisel verileriniz, veri sorumlusu sıfatıyla <b>{name}</b> ("Şirket") tarafından işlenir.</p>
       <ul>
-        <li><b>Kimlik ve iletişim:</b> ad soyad, e-posta adresi (üyelikte).</li>
-        <li><b>Üyelik ve tercih bilgileri:</b> bildirim ve ileti tercihleri, onay kayıtları, şehir.</li>
-        <li><b>Araç ve kullanım bilgileri (isteğe bağlı):</b> sahip olunan veya alınması düşünülen araç, model yılı, evde şarj imkânı, aylık yaklaşık yol, kullanılan şarj uygulamaları, satın alma planı, bütçe aralığı ve ilgilenilen markalar.</li>
-        <li><b>Hizmet kullanımı:</b> rota planlayıcıda girilen başlangıç ve varış noktaları, günlük rota kullanım sayısı.</li>
-        <li><b>Konum:</b> yalnızca "Yakınımdaki şarj istasyonları" aracını kullandığınızda ve izin verdiğinizde, çevrenizdeki istasyonları bulmak için anlık olarak kullanılır; kaydedilmez.</li>
-        <li><b>İşlem güvenliği:</b> IP adresi, oturum ve erişim kayıtları, tarayıcı bilgileri.</li>
-        <li><b>Tarayıcı bildirimleri:</b> tarayıcınızda bildirimlere izin vermeniz halinde tarayıcının ürettiği bildirim adresi ve şifreleme anahtarı, izin günü, tarayıcı ailesi ve cihaz türü. Bu kayıt üyelik hesabınızla, adınızla ya da IP adresinizle ilişkilendirilmez. Ayrıntılar: <a href="/cerez-politikasi">Çerez Politikası</a>.</li>
-        <li><b>Pazarlama:</b> yalnızca onay vermeniz halinde, e-posta ve bildirim gönderimi için iletişim bilgileriniz.</li>
+        {c.address && <li>Adres: {c.address}</li>}
+        {c.mersis && <li>MERSİS numarası: {c.mersis}</li>}
+        {c.email && <li>E-posta: <a href={`mailto:${c.email}`}>{c.email}</a></li>}
+        <li>İnternet sitesi: <a href={c.website}>{c.website.replace('https://', '')}</a></li>
       </ul>
+
+      <h2>2. İşlenen kişisel veri kategorileri</h2>
+      <ul>
+        <li><b>Kimlik ve iletişim:</b> ad soyad, e-posta adresi (üyelikte). Google ya da Apple ile girişte bu hizmetlerin bize ilettiği ad ve e-posta adresi; Apple ile girişte e-postanızı gizlemeyi seçerseniz Apple'ın oluşturduğu yönlendirme adresi.</li>
+        <li><b>Üyelik ve tercih bilgileri:</b> hesap kimliği, şehir, bildirim ve ticari ileti tercihleri, onay ve ret kayıtları (tarihleriyle).</li>
+        <li><b>Araç ve kullanım bilgileri (isteğe bağlı):</b> sahip olunan veya alınması düşünülen araç, model yılı, evde şarj imkânı, aylık yaklaşık yol, kullanılan şarj uygulamaları, satın alma planı, bütçe aralığı ve ilgilenilen markalar.</li>
+        <li><b>Hizmet kullanımı:</b> rota planlayıcıda girilen başlangıç ve varış noktaları, rota ve istasyon araması sayısı (günlük kullanım sınırı için).</li>
+        <li><b>Konum:</b> yalnızca "Yakınımdaki şarj istasyonları" aracını kullandığınızda ve cihazınızda izin verdiğinizde, çevrenizdeki istasyonları bulmak için anlık olarak kullanılır; kaydedilmez ve hesabınızla ilişkilendirilmez.</li>
+        <li><b>İşlem güvenliği:</b> IP adresi, erişim ve oturum kayıtları, tarayıcı ve işletim sistemi bilgisi, ziyaret tarih ve saati, hata kayıtları.</li>
+        <li><b>Çerez ve benzeri teknolojilerle toplanan veriler (onay vermeniz halinde):</b> çevrim içi tanımlayıcılar (çerez kimliği), ziyaret edilen sayfalar, ziyaret sıklığı ve süresi, sayfa içi etkileşimler, site içi arama terimleri, kaba konum (IP'den türetilen il/ülke), cihaz türü ve dil tercihi, reklam gösterim ve tıklama bilgileri. Ayrıntılar: <a href="/cerez-politikasi">Çerez Politikası</a>.</li>
+        <li><b>Bildirimler:</b> tarayıcıda ya da Uygulamada bildirimlere izin vermeniz halinde tarayıcının veya cihazınızın bildirim servisinin ürettiği bildirim adresi (token) ve şifreleme anahtarı, izin tarihi, tarayıcı ailesi / işletim sistemi ve cihaz türü. Tarayıcı bildirim kaydı adınız, e-posta adresiniz ya da IP adresinizle ilişkilendirilmez.</li>
+        <li><b>Talep ve iletişim:</b> bize e-postayla ilettiğiniz başvuru, soru ve şikâyetlerin içeriği ile yazışma kayıtları.</li>
+      </ul>
+      <p>Hizmetler kapsamında KVKK'nın 6. maddesinde sayılan özel nitelikli kişisel verileriniz (sağlık, din, biyometrik veri vb.) işlenmez. Lütfen bize ilettiğiniz mesajlarda bu tür bilgilere yer vermeyin.</p>
 
       <h2>3. İşleme amaçları ve hukuki sebepler</h2>
+      <table>
+        <thead><tr><th>Amaç</th><th>Hukuki sebep (KVKK m.5)</th></tr></thead>
+        <tbody>
+          <tr><td>Üyelik hesabının oluşturulması ve yönetilmesi; Google veya Apple ile giriş; rota, şarj maliyeti ve istasyon arama hizmetlerinin sunulması</td><td>Sözleşmenin kurulması ve ifası (m.5/2-c)</td></tr>
+          <tr><td>Planlayıcının kayıtlı aracınızla hazır gelmesi, size uygun içerik ve rehberlerin gösterilmesi</td><td>Sözleşmenin ifası (m.5/2-c), meşru menfaat (m.5/2-f)</td></tr>
+          <tr><td>Konumunuza yakın şarj istasyonlarının gösterilmesi</td><td>Sözleşmenin ifası (m.5/2-c); konum izni cihazınızda ayrıca sizden istenir</td></tr>
+          <tr><td>Kötüye kullanımın önlenmesi, günlük kullanım sınırlarının uygulanması, bilgi ve işlem güvenliği, hata tespiti</td><td>Meşru menfaat (m.5/2-f); hukuki yükümlülük (m.5/2-ç, 5651 sayılı Kanun)</td></tr>
+          <tr><td>Başvuru, soru ve şikâyetlerin cevaplanması; hesap silme taleplerinin yerine getirilmesi</td><td>Hukuki yükümlülük (m.5/2-ç), meşru menfaat (m.5/2-f)</td></tr>
+          <tr><td>Hukuki uyuşmazlıklarda hakların tesisi, kullanılması ve korunması; yetkili kurumların taleplerinin karşılanması</td><td>Bir hakkın tesisi, kullanılması veya korunması (m.5/2-e); hukuki yükümlülük (m.5/2-ç)</td></tr>
+          <tr><td>Site kullanım istatistiklerinin ölçülmesi (Google Analytics)</td><td>Açık rıza (m.5/1); çerez bandından "Tümünü kabul et" ya da "Sadece istatistik" seçmeniz halinde</td></tr>
+          <tr><td>Reklam gösterimi, reklamların kişiselleştirilmesi ve reklam performansının ölçülmesi (Google AdSense, Google Ads)</td><td>Açık rıza (m.5/1); çerez bandından "Tümünü kabul et" seçmeniz halinde</td></tr>
+          <tr><td>Kampanya, haber ve iş birliği duyurularının e-posta ve bildirimle gönderilmesi; bu amaçla araç ve tercih bilgilerinize göre ilginizi çekebilecek içeriğin belirlenmesi</td><td>Açık rıza (m.5/1) ve 6563 sayılı Kanun kapsamında ticari elektronik ileti onayı; bkz. <a href="/acik-riza-metni">Açık Rıza Metni</a></td></tr>
+          <tr><td>Tarayıcı ve Uygulama bildirimlerinin gönderilmesi</td><td>Açık rıza (m.5/1); tarayıcınızda veya cihazınızda bildirime izin vermeniz halinde</td></tr>
+        </tbody>
+      </table>
+      <p>Açık rızaya dayalı işlemeler isteğe bağlıdır; rıza vermemeniz Hizmetlerin temel kullanımını engellemez. Kişisel verileriniz üçüncü kişilere pazarlama amacıyla satılmaz.</p>
+
+      <h2>4. Kişisel verilerin aktarılması</h2>
+      <p>Kişisel verileriniz, yukarıdaki amaçlarla ve KVKK'nın 8. ve 9. maddelerine uygun olarak aşağıdaki alıcı gruplarına aktarılabilir:</p>
       <ul>
-        <li>Üyelik hesabının oluşturulması ve yönetilmesi, rota ve şarj maliyeti hizmetinin sunulması: sözleşmenin kurulması ve ifası (KVKK m.5/2-c).</li>
-        <li>Planlayıcının kayıtlı aracınızla hazır gelmesi ve size uygun içerik ile rehberlerin sunulması: sözleşmenin ifası (m.5/2-c) ve meşru menfaat (m.5/2-f).</li>
-        <li>Hizmetin kötüye kullanımının önlenmesi, günlük kullanım sınırlarının uygulanması, bilgi güvenliği: veri sorumlusunun meşru menfaati (m.5/2-f) ve hukuki yükümlülükler (m.5/2-ç, 5651 sayılı Kanun).</li>
-        <li>Kampanya, haber ve işbirliği duyurularının e-posta ve bildirimle gönderilmesi: açık rızanız ve 6563 sayılı Kanun kapsamındaki ticari elektronik ileti onayınız. Onay vermeniz halinde araç ve tercih bilgileriniz, ilginizi çekebilecek kampanya ve duyuruların belirlenmesinde de kullanılabilir. Bu onay isteğe bağlıdır; vermemeniz üyeliğinizi etkilemez. Bilgileriniz üçüncü kişilere pazarlama amacıyla satılmaz veya kişisel olarak aktarılmaz.</li>
+        <li><b>Altyapı ve hizmet sağlayıcıları (veri işleyen):</b> üyelik, veri tabanı ve Uygulama bildirimleri için Google (Firebase, Firebase Cloud Messaging); harita, rota ve yer araması için Google (Google Maps Platform); site barındırma ve sunucu hizmeti için Netlify, Inc.; reklam görsellerinin dağıtımı için BunnyWay d.o.o. (Bunny CDN); Apple ile giriş ve iOS bildirimleri için Apple (Sign in with Apple, Apple Push Notification Service); tarayıcı bildirimleri için tarayıcınızın bildirim servisi (Google, Apple, Mozilla veya Microsoft).</li>
+        <li><b>Ölçüm ve reklam ortakları (yalnızca onay vermeniz halinde):</b> Google Ireland Limited / Google LLC (Google Analytics, Google AdSense, Google Ads, Google Tag Manager).</li>
+        <li><b>Yayıncımızın reklam sunucusu:</b> sitedeki doğrudan reklamların gösterimi için Advance Ad Server (Şirketimize ait; Netlify altyapısında çalışır, çerez kullanmaz ve IP adresi saklamaz).</li>
+        <li><b>Yetkili kamu kurum ve kuruluşları ile yargı mercileri:</b> talep halinde ve mevzuatın gerektirdiği ölçüde.</li>
+        <li><b>Hukuk ve mali müşavirlik hizmeti alınan kişiler:</b> bir hakkın tesisi, kullanılması veya korunması için gerekli ölçüde.</li>
       </ul>
+      <p><b>Yurt dışına aktarım:</b> Yukarıdaki sağlayıcıların bir kısmının sunucuları yurt dışında (ABD ve Avrupa Birliği ülkeleri) bulunur. Sayfaların ve Uygulamanın size gösterilebilmesi için IP adresiniz ve tarayıcı/cihaz bilgileriniz teknik olarak bu sağlayıcılara iletilir. Yurt dışına aktarımlar, KVKK'nın 9. maddesinde öngörülen şartlara, öncelikle Kurul tarafından ilan edilen standart sözleşmeler gibi uygun güvencelere dayanılarak; bu güvencelerin bulunmadığı ve aktarımın arızi nitelikte olduğu hallerde ise kanunda sayılan istisnalara dayanılarak gerçekleştirilir. Yazı tipleri kendi sunucumuzdan yüklenir; bunun için üçüncü kişilere istek gönderilmez.</p>
 
-      <h2>4. Aktarım</h2>
-      <p>Kişisel verileriniz hizmetin sunulması için kullanılan altyapı sağlayıcılarına aktarılabilir: üyelik ve veri tabanı hizmeti için Google (Firebase), harita ve rota hizmeti için Google (Google Maps Platform), site barındırma ve sunucu hizmeti için Netlify (ABD), sitedeki doğrudan reklamların gösterimi için yayıncımızın reklam sunucusu (Advance Ad Server, Netlify altyapısında; IP adresi saklanmaz) ve reklam görsellerinin dağıtımı için Bunny (BunnyWay d.o.o., Slovenya; AB) ve site kullanım istatistikleri ile reklam gösterimi için Google (Google Analytics, Google AdSense; çerezler yalnızca onay vermeniz halinde). Tarayıcı bildirimlerine izin verdiyseniz bildirimler tarayıcınızın bildirim servisi (Google, Apple, Mozilla ya da Microsoft) üzerinden iletilir. Bu sağlayıcıların sunucuları yurt dışında (ABD, AB) bulunur; sayfaların size gösterilebilmesi için IP adresiniz ve tarayıcı bilgileriniz teknik olarak bu sağlayıcılara iletilir. Yazı tipleri kendi sunucumuzdan yüklenir. aktarımlar KVKK'nın 9. maddesindeki şartlara uygun olarak gerçekleştirilir. Kanunen yetkili kamu kurum ve kuruluşlarına, talep halinde ve mevzuatın gerektirdiği ölçüde aktarım yapılabilir.</p>
+      <h2>5. Kişisel verilerin toplanma yöntemi</h2>
+      <p>Kişisel verileriniz; Site ve Uygulamadaki üyelik, profil ve hesap formları, Google ile giriş ve Apple ile giriş seçenekleri, rota planlayıcı ve yakındaki istasyon aracı, çerez bandındaki tercihiniz doğrultusunda çerezler ve benzeri teknolojiler (yerel depolama, SDK'lar), sunucu ve erişim kayıtları, bildirim izinleri ile bize gönderdiğiniz e-postalar aracılığıyla; tamamen veya kısmen otomatik yollarla, elektronik ortamda toplanır.</p>
 
-      <h2>5. Toplama yöntemi</h2>
-      <p>Veriler, Site'deki üyelik ve hesap formları, Google ile giriş seçeneği ve rota planlayıcı aracılığıyla elektronik ortamda otomatik yollarla toplanır.</p>
+      <h2>6. Saklama süresi ve imha</h2>
+      <ul>
+        <li><b>Üyelik ve profil verileri:</b> üyeliğiniz devam ettiği sürece. Hesabınızı <a href="/hesabim">Hesabım</a> sayfasından sildiğinizde hesap ve profil verileriniz derhal silinir (bkz. <a href="/hesap-silme">Hesap ve veri silme</a>).</li>
+        <li><b>Onay ve ret kayıtları (ticari ileti):</b> 6563 sayılı Kanun ve ilgili yönetmelik uyarınca onayın geri alınmasından itibaren 3 yıl.</li>
+        <li><b>Günlük kullanım sayaçları:</b> ilgili gün sonunda geçerliliğini yitirir; tarayıcınızdaki kayıt bir sonraki kullanımda sıfırlanır.</li>
+        <li><b>İşlem güvenliği ve erişim kayıtları:</b> 5651 sayılı Kanun ve ilgili mevzuatta öngörülen süreler boyunca, en fazla 2 yıl.</li>
+        <li><b>Başvuru ve yazışma kayıtları:</b> başvurunun sonuçlandırılmasından itibaren genel zamanaşımı süreleri boyunca.</li>
+        <li><b>Çerezler:</b> <a href="/cerez-politikasi">Çerez Politikası</a>'ndaki tabloda belirtilen süreler boyunca.</li>
+      </ul>
+      <p>Saklama süresi sona eren ya da işlenme şartları ortadan kalkan kişisel veriler, Kişisel Verilerin Silinmesi, Yok Edilmesi veya Anonim Hale Getirilmesi Hakkında Yönetmelik uyarınca re'sen veya talebiniz üzerine silinir, yok edilir ya da anonim hale getirilir.</p>
 
-      <h2>6. Saklama süresi</h2>
-      <p>Üyelik verileri üyelik süresince ve üyeliğin sona ermesinden sonra ilgili mevzuatta öngörülen süreler boyunca saklanır. Hesabınızı <a href="/hesabim">Hesabım</a> sayfasından dilediğiniz zaman silebilirsiniz. Günlük rota kullanım kayıtları kısa süreli tutulur.</p>
+      <h2>7. Veri güvenliği</h2>
+      <p>Şirket, KVKK'nın 12. maddesi uyarınca kişisel verilerin hukuka aykırı işlenmesini ve erişilmesini önlemek ve muhafazasını sağlamak için uygun güvenlik düzeyini temin eden teknik ve idari tedbirleri alır: tüm bağlantılarda şifreli iletişim (HTTPS/TLS), veri tabanında kullanıcı bazlı erişim kuralları, yetkilendirilmiş ve sınırlı personel erişimi, parolaların Şirket tarafından görülemeyecek şekilde altyapı sağlayıcısında saklanması, veri işleyenlerle gizlilik ve veri güvenliği yükümlülükleri, düzenli güncelleme ve kayıt incelemesi. Kişisel verilerin kanuni olmayan yollarla başkaları tarafından elde edilmesi halinde durum en kısa sürede ilgili kişiye ve Kişisel Verileri Koruma Kurulu'na bildirilir.</p>
 
-      <h2>7. Haklarınız</h2>
-      <p>KVKK'nın 11. maddesi uyarınca kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme, işlenme amacını öğrenme, aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini, silinmesini veya yok edilmesini isteme, itiraz etme ve zararın giderilmesini talep etme haklarına sahipsiniz. Taleplerinizi {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : 'Site üzerindeki iletişim kanalları'} aracılığıyla iletebilirsiniz.</p>
-      <p>Ticari ileti onayınızı Hesabım sayfasından veya gönderilen iletilerdeki bağlantıdan dilediğiniz zaman geri alabilirsiniz.</p>
+      <h2>8. Çocukların kişisel verileri</h2>
+      <p>Hizmetler 18 yaşından küçüklere yönelik değildir ve üyelik 18 yaşını doldurmuş kişilere açıktır. 18 yaşından küçük olduğu anlaşılan kişilere ait üyelikler ve veriler silinir.</p>
+
+      <h2>9. İlgili kişi olarak haklarınız (KVKK m.11)</h2>
+      <p>Şirkete başvurarak kişisel verilerinizle ilgili:</p>
+      <ol type="a">
+        <li>kişisel verilerinizin işlenip işlenmediğini öğrenme,</li>
+        <li>işlenmişse buna ilişkin bilgi talep etme,</li>
+        <li>işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
+        <li>yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li>
+        <li>eksik veya yanlış işlenmiş olması halinde düzeltilmesini isteme,</li>
+        <li>KVKK'nın 7. maddesindeki şartlar çerçevesinde silinmesini veya yok edilmesini isteme,</li>
+        <li>(e) ve (f) bentleri uyarınca yapılan işlemlerin, kişisel verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
+        <li>işlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme,</li>
+        <li>kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğramanız halinde zararın giderilmesini talep etme</li>
+      </ol>
+      <p>haklarına sahipsiniz.</p>
+
+      <h2>10. Başvuru yöntemi</h2>
+      <p>Yukarıdaki haklarınızı kullanmak için taleplerinizi, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ uyarınca Türkçe olarak ve kimliğinizi tespit edici bilgilerle (ad soyad, T.C. kimlik numarası ya da yabancılar için uyruk ve pasaport/kimlik numarası, tebligata esas adres veya e-posta, talep konusu) aşağıdaki yollardan biriyle iletebilirsiniz:</p>
+      <ul>
+        {c.email && <li>Sistemimizde kayıtlı e-posta adresinizden <a href={`mailto:${c.email}?subject=KVKK%20Ba%C5%9Fvurusu`}>{c.email}</a> adresine "KVKK Başvurusu" konulu e-posta ile,</li>}
+        {c.address && <li>ıslak imzalı dilekçe ile {c.address} adresine şahsen veya noter aracılığıyla,</li>}
+        <li>güvenli elektronik imza veya mobil imza ile imzalanmış olarak{c.email && <> {c.email} adresine</>} e-posta ile,</li>
+        <li>kayıtlı elektronik posta (KEP) adresi üzerinden.</li>
+      </ul>
+      <p>Başvurunuz, talebin niteliğine göre en kısa sürede ve en geç <b>30 gün</b> içinde ücretsiz olarak sonuçlandırılır. İşlemin ayrıca bir maliyet gerektirmesi halinde Kişisel Verileri Koruma Kurulu'nca belirlenen tarifedeki ücret alınabilir. Başvurunuzun reddedilmesi, verilen cevabı yetersiz bulmanız veya süresinde cevap verilmemesi halinde, cevabı öğrendiğiniz tarihten itibaren 30 ve her halde başvuru tarihinden itibaren 60 gün içinde Kişisel Verileri Koruma Kurulu'na şikâyette bulunabilirsiniz.</p>
+      <p>Ticari ileti onayınızı <a href="/hesabim">Hesabım</a> sayfasından veya gönderilen iletilerdeki bağlantıdan dilediğiniz zaman, gerekçe göstermeksizin geri alabilirsiniz. Çerez tercihinizi sayfanın altındaki "Çerez tercihleri" bağlantısından, bildirim iznini tarayıcınızın veya cihazınızın ayarlarından değiştirebilirsiniz.</p>
+
+      <h2>11. Değişiklikler</h2>
+      <p>Bu aydınlatma metni, mevzuat ve Hizmetlerdeki değişikliklere göre güncellenebilir. Güncel metin her zaman bu sayfada yayımlanır; son güncelleme tarihi sayfanın başında yer alır.</p>
+      <p>İlgili metinler: <a href="/acik-riza-metni">Açık Rıza Metni</a> · <a href="/cerez-politikasi">Çerez Politikası</a> · <a href="/uyelik-sozlesmesi">Üyelik Koşulları</a> · <a href="/hesap-silme">Hesap ve veri silme</a></p>
     </div>
   </section>
 </Base>

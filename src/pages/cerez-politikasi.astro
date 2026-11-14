@@ -2,43 +2,99 @@
 import Base from '../layouts/Base.astro';
 import c from '../data/company.json';
 const name = c.legalName || c.name || 'EV Türkiye';
+const GUNCELLEME = '14 Kasım 2026';
 ---
-<Base title="Çerez Politikası" description="EV Türkiye'de kullanılan zorunlu ve analitik çerezler, Google Analytics ve çerez tercihlerinizi nasıl değiştirebileceğiniz.">
+<Base title="Çerez Politikası" description="EV Türkiye'de kullanılan zorunlu, analitik ve reklam çerezleri; adları, sağlayıcıları, süreleri ve tercihlerinizi nasıl değiştirebileceğiniz.">
   <section class="section-sm">
     <div class="container prose">
       <h1>Çerez Politikası</h1>
-      <p>Bu politika, {name} tarafından işletilen EV Türkiye sitesinde (evturkiye.com.tr ve evturkiye.online) kullanılan çerezler ve benzeri teknolojiler hakkında bilgi verir. Kişisel verilerin işlenmesine ilişkin ayrıntılar için <a href="/kvkk-aydinlatma-metni">KVKK Aydınlatma Metni</a>'ni inceleyebilirsiniz.</p>
+      <p class="muted small">Son güncelleme: {GUNCELLEME}</p>
+      <p>Bu politika, veri sorumlusu {name} ("Şirket") tarafından işletilen EV Türkiye web sitesinde (evturkiye.online ve evturkiye.com.tr) ve EV Türkiye mobil uygulamasında kullanılan çerezler ve benzeri teknolojiler hakkında, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca bilgi vermek amacıyla hazırlanmıştır. Kişisel verilerin işlenmesine ilişkin genel bilgiler için <a href="/kvkk-aydinlatma-metni">KVKK Aydınlatma Metni</a>'ni, açık rızaya dayanan işlemeler için <a href="/acik-riza-metni">Açık Rıza Metni</a>'ni inceleyebilirsiniz.</p>
 
       <h2>Çerez nedir?</h2>
-      <p>Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınıza kaydedilen küçük metin dosyalarıdır. Benzer amaçla tarayıcının yerel depolama alanı (localStorage) da kullanılabilir.</p>
+      <p>Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınıza kaydedilen küçük metin dosyalarıdır. Bu politikada "çerez" ifadesi, aynı amaçla kullanılan tarayıcı yerel depolama alanı (localStorage, sessionStorage, IndexedDB) ve mobil uygulamalardaki yazılım geliştirme kitleri (SDK) gibi benzeri teknolojileri de kapsar.</p>
+
+      <h2>Çerez türleri</h2>
+      <ul>
+        <li><b>Taraflarına göre:</b> Sitemizin kendi kaydettiği <b>birinci taraf</b> çerezler ve Google gibi hizmet sağlayıcıların kaydettiği <b>üçüncü taraf</b> çerezler.</li>
+        <li><b>Sürelerine göre:</b> tarayıcı kapatıldığında silinen <b>oturum</b> çerezleri ve belirtilen süre boyunca ya da siz silene kadar kalan <b>kalıcı</b> çerezler.</li>
+        <li><b>Amaçlarına göre:</b> sitenin çalışması için gerekli <b>zorunlu</b>, kullanım istatistiği için <b>analitik</b> ve reklam gösterimi ile ölçümü için <b>reklam</b> çerezleri.</li>
+      </ul>
 
       <h2>Kullandığımız çerezler</h2>
+
+      <h3>1. Zorunlu çerezler ve yerel depolama</h3>
+      <p><b>Hukuki sebep:</b> sözleşmenin kurulması ve ifası ile meşru menfaat (KVKK m.5/2-c ve m.5/2-f). Bu kayıtlar sitenin ve üyeliğin çalışması için gereklidir; onayınız aranmaz.</p>
       <table>
-        <thead><tr><th>Tür</th><th>Amaç</th><th>Onay</th></tr></thead>
+        <thead><tr><th>Ad</th><th>Sağlayıcı</th><th>Amaç</th><th>Süre</th></tr></thead>
         <tbody>
-          <tr><td><b>Zorunlu</b></td><td>Üyelik oturumunun açık kalması, çerez tercihinizin hatırlanması, günlük rota ve istasyon arama haklarının takibi, kayıtlı aracınızın hatırlanması.</td><td>Gerekmez (hizmetin çalışması için zorunludur)</td></tr>
-          <tr><td><b>Analitik</b></td><td>Google Analytics 4 ile sayfaların ne kadar ziyaret edildiğini ve sitenin nasıl kullanıldığını toplu olarak ölçmek. Bu bilgiler sizi kişisel olarak tanımlamak için kullanılmaz.</td><td>"Tümünü kabul et" ya da "Sadece istatistik" seçerseniz</td></tr>
-          <tr><td><b>Reklam</b></td><td>Google AdSense ile sitede reklam gösterilmesi; onay vermeniz halinde reklamların ilgi alanlarınıza göre kişiselleştirilmesi ve reklam performansının ölçülmesi.</td><td>Kişiselleştirme ve reklam çerezleri yalnızca "Tümünü kabul et" seçerseniz; "Sadece istatistik" ya da "Reddet" seçerseniz kişiselleştirilmemiş reklamlar gösterilir</td></tr>
+          <tr><td>evt-cerez</td><td>EV Türkiye (yerel depolama)</td><td>Çerez tercihinizin hatırlanması</td><td>Siz silene kadar</td></tr>
+          <tr><td>firebaseLocalStorageDb, firebase:authUser:*</td><td>Google Firebase (IndexedDB)</td><td>Üyelik oturumunuzun açık kalması</td><td>Çıkış yapana kadar</td></tr>
+          <tr><td>evt-car</td><td>EV Türkiye (yerel depolama)</td><td>Planlayıcıda seçtiğiniz aracın hatırlanması</td><td>Siz silene kadar</td></tr>
+          <tr><td>evt-rota-hakki, evt-yakin-hakki</td><td>EV Türkiye (yerel depolama)</td><td>Günlük rota ve istasyon arama haklarının takibi</td><td>Gün sonunda sıfırlanır</td></tr>
+          <tr><td>evt-bildirim, evt-bildirim-kapat</td><td>EV Türkiye (yerel depolama)</td><td>Bildirim aboneliğinizin ve "şimdi değil" tercihinizin hatırlanması</td><td>Siz silene kadar</td></tr>
+          <tr><td>evt-uygulama-kapat</td><td>EV Türkiye (yerel depolama)</td><td>Uygulama indirme çağrısını kapattığınızın hatırlanması</td><td>Siz silene kadar</td></tr>
+          <tr><td>evt-sayfa</td><td>EV Türkiye (oturum deposu)</td><td>Bu ziyarette gezilen sayfa sayısı (bildirim davetinin zamanlaması)</td><td>Oturum sonunda silinir</td></tr>
         </tbody>
       </table>
 
-      <h2>Çerezsiz ziyaret sayımı</h2>
-      <p>Reklamlarımızın ve sayfalarımızın kaç ziyaret aldığını görmek için kendi sunucumuzda çerezsiz bir sayım yaparız. Bu sayımda tarayıcınıza çerez yazılmaz; cihaz kimliği, IP adresi ya da sizi tanımlayan başka bir bilgi saklanmaz. Yalnızca hangi sayfanın ve (varsa) hangi reklam bağlantısının açıldığı, günlük toplamlar olarak tutulur.</p>
-      <p><b>Kendi reklam sunucumuz (Advance Ad Server):</b> Sitedeki doğrudan reklamlar yayıncımız Advance Dijital Medya'nın reklam sunucusundan gösterilir. Bu sunucu çerez kullanmaz, IP adresi saklamaz; reklam görselleri Bunny CDN (Slovenya, AB) üzerinden yüklenir. Yalnızca "Tümünü kabul et" seçerseniz, aynı reklamı size çok sık göstermemek için hangi reklamı kaç kez gördüğünüz kendi tarayıcınızda (yerel depolama) tutulur ve bize gönderilmez; izin vermezseniz tarayıcınıza reklamla ilgili hiçbir şey yazılmaz. reklamların gösterim, görünürlük ve tıklama sayıları günlük toplamlar olarak saklanır. Yazı tipleri de kendi sunucumuzdan yüklenir; bunun için Google'a istek gönderilmez.</p>
+      <h3>2. Analitik çerezler</h3>
+      <p><b>Hukuki sebep:</b> açık rızanız (KVKK m.5/1). Yalnızca çerez bandında "Tümünü kabul et" ya da "Sadece istatistik" seçerseniz kaydedilir.</p>
+      <table>
+        <thead><tr><th>Ad</th><th>Sağlayıcı</th><th>Amaç</th><th>Süre</th></tr></thead>
+        <tbody>
+          <tr><td>_ga</td><td>Google Analytics</td><td>Ziyaretçileri birbirinden ayırt ederek toplu kullanım istatistiği üretmek</td><td>2 yıl</td></tr>
+          <tr><td>_ga_6S4Y5HKH1N</td><td>Google Analytics</td><td>Oturum durumunu ve sayfa görüntülemelerini saymak</td><td>2 yıl</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3. Reklam çerezleri</h3>
+      <p><b>Hukuki sebep:</b> açık rızanız (KVKK m.5/1). Google reklam çerezleri ve Google AdSense komut dosyası yalnızca çerez bandında "Tümünü kabul et" seçerseniz yüklenir. "Sadece istatistik" ya da "Reddet" seçerseniz Google reklamları yüklenmez; sitede yalnızca çerezsiz çalışan kendi reklam sunucumuzun reklamları gösterilir.</p>
+      <table>
+        <thead><tr><th>Ad</th><th>Sağlayıcı</th><th>Amaç</th><th>Süre</th></tr></thead>
+        <tbody>
+          <tr><td>__gads, __gpi</td><td>Google AdSense</td><td>Reklam gösterimi, aynı reklamın gösterim sıklığının sınırlandırılması ve ölçüm</td><td>13 ay</td></tr>
+          <tr><td>__eoi</td><td>Google AdSense</td><td>Reklam güvenliği ve kötüye kullanımın önlenmesi</td><td>6 ay</td></tr>
+          <tr><td>IDE, test_cookie (doubleclick.net)</td><td>Google</td><td>İlgi alanına dayalı reklam gösterimi ve ölçümü; çerez desteğinin kontrolü</td><td>13–24 ay; test_cookie 15 dakika</td></tr>
+          <tr><td>_gcl_au</td><td>Google Ads (Google Tag Manager)</td><td>Reklam tıklamalarından gelen ziyaretlerin ve dönüşümlerin ölçülmesi</td><td>90 gün</td></tr>
+          <tr><td>Advance Ad Server sıklık kaydı</td><td>Advance Ad Server (yerel depolama)</td><td>Aynı reklamı size çok sık göstermemek; kayıt yalnızca tarayıcınızda tutulur, bize gönderilmez</td><td>Siz silene kadar</td></tr>
+        </tbody>
+      </table>
+      <p>Google'ın kullandığı çerezlerin adları ve süreleri Google tarafından değiştirilebilir; güncel liste: <a href="https://business.safety.google/adscookies/" rel="noopener" target="_blank">Google reklam çerezleri</a>.</p>
+
+      <h2>Çerezlerle işlenen kişisel veriler</h2>
+      <p>Tercihinize bağlı olarak çerezler aracılığıyla şu veriler işlenebilir: çevrim içi tanımlayıcılar (çerez kimliği), IP adresi, tarayıcı türü ve sürümü, işletim sistemi, cihaz türü, dil tercihi, ziyaret tarih ve saati, ziyaret edilen sayfalar ve ziyaret sıklığı, sayfada kalma süresi ve kaydırma gibi etkileşimler, site içi arama terimleri, yönlendiren site, IP'den türetilen kaba konum (il/ülke), reklam gösterim ve tıklama bilgileri.</p>
+
+      <h2>Çerezsiz ölçüm ve kendi reklam sunucumuz</h2>
+      <p>Reklamlarımızın ve sayfalarımızın kaç ziyaret aldığını görmek için kendi sunucumuzda çerezsiz bir sayım yaparız. Bu sayımda tarayıcınıza çerez yazılmaz; cihaz kimliği, IP adresi ya da sizi tanımlayan başka bir bilgi saklanmaz. Yalnızca hangi sayfanın ve hangi reklam bağlantısının açıldığı günlük toplamlar olarak tutulur. Sitedeki doğrudan reklamlar Şirketimizin reklam sunucusundan (Advance Ad Server) gösterilir; bu sunucu çerez kullanmaz ve IP adresi saklamaz. Reklam görselleri Bunny CDN (BunnyWay d.o.o., Slovenya, AB) üzerinden yüklenir. Reklamların gösterim, görünürlük ve tıklama sayıları günlük toplamlar olarak saklanır. Yazı tipleri kendi sunucumuzdan yüklenir; bunun için Google'a istek gönderilmez.</p>
+
+      <h2>Google Analytics ve Consent Mode</h2>
+      <p>Analitik ölçüm, Google Ireland Limited / Google LLC tarafından sağlanan Google Analytics 4 ile yapılır. Onay vermediğiniz sürece analitik ve reklam çerezleri tarayıcınıza yazılmaz (Google Consent Mode); bu durumda Google'a yalnızca sayfa adresi, zaman ve tarayıcı türü gibi sizi tanımlamayan, çerezsiz sinyaller gönderilir ve bunlar kişiye bağlanmadan toplu istatistik için kullanılır. Ayrıntılar: <a href="https://policies.google.com/technologies/partner-sites?hl=tr" rel="noopener" target="_blank">Google ortak siteleri politikası</a>.</p>
+
+      <h2>Google AdSense ve Google Ads</h2>
+      <p>Onay vermeniz halinde sitedeki reklamların bir kısmı Google tarafından sunulur. Google ve ortakları, bu sitedeki ve diğer sitelerdeki ziyaretlerinize dayalı reklamlar göstermek ve reklam performansını ölçmek için çerez kullanabilir. Kişiselleştirilmiş reklamları <a href="https://adssettings.google.com" rel="noopener" target="_blank">Google Reklam Ayarları</a>'ndan da kapatabilirsiniz. Ayrıntılar: <a href="https://policies.google.com/technologies/ads?hl=tr" rel="noopener" target="_blank">Google reklam teknolojileri</a>.</p>
 
       <h2>Bildirimler</h2>
       <p>Tarayıcınızda bildirimlere izin verirseniz size öne çıkan haberleri ve kampanya duyurularını bildirim olarak göndeririz; bildirimlerin bir kısmı reklam içerikli olabilir. Bunun için yalnızca tarayıcınızın ürettiği bildirim adresi ile şifreleme anahtarı, izin verdiğiniz gün, tarayıcı ailesi (örneğin Chrome) ve cihaz türü (mobil ya da masaüstü) kendi sunucumuzda saklanır; adınız, e-posta adresiniz, IP adresiniz ya da ziyaret geçmişiniz bu kayda eklenmez ve çerez kullanılmaz. Bildirimler tarayıcınızın bildirim servisi (Google, Apple, Mozilla ya da Microsoft) üzerinden iletilir. Gönderilen bildirimlerin kaç kez gösterildiği ve açıldığı yalnızca toplam sayı olarak tutulur. Bildirim iznini tarayıcınızın site ayarlarından dilediğiniz zaman kapatabilirsiniz; kapattığınızda kaydınız bir sonraki gönderimde silinir.</p>
 
-      <h2>Google Analytics</h2>
-      <p>Analitik ölçüm Google Ireland Limited / Google LLC tarafından sağlanan Google Analytics 4 ile yapılır. Onay vermediğiniz sürece analitik çerezler tarayıcınıza yazılmaz (Google Consent Mode); bu durumda Google'a yalnızca sayfa adresi, zaman ve tarayıcı türü gibi sizi tanımlamayan, çerezsiz sinyaller gönderilir ve bunlar kişiye bağlanmadan toplu istatistik için kullanılır. Google'ın verileri nasıl kullandığı hakkında: <a href="https://policies.google.com/technologies/partner-sites?hl=tr" rel="noopener">Google ortak siteleri politikası</a>.</p>
+      <h2>Mobil uygulama</h2>
+      <p>EV Türkiye mobil uygulaması siteyi uygulama içinde gösterir; yukarıdaki zorunlu kayıtlar uygulamada da kullanılır. Uygulamada Google AdSense reklamları yüklenmez. Uygulamada bildirimlere izin verirseniz cihazınızın bildirim adresi (token), bildirim gönderimi için Google Firebase Cloud Messaging ve iOS'ta Apple Push Notification Service üzerinden işlenir; bildirim iznini cihazınızın ayarlarından kapatabilirsiniz.</p>
 
-      <h2>Google AdSense</h2>
-      <p>Sitedeki reklamlar Google tarafından sunulur. Google ve ortakları, onay vermeniz halinde bu sitedeki ve diğer sitelerdeki ziyaretlerinize dayalı reklamlar göstermek için çerez kullanabilir. Kişiselleştirilmiş reklamları <a href="https://adssettings.google.com" rel="noopener">Google Reklam Ayarları</a>'ndan da kapatabilirsiniz. Ayrıntılar: <a href="https://policies.google.com/technologies/ads?hl=tr" rel="noopener">Google reklam teknolojileri</a>.</p>
+      <h2>Aktarım</h2>
+      <p>Çerezler aracılığıyla toplanan veriler, KVKK'nın 8. ve 9. maddelerine uygun olarak yukarıda adı geçen hizmet sağlayıcılarına aktarılır. Google'ın sunucuları ABD dahil yurt dışında bulunur; analitik ve reklam çerezleri yalnızca açık rızanız varsa kullanılır.</p>
 
       <h2>Tercihinizi nasıl değiştirirsiniz?</h2>
-      <p>Sayfanın en altındaki <b>Çerez tercihleri</b> bağlantısından seçiminizi istediğiniz zaman değiştirebilirsiniz. Tarayıcı ayarlarınızdan çerezleri silebilir veya engelleyebilirsiniz; zorunlu çerezleri engellemeniz halinde üyelik gibi bazı özellikler çalışmayabilir.</p>
+      <p>Sayfanın en altındaki <b>Çerez tercihleri</b> bağlantısından seçiminizi istediğiniz zaman değiştirebilirsiniz. Ayrıca tarayıcınızın ayarlarından çerezleri silebilir veya engelleyebilirsiniz:</p>
+      <ul>
+        <li><a href="https://support.google.com/chrome/answer/95647?hl=tr" rel="noopener" target="_blank">Google Chrome</a></li>
+        <li><a href="https://support.apple.com/tr-tr/guide/safari/sfri11471/mac" rel="noopener" target="_blank">Safari (Mac)</a> · <a href="https://support.apple.com/tr-tr/105082" rel="noopener" target="_blank">Safari (iPhone ve iPad)</a></li>
+        <li><a href="https://support.mozilla.org/tr/kb/cerezleri-silme-web-sitelerinin-bilgilerini-kaldirma" rel="noopener" target="_blank">Mozilla Firefox</a></li>
+        <li><a href="https://support.microsoft.com/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" rel="noopener" target="_blank">Microsoft Edge</a></li>
+      </ul>
+      <p>Zorunlu çerezleri engellemeniz halinde üyelik gibi bazı özellikler çalışmayabilir.</p>
 
-      <p class="muted small">Son güncelleme: 31 Ekim 2026</p>
+      <h2>Haklarınız</h2>
+      <p>KVKK'nın 11. maddesi kapsamındaki haklarınızı ve başvuru yöntemlerini <a href="/kvkk-aydinlatma-metni">KVKK Aydınlatma Metni</a>'nde bulabilirsiniz.{c.email && <> Çerezlerle ilgili sorularınız için: <a href={`mailto:${c.email}`}>{c.email}</a>.</>}</p>
     </div>
   </section>
 </Base>
