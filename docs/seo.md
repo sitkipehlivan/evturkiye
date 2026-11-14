@@ -13,6 +13,14 @@
 - `news-sitemap.xml`: son 48 saatin haberleri (rehber hariç); robots.txt'de bildirilir. Search Console'a ayrıca gönder.
 - Canonical/og adresleri şu an `evturkiye.online` (astro.config varsayılanı). .com.tr'ye geçişte aşağıdaki adımları izle.
 
+## Kasım 2026 eklemeleri
+- Site haritasında `lastmod`: haber/rehber `updated`/`date`, kategori ve ana sayfa en yeni haberin tarihi, şarj fiyatı sayfaları `operators.json` `updated`. Tarihi bilinmeyen sayfaya lastmod yazılmaz.
+- IndexNow (`scripts/indexnow.mjs`, `.github/workflows/indexnow.yml`): her gün 13:20'de son 2 günde değişen sayfaları Bing, Yandex, Seznam, Naver'a bildirir. Anahtar dosyası `public/085a16e8f755fad7b53815d9ed9e95b1.txt` (silme). Bing dizini ChatGPT ve Copilot aramasını besler.
+- `robots.txt`: Google, Bing, Yandex, Apple ve yapay zekâ arama botları (OAI-SearchBot, ChatGPT-User, GPTBot, PerplexityBot, ClaudeBot, Claude-SearchBot, Google-Extended vb.) açıkça izinli.
+- HTML site haritası `/site-haritasi` (alt bilgide bağlantı): dizinlenebilir her sayfaya tarama yolu.
+- Marka: WebSite/Organization şemasında `alternateName` (evturkiye, EVTürkiye, evturkiye.online). Sosyal hesaplar `company.json` → `social` dizisine eklenince `sameAs` olarak şemaya girer.
+- Marka çakışması: "evturkiye" aramasında evturkiye.org, @EVTurkiye (X) ve ev-turkiye YouTube kanalı var. Marka aramasında öne çıkmak için sosyal profillerin site adresini göstermesi ve dış bağlantılar şart.
+
 ## Google Search Console
 1. https://search.google.com/search-console → Mülk ekle.
 2. **Tercih: Alan (Domain) mülkü** `evturkiye.online` → Google'ın verdiği TXT kaydı DNS'e eklenir (Netlify DNS → evturkiye.online → Add record → TXT, host `@`).

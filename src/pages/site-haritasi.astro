@@ -1,0 +1,75 @@
+---
+// HTML site haritası: dizinlenebilir her sayfaya tek tıkla ulaşan bağlantı. Google'ın yeni sayfaları daha hızlı
+// keşfetmesi (tarama yolu) ve kullanıcılar için. Kurallar site haritası (astro.config) ve noindex şablonlarıyla aynı.
+import Base from '../layouts/Base.astro';
+import routes from '../data/routes.json';
+import ops from '../data/operators.json';
+import { getNews, CATS } from '../lib/util';
+import { GUIDES, modelGroups, POPULAR_PAIRS, carBySlug, pairSlug } from '../lib/ev';
+import { kelimeSay, MIN_HABER_KELIME } from '../lib/indeks';
+
+const news = (await getNews()).filter((p) => kelimeSay(p.body || '') >= MIN_HABER_KELIME);
+const satista = modelGroups.filter((g) => g.onSale);
+const markalar = [...new Map(satista.map((g) => [g.brandSlug, g.brand])).entries()].sort((a, b) => a[1].localeCompare(b[1], 'tr'));
+const ciftler = POPULAR_PAIRS.map(([a, b]) => { const A = carBySlug(a), B = carBySlug(b); return A && B ? { href: `/karsilastir/${pairSlug(A, B)}/`, ad: `${A.brand} ${A.model} vs ${B.brand} ${B.model}` } : null; }).filter(Boolean) as { href: string; ad: string }[];
+const kategoriler = Object.entries(CATS) as [string, { label: string }][];
+---
+<Base title="Site haritası" description="EV Türkiye'deki tüm araçlar, rehberler, elektrikli araç modelleri, karşılaştırmalar, rotalar, şarj fiyatları ve haberler tek sayfada.">
+  <section class="section-sm">
+    <div class="container prose sh">
+      <h1>Site haritası</h1>
+
+      <h2>Araçlar</h2>
+      <ul>
+        <li><a href="/rota-planlayici/">Rota ve şarj maliyeti planlayıcı</a></li>
+        <li><a href="/yakindaki-sarj-istasyonlari/">Yakınımdaki şarj istasyonları</a></li>
+        <li><a href="/istasyonlar/">Şarj istasyonu haritası</a></li>
+        <li><a href="/sarj-fiyatlari/">Şarj fiyatları</a></li>
+        <li><a href="/karsilastir/">Elektrikli araç karşılaştırma</a></li>
+        <li><a href="/modeller/">Elektrikli araç modelleri</a></li>
+        <li><a href="/firsatlar/">Kampanyalar</a> · <a href="/firsatlar/arac-kampanyalari/">Araç kampanyaları</a> · <a href="/firsatlar/sarj-kampanyalari/">Şarj kampanyaları</a></li>
+      </ul>
+
+      <h2>Rehberler</h2>
+      <ul>
+        {GUIDES.map((g) => <li><a href={`${g.href}/`}>{g.label}</a></li>)}
+        <li><a href="/en-ucuz-elektrikli-araclar/">En ucuz elektrikli araçlar</a></li>
+        <li><a href="/en-hizli-sarj-olan-elektrikli-araclar/">En hızlı şarj olan elektrikli araçlar</a></li>
+      </ul>
+
+      <h2>Şarj operatörleri</h2>
+      <ul class="cols">{ops.operators.map((o: any) => <li><a href={`/sarj-fiyatlari/${o.id}/`}>{o.name} şarj ücreti</a></li>)}</ul>
+
+      <h2>Markalar ve modeller</h2>
+      {markalar.map(([slug, ad]) => (
+        <p><a href={`/modeller/${slug}/`}><b>{ad}</b></a>: {satista.filter((g) => g.brandSlug === slug).map((g, i) => <>{i ? ', ' : ''}<a href={`/modeller/${slug}/${g.modelSlug}/`}>{g.model}</a></>)}</p>
+      ))}
+
+      <h2>Karşılaştırmalar</h2>
+      <ul class="cols">{ciftler.map((c) => <li><a href={c.href}>{c.ad}</a></li>)}</ul>
+
+      <h2>Elektrikli araçla rotalar</h2>
+      <ul class="cols">{routes.map((r: any) => <li><a href={`/rota/${r.slug}/`}>{r.from} – {r.to}</a></li>)}</ul>
+
+
+      <h2>Haberler</h2>
+      {kategoriler.map(([cat, c]) => {
+        const liste = news.filter((p) => p.data.category === cat);
+        return liste.length > 0 && <>
+          <h3><a href={`/haberler/${cat}/`}>{c.label}</a></h3>
+          <ul>{liste.map((p) => <li><a href={`/haberler/${cat}/${p.id}/`}>{p.data.title}</a></li>)}</ul>
+        </>;
+      })}
+
+      <h2>Kurumsal</h2>
+      <ul>
+        <li><a href="/hakkimizda/">Hakkımızda</a> · <a href="/kunye/">Künye</a> · <a href="/yayin-ilkeleri/">Yayın ilkeleri</a> · <a href="/yazar/editor-ekibi/">Editör ekibi</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+<style>
+  .sh ul.cols { columns: 2; column-gap: 32px; }
+  .sh ul.cols li { break-inside: avoid; }
+  @media (max-width: 700px) { .sh ul.cols { columns: 1; } }
+</style>

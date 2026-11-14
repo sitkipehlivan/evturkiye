@@ -35,12 +35,15 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'WebSite', '@id': `${Astro.site!.origin}/#website`, name: 'EV Türkiye', alternateName: 'Electric Vehicle Türkiye', url: Astro.site!.origin, inLanguage: 'tr',
+      '@type': 'WebSite', '@id': `${Astro.site!.origin}/#website`, name: 'EV Türkiye', alternateName: ['evturkiye', 'EVTürkiye', 'evturkiye.online', 'Electric Vehicle Türkiye'], url: Astro.site!.origin, inLanguage: 'tr',
       publisher: { '@id': `${Astro.site!.origin}/#org` },
       potentialAction: { '@type': 'SearchAction', target: `${Astro.site!.origin}/ara?q={search_term_string}`, 'query-input': 'required name=search_term_string' },
     },
     {
-      '@type': 'NewsMediaOrganization', '@id': `${Astro.site!.origin}/#org`, name: 'EV Türkiye', url: Astro.site!.origin,
+      '@type': 'NewsMediaOrganization', '@id': `${Astro.site!.origin}/#org`, name: 'EV Türkiye', alternateName: ['evturkiye', 'EVTürkiye', 'evturkiye.online'], url: Astro.site!.origin,
+      ...(company.social?.length ? { sameAs: company.social } : {}),
+      knowsAbout: ['Elektrikli araçlar', 'Elektrikli araç şarjı', 'Şarj istasyonları', 'Plug-in hibrit araçlar', 'Elektrikli araç fiyatları'],
+      areaServed: { '@type': 'Country', name: 'Türkiye' },
       logo: new URL('/brand/ev-turkiye-amblem-96.png', Astro.site).toString(),
       description: "Türkiye'nin elektrikli araç rehberi: haberler, şarj fiyatları, rota ve şarj maliyeti planlayıcı, model karşılaştırma.",
       publishingPrinciples: new URL('/yayin-ilkeleri', Astro.site).toString(),
@@ -49,7 +52,7 @@ const jsonLd = {
   ],
 };
 ---
-<Base title="EV Türkiye: Elektrikli Araç, Şarj Fiyatları, Rota Planlayıcı" jsonLd={jsonLd}>
+<Base title="EV Türkiye: Elektrikli Araç, Şarj Fiyatları, Rota Planlayıcı" description="EV Türkiye (evturkiye): elektrikli araç haberleri, Türkiye fiyatları, güncel şarj fiyatları, şarj duraklı rota planlayıcı ve yakındaki şarj istasyonları." jsonLd={jsonLd}>
   <h1 class="visually-hidden">EV Türkiye: elektrikli araç haberleri, şarj fiyatları ve rota planlayıcı</h1>
   <!-- 1. Manşet + rota widget -->
   <section class="top">
