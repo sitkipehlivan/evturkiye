@@ -64,10 +64,11 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
       <!-- 2026-11-12: elektrikli-arac-otv-mtv-2026 güçlendirildi. Yalnızca 1-3 yaş EV tablosu var; 2027 tebliği (Aralık sonu) çıkınca güncelle. -->
 - [x] İkinci el elektrikli araç alırken dikkat edilecekler (batarya sağlığı kontrolü)
 - [x] Elektrikli araçla uzun yol: şarj molası planlama (rota planlayıcıya bağlantı)
-- [ ] Hibrit, plug-in hibrit ve tam elektrikli farkı
+- [x] Hibrit, plug-in hibrit ve tam elektrikli farkı
+      <!-- 2026-11-14: yeni sayfa açılmadı; var olan /haberler/hibrit/plug-in-hibrit-nedir güçlendirildi. -->
 
 ### Model sayfaları güçlendirme
-- [ ] Her model sayfasına "X şarj süresi", "X kaç km gider", "X şarj maliyeti" sorularını cevaplayan SSS
+- [x] Her model sayfasına "X şarj süresi", "X kaç km gider", "X şarj maliyeti" sorularını cevaplayan SSS
       (models.json verisiyle otomatik; şablon değişikliği, tek seferde)
 - [ ] En çok aranan 10 model için karşılaştırma sayfalarını kontrol et; eksik popüler eşleşmeleri
       `POPULAR_PAIRS` listesine ekle
@@ -82,3 +83,4 @@ sıradaki işleri yapar, yaptıklarını "Yapılanlar günlüğü"ne ekler. Habe
 - 2026-11-11: Teknik: kırık link, title/description, canonical, JSON-LD, sitemap sorunu yok (noindex sayfalar bilinçli). İçerik: Hakkari eklendi (81/81, il maddesi tamam), yeni rehber: şarj soketi tipleri (Type 2/CCS2/CHAdeMO, EPDK Nisan/Eylül 2026 AC/DC soket sayıları, models.json AC/DC güç dağılımı, 5 SSS, kaynaklar), şarj rehberinden yeni rehbere link. İç link: son 7 günün haberlerinde eksik model/il/operatör/rota bağlantısı yok. Rota maddesi atlandı (OSRM yine erişilemiyor).
 - 2026-11-12: Teknik: 1 kırık iç link düzeltildi (şarj soketi rehberi /sarj-istasyonlari/ → /istasyonlar/); title/description, canonical, JSON-LD, sitemap sorunu yok (reklam-demo ve diğer noindex sayfalar bilinçli). İçerik: ÖTV/MTV rehberi MTV için güçlendirildi (Seri No: 58 Tebliği, %18,95 artış, kW × taşıt değeri 1-3 yaş MTV tablosu, model örnekleri, taksit tarihleri, 3 yeni SSS, kaynaklar, seoTitle/description). İç link: son 7 günün haberlerinde eksik bağlantı yok. Rota maddesi atlandı (OSRM yine erişilemiyor).
 - 2026-11-13: Teknik: noindex'siz 2 reklam kreatif sayfası (/reklam-demo/cevahir/final/*, yinelenen başlık, canonical yok) için netlify.toml'a /reklam-demo/* X-Robots-Tag noindex eklendi; kırık link, title, JSON-LD, sitemap sorunu yok. İçerik: ikinci el EV rehberi güçlendirildi (dikkat edilecekler başlığı, garanti devri, hasar kaydı, Güvenli Ödeme Sistemi zorunluluğu, 5 SSS, kaynaklar, updated), uzun yol rehberine şarj molası planlama hesabı (models.json ile etap menzilleri), seoTitle, 5 SSS, kaynaklar. İç link: son 7 günün haberlerinde eksik bağlantı yok. Rota maddesi atlandı (OSRM yine erişilemiyor).
+- 2026-11-14: Teknik: kırık link, title/description, canonical, noindex (bilinçli olanlar dışında), JSON-LD, sitemap sorunu yok. İçerik: hibrit/PHEV/elektrikli farkı için var olan plug-in-hibrit-nedir sayfası güçlendirildi (karşılaştırma tablosu, models.json BEV aralıkları, 10115 sayılı Karar ÖTV, MTV, ODMD satış payları, 5 SSS, kaynaklar, seoTitle, updated); model sayfalarına şarj süresi / kaç km gider / şarj maliyeti SSS'si ve FAQPage şeması (şablon, models.json ile otomatik). İç link: son 7 günün haberlerinde eksik bağlantı yok. Rota maddesi atlandı (OSRM yine erişilemiyor).

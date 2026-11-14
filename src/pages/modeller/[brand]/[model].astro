@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import ModelCard from '../../../components/ModelCard.astro';
 import NewsCard from '../../../components/NewsCard.astro';
 import { tl, getNews, fitTitle } from '../../../lib/util';
-import { modelGroups, groupOf, avgDc, price, monthTr, POPULAR_PAIRS, carBySlug, pairSlug } from '../../../lib/ev';
+import { modelGroups, groupOf, avgDc, avgAc, price, monthTr, POPULAR_PAIRS, carBySlug, pairSlug } from '../../../lib/ev';
 import GuideLinks from '../../../components/GuideLinks.astro';
 export function getStaticPaths() {
   return modelGroups.map((g) => ({ params: { brand: g.brandSlug, model: g.modelSlug } }));
@@ -22,12 +22,33 @@ const news = (await getNews()).filter((p) => lc(`${p.data.title} ${p.data.descri
 const wl = versions.map((v) => v.wltp);
 const range = Math.min(...wl) === Math.max(...wl) ? `${wl[0]} km` : `${Math.min(...wl)}–${Math.max(...wl)} km`;
 const hps = versions.map((v) => v.hp).filter(Boolean) as number[];
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'Car', name, brand: { '@type': 'Brand', name: v0.brand }, bodyType: v0.body,
+// SSS: şarj süresi, kaç km gider, şarj maliyeti (models.json + operators.json ile otomatik)
+const n1 = (x: number) => x.toLocaleString('tr-TR', { maximumFractionDigits: 1 });
+const dcV = versions.filter((v) => v.dcMax);
+const dcMin = dcV.map((v) => Math.round(((v.battery * 0.7) / (v.dcMax * 0.68)) * 60));
+const acH = versions.map((v) => (v.battery * 0.9) / v.acMax);
+const hwy = versions.map((v) => Math.round((v.battery / v.highway) * 100));
+const fullDc = versions.map((v) => ((v.battery * 0.7) / 0.93) * avgDc);
+const p100Dc = versions.map((v) => (v.highway / 0.93) * avgDc);
+const p100Ac = versions.map((v) => (v.highway / 0.93) * avgAc);
+const span = (a: number[], f: (x: number) => string) => Math.min(...a) === Math.max(...a) ? f(a[0]) : `${f(Math.min(...a))} – ${f(Math.max(...a))}`;
+const coklu = versions.length > 1 ? ' (versiyona göre)' : '';
+const sss: [string, string][] = [
+  [`${name} şarj süresi ne kadar?`, (dcV.length
+    ? `${name}, DC hızlı şarjda %10'dan %80'e ideal koşullarda yaklaşık ${span(dcMin, (x) => `${x}`)} dakikada şarj olur${coklu}; en yüksek DC şarj gücü ${Math.max(...dcV.map((v) => v.dcMax))} kW. `
+    : `${name} DC hızlı şarjı desteklemez; yalnızca AC ile şarj olur. `)
+    + `Evde ya da AC istasyonda ${span(versions.map((v) => v.acMax), (x) => `${n1(x)} kW`)} AC güçle %10'dan %100'e yaklaşık ${span(acH, (x) => n1(x))} saat sürer.`],
+  [`${name} kaç km gider?`, `${name} için WLTP menzili ${range}${coklu}. 110–120 km/s otoyol hızında tahmini gerçek menzil yaklaşık ${span(hwy, (x) => `${x} km`)}; şehir içinde WLTP değerine yaklaşır, soğuk havada düşer.`],
+  [`${name} şarj maliyeti ne kadar?`, `Operatörlerin ortalama DC fiyatıyla (${tl(avgDc)}/kWh) %10'dan %80'e bir hızlı şarj yaklaşık ${span(fullDc, tl)} tutar. Otoyolda 100 km maliyeti DC şarjda yaklaşık ${span(p100Dc, tl)}, AC istasyonda (ortalama ${tl(avgAc)}/kWh) yaklaşık ${span(p100Ac, tl)}.`],
+];
+const faqLd = { '@type': 'FAQPage', mainEntity: sss.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+const carLd = {
+  '@type': 'Car', name, brand: { '@type': 'Brand', name: v0.brand }, bodyType: v0.body,
   fuelType: 'Electric', vehicleEngine: { '@type': 'EngineSpecification', fuelType: 'Electric' },
   ...(g.image ? { image: new URL(g.image.src, Astro.site).toString() } : {}),
   ...(g.fromPrice ? { offers: { '@type': 'Offer', priceCurrency: 'TRY', price: g.fromPrice, availability: 'https://schema.org/InStock' } } : {}),
 };
+const jsonLd = { '@context': 'https://schema.org', '@graph': [carLd, faqLd] };
 const desc = `${name} Türkiye${g.fromPrice ? ` fiyatı ${price(g.fromPrice)}'den başlıyor (${monthTr(g.priceDate)})` : ''}. ${range} WLTP menzil, ${Math.max(...versions.map((v) => v.dcMax)) ? `${Math.max(...versions.map((v) => v.dcMax))} kW DC şarj` : 'yalnızca AC şarj'}, şarj süresi ve 100 km maliyeti.`;
 // Bu modelin yer aldığı hazır karşılaştırmalar (iç link)
 const karsi = POPULAR_PAIRS.map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as const).filter(([a, b]) => a && b && [a, b].some((c) => c.brandSlug === brand && c.modelSlug === model));
@@ -99,11 +120,18 @@ const karsi = POPULAR_PAIRS.map(([a, b]) => [carBySlug(a)!, carBySlug(b)!] as co
       <h2>Benzer modeller ve rakipler</h2>
       <p class="small"><a class="blink" href={`/modeller/${brand}`}>Tüm {v0.brand} elektrikli modelleri →</a></p>
       <div class="others">{others.map((x) => <ModelCard g={x} />)}</div>
+      <h2>{name} hakkında sık sorulan sorular</h2>
+      <div class="sss">{sss.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div>
+      <p class="small muted">Ayrıntılı hesaplar: <a href="/elektrikli-arac-sarj-maliyeti">şarj maliyeti</a> · <a href="/elektrikli-arac-menzil">menzil sıralaması</a> · <a href="/sarj-fiyatlari">güncel şarj fiyatları</a></p>
       <GuideLinks />
     </div>
   </section>
 </Base>
 <style>
+  .sss { display: grid; gap: 8px; margin: 10px 0 10px; }
+  .sss details { background: var(--card, #fff); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .sss summary { font-weight: 700; cursor: pointer; }
+  .sss p { margin: 8px 0 0; }
   .kars { line-height: 1.9; margin-bottom: 24px; }
   .blink { color: var(--volt-ink); font-weight: 600; }
   .crumbs { margin-bottom: 12px; } .crumbs a:hover { color: var(--volt-ink); }
