@@ -44,3 +44,5 @@ Kampanyalar dahil edildiğinde **Hyundai INSTER** 1,52 milyon TL ile listenin en
 Elektrikli otomobillerde ÖTV, motor gücü ve vergisiz fiyata (matrah) göre **%25 ile %75** arasında değişiyor. Listedeki modellerin çoğu 160 kW altı güç ve 1,65 milyon TL altı matrahla en düşük %25'lik dilime girecek şekilde konumlanıyor. ÖTV dilimlerinin ayrıntıları için [ÖTV ve MTV rehberimize](/haberler/rehber/elektrikli-arac-otv-mtv-2026) göz atın.
 
 > **İpucu:** Aracınızı seçmeden önce [Rota Planlayıcı](/rota-planlayici) ile sık gittiğiniz bir güzergahı deneyin; kaç kez şarj etmeniz gerekeceğini ve yol maliyetini görürsünüz.
+
+Güncel liste için: [En ucuz elektrikli otomobiller Kasım 2026](/haberler/turkiye/en-ucuz-elektrikli-otomobiller-kasim-2026).
