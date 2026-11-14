@@ -12,6 +12,7 @@ source: "Araçlo (Kasım 2026 fiyat listeleri, 4 Kasım güncellemesi)"
 sourceUrl: "https://www.araclo.com/elektrikli-sifir-arac-fiyatlari"
 featured: false
 draft: false
+imageCredit: "Wikimedia Commons / © M 93, CC BY-SA 3.0 de (arka plan yapay zekâ ile düzenlendi)"
 ---
 
 Türkiye'de **Kasım 2026** itibarıyla satılan **en ucuz elektrikli otomobiller** listesinde ilk on modelin tamamı 1,91 milyon TL'nin altında kalıyor. Markaların Kasım fiyat listelerine göre liste fiyatıyla en ucuz elektrikli otomobil **1.645.000 TL**'lik **Citroën ë-C3**; kampanya dahil edildiğinde ise **Hyundai Inster** 150.000 TL indirimle **1.520.000 TL**'ye inerek en uygun model oluyor. Ekim listesine göre en dikkat çekici değişiklik, **Kia EV2** ve **Hyundai IONIQ 3**'ün ilk ona girmesi; Fiat 600e ve Peugeot e-208 ise liste fiyatı sıralamasında ilk onun dışında kalıyor.
