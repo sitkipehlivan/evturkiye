@@ -3,6 +3,8 @@ import Logo from './Logo.astro';
 import routes from '../data/routes.json';
 import { GUIDES } from '../lib/ev';
 const year = new Date().getFullYear();
+// Advance Digital mecraları şeridi (tüm Advance sitelerinde aynı; logolar public/mecralar/)
+const MECRALAR = `<section class="adv-mecralar" aria-label="Advance Digital mecraları"><style>.adv-mecralar{background:#f6f6f3;border-top:1px solid rgba(0,0,0,.08);padding:22px 16px 24px;font:500 11px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif;color:#6b6b6b}.adv-mecralar__in{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 30px}.adv-mecralar__baslik{letter-spacing:.12em;color:#7a7a7a;text-decoration:none;white-space:nowrap}.adv-mecralar__baslik:hover{color:#222}.adv-mecralar ul{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 30px;list-style:none;margin:0;padding:0}.adv-mecralar li{margin:0;padding:0;list-style:none}.adv-mecralar li a{display:block;line-height:0}.adv-mecralar img{height:24px;width:auto;max-width:none;display:block;filter:grayscale(1);opacity:.62;transition:filter .2s,opacity .2s}.adv-mecralar li a:hover img,.adv-mecralar li a:focus-visible img{filter:none;opacity:1}@media (max-width:600px){.adv-mecralar__in{flex-direction:column;gap:14px}.adv-mecralar ul{gap:14px 24px}.adv-mecralar img{height:20px}}</style><div class="adv-mecralar__in"><a class="adv-mecralar__baslik" href="https://advancedigital.media/" target="_blank" rel="noopener">ADVANCE DIGITAL MECRALARI</a><ul><li><a href="https://mesaimutfak.com/" target="_blank" rel="noopener" title="Mesai Mutfak"><img src="/mecralar/mesaimutfak.png" alt="Mesai Mutfak" width="169" height="24" loading="lazy" decoding="async"></a></li><li><a href="https://amorti.online/" target="_blank" rel="noopener" title="Amorti"><img src="/mecralar/amorti.png" alt="Amorti" width="120" height="24" loading="lazy" decoding="async"></a></li><li><a href="https://guntabagi.com.tr/" target="_blank" rel="noopener" title="Gün Tabağı"><img src="/mecralar/guntabagi.png" alt="Gün Tabağı" width="155" height="24" loading="lazy" decoding="async"></a></li><li><a href="https://thehumblemag.com/" target="_blank" rel="noopener" title="The Humble Mag"><img src="/mecralar/thehumblemag.png" alt="The Humble Mag" width="195" height="24" loading="lazy" decoding="async"></a></li><li><a href="https://advancedigital.media/" target="_blank" rel="noopener" title="Advance Digital"><img src="/mecralar/advance.png" alt="Advance Digital" width="101" height="24" loading="lazy" decoding="async"></a></li></ul></div></section>`;
 ---
 <footer class="site-footer">
   <div class="container cols">
@@ -41,6 +43,7 @@ const year = new Date().getFullYear();
     <span>Fiyatlar bilgilendirme amaçlıdır; şarj öncesi operatör uygulamasından teyit edin.</span>
   </div>
 </footer>
+<Fragment set:html={MECRALAR} />
 <style>
   .site-footer { border-top: 1px solid var(--line); background: var(--soft); margin-top: 40px; padding: 48px 0 24px; }
   .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; gap: 32px; }
